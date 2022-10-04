@@ -6,6 +6,7 @@ import { ThemeProvider } from '@xstyled/styled-components';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
+import Apollo from './components/Apollo';
 import { MetaProvider } from './context/MetaContext';
 import { NotificationProvider } from './context/NotificationContext';
 import { UserDetailsProvider } from './context/UserDetailsContext';
@@ -18,9 +19,11 @@ function App({ className } : { className?:string }) {
 				<NotificationProvider>
 					<UserDetailsProvider>
 						<MetaProvider>
-							<div className={className}>
-								Hello World
-							</div>
+							<Apollo>
+								<div className={className}>
+									Hello World
+								</div>
+							</Apollo>
 						</MetaProvider>
 					</UserDetailsProvider>
 				</NotificationProvider>

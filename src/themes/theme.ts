@@ -38,5 +38,5 @@ export const theme = {
 		font_default: 'Roboto',
 		font_mono: 'Roboto Mono',
 		font_secondary: 'Work Sans'
-	},
+	}
 };
