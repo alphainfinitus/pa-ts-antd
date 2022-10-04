@@ -6,15 +6,24 @@ import { ThemeProvider } from '@xstyled/styled-components';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
+import { MetaProvider } from './context/MetaContext';
+import { NotificationProvider } from './context/NotificationContext';
+import { UserDetailsProvider } from './context/UserDetailsContext';
 import { theme } from './themes/theme';
 
 function App({ className } : { className?:string }) {
 	return (
 		<BrowserRouter>
 			<ThemeProvider theme={theme}>
-				<div className={className}>
-          Hello World
-				</div>
+				<NotificationProvider>
+					<UserDetailsProvider>
+						<MetaProvider>
+							<div className={className}>
+								Hello World
+							</div>
+						</MetaProvider>
+					</UserDetailsProvider>
+				</NotificationProvider>
 			</ThemeProvider>
 		</BrowserRouter>
 	);
