@@ -1,26 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+// Copyright 2019-2020 @Premiurly/polkassembly authors & contributors
+// This software may be modified and distributed under the terms
+// of the Apache-2.0 license. See the LICENSE file for details.
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { ThemeProvider } from '@xstyled/styled-components';
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+
+import { theme } from './themes/theme';
+
+function App({ className } : { className?:string }) {
+	return (
+		<BrowserRouter>
+			<ThemeProvider theme={theme}>
+				<div className={className}>
+          Hello World
+				</div>
+			</ThemeProvider>
+		</BrowserRouter>
+	);
 }
 
 export default App;
+

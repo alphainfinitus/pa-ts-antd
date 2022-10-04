@@ -1,46 +1,46 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Governance Platform
 
-## Available Scripts
+## Setup
 
+This app relies on a database for users, posts, etc. Those need to be in place before the app is started in order to have information to display and users to login.
+
+### Databases
+2 different databases are required to run this app. They are explained here, but the files needed to run them live in the hasura and auth-server folders.
+- Hasura: A general DB to store posts, some user information (anything that isn't used for authentication). It's a Postgres, based on Hasura, exposing a graphQL interface that this `Governance platform` will talk to.
+- Auth: a DB dedicated for user authentication that is accessed by the `auth` server.
+
+### env variable
+
+Create a `.env` file with the following environmen variable
+```
+REACT_APP_HASURA_GRAPHQL_URL="http://localhost:8080/v1/graphql"
+REACT_APP_JWT_PUBLIC_KEY="-----BEGIN PUBLIC KEY-----\nMIIBI...wIDAQAB\n-----END PUBLIC KEY-----"
+REACT_APP_NETWORK="polkadot"
+REACT_APP_WS_PROVIDER="wss://rpc.polkadot.io"
+
+# used for graphql type generation
+HASURA_GRAPHQL_ADMIN_SECRET= "<YOUR_HASURA_ADMIN_SECRET>"
+```
+
+## Init and Run
+
+### Install Dependencies
+- `yarn`
+
+### Generate types
+
+We use `@graphql-codegen` to generate types directly form the DB types (hasura). You need to generate the types any time the DB structure is changed.
+- `yarn codegen`
+
+### Run
 In the project directory, you can run:
+- `yarn; yarn start`
 
-### `yarn start`
+## HealthCheck Url
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+healthcheck url for front end nginx server is:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `yarn test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `yarn build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+/healthcheck
+```
