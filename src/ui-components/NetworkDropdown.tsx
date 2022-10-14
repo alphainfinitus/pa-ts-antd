@@ -41,7 +41,7 @@ const NetworkDropdown = () => {
 					src={chainProperties[currentNetwork]?.logo ? chainProperties[currentNetwork].logo : chainLogo}
 					alt='Logo'
 				/>
-				<span className='mr-2 capitalize font-medium'>{currentNetwork == 'hydradx' ? 'HydraDX' : currentNetwork}</span>
+				<span className='mr-2 capitalize font-medium hidden md:inline-block'>{currentNetwork == 'hydradx' ? 'HydraDX' : currentNetwork}</span>
 				<DownOutlined />
 			</a>
 		</Dropdown>

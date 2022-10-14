@@ -3,35 +3,28 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { UploadOutlined,UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
-import styled from '@xstyled/styled-components';
-import { Breadcrumb, Layout, Menu } from 'antd';
+import { Layout, Menu } from 'antd';
 import React, { useState } from 'react';
 
 import NavHeader from './NavHeader';
+import SwitchRoutes from './SwitchRoutes';
 
 const { Content, Sider } = Layout;
 
 const AppLayout = ({ className }: { className?:string }) => {
-	const [collapsed, setCollapsed] = useState<boolean>(true);
+	const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(true);
 
 	return (
 		<Layout className={className}>
-			<NavHeader />
+			<NavHeader sidebarCollapsed={sidebarCollapsed} setSidebarCollapsed={setSidebarCollapsed} />
 			<Layout hasSider>
 				<Sider
 					trigger={null}
 					collapsible
-					collapsed={collapsed}
-					onMouseOver={() => setCollapsed(false)}
-					onMouseLeave={() => setCollapsed(true)}
-					style={{
-						bottom: 0,
-						height: '100vh',
-						left: 0,
-						overflow: 'auto',
-						position: 'fixed',
-						top: '64px'
-					}}
+					collapsed={sidebarCollapsed}
+					onMouseOver={() => setSidebarCollapsed(false)}
+					onMouseLeave={() => setSidebarCollapsed(true)}
+					className={`${sidebarCollapsed ? 'hidden': ''} md:block bottom-0 left-0 h-screen overflow-y-auto fixed top-[60px]`}
 				>
 					<div className="logo" />
 					<Menu
@@ -57,21 +50,9 @@ const AppLayout = ({ className }: { className?:string }) => {
 						]}
 					/>
 				</Sider>
-				<Layout style={{ margin:'auto auto', maxWidth:'85vw' }}>
-					<Breadcrumb style={{ margin: '16px 0' }}>
-						<Breadcrumb.Item>Home</Breadcrumb.Item>
-						<Breadcrumb.Item>List</Breadcrumb.Item>
-						<Breadcrumb.Item>AppLayout</Breadcrumb.Item>
-					</Breadcrumb>
-					<Content
-						className="site-layout-background"
-						style={{
-							margin: 0,
-							minHeight: 280,
-							padding: 24
-						}}
-					>
-          Content
+				<Layout className='min-h-[calc(100vh-10rem)]'>
+					<Content className='mx-auto w-5/6'>
+						<SwitchRoutes />
 					</Content>
 				</Layout>
 			</Layout>
@@ -79,4 +60,4 @@ const AppLayout = ({ className }: { className?:string }) => {
 	);
 };
 
-export default styled(AppLayout)``;
+export default AppLayout;
