@@ -7,12 +7,15 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 
 import Apollo from './components/Apollo';
+import AppLayout from './components/AppLayout';
+import { ApiContextProvider } from './context/ApiContext';
 import { MetaProvider } from './context/MetaContext';
 import { NotificationProvider } from './context/NotificationContext';
 import { UserDetailsProvider } from './context/UserDetailsContext';
 import { theme } from './themes/theme';
+import { GlobalStyle } from './ui-components/GlobalStyle';
 
-function App({ className } : { className?:string }) {
+function App() {
 	return (
 		<BrowserRouter>
 			<ThemeProvider theme={theme}>
@@ -20,9 +23,10 @@ function App({ className } : { className?:string }) {
 					<UserDetailsProvider>
 						<MetaProvider>
 							<Apollo>
-								<div className={className}>
-									Hello World
-								</div>
+								<GlobalStyle />
+								<ApiContextProvider>
+									<AppLayout />
+								</ApiContextProvider>
 							</Apollo>
 						</MetaProvider>
 					</UserDetailsProvider>

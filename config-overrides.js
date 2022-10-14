@@ -5,13 +5,30 @@
 /* eslint-disable no-tabs */
 /* eslint-disable sort-keys */
 
-const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 
 module.exports = function override(webpackConfig) {
 	webpackConfig.module.rules.push({
 		test: /\.mjs$/,
 		include: /node_modules/,
 		type: 'javascript/auto'
+	});
+
+	webpackConfig.module.rules[1].oneOf.splice(2, 0, {
+		test: /\.less$/i,
+		exclude: /\.module\.(less)$/,
+		use: [
+			{ loader: 'style-loader' },
+			{ loader: 'css-loader' },
+			{
+				loader: 'less-loader',
+				options: {
+					lessOptions: {
+						javascriptEnabled: true
+					}
+				}
+			}
+		]
 	});
 
 	webpackConfig.plugins.push(
