@@ -17,8 +17,8 @@ const NavHeader = ({ className }: { className?:string }) => {
 				<Link className='flex' to='/'><PALogoBlack /></Link>
 				<Space className='flex items-center justify-between'>
 					<NetworkDropdown />
-					<Link className='text-navLinkBlue font-medium' to='/login'>Login</Link>
-					<Link className='text-navLinkBlue font-medium' to='/signup'>Sign-up</Link>
+					<Link className='text-navLinkBlue hover:text-pink_primary font-medium' to='/login'>Login</Link>
+					<Link className='text-navLinkBlue hover:text-pink_primary font-medium' to='/signup'>Sign-up</Link>
 				</Space>
 			</nav>
 		</Header>

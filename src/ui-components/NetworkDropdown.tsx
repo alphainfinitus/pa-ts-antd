@@ -35,14 +35,14 @@ const menu = <Menu className='max-h-96 overflow-y-auto' items={dropdownMenuItems
 const NetworkDropdown = () => {
 	return (
 		<Dropdown overlay={menu} trigger={['click']}>
-			<a className='flex items-center justify-between' onClick={e => e.preventDefault()}>
+			<a className='flex items-center justify-between text-navLinkBlue hover:text-pink_primary' onClick={e => e.preventDefault()}>
 				<img
 					className='w-[20px] h-[20px] mr-2 rounded-full'
 					src={chainProperties[currentNetwork]?.logo ? chainProperties[currentNetwork].logo : chainLogo}
 					alt='Logo'
 				/>
-				<span className='mr-2 capitalize text-navLinkBlue font-medium'>{currentNetwork == 'hydradx' ? 'HydraDX' : currentNetwork}</span>
-				<DownOutlined className='text-navLinkBlue hover:text-navLinkBlue' />
+				<span className='mr-2 capitalize font-medium'>{currentNetwork == 'hydradx' ? 'HydraDX' : currentNetwork}</span>
+				<DownOutlined />
 			</a>
 		</Dropdown>
 	);
