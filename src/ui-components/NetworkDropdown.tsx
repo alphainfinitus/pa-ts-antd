@@ -42,7 +42,7 @@ const NetworkDropdown = () => {
 					alt='Logo'
 				/>
 				<span className='mr-2 capitalize text-navLinkBlue font-medium'>{currentNetwork == 'hydradx' ? 'HydraDX' : currentNetwork}</span>
-				<DownOutlined />
+				<DownOutlined className='text-navLinkBlue hover:text-navLinkBlue' />
 			</a>
 		</Dropdown>
 	);
