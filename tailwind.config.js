@@ -12,7 +12,7 @@ module.exports = {
         montserrat: ['Poppins', 'Segoe UI']
       },
       colors: {
-        navLinkBlue: '#90A0B7',
+        navBlue: '#90A0B7',
         sidebarLinkBlue: '#334D6E',
         blue_primary: '#4D9999',
         blue_secondary: '#EBF0F5',

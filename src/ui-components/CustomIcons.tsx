@@ -5,6 +5,11 @@
 import Icon from '@ant-design/icons';
 import type { CustomIconComponentProps } from '@ant-design/icons/lib/components/Icon';
 import React from 'react';
+import { ReactComponent as CubeSVG } from 'src/assets/icons/cube.svg';
+import { ReactComponent as DiscordSVG } from 'src/assets/icons/discord.svg';
+import { ReactComponent as GithubSVG } from 'src/assets/icons/github.svg';
+import { ReactComponent as RedditSVG } from 'src/assets/icons/reddit.svg';
+import { ReactComponent as TelegramSVG } from 'src/assets/icons/telegram.svg';
 import { ReactComponent as BountiesSVG } from 'src/assets/sidebar/bounties.svg';
 import { ReactComponent as CalendarSVG } from 'src/assets/sidebar/calendar.svg';
 import { ReactComponent as DemocracyProposalsSVG } from 'src/assets/sidebar/democracy_proposals.svg';
@@ -59,4 +64,24 @@ export const ReferendaIcon = (props: Partial<CustomIconComponentProps>) => (
 
 export const CalendarIcon = (props: Partial<CustomIconComponentProps>) => (
 	<Icon component={CalendarSVG} {...props} />
+);
+
+export const DiscordIcon = (props: Partial<CustomIconComponentProps>) => (
+	<Icon component={DiscordSVG} {...props} />
+);
+
+export const GithubIcon = (props: Partial<CustomIconComponentProps>) => (
+	<Icon component={GithubSVG} {...props} />
+);
+
+export const CubeIcon = (props: Partial<CustomIconComponentProps>) => (
+	<Icon component={CubeSVG} {...props} />
+);
+
+export const RedditIcon = (props: Partial<CustomIconComponentProps>) => (
+	<Icon component={RedditSVG} {...props} />
+);
+
+export const TelegramIcon = (props: Partial<CustomIconComponentProps>) => (
+	<Icon component={TelegramSVG} {...props} />
 );

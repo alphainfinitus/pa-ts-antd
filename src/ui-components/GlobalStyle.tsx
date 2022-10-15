@@ -8,10 +8,6 @@ import '../themes/tailwindSetup.css';
 import { createGlobalStyle } from '@xstyled/styled-components';
 
 export const GlobalStyle = createGlobalStyle`
-		html {
-				font-size: 62.5%;
-		}
-
 		body {
 				margin: 0;
 				font-family: font_default, 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
@@ -56,15 +52,17 @@ export const GlobalStyle = createGlobalStyle`
 		a:hover {
 				text-decoration: none;
 		}
-		
-		h1, h2, h3, h4, h5, h6 {
-				color: black_primary;
-				font-family: font_default;
-				line-height: 100%;
-		}
 
 		::selection {
 				background-color: black_primary;
 				color: white;
+		}
+
+		.dashboard-heading {
+			font-style: normal;
+			font-weight: 500;
+			font-size: 18px;
+			line-height: 27px;
+			color: nav_blue;
 		}
 `;

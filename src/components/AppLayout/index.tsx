@@ -6,7 +6,7 @@ import styled from '@xstyled/styled-components';
 import { Layout, Menu, MenuProps } from 'antd';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BountiesIcon, CalendarIcon, DemocracyProposalsIcon, DiscussionsIcon, MembersIcon, MotionsIcon, NewsIcon, OverviewIcon, ReferendaIcon, TipsIcon, TreasuryProposalsIcon } from 'src/ui-components/SidebarIcons';
+import { BountiesIcon, CalendarIcon, DemocracyProposalsIcon, DiscussionsIcon, MembersIcon, MotionsIcon, NewsIcon, OverviewIcon, ReferendaIcon, TipsIcon, TreasuryProposalsIcon } from 'src/ui-components/CustomIcons';
 
 import NavHeader from './NavHeader';
 import SwitchRoutes from './SwitchRoutes';
@@ -103,7 +103,7 @@ const AppLayout = ({ className }: { className?:string }) => {
 					collapsed={sidebarCollapsed}
 					onMouseOver={() => setSidebarCollapsed(false)}
 					onMouseLeave={() => setSidebarCollapsed(true)}
-					className={`${sidebarCollapsed ? 'hidden': 'min-w-[256px]'} sidebar bg-white lg:block bottom-0 left-0 h-[calc(100vh-60px)] overflow-y-auto fixed top-[60px]`}
+					className={`${sidebarCollapsed ? 'hidden': 'min-w-[256px]'} sidebar bg-white lg:block bottom-0 left-0 h-[calc(100vh-60px)] overflow-y-auto fixed top-[60px] z-50`}
 				>
 					<Menu
 						theme="light"
@@ -114,7 +114,7 @@ const AppLayout = ({ className }: { className?:string }) => {
 					/>
 				</Sider>
 				<Layout className='min-h-[calc(100vh-10rem)]'>
-					<Content className='mx-auto w-5/6'>
+					<Content className='mx-auto w-5/6 mt-6'>
 						<SwitchRoutes />
 					</Content>
 				</Layout>
