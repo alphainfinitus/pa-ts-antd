@@ -14,7 +14,7 @@ export const GlobalStyle = createGlobalStyle`
 
 		body {
 				margin: 0;
-				font-family: font_default, 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
+				font-family: font_default, 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
 						'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
 						sans-serif;
 				-webkit-font-smoothing: antialiased;

@@ -35,7 +35,7 @@ export const theme = {
 		xxl: '3rem'
 	},
 	fonts: {
-		font_default: 'Roboto',
+		font_default: 'Poppins',
 		font_mono: 'Roboto Mono',
 		font_secondary: 'Work Sans'
 	}

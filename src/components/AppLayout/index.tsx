@@ -2,17 +2,96 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { UploadOutlined,UserOutlined, VideoCameraOutlined } from '@ant-design/icons';
-import { Layout, Menu } from 'antd';
+import styled from '@xstyled/styled-components';
+import { Layout, Menu, MenuProps } from 'antd';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { BountiesIcon, CalendarIcon, DemocracyProposalsIcon, DiscussionsIcon, MembersIcon, MotionsIcon, NewsIcon, OverviewIcon, ReferendaIcon, TipsIcon, TreasuryProposalsIcon } from 'src/ui-components/SidebarIcons';
 
 import NavHeader from './NavHeader';
 import SwitchRoutes from './SwitchRoutes';
 
 const { Content, Sider } = Layout;
 
+type MenuItem = Required<MenuProps>['items'][number];
+
+function getSiderMenuItem(
+	label: React.ReactNode,
+	key: React.Key,
+	icon?: React.ReactNode,
+	children?: MenuItem[]
+): MenuItem {
+	return {
+		children,
+		icon,
+		key,
+		label
+	} as MenuItem;
+}
+
+const overviewItems = [
+	getSiderMenuItem('Overview', '/', <OverviewIcon className='text-white' />),
+	getSiderMenuItem('Discussions', '/discussions', <DiscussionsIcon className='text-white' />),
+	getSiderMenuItem('Calendar', '/calendar', <CalendarIcon className='text-white' />),
+	getSiderMenuItem('News', '/news', <NewsIcon className='text-white' />)
+];
+
+const democracyItems = [
+	getSiderMenuItem('Proposals', '/proposals', <DemocracyProposalsIcon className='text-white' />),
+	getSiderMenuItem('Referenda', '/referenda', <ReferendaIcon className='text-white' />)
+];
+
+const councilItems = [
+	getSiderMenuItem('Motions', '/motions', <MotionsIcon className='text-white' />),
+	getSiderMenuItem('Members', '/council', <MembersIcon className='text-white' />)
+];
+
+const treasuryItems = [
+	getSiderMenuItem('Proposals', '/treasury-proposals', <TreasuryProposalsIcon className='text-white' />),
+	getSiderMenuItem('Bounties', '/bounties', <BountiesIcon className='text-white' />),
+	getSiderMenuItem('Child Bounties', '/child_bounties', <BountiesIcon className='text-white' />),
+	getSiderMenuItem('Tips', '/tips', <TipsIcon className='text-white' />)
+];
+
+const techCommItems = [
+	getSiderMenuItem('Proposals', '/tech-comm-proposals', <DemocracyProposalsIcon className='text-white' />)
+];
+
+const items: MenuProps['items'] = [
+	...overviewItems,
+
+	getSiderMenuItem('Democracy', 'democracy', null, [
+		...democracyItems
+	]),
+
+	getSiderMenuItem('Treasury', 'treasury', null, [
+		...treasuryItems
+	]),
+
+	getSiderMenuItem('Council', 'council', null, [
+		...councilItems
+	]),
+
+	getSiderMenuItem('Tech. Comm.', 'tech_comm', null, [
+		...techCommItems
+	])
+];
+
+const collapsedItems: MenuProps['items'] = [
+	...overviewItems,
+	...democracyItems,
+	...councilItems,
+	...treasuryItems,
+	...techCommItems
+];
+
 const AppLayout = ({ className }: { className?:string }) => {
 	const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(true);
+	const navigate = useNavigate();
+
+	const handleMenuClick = (menuItem: any) => {
+		navigate(menuItem.key);
+	};
 
 	return (
 		<Layout className={className}>
@@ -24,30 +103,14 @@ const AppLayout = ({ className }: { className?:string }) => {
 					collapsed={sidebarCollapsed}
 					onMouseOver={() => setSidebarCollapsed(false)}
 					onMouseLeave={() => setSidebarCollapsed(true)}
-					className={`${sidebarCollapsed ? 'hidden': ''} md:block bottom-0 left-0 h-screen overflow-y-auto fixed top-[60px]`}
+					className={`${sidebarCollapsed ? 'hidden': 'min-w-[256px]'} sidebar bg-white md:block bottom-0 left-0 h-[calc(100vh-60px)] overflow-y-auto fixed top-[60px]`}
 				>
-					<div className="logo" />
 					<Menu
-						theme="dark"
+						theme="light"
 						mode="inline"
-						defaultSelectedKeys={['1']}
-						items={[
-							{
-								icon: <UserOutlined />,
-								key: '1',
-								label: 'nav 1'
-							},
-							{
-								icon: <VideoCameraOutlined />,
-								key: '2',
-								label: 'nav 2'
-							},
-							{
-								icon: <UploadOutlined />,
-								key: '3',
-								label: 'nav 3'
-							}
-						]}
+						defaultSelectedKeys={['democracy', 'treasury', 'council', 'tech_comm']}
+						items={sidebarCollapsed ? collapsedItems : items}
+						onClick={handleMenuClick}
 					/>
 				</Sider>
 				<Layout className='min-h-[calc(100vh-10rem)]'>
@@ -60,4 +123,30 @@ const AppLayout = ({ className }: { className?:string }) => {
 	);
 };
 
-export default AppLayout;
+export default styled(AppLayout)`
+.ant-menu-item-selected {
+	background: #fff !important;
+
+	.anticon {
+		path {
+			stroke: pink_primary !important;
+		}
+	}
+
+	.ant-menu-title-content {
+		color: pink_primary !important;
+	}
+}
+
+.ant-menu-item::after {
+	border-right: none !important;
+}
+
+.ant-menu-title-content {
+	color: #334D6E !important;
+	font-weight: 500;
+	font-size: 14px;
+	line-height: 21px;
+	letter-spacing: 0.01em;
+}
+`;

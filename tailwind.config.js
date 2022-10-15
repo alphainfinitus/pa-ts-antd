@@ -9,10 +9,11 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: { // add new font family
-        montserrat: ['Roboto', 'Segoe UI']
+        montserrat: ['Poppins', 'Segoe UI']
       },
       colors: {
         navLinkBlue: '#90A0B7',
+        sidebarLinkBlue: '#334D6E',
         blue_primary: '#4D9999',
         blue_secondary: '#EBF0F5',
         green_primary: '#4DD18F',
@@ -22,6 +23,7 @@ module.exports = {
         grey_light: '#EBF0F5',
         grey_primary: '#777B80',
         grey_secondary: '#A6ACB3',
+        icon_grey: '#C2CFE0',
         nav_black: '#1E1E28',
         pink_primary: '#E5007A',
         pink_secondary: '#C40061',
