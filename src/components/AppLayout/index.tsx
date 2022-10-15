@@ -114,7 +114,7 @@ const AppLayout = ({ className }: { className?:string }) => {
 					/>
 				</Sider>
 				<Layout className='min-h-[calc(100vh-10rem)]'>
-					<Content className='mx-auto w-5/6 mt-6'>
+					<Content className='ml-auto mr-auto lg:ml-28 xl:ml-36 2xl:ml-auto w-[94vw] lg:w-5/6 mt-6'>
 						<SwitchRoutes />
 					</Content>
 				</Layout>
@@ -124,6 +124,10 @@ const AppLayout = ({ className }: { className?:string }) => {
 };
 
 export default styled(AppLayout)`
+.sidebar {
+	box-shadow: 6px 0px 18px rgba(0, 0, 0, 0.06);
+}
+
 .ant-menu-item-selected {
 	background: #fff !important;
 

@@ -13,7 +13,7 @@ module.exports = {
       },
       colors: {
         navBlue: '#90A0B7',
-        sidebarLinkBlue: '#334D6E',
+        sidebarBlue: '#334D6E',
         blue_primary: '#4D9999',
         blue_secondary: '#EBF0F5',
         green_primary: '#4DD18F',

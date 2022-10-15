@@ -4,12 +4,20 @@
 
 import React from 'react';
 import AboutNetwork from 'src/components/Home/AboutNetwork';
+import TreasuryOverview from 'src/components/Home/TreasuryOverview';
 
 const Home = () => {
 	return (
 		<>
 			<h1 className='dashboard-heading'>Overview</h1>
-			<AboutNetwork className='mt-6 mx-1' />
+
+			<div className="mt-6 mx-1">
+				<AboutNetwork />
+			</div>
+
+			<div className="mt-8 mx-1">
+				<TreasuryOverview />
+			</div>
 		</>
 	);
 };
