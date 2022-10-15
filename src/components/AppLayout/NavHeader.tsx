@@ -19,13 +19,13 @@ interface Props {
 const NavHeader = ({ sidebarCollapsed, setSidebarCollapsed } : Props) => {
 	return (
 		<Header className='flex items-center bg-white h-[60px] max-h-[60px] px-6'>
-			<MenuOutlined className='md:hidden mr-5' onClick={() => setSidebarCollapsed(!sidebarCollapsed)} />
-			<nav className='w-full md:w-5/6 md:mx-auto flex items-center justify-between'>
+			<MenuOutlined className='lg:hidden mr-5' onClick={() => setSidebarCollapsed(!sidebarCollapsed)} />
+			<nav className='w-full lg:w-5/6 lg:mx-auto flex items-center justify-between'>
 				<Link className='flex' to='/'><PALogoBlack /></Link>
 				<Space className='flex items-center justify-between'>
 					<NetworkDropdown />
 					<Link className='text-navLinkBlue hover:text-pink_primary font-medium' to='/login'>Login</Link>
-					<Link className='text-navLinkBlue hidden md:inline-block hover:text-pink_primary font-medium' to='/signup'>Sign-up</Link>
+					<Link className='text-navLinkBlue hidden lg:inline-block hover:text-pink_primary font-medium' to='/signup'>Sign-up</Link>
 				</Space>
 			</nav>
 		</Header>

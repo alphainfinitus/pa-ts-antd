@@ -103,7 +103,7 @@ const AppLayout = ({ className }: { className?:string }) => {
 					collapsed={sidebarCollapsed}
 					onMouseOver={() => setSidebarCollapsed(false)}
 					onMouseLeave={() => setSidebarCollapsed(true)}
-					className={`${sidebarCollapsed ? 'hidden': 'min-w-[256px]'} sidebar bg-white md:block bottom-0 left-0 h-[calc(100vh-60px)] overflow-y-auto fixed top-[60px]`}
+					className={`${sidebarCollapsed ? 'hidden': 'min-w-[256px]'} sidebar bg-white lg:block bottom-0 left-0 h-[calc(100vh-60px)] overflow-y-auto fixed top-[60px]`}
 				>
 					<Menu
 						theme="light"
