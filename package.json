@@ -25,6 +25,7 @@
     "apollo-link-context": "^1.0.20",
     "apollo-link-http": "^1.5.17",
     "apollo-link-token-refresh": "0.3.2",
+    "bn.js": "^5.2.1",
     "detect-browser": "^5.3.0",
     "graphql": "^16.6.0",
     "graphql-tag": "^2.12.6",
