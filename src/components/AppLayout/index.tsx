@@ -5,7 +5,7 @@
 import styled from '@xstyled/styled-components';
 import { Layout, Menu, MenuProps } from 'antd';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { BountiesIcon, CalendarIcon, DemocracyProposalsIcon, DiscussionsIcon, MembersIcon, MotionsIcon, NewsIcon, OverviewIcon, ReferendaIcon, TipsIcon, TreasuryProposalsIcon } from 'src/ui-components/CustomIcons';
 
 import NavHeader from './NavHeader';
@@ -60,19 +60,19 @@ const techCommItems = [
 const items: MenuProps['items'] = [
 	...overviewItems,
 
-	getSiderMenuItem('Democracy', 'democracy', null, [
+	getSiderMenuItem('Democracy', 'democracy_group', null, [
 		...democracyItems
 	]),
 
-	getSiderMenuItem('Treasury', 'treasury', null, [
+	getSiderMenuItem('Treasury', 'treasury_group', null, [
 		...treasuryItems
 	]),
 
-	getSiderMenuItem('Council', 'council', null, [
+	getSiderMenuItem('Council', 'council_group', null, [
 		...councilItems
 	]),
 
-	getSiderMenuItem('Tech. Comm.', 'tech_comm', null, [
+	getSiderMenuItem('Tech. Comm.', 'tech_comm_group', null, [
 		...techCommItems
 	])
 ];
@@ -88,6 +88,7 @@ const collapsedItems: MenuProps['items'] = [
 const AppLayout = ({ className }: { className?:string }) => {
 	const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(true);
 	const navigate = useNavigate();
+	const { pathname } = useLocation();
 
 	const handleMenuClick = (menuItem: any) => {
 		navigate(menuItem.key);
@@ -108,13 +109,16 @@ const AppLayout = ({ className }: { className?:string }) => {
 					<Menu
 						theme="light"
 						mode="inline"
-						defaultSelectedKeys={['democracy', 'treasury', 'council', 'tech_comm']}
+						defaultSelectedKeys={[pathname]}
+						defaultOpenKeys={['democracy_group', 'treasury_group', 'council_group', 'tech_comm_group']}
 						items={sidebarCollapsed ? collapsedItems : items}
 						onClick={handleMenuClick}
 					/>
 				</Sider>
 				<Layout className='min-h-[calc(100vh-10rem)]'>
-					<Content className='ml-auto mr-auto lg:ml-28 xl:ml-36 2xl:ml-auto w-[94vw] lg:w-5/6 mt-6'>
+					{/* Dummy Collapsed Sidebar for auto margins */}
+					<div className="hidden lg:block bottom-0 left-0 h-[calc(100vh-60px)] fixed top-[60px] -z-50"></div>
+					<Content className='mx-auto w-[94vw] lg:w-5/6 mt-6'>
 						<SwitchRoutes />
 					</Content>
 				</Layout>
