@@ -104,7 +104,7 @@ const AppLayout = ({ className }: { className?:string }) => {
 					collapsed={sidebarCollapsed}
 					onMouseOver={() => setSidebarCollapsed(false)}
 					onMouseLeave={() => setSidebarCollapsed(true)}
-					className={`${sidebarCollapsed ? 'hidden': 'min-w-[256px]'} sidebar bg-white lg:block bottom-0 left-0 h-[calc(100vh-60px)] overflow-y-auto fixed top-[60px] z-50`}
+					className={`${sidebarCollapsed ? 'hidden': 'min-w-[256px]'} sidebar bg-white lg:block bottom-0 left-0 h-screen overflow-y-auto sticky top-0 z-50`}
 				>
 					<Menu
 						theme="light"
@@ -116,8 +116,6 @@ const AppLayout = ({ className }: { className?:string }) => {
 					/>
 				</Sider>
 				<Layout className='min-h-[calc(100vh-10rem)] flex flex-row'>
-					{/* Dummy Collapsed Sidebar for auto margins */}
-					<div className="hidden lg:block bottom-0 left-0 h-[calc(100vh-60px)] w-[80px] top-[60px] -z-50"></div>
 					<Content className='flex-initial mx-auto w-[94vw] lg:w-5/6 mt-6'>
 						<SwitchRoutes />
 					</Content>
