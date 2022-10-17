@@ -9,8 +9,9 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLatestDiscussionPostsQuery } from 'src/generated/graphql';
 import { noTitle } from 'src/global/noTitle';
+import { PostCategory } from 'src/global/post_categories';
 import Address from 'src/ui-components/Address';
-import { EmptyLatestActivity, ErrorLatestActivity, LoadingLatestActivity, PopulatedLatestActivity } from 'src/ui-components/LatestActivityStates';
+import { EmptyLatestActivity, ErrorLatestActivity, LoadingLatestActivity, PopulatedLatestActivity, PopulatedLatestActivityCard } from 'src/ui-components/LatestActivityStates';
 import getDefaultAddressField from 'src/util/getDefaultAddressField';
 
 interface DiscussionPostsRowData {
@@ -20,6 +21,7 @@ interface DiscussionPostsRowData {
 	username: string;
 	createdAt: string | null;
 	postId: number;
+	postCategory: PostCategory;
 }
 
 const columns: ColumnsType<DiscussionPostsRowData> = [
@@ -100,14 +102,23 @@ const DiscussionPostsTable = () => {
 					address: post.author[defaultAddressField]!,
 					username: post.author.username,
 					createdAt: post.created_at,
-					postId: post.id
+					postId: post.id,
+					postCategory: PostCategory.DISCUSSION
 				};
 
 				tableData.push(tableDataObj);
 			}
 		});
 
-		return <PopulatedLatestActivity columns={columns} tableData={tableData} onClick={(rowData) => navigate(`/post/${rowData.postId}`)} />;
+		return(<>
+			<div className='hidden lg:block'>
+				<PopulatedLatestActivity columns={columns} tableData={tableData} onClick={(rowData) => navigate(`/post/${rowData.postId}`)} />;
+			</div>
+
+			<div className="block lg:hidden h-[520px] overflow-y-auto">
+				<PopulatedLatestActivityCard tableData={tableData} onClick={(rowData) => navigate(`/post/${rowData.postId}`)} />
+			</div>
+		</>);
 	}
 
 	// Loading state

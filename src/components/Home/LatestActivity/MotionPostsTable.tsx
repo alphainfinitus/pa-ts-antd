@@ -9,9 +9,10 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGetLatestMotionPostsQuery } from 'src/generated/graphql';
 import { noTitle } from 'src/global/noTitle';
+import { PostCategory } from 'src/global/post_categories';
 import { post_type } from 'src/global/post_types';
 import Address from 'src/ui-components/Address';
-import { EmptyLatestActivity, ErrorLatestActivity, LoadingLatestActivity, PopulatedLatestActivity } from 'src/ui-components/LatestActivityStates';
+import { EmptyLatestActivity, ErrorLatestActivity, LoadingLatestActivity, PopulatedLatestActivity, PopulatedLatestActivityCard } from 'src/ui-components/LatestActivityStates';
 import StatusTag from 'src/ui-components/StatusTag';
 
 interface MotionPostsRowData {
@@ -22,6 +23,7 @@ interface MotionPostsRowData {
 	status?: string;
 	createdAt: string | null;
 	onChainId?: string | number | null | undefined
+	postCategory: PostCategory
 }
 
 const columns: ColumnsType<MotionPostsRowData> = [
@@ -114,14 +116,23 @@ const MotionPostsTable = () => {
 					username: post.author.username,
 					createdAt: post.created_at,
 					status: post.onchain_link.onchain_motion[0]?.motionStatus?.[0].status,
-					onChainId: post.onchain_link?.onchain_motion_id
+					onChainId: post.onchain_link?.onchain_motion_id,
+					postCategory: PostCategory.MOTION
 				};
 
 				tableData.push(tableDataObj);
 			}
 		});
 
-		return <PopulatedLatestActivity columns={columns} tableData={tableData} onClick={(rowData) => navigate(`/motion/${rowData.onChainId}`)} />;
+		return(<>
+			<div className='hidden lg:block'>
+				<PopulatedLatestActivity columns={columns} tableData={tableData} onClick={(rowData) => navigate(`/motion/${rowData.onChainId}`)} />;
+			</div>
+
+			<div className="block lg:hidden h-[520px] overflow-y-auto">
+				<PopulatedLatestActivityCard tableData={tableData} onClick={(rowData) => navigate(`/motion/${rowData.onChainId}`)} />
+			</div>
+		</>);
 	}
 
 	// Loading state

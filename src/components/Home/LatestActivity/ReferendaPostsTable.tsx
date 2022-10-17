@@ -9,9 +9,10 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGetLatestReferendaPostsQuery } from 'src/generated/graphql';
 import { noTitle } from 'src/global/noTitle';
+import { PostCategory } from 'src/global/post_categories';
 import { post_type } from 'src/global/post_types';
 import Address from 'src/ui-components/Address';
-import { EmptyLatestActivity, ErrorLatestActivity, LoadingLatestActivity, PopulatedLatestActivity } from 'src/ui-components/LatestActivityStates';
+import { EmptyLatestActivity, ErrorLatestActivity, LoadingLatestActivity, PopulatedLatestActivity, PopulatedLatestActivityCard } from 'src/ui-components/LatestActivityStates';
 import StatusTag from 'src/ui-components/StatusTag';
 
 interface ReferendaPostsRowData {
@@ -22,6 +23,7 @@ interface ReferendaPostsRowData {
 	status?: string;
 	createdAt: string | null;
 	onChainId?: string | number | null | undefined
+	postCategory: PostCategory
 }
 
 const columns: ColumnsType<ReferendaPostsRowData> = [
@@ -119,14 +121,23 @@ const ReferendaPostsTable = () => {
 					username: post.author.username,
 					createdAt: post.created_at,
 					status: post.onchain_link.onchain_referendum[0]?.referendumStatus?.[0].status,
-					onChainId: post.onchain_link?.onchain_referendum_id
+					onChainId: post.onchain_link?.onchain_referendum_id,
+					postCategory: PostCategory.REFERENDA
 				};
 
 				tableData.push(tableDataObj);
 			}
 		});
 
-		return <PopulatedLatestActivity columns={columns} tableData={tableData} onClick={(rowData) => navigate(`/referendum/${rowData.onChainId}`)} />;
+		return(<>
+			<div className='hidden lg:block'>
+				<PopulatedLatestActivity columns={columns} tableData={tableData} onClick={(rowData) => navigate(`/referendum/${rowData.onChainId}`)} />;
+			</div>
+
+			<div className="block lg:hidden h-[520px] overflow-y-auto">
+				<PopulatedLatestActivityCard tableData={tableData} onClick={(rowData) => navigate(`/referendum/${rowData.onChainId}`)} />
+			</div>
+		</>);
 	}
 
 	// Loading state

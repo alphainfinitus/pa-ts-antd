@@ -12,7 +12,7 @@ import { noTitle } from 'src/global/noTitle';
 import { PostCategory } from 'src/global/post_categories';
 import Address from 'src/ui-components/Address';
 import { BountiesIcon, DemocracyProposalsIcon, DiscussionsIcon, MotionsIcon, ReferendaIcon, TipsIcon, TreasuryProposalsIcon } from 'src/ui-components/CustomIcons';
-import { EmptyLatestActivity, ErrorLatestActivity, LoadingLatestActivity, PopulatedLatestActivity } from 'src/ui-components/LatestActivityStates';
+import { EmptyLatestActivity, ErrorLatestActivity, LoadingLatestActivity, PopulatedLatestActivity, PopulatedLatestActivityCard } from 'src/ui-components/LatestActivityStates';
 import StatusTag from 'src/ui-components/StatusTag';
 import getDefaultAddressField from 'src/util/getDefaultAddressField';
 
@@ -156,13 +156,11 @@ const columns: ColumnsType<AllPostsRowData> = [
 		render: (title, { subTitle }) => {
 			return (
 				<>
-					<div>
-						<h4>
-							<div>
-								{title}
-							</div>
-						</h4>
-					</div>
+					<h4>
+						<div>
+							{title}
+						</div>
+					</h4>
 					{subTitle && <div className='text-sm text-sidebarBlue'>{subTitle}</div>}
 				</>
 			);
@@ -301,7 +299,17 @@ const AllPostsTable = () => {
 			}
 		});
 
-		return <PopulatedLatestActivity columns={columns} tableData={tableData} onClick={(rowData) => gotoPost(rowData)} />;
+		return (
+			<>
+				<div className='hidden lg:block'>
+					<PopulatedLatestActivity columns={columns} tableData={tableData} onClick={(rowData) => gotoPost(rowData)} />;
+				</div>
+
+				<div className="block lg:hidden h-[520px] overflow-y-auto">
+					<PopulatedLatestActivityCard tableData={tableData} onClick={(rowData) => gotoPost(rowData)} />
+				</div>
+			</>
+		);
 	}
 
 	// Loading state

@@ -9,10 +9,11 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGetLatestDemocracyTreasuryProposalPostsQuery } from 'src/generated/graphql';
 import { noTitle } from 'src/global/noTitle';
+import { PostCategory } from 'src/global/post_categories';
 import { post_topic } from 'src/global/post_topics';
 import { post_type } from 'src/global/post_types';
 import Address from 'src/ui-components/Address';
-import { EmptyLatestActivity, ErrorLatestActivity, LoadingLatestActivity, PopulatedLatestActivity } from 'src/ui-components/LatestActivityStates';
+import { EmptyLatestActivity, ErrorLatestActivity, LoadingLatestActivity, PopulatedLatestActivity, PopulatedLatestActivityCard } from 'src/ui-components/LatestActivityStates';
 import StatusTag from 'src/ui-components/StatusTag';
 
 interface TreasuryPostsRowData {
@@ -23,6 +24,7 @@ interface TreasuryPostsRowData {
 	status?: string;
 	createdAt: string | null;
 	onChainId?: string | number | null | undefined
+	postCategory: PostCategory
 }
 
 const columns: ColumnsType<TreasuryPostsRowData> = [
@@ -121,14 +123,23 @@ const TreasuryPostsTable = () => {
 					username: post.author.username,
 					createdAt: post.created_at,
 					status: post.onchain_link.onchain_treasury_spend_proposal?.[0]?.treasuryStatus?.[0].status,
-					onChainId: post.onchain_link?.onchain_treasury_proposal_id
+					onChainId: post.onchain_link?.onchain_treasury_proposal_id,
+					postCategory: PostCategory.TREASURY_PROPOSAL
 				};
 
 				tableData.push(tableDataObj);
 			}
 		});
 
-		return <PopulatedLatestActivity columns={columns} tableData={tableData} onClick={(rowData) => navigate(`/treasury/${rowData.onChainId}`)} />;
+		return(<>
+			<div className='hidden lg:block'>
+				<PopulatedLatestActivity columns={columns} tableData={tableData} onClick={(rowData) => navigate(`/treasury/${rowData.onChainId}`)} />;
+			</div>
+
+			<div className="block lg:hidden h-[520px] overflow-y-auto">
+				<PopulatedLatestActivityCard tableData={tableData} onClick={(rowData) => navigate(`/treasury/${rowData.onChainId}`)} />
+			</div>
+		</>);
 	}
 
 	// Loading state
