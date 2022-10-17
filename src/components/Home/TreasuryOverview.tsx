@@ -233,7 +233,7 @@ const TreasuryOverview = () => {
 						Available
 					</span>
 
-					<Tooltip color='#000' title='Funds collected through a portion of block production rewards, transaction fees, slashing, staking inefficiencies, etc.'>
+					<Tooltip color='#E5007A' title='Funds collected through a portion of block production rewards, transaction fees, slashing, staking inefficiencies, etc.'>
 						<InfoCircleOutlined />
 					</Tooltip>
 				</div>
@@ -292,7 +292,7 @@ const TreasuryOverview = () => {
 						Spend Period Remaining
 					</span>
 
-					<Tooltip color='#000' title='Funds held in the treasury can be spent by making a spending proposal that, if approved by the Council, will enter a spend period before distribution, it is subject to governance, with the current default set to 24 days.'>
+					<Tooltip color='#E5007A' title='Funds held in the treasury can be spent by making a spending proposal that, if approved by the Council, will enter a spend period before distribution, it is subject to governance, with the current default set to 24 days.'>
 						<InfoCircleOutlined />
 					</Tooltip>
 				</div>
@@ -316,7 +316,7 @@ const TreasuryOverview = () => {
 						Next Burn
 					</span>
 
-					<Tooltip color='#000' title='Funds held in the treasury can be spent by making a spending proposal that, if approved by the Council, will enter a spend period before distribution, it is subject to governance, with the current default set to 24 days.'>
+					<Tooltip color='#E5007A' title='If the Treasury ends a spend period without spending all of its funds, it suffers a burn of a percentage of its funds.'>
 						<InfoCircleOutlined />
 					</Tooltip>
 				</div>

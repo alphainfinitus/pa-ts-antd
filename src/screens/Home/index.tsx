@@ -4,6 +4,7 @@
 
 import React from 'react';
 import AboutNetwork from 'src/components/Home/AboutNetwork';
+import LatestActivity from 'src/components/Home/LatestActivity';
 import TreasuryOverview from 'src/components/Home/TreasuryOverview';
 
 const Home = () => {
@@ -17,6 +18,10 @@ const Home = () => {
 
 			<div className="mt-8 mx-1">
 				<TreasuryOverview />
+			</div>
+
+			<div className="mt-8 mx-1">
+				<LatestActivity />
 			</div>
 		</>
 	);
