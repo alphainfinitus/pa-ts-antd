@@ -29,8 +29,6 @@ const StatusTag = ({ children, className, content, status }: Props) => {
 	}
 
 	return (
-		// content={content}
-		// status={status}
 		<div className={`${className} ${status} text-xs rounded-full border-2 px-3 py-1 whitespace-nowrap truncate`}>
 			{content}
 		</div>

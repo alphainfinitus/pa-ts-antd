@@ -18,6 +18,7 @@ export const theme = {
 		grey_secondary: '#A6ACB3',
 		nav_black: '#1E1E28',
 		nav_blue: '#334D6E',
+		nav_link: '#90A0B7',
 		pink_primary: '#E5007A',
 		pink_secondary: '#C40061',
 		red_light: '#FFF1F0',

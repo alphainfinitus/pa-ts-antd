@@ -3,17 +3,16 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 /* eslint-disable sort-keys */
-import styled from '@xstyled/styled-components';
-import { Table } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import moment from 'moment';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGetLatestPostsQuery } from 'src/generated/graphql';
 import { noTitle } from 'src/global/noTitle';
+import { PostCategory } from 'src/global/post_categories';
 import Address from 'src/ui-components/Address';
 import { BountiesIcon, DemocracyProposalsIcon, DiscussionsIcon, MotionsIcon, ReferendaIcon, TipsIcon, TreasuryProposalsIcon } from 'src/ui-components/CustomIcons';
-import { EmptyLatestActivity, ErrorLatestActivity, LoadingLatestActivity } from 'src/ui-components/LatestActivityStates';
+import { EmptyLatestActivity, ErrorLatestActivity, LoadingLatestActivity, PopulatedLatestActivity } from 'src/ui-components/LatestActivityStates';
 import StatusTag from 'src/ui-components/StatusTag';
 import getDefaultAddressField from 'src/util/getDefaultAddressField';
 
@@ -24,29 +23,17 @@ interface AllPostsRowData {
 	subTitle: string | null;
   address?: string;
 	username: string;
-  postType: PostType;
+  postCategory: PostCategory;
 	icon: any;
 	status: string;
 	createdAt: string | null;
 	onChainId: number;
 }
 
-enum PostType {
-	DISCUSSION = 'discussion',
-	REFERENDA = 'referenda',
-	PROPOSAL = 'proposal',
-	MOTION = 'motion',
-	TREASURY_PROPOSAL = 'treasury proposal',
-	TECH_COMMITTEE_PROPOSAL = 'tech committee proposal',
-	BOUNTY = 'bounty',
-	CHILD_BOUNTY = 'child bounty',
-	TIP = 'tip'
-}
-
 interface PostTypeData {
 	method: string
 	onChainId: number
-	postType: PostType
+	postCategory: PostCategory
 	status: string
 	title: string
 	index: string | number
@@ -57,7 +44,7 @@ function getPostTypeData(post: any): PostTypeData | null {
 	const postData: PostTypeData = {
 		method: '',
 		onChainId: 0,
-		postType: PostType.PROPOSAL,
+		postCategory: PostCategory.PROPOSAL,
 		status: '',
 		title: post.title,
 		index: '',
@@ -66,7 +53,7 @@ function getPostTypeData(post: any): PostTypeData | null {
 
 	if (!post.onchain_link){
 		//is discussion post
-		postData.postType = PostType.DISCUSSION;
+		postData.postCategory = PostCategory.DISCUSSION;
 		postData.onChainId = post.id;
 		postData.index = post.id;
 		postData.icon = <DiscussionsIcon className='text-white text-lg' />;
@@ -83,7 +70,7 @@ function getPostTypeData(post: any): PostTypeData | null {
 
 	switch (postTypeKey){
 	case 'onchain_bounty_id':
-		postData.postType = PostType.BOUNTY;
+		postData.postCategory = PostCategory.BOUNTY;
 		postData.method = '';
 		postData.onChainId = post.onchain_link?.onchain_bounty_id;
 		postData.status = post.onchain_link.onchain_bounty[0]?.bountyStatus?.[0].status;
@@ -91,7 +78,7 @@ function getPostTypeData(post: any): PostTypeData | null {
 		postData.icon = <BountiesIcon className='text-white text-lg' />;
 		break;
 	case 'onchain_motion_id':
-		postData.postType = PostType.MOTION;
+		postData.postCategory = PostCategory.MOTION;
 		postData.method = post.onchain_link.onchain_motion[0]?.preimage?.method;
 		postData.onChainId = post.onchain_link?.onchain_motion_id;
 		postData.status = post.onchain_link.onchain_motion[0]?.motionStatus?.[0].status;
@@ -99,7 +86,7 @@ function getPostTypeData(post: any): PostTypeData | null {
 		postData.icon = <MotionsIcon className='text-white text-lg' />;
 		break;
 	case 'onchain_proposal_id':
-		postData.postType = PostType.PROPOSAL;
+		postData.postCategory = PostCategory.PROPOSAL;
 		postData.method = post.onchain_link.onchain_proposal[0]?.preimage?.method;
 		postData.onChainId = post.onchain_link?.onchain_proposal_id;
 		postData.status = post.onchain_link.onchain_proposal[0]?.proposalStatus?.[0].status;
@@ -107,7 +94,7 @@ function getPostTypeData(post: any): PostTypeData | null {
 		postData.icon = <DemocracyProposalsIcon className='text-white text-lg' />;
 		break;
 	case 'onchain_referendum_id':
-		postData.postType = PostType.REFERENDA;
+		postData.postCategory = PostCategory.REFERENDA;
 		postData.method = post.onchain_link.onchain_referendum[0]?.preimage?.method;
 		postData.onChainId = post.onchain_link?.onchain_referendum_id;
 		postData.status = post.onchain_link.onchain_referendum[0]?.referendumStatus?.[0].status;
@@ -115,7 +102,7 @@ function getPostTypeData(post: any): PostTypeData | null {
 		postData.icon = <ReferendaIcon className='text-white text-lg' />;
 		break;
 	case 'onchain_tech_committee_proposal_id':
-		postData.postType = PostType.TECH_COMMITTEE_PROPOSAL;
+		postData.postCategory = PostCategory.TECH_COMMITTEE_PROPOSAL;
 		postData.method = post.onchain_link.onchain_tech_committee_proposal[0]?.preimage?.method;
 		postData.onChainId = post.onchain_link?.onchain_tech_committee_proposal_id;
 		postData.status = post.onchain_link.onchain_tech_committee_proposal[0]?.status?.[0].status;
@@ -123,7 +110,7 @@ function getPostTypeData(post: any): PostTypeData | null {
 		postData.icon = <DemocracyProposalsIcon className='text-white text-lg' />;
 		break;
 	case 'onchain_treasury_proposal_id':
-		postData.postType = PostType.TREASURY_PROPOSAL;
+		postData.postCategory = PostCategory.TREASURY_PROPOSAL;
 		postData.method = '';
 		postData.onChainId = post.onchain_link?.onchain_treasury_proposal_id;
 		postData.status = post.onchain_link.onchain_treasury_spend_proposal[0]?.treasuryStatus?.[0].status;
@@ -131,7 +118,7 @@ function getPostTypeData(post: any): PostTypeData | null {
 		postData.icon = <TreasuryProposalsIcon className='text-white text-lg' />;
 		break;
 	case 'onchain_tip_id':
-		postData.postType = PostType.TIP;
+		postData.postCategory = PostCategory.TIP;
 		postData.method = '';
 		postData.onChainId = post.onchain_link?.onchain_tip_id;
 		postData.status = post.onchain_link.onchain_tip[0]?.tipStatus?.[0].status;
@@ -140,7 +127,7 @@ function getPostTypeData(post: any): PostTypeData | null {
 		postData.icon = <TipsIcon className='text-white text-lg' />;
 		break;
 	case 'onchain_child_bounty_id':
-		postData.postType = PostType.CHILD_BOUNTY;
+		postData.postCategory = PostCategory.CHILD_BOUNTY;
 		postData.method = '';
 		postData.onChainId = post.onchain_link?.onchain_child_bounty_id;
 		postData.status = post.onchain_link.onchain_child_bounty[0]?.childBountyStatus?.[0].status;
@@ -154,10 +141,10 @@ function getPostTypeData(post: any): PostTypeData | null {
 
 const columns: ColumnsType<AllPostsRowData> = [
 	{
-		title: 'Index',
+		title: '#',
 		dataIndex: 'index',
 		key: 'index',
-		width: 70,
+		width: 65,
 		fixed: 'left'
 	},
 	{
@@ -165,17 +152,31 @@ const columns: ColumnsType<AllPostsRowData> = [
 		dataIndex: 'title',
 		key: 'title',
 		width: 350,
-		fixed: 'left'
+		fixed: 'left',
+		render: (title, { subTitle }) => {
+			return (
+				<>
+					<div>
+						<h4>
+							<div>
+								{title}
+							</div>
+						</h4>
+					</div>
+					{subTitle && <div className='text-sm text-sidebarBlue'>{subTitle}</div>}
+				</>
+			);
+		}
 	},
 	{
 		title: 'Posted By',
 		dataIndex: 'username',
 		key: 'postedBy',
-		render: (username, rowData) => {
+		render: (username, { address }) => {
 			return (
-				!rowData.address ? <span className='username text-sidebarBlue'> { username } </span> :
+				!address ? <span className='username text-sidebarBlue'> { username } </span> :
 					<Address
-						address={rowData.address}
+						address={address}
 						className='text-sm'
 						displayInline={true}
 						disableIdenticon={true}
@@ -184,8 +185,8 @@ const columns: ColumnsType<AllPostsRowData> = [
 		}
 	},
 	{
-		title: 'Created On',
-		key: 'created_on',
+		title: 'Created',
+		key: 'created',
 		dataIndex: 'createdAt',
 		render: (createdAt) => {
 			const relativeCreatedAt = createdAt ? moment(createdAt).isAfter(moment().subtract(1, 'w')) ? moment(createdAt).startOf('day').fromNow() : moment(createdAt).format('Do MMM \'YY') : null;
@@ -196,12 +197,12 @@ const columns: ColumnsType<AllPostsRowData> = [
 	},
 	{
 		title: 'Type',
-		dataIndex: 'postType',
+		dataIndex: 'postCategory',
 		key: 'type',
-		render: (postType, rowData) => {
+		render: (postCategory, { icon }) => {
 			return (
 				<span className='flex items-center'>
-					{rowData.icon} <span className='capitalize ml-3'>{postType}</span></span>
+					{icon} <span className='capitalize ml-3'>{postCategory}</span></span>
 			);
 		}
 	},
@@ -217,38 +218,38 @@ const columns: ColumnsType<AllPostsRowData> = [
 
 const defaultAddressField = getDefaultAddressField();
 
-const AllPostsTable = ({ className }: {className?:string}) => {
+const AllPostsTable = () => {
 	const navigate = useNavigate();
 
 	function gotoPost(rowData: AllPostsRowData){
 		let path: string = '';
 
-		switch (rowData.postType){
-		case PostType.DISCUSSION:
+		switch (rowData.postCategory){
+		case PostCategory.DISCUSSION:
 			path = 'post';
 			break;
-		case PostType.REFERENDA:
+		case PostCategory.REFERENDA:
 			path = 'referendum';
 			break;
-		case PostType.PROPOSAL:
+		case PostCategory.PROPOSAL:
 			path = 'proposal';
 			break;
-		case PostType.MOTION:
+		case PostCategory.MOTION:
 			path = 'motion';
 			break;
-		case PostType.TREASURY_PROPOSAL:
+		case PostCategory.TREASURY_PROPOSAL:
 			path = 'treasury';
 			break;
-		case PostType.TECH_COMMITTEE_PROPOSAL:
+		case PostCategory.TECH_COMMITTEE_PROPOSAL:
 			path = 'tech';
 			break;
-		case PostType.BOUNTY:
+		case PostCategory.BOUNTY:
 			path = 'bounty';
 			break;
-		case PostType.CHILD_BOUNTY:
+		case PostCategory.CHILD_BOUNTY:
 			path = 'child_bounty';
 			break;
-		case PostType.TIP:
+		case PostCategory.TIP:
 			path = 'tip';
 			break;
 		}
@@ -280,17 +281,17 @@ const AllPostsTable = ({ className }: {className?:string}) => {
 				// truncate title
 				let title = postTypeData.title || postTypeData.method || noTitle;
 				title = title.length > 80 ? `${title.substring(0, Math.min(80, title.length))}...`  : title.substring(0, Math.min(80, title.length));
-				const subTitle = title && postTypeData.method ? title : null;
+				const subTitle = title && post.onchain_link?.onchain_tip?.[0]?.reason && postTypeData.method ? title : null;
 
 				const tableDataObj:AllPostsRowData = {
 					key: post.id,
 					index: postTypeData.index,
 					title,
 					subTitle,
-					address: postTypeData.postType === PostType.DISCUSSION ? post.author[defaultAddressField]! : post.onchain_link?.proposer_address!,
+					address: postTypeData.postCategory === PostCategory.DISCUSSION ? post.author[defaultAddressField]! : post.onchain_link?.proposer_address!,
 					username: post.author.username,
 					createdAt: post.created_at,
-					postType: postTypeData.postType,
+					postCategory: postTypeData.postCategory,
 					status: postTypeData.status,
 					icon: postTypeData.icon,
 					onChainId: postTypeData.onChainId
@@ -300,35 +301,11 @@ const AllPostsTable = ({ className }: {className?:string}) => {
 			}
 		});
 
-		return <Table
-			className={className}
-			columns={columns}
-			dataSource={tableData}
-			pagination={false}
-			scroll={{ x: 1000, y: 450 }}
-
-			onRow={(rowData) => {
-				return {
-					onClick: () => gotoPost(rowData)
-				};
-			}}
-		/>;
+		return <PopulatedLatestActivity columns={columns} tableData={tableData} onClick={(rowData) => gotoPost(rowData)} />;
 	}
 
 	// Loading state
 	return <LoadingLatestActivity />;
 };
 
-export default styled(AllPostsTable)`
-	td.ant-table-cell {
-		color: nav_blue !important;
-	}
-
-	tr:nth-child(2n) td {
-    background-color: #fbfbfb !important;
-	}
-
-	tr {
-		cursor: pointer !important;
-	}
-`;
+export default AllPostsTable;

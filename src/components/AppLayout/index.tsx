@@ -144,6 +144,10 @@ export default styled(AppLayout)`
 	}
 }
 
+.ant-menu-title-content:hover {
+	color: pink_primary !important;
+}
+
 .ant-menu-item::after {
 	border-right: none !important;
 }

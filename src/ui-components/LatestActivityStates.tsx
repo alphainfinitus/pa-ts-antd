@@ -3,7 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { FrownOutlined, LoadingOutlined } from '@ant-design/icons';
-import { Button, Empty, Result } from 'antd';
+import { Button, Empty, Result, Table } from 'antd';
+import { ColumnsType } from 'antd/lib/table';
 import React, { ReactNode } from 'react';
 
 const LatestActivityWrapper = ({ children }: {children: ReactNode}) => (
@@ -40,5 +41,22 @@ export const EmptyLatestActivity = () => {
 		<LatestActivityWrapper>
 			<Empty />
 		</LatestActivityWrapper>
+	);
+};
+
+export const PopulatedLatestActivity = ({ columns, tableData, onClick }: { columns:ColumnsType<any>, tableData: readonly any[] | undefined, onClick: (rowData:any) => any }) => {
+	return (
+		<Table
+			columns={columns}
+			dataSource={tableData}
+			pagination={false}
+			scroll={{ x: 1000, y: 450 }}
+
+			onRow={(rowData) => {
+				return {
+					onClick: () => onClick(rowData)
+				};
+			}}
+		/>
 	);
 };
