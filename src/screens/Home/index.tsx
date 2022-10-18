@@ -5,7 +5,9 @@
 import React from 'react';
 import AboutNetwork from 'src/components/Home/AboutNetwork';
 import LatestActivity from 'src/components/Home/LatestActivity';
+import News from 'src/components/Home/News';
 import TreasuryOverview from 'src/components/Home/TreasuryOverview';
+import UpcomingEvents from 'src/components/Home/UpcomingEvents';
 
 const Home = () => {
 	return (
@@ -22,6 +24,16 @@ const Home = () => {
 
 			<div className="mt-8 mx-1">
 				<LatestActivity />
+			</div>
+
+			<div className="mt-8 mx-1 flex flex-col xl:flex-row items-center justify-between gap-4">
+				<div className='w-full xl:w-[60%]'>
+					<UpcomingEvents />
+				</div>
+
+				<div className='w-full xl:w-[40%]'>
+					<News />
+				</div>
 			</div>
 		</>
 	);
