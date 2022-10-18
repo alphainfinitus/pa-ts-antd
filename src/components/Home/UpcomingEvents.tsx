@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { CalendarFilled } from '@ant-design/icons';
-import { Calendar, List } from 'antd';
-import moment from 'moment';
+import { Badge, Calendar, List, Tooltip } from 'antd';
+import moment, { Moment } from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useGetCalenderEventsQuery } from 'src/generated/graphql';
 import { approvalStatus } from 'src/global/statuses';
@@ -15,6 +15,7 @@ const currentNetwork = getNetwork();
 const UpcomingEvents = () => {
 	const [showCalendar, setShowCalendar] = useState<boolean>(false);
 	const [calendarEvents, setCalendarEvents] = useState<any[]>([]);
+	const [eventDates, setEventDates] = useState<string[]>([]);
 
 	// TODO: ENABLE REFETCH
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -25,6 +26,8 @@ const UpcomingEvents = () => {
 
 	useEffect(() =>  {
 		const eventsArr:any[] = [];
+		const eventDatesArr:string[] = [];
+
 		data?.calender_events.forEach(eventObj => {
 			const eventDate = new Date(eventObj.end_time);
 			const currDate = new Date();
@@ -39,15 +42,60 @@ const UpcomingEvents = () => {
 					title: eventObj.title,
 					url: eventObj.url
 				});
+				const eventDateStr = moment(eventObj.end_time).format('L');
+				eventDatesArr.push(eventDateStr);
+			}
+		});
+		setCalendarEvents(eventsArr);
+		setEventDates(eventDatesArr);
+	}, [data]);
+
+	const getDateHasEvent = (value: Moment): boolean => {
+		const valueDateStr = value.format('L');
+		return eventDates.includes(valueDateStr);
+	};
+
+	const getEventData = (value: Moment): any[] => {
+		const eventList: any[] = [];
+		calendarEvents.forEach(eventObj => {
+			if(moment(eventObj.end_time).format('L') === value.format('L')){
+				eventList.push(eventObj);
 			}
 		});
 
-		setCalendarEvents(eventsArr);
-	}, [data]);
+		return eventList;
+	};
+
+	const dateCellRender = (value: Moment) => {
+		const hasEvent = getDateHasEvent(value);
+		if(hasEvent) {
+			const eventData = getEventData(value);
+			const eventList = <ul>
+				{
+					eventData.map(eventObj => (
+						<li key={eventObj.id}>
+							<a className='text-white hover:text-white hover:underline' href={eventObj.url} target='_blank' rel='noreferrer'>{eventObj.title}</a>
+							<span className="flex h-[1px] bg-[rgba(255,255,255,0.3)] w-full my-2 rounded-full"></span>
+						</li>
+					))
+				}
+			</ul>;
+
+			return (
+				<Tooltip color='#E5007A' title={eventList}>
+					<Badge color='#E5007A' />
+				</Tooltip>
+			);
+		}
+	};
 
 	const CalendarElement = () => (
 		<>
-			<Calendar className='border border-gray-200 rounded-md mb-4' fullscreen={false} />
+			<Calendar
+				className='border border-gray-200 rounded-md mb-4'
+				fullscreen={false}
+				dateCellRender={dateCellRender}
+			/>
 		</>
 	);
 
@@ -58,12 +106,10 @@ const UpcomingEvents = () => {
 				itemLayout="horizontal"
 				dataSource={calendarEvents}
 				renderItem={item => {
-					console.log('item: ', item);
-
 					return (<List.Item className='cursor-pointer text-sidebarBlue'>
 						<a href={item.url} target='_blank' rel='noreferrer'>
 							<div className='text-xs mb-1 flex items-center'>
-								{moment(item.end_time).format('MMM d, YYYY')}
+								{moment(item.end_time).format('MMM D, YYYY')}
 								<span className="h-[4px] w-[4px] bg-sidebarBlue mx-2 rounded-full inline-block"></span>
 								{moment(item.end_time).format('h:mm a')}
 							</div>
