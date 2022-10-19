@@ -11,59 +11,60 @@ import { CubeIcon, DiscordIcon, GithubIcon, RedditIcon, TelegramIcon } from 'src
 import getNetwork from 'src/util/getNetwork';
 
 const network = getNetwork();
+
+export const socialLinks = (blockchain_socials: any) => {
+	return (
+		<Space size={19} className='items-center'>
+			{blockchain_socials.homepage &&
+					<a href={blockchain_socials.homepage} target='_blank' rel='noreferrer'>
+						<HomeFilled className='text-sm md:text-lg md:mr-1 text-sidebarBlue' />
+					</a>
+			}
+			{blockchain_socials.twitter &&
+					<a href={blockchain_socials.twitter} target='_blank' rel='noreferrer'>
+						<TwitterOutlined className='text-sm md:text-lg md:mr-1 text-sidebarBlue' />
+					</a>
+			}
+			{blockchain_socials.discord &&
+					<a href={blockchain_socials.discord} target='_blank' rel='noreferrer'>
+						<DiscordIcon className='text-sm md:text-lg md:mr-1' />
+					</a>
+			}
+			{blockchain_socials.github &&
+					<a href={blockchain_socials.github} target='_blank' rel='noreferrer'>
+						<GithubIcon className='text-sm md:text-lg md:mr-1' />
+					</a>
+			}
+			{blockchain_socials.youtube &&
+					<a href={blockchain_socials.youtube} target='_blank' rel='noreferrer'>
+						<YoutubeFilled className='text-sm md:text-lg md:mr-1 text-sidebarBlue' />
+					</a>
+			}
+			{blockchain_socials.reddit &&
+					<a href={blockchain_socials.reddit} target='_blank' rel='noreferrer'>
+						<RedditIcon className='text-sm md:text-lg md:mr-1' />
+					</a>
+			}
+			{blockchain_socials.telegram &&
+					<a href={blockchain_socials.telegram} target='_blank' rel='noreferrer'>
+						<TelegramIcon className='text-sm md:text-lg md:mr-1' />
+					</a>
+			}
+			{blockchain_socials.block_explorer &&
+					<a href={blockchain_socials.block_explorer} target='_blank' rel='noreferrer'>
+						<CubeIcon className='text-white text-sm md:text-lg md:mr-1' />
+					</a>
+			}
+		</Space>
+	);
+};
+
 const AboutNetwork = ({ className } : {className?: string}) => {
 	// TODO: Enable refetch
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { data, error, refetch } = useNetworkSocialsQuery({ variables: {
 		network
 	} });
-
-	function socialLinks(blockchain_socials: any) {
-		return (
-			<Space size={19} className='items-center'>
-				{blockchain_socials.homepage &&
-						<a href={blockchain_socials.homepage} target='_blank' rel='noreferrer'>
-							<HomeFilled className='text-sm md:text-lg md:mr-1 text-sidebarBlue' />
-						</a>
-				}
-				{blockchain_socials.twitter &&
-						<a href={blockchain_socials.twitter} target='_blank' rel='noreferrer'>
-							<TwitterOutlined className='text-sm md:text-lg md:mr-1 text-sidebarBlue' />
-						</a>
-				}
-				{blockchain_socials.discord &&
-						<a href={blockchain_socials.discord} target='_blank' rel='noreferrer'>
-							<DiscordIcon className='text-sm md:text-lg md:mr-1' />
-						</a>
-				}
-				{blockchain_socials.github &&
-						<a href={blockchain_socials.github} target='_blank' rel='noreferrer'>
-							<GithubIcon className='text-sm md:text-lg md:mr-1' />
-						</a>
-				}
-				{blockchain_socials.youtube &&
-						<a href={blockchain_socials.youtube} target='_blank' rel='noreferrer'>
-							<YoutubeFilled className='text-sm md:text-lg md:mr-1 text-sidebarBlue' />
-						</a>
-				}
-				{blockchain_socials.reddit &&
-						<a href={blockchain_socials.reddit} target='_blank' rel='noreferrer'>
-							<RedditIcon className='text-sm md:text-lg md:mr-1' />
-						</a>
-				}
-				{blockchain_socials.telegram &&
-						<a href={blockchain_socials.telegram} target='_blank' rel='noreferrer'>
-							<TelegramIcon className='text-sm md:text-lg md:mr-1' />
-						</a>
-				}
-				{blockchain_socials.block_explorer &&
-						<a href={blockchain_socials.block_explorer} target='_blank' rel='noreferrer'>
-							<CubeIcon className='text-white text-sm md:text-lg md:mr-1' />
-						</a>
-				}
-			</Space>
-		);
-	}
 
 	return (
 		<div className={`${className} bg-white drop-shadow-md p-5 md:p-6 rounded-md`}>

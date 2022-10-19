@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { BountiesIcon, CalendarIcon, DemocracyProposalsIcon, DiscussionsIcon, MembersIcon, MotionsIcon, NewsIcon, OverviewIcon, ReferendaIcon, TipsIcon, TreasuryProposalsIcon } from 'src/ui-components/CustomIcons';
 
+import Footer from './Footer';
 import NavHeader from './NavHeader';
 import SwitchRoutes from './SwitchRoutes';
 
@@ -116,10 +117,11 @@ const AppLayout = ({ className }: { className?:string }) => {
 						onClick={handleMenuClick}
 					/>
 				</Sider>
-				<Layout className='min-h-[calc(100vh-10rem)] flex flex-row'>
-					<Content className='flex-initial mx-auto w-[94vw] lg:w-[85vw] xl:w-5/6 mt-6'>
+				<Layout className='min-h-[calc(100vh - 10rem)] flex flex-col'>
+					<Content className='flex-initial mx-auto min-h-[90vh] w-[94vw] lg:w-[85vw] xl:w-5/6 my-6'>
 						<SwitchRoutes />
 					</Content>
+					<Footer />
 				</Layout>
 			</Layout>
 		</Layout>
