@@ -92,6 +92,7 @@ const AppLayout = ({ className }: { className?:string }) => {
 
 	const handleMenuClick = (menuItem: any) => {
 		navigate(menuItem.key);
+		setSidebarCollapsed(true);
 	};
 
 	return (

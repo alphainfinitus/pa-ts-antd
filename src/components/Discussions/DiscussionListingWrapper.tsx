@@ -56,6 +56,7 @@ const DiscussionListingWrapper = ({ className, sortBy } : { className?:string, s
 							showSizeChanger={false}
 							hideOnSinglePage={true}
 							onChange={onPaginationChange}
+							responsive={true}
 						/>
 				}
 			</div>

@@ -53,7 +53,7 @@ const DiscussionsContainer = ({ className } : { className?:string }) => {
 	</Dropdown>);
 
 	return (
-		<div className={`${className} shadow-md bg-white p-8`}>
+		<div className={`${className} shadow-md bg-white p-3 md:p-8 rounded-md`}>
 			<div className='flex items-center justify-between'>
 				<h1 className='dashboard-heading'>{ discussionsData?.posts_aggregate.aggregate?.count } Discussions</h1>
 				{sortByDropdown}

@@ -66,7 +66,7 @@ const AboutNetwork = ({ className } : {className?: string}) => {
 	}
 
 	return (
-		<div className={`${className} bg-white drop-shadow-md p-6 rounded-md`}>
+		<div className={`${className} bg-white drop-shadow-md p-5 md:p-6 rounded-md`}>
 			<div className="flex items-center justify-between">
 				<h2 className='dashboard-heading'>About</h2>
 				{error && <p>{error.message}</p>}
