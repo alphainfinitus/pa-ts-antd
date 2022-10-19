@@ -32,7 +32,9 @@ module.exports = function override(webpackConfig) {
 	});
 
 	webpackConfig.plugins.push(
-		new NodePolyfillPlugin()
+		new NodePolyfillPlugin({
+			excludeAliases: ['console']
+		})
 	);
 
 	return webpackConfig;
