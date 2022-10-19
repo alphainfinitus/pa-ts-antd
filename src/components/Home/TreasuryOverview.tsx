@@ -255,7 +255,7 @@ const TreasuryOverview = () => {
 				<Divider className='my-3' />
 				<div>
 					<span className='mr-2 text-sidebarBlue font-medium'>
-						{availableUSD && !isNaN(Number(availableUSD))
+						{availableUSD
 							? `~ $${availableUSD}`
 							: <LoadingOutlined />
 						}
@@ -340,7 +340,7 @@ const TreasuryOverview = () => {
 				<Divider className='my-3' />
 				<div>
 					<span className='mr-2 text-sidebarBlue font-medium'>
-						{nextBurnUSD && !isNaN(Number(nextBurnUSD))
+						{nextBurnUSD
 							? `~ $${nextBurnUSD}`
 							: <LoadingOutlined />
 						}

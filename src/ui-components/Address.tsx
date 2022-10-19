@@ -100,7 +100,7 @@ const Address = ({ address, className, displayInline, disableIdenticon, extensio
 					? popupContent
 						? <Space>
 							{identity && mainDisplay && <IdentityBadge identity={identity} flags={flags} />}
-							<Tooltip title={popupContent}>
+							<Tooltip color='#E5007A' title={popupContent}>
 								<div className={'header display_inline identityName'}>
 									{mainDisplay || shortenAddress(address, shortenAddressLength)}
 									{sub && <span className='sub'>/{sub}</span>}
@@ -152,9 +152,10 @@ export default styled(Address)`
 	position: relative;
 	display: flex;
 	align-items: center;
-
+	
 	.content {
 		display: inline-block;
+		color: nav_blue !important;
 	}
 
 	.identicon {
@@ -172,7 +173,7 @@ export default styled(Address)`
 	}
 
 	.description {
-		color: grey_primary;
+		color: nav_blue;
 		margin-right: 0.4rem;
 	}
 
@@ -181,7 +182,7 @@ export default styled(Address)`
 	}
 
 	.sub {
-		color: grey_secondary;
+		color: nav_blue;
 		line-height: inherit;
 	}
 `;

@@ -4,12 +4,14 @@
 
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import Discussions from 'src/screens/Discussions';
 import Home from 'src/screens/Home';
 
 const SwitchRoutes = () => {
 	return (
 		<Routes>
 			<Route path='/' element={<Home />} />
+			<Route path='/discussions' element={<Discussions />} />
 		</Routes>
 	);
 };

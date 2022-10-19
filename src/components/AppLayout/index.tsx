@@ -109,7 +109,7 @@ const AppLayout = ({ className }: { className?:string }) => {
 					<Menu
 						theme="light"
 						mode="inline"
-						defaultSelectedKeys={[pathname]}
+						selectedKeys={[pathname]}
 						defaultOpenKeys={['democracy_group', 'treasury_group', 'council_group', 'tech_comm_group']}
 						items={sidebarCollapsed ? collapsedItems : items}
 						onClick={handleMenuClick}

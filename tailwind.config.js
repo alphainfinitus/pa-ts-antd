@@ -26,6 +26,7 @@ module.exports = {
         icon_grey: '#C2CFE0',
         nav_black: '#1E1E28',
         pink_primary: '#E5007A',
+        pink_primary_transparent: 'rgba(229, 0, 122, 0.5)',
         pink_secondary: '#C40061',
         red_light: '#FFF1F0',
         red_primary: '#FF5A47',

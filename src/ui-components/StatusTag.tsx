@@ -75,7 +75,7 @@ export default styled(StatusTag).attrs(( { status }: Props) => ({
 	&.${childBountyStatus.CLAIMED},
 	&.prime {
 		border-color: green_primary;
-		background: green_primary;
+		background-color: green_primary;
 	}
 	&.${proposalStatus.CLEARED},
 	&.${referendumStatus.CANCELLED},

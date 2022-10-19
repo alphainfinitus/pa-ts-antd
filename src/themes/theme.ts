@@ -20,6 +20,7 @@ export const theme = {
 		nav_blue: '#334D6E',
 		nav_link: '#90A0B7',
 		pink_primary: '#E5007A',
+		pink_primary_transparent: 'rgba(229, 0, 122, 0.5)',
 		pink_secondary: '#C40061',
 		red_light: '#FFF1F0',
 		red_primary: '#FF5A47',

@@ -2,8 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { FrownOutlined, LoadingOutlined } from '@ant-design/icons';
-import { Button, Empty, Result, Table } from 'antd';
+import { Empty, Table } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import moment from 'moment';
 import React, { ReactNode } from 'react';
@@ -11,6 +10,7 @@ import { PostCategory } from 'src/global/post_categories';
 
 import Address from './Address';
 import StatusTag from './StatusTag';
+import { ErrorState, LoadingState } from './UIStates';
 
 const LatestActivityWrapper = ({ children }: {children: ReactNode}) => (
 	<div className="h-[500px] flex items-center justify-center overflow-y-auto">
@@ -21,10 +21,7 @@ const LatestActivityWrapper = ({ children }: {children: ReactNode}) => (
 export const LoadingLatestActivity = () => {
 	return (
 		<LatestActivityWrapper>
-			<Result
-				icon={<LoadingOutlined />}
-				title={'Loading...'}
-			/>
+			<LoadingState />
 		</LatestActivityWrapper>
 	);
 };
@@ -32,11 +29,7 @@ export const LoadingLatestActivity = () => {
 export const ErrorLatestActivity = ({ errorMessage } : { errorMessage: string}) => {
 	return (
 		<LatestActivityWrapper>
-			<Result
-				icon={<FrownOutlined />}
-				title={errorMessage}
-				extra={<Button type="primary" className='text-pink_primary hover:text-white' onClick={() => window.location.reload()}>Refresh</Button>}
-			/>
+			<ErrorState errorMessage={errorMessage} />
 		</LatestActivityWrapper>
 	);
 };
