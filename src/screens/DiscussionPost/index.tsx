@@ -6,6 +6,8 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import Post from 'src/components/Post/Post';
 import { useDiscussionPostAndCommentsQuery } from 'src/generated/graphql';
+import { PostCategory } from 'src/global/post_categories';
+import BackToListingView from 'src/ui-components/BackToListingView';
 import { ErrorState, LoadingState } from 'src/ui-components/UIStates';
 
 const DiscussionPost = ({ postID }: {postID?: number}) => {
@@ -18,7 +20,13 @@ const DiscussionPost = ({ postID }: {postID?: number}) => {
 
 	if (error?.message) return <ErrorState errorMessage={error.message} />;
 
-	if (data) return <Post data={data} refetch={refetch} />;
+	if (data) return (<div>
+		<BackToListingView postCategory={PostCategory.DISCUSSION} />
+
+		<div className='mt-6'>
+			<Post data={data} refetch={refetch} />
+		</div>
+	</div>);
 
 	return <div className='mt-16'><LoadingState /></div>;
 
