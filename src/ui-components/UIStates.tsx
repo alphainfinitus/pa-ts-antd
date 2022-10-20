@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 import { FrownOutlined, LoadingOutlined } from '@ant-design/icons';
-import { Button, Result } from 'antd';
+import { Button, Empty, Result } from 'antd';
 import React from 'react';
+import { PostCategory } from 'src/global/post_categories';
 
 export const LoadingState = () => {
 	return (
@@ -23,3 +24,16 @@ export const ErrorState = ({ errorMessage } : { errorMessage:string }) => {
 		/>
 	);
 };
+
+export const PostEmptyState = ({ postCategory } : { postCategory:PostCategory }) => {
+	return (
+		<Empty
+			description={
+				<span className='text-xl'>
+					We couldn&apos;t find any {postCategory} with this id.
+				</span>
+			}
+		/>
+	);
+};
+

@@ -4,6 +4,7 @@
 
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import DiscussionPost from 'src/screens/DiscussionPost';
 import Discussions from 'src/screens/Discussions';
 import Home from 'src/screens/Home';
 
@@ -12,6 +13,9 @@ const SwitchRoutes = () => {
 		<Routes>
 			<Route path='/' element={<Home />} />
 			<Route path='/discussions' element={<Discussions />} />
+			<Route path='/post'>
+				<Route path=':id' element={<DiscussionPost />} />
+			</Route>
 		</Routes>
 	);
 };
