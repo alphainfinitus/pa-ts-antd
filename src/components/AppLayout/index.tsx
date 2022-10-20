@@ -93,7 +93,10 @@ const AppLayout = ({ className }: { className?:string }) => {
 
 	const handleMenuClick = (menuItem: any) => {
 		navigate(menuItem.key);
-		setSidebarCollapsed(true);
+		// only for mobile devices
+		if (window.innerWidth < 1024) {
+			setSidebarCollapsed(true);
+		}
 	};
 
 	return (
