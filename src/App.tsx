@@ -8,8 +8,10 @@ import { BrowserRouter } from 'react-router-dom';
 
 import Apollo from './components/Apollo';
 import AppLayout from './components/AppLayout';
+import Modal from './components/Modal';
 import { ApiContextProvider } from './context/ApiContext';
 import { MetaProvider } from './context/MetaContext';
+import { ModalProvider } from './context/ModalContext';
 import { NotificationProvider } from './context/NotificationContext';
 import { UserDetailsProvider } from './context/UserDetailsContext';
 import { theme } from './themes/theme';
@@ -20,16 +22,19 @@ function App() {
 		<BrowserRouter>
 			<ThemeProvider theme={theme}>
 				<NotificationProvider>
-					<UserDetailsProvider>
-						<MetaProvider>
-							<Apollo>
-								<GlobalStyle />
-								<ApiContextProvider>
-									<AppLayout />
-								</ApiContextProvider>
-							</Apollo>
-						</MetaProvider>
-					</UserDetailsProvider>
+					<ModalProvider>
+						<UserDetailsProvider>
+							<MetaProvider>
+								<Apollo>
+									<GlobalStyle />
+									<Modal/>
+									<ApiContextProvider>
+										<AppLayout />
+									</ApiContextProvider>
+								</Apollo>
+							</MetaProvider>
+						</UserDetailsProvider>
+					</ModalProvider>
 				</NotificationProvider>
 			</ThemeProvider>
 		</BrowserRouter>

@@ -1,15 +1,16 @@
 // Copyright 2019-2020 @Premiurly/polkassembly authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
-import { Alert, Button, Form, Input } from 'antd';
-import React, { FC, useContext } from 'react';
+import { Alert, Button, Input } from 'antd';
+import React, { FC } from 'react';
 import { Controller, FieldError, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
-import { UserDetailsContext } from 'src/context/UserDetailsContext';
+import { useUserDetailsContext } from 'src/context';
 import { useLoginMutation } from 'src/generated/graphql';
 import { handleTokenChange } from 'src/services/auth.service';
 import { Wallet } from 'src/types';
 import FilteredError from 'src/ui-components/FilteredError';
+import Form from 'src/ui-components/Form';
 import messages from 'src/util/messages';
 import * as validation from 'src/util/validation';
 
@@ -21,7 +22,7 @@ interface Props {
 }
 const Web2Login: FC<Props> = ({ walletError, onWalletSelect }) => {
 	const navigate = useNavigate();
-	const currentUser = useContext(UserDetailsContext);
+	const currentUser = useUserDetailsContext();
 	const [loginMutation, { error, loading }] = useLoginMutation();
 	const {
 		control,
@@ -55,7 +56,7 @@ const Web2Login: FC<Props> = ({ walletError, onWalletSelect }) => {
 			<h3 className="text-2xl font-semibold text-[#1E232C]">Login</h3>
 			{walletError && <Alert message={walletError} type="error" />}
 			<Form
-				onFinish={handleSubmit(handleSubmitForm)}
+				onSubmit={handleSubmit(handleSubmitForm)}
 				className="flex flex-col gap-y-6"
 			>
 				<div className="flex flex-col gap-y-1">
@@ -130,6 +131,7 @@ const Web2Login: FC<Props> = ({ walletError, onWalletSelect }) => {
 				</div>
 				<div className="flex justify-center items-center">
 					<Button
+						disabled={loading}
 						htmlType="submit"
 						size="large"
 						className="bg-pink_primary w-56 rounded-md outline-none border-none text-white"
@@ -137,7 +139,7 @@ const Web2Login: FC<Props> = ({ walletError, onWalletSelect }) => {
                         Login
 					</Button>
 				</div>
-				<div>{error?.message && <FilteredError text={error.message} />}</div>
+				{error?.message && <FilteredError text={error.message} />}
 
 				<div>
 					<WalletButtons disabled={loading} onWalletSelect={onWalletSelect} />

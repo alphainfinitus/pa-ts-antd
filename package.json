@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^4.7.0",
     "@ardatan/graphql-tools": "^4.1.0",
     "@polkadot/api": "^9.4.3",
     "@polkadot/api-augment": "^9.4.3",

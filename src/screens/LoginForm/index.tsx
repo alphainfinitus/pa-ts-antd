@@ -2,15 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 import { Col, Row } from 'antd';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Web2Login from 'src/components/Login/Web2Login';
 import Web3Login from 'src/components/Login/Web3Login';
-import { UserDetailsContext } from 'src/context/UserDetailsContext';
+import { useUserDetailsContext } from 'src/context';
 import { Wallet } from 'src/types';
 
 const Login = () => {
-	const currentUser = useContext(UserDetailsContext);
+	const currentUser = useUserDetailsContext();
 	const navigate = useNavigate();
 	const [displayWeb, setDisplayWeb] = useState(2);
 	const [chosenWallet, setChosenWallet] = useState<Wallet>();
