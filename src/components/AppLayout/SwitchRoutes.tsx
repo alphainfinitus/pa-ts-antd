@@ -7,12 +7,14 @@ import { Route, Routes } from 'react-router-dom';
 import DiscussionPost from 'src/screens/DiscussionPost';
 import Discussions from 'src/screens/Discussions';
 import Home from 'src/screens/Home';
+import LoginForm from 'src/screens/LoginForm';
 
 const SwitchRoutes = () => {
 	return (
 		<Routes>
 			<Route path='/' element={<Home />} />
 			<Route path='/discussions' element={<Discussions />} />
+			<Route path="/login" element={<LoginForm />}/>
 			<Route path='/post'>
 				<Route path=':id' element={<DiscussionPost />} />
 			</Route>
