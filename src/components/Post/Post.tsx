@@ -12,6 +12,8 @@ import { BountyPostAndCommentsQuery, BountyPostAndCommentsQueryHookResult, Bount
 import { PostCategory } from 'src/global/post_categories';
 import { PostEmptyState } from 'src/ui-components/UIStates';
 
+import EditablePostContent from './EditablePostContent';
+
 interface Props {
 	className?: string
 	data: (
@@ -132,8 +134,32 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 		isChildBountyProposer
 	);
 
+	const Sidebar = () => <>
+		<div className="bg-white drop-shadow-md p-5 md:p-6 rounded-md w-full lg:w-4/12 mx-auto">
+			Sidebar Area
+		</div>
+	</>;
+
 	return (
-		<div>Post</div>
+		<>
+			<div className="flex flex-col lg:flex-row">
+				{/* Post Content */}
+				<div className="bg-white drop-shadow-md p-5 md:p-6 rounded-md w-full lg:w-8/12 mx-auto lg:mr-9 mb-6 lg:mb-0">
+					<EditablePostContent
+						isEditing={isEditing}
+						isTipProposal={isTipProposal}
+						onchainId={onchainId}
+						post={post}
+						postStatus={postStatus}
+						refetch={refetch}
+						toggleEdit={toggleEdit}
+					/>
+				</div>
+
+				<Sidebar />
+
+			</div>
+		</>
 	);
 };
 

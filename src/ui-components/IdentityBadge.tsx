@@ -5,7 +5,7 @@
 import { CheckCircleFilled, MinusCircleFilled } from '@ant-design/icons';
 import { DeriveAccountFlags, DeriveAccountRegistration } from '@polkadot/api-derive/types';
 import styled from '@xstyled/styled-components';
-import { Space, Tooltip } from 'antd';
+import { Tooltip } from 'antd';
 import React from 'react';
 
 const StyledPopup = styled.div`
@@ -34,11 +34,12 @@ const IdentityBadge = ({ className, identity, flags }: {className?: string, iden
 	const isBad = judgements.some(([, judgement]): boolean => judgement.isErroneous || judgement.isLowQuality);
 
 	const color: 'brown' | 'green' | 'grey' = isGood ? 'green' : isBad ? 'brown' : 'grey';
-	const CouncilEmoji = () => <span aria-label="council member" className='councilMember' role="img">👑</span>;
-	const infoElem = <Space>
+	const CouncilEmoji = () => <span aria-label="council member" className='-mt-1' role="img">👑</span>;
+	const infoElem = <span className='flex items-center'>
 		{isGood ? <CheckCircleFilled style={ { color } } /> : <MinusCircleFilled style={ { color } } />}
-		{flags?.isCouncil && <CouncilEmoji/>}
-	</Space>;
+		<span className='w-1'></span>
+		{!flags?.isCouncil && <CouncilEmoji/>}
+	</span>;
 
 	const displayJudgements = JSON.stringify(judgements.map(([,jud]) => jud.toString()));
 
@@ -69,9 +70,5 @@ export default styled(IdentityBadge)`
 
 	i.grey.circle.icon {
 		color: grey_primary !important;
-	}
-
-	.councilMember {
-		margin-right: 0.25rem;
 	}
 `;

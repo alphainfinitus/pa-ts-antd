@@ -10,8 +10,8 @@ import { useNavigate } from 'react-router-dom';
 import { useLatestDiscussionPostsQuery } from 'src/generated/graphql';
 import { noTitle } from 'src/global/noTitle';
 import { PostCategory } from 'src/global/post_categories';
-import Address from 'src/ui-components/Address';
 import { EmptyLatestActivity, ErrorLatestActivity, LoadingLatestActivity, PopulatedLatestActivity, PopulatedLatestActivityCard } from 'src/ui-components/LatestActivityStates';
+import NameLabel from 'src/ui-components/NameLabel';
 import getDefaultAddressField from 'src/util/getDefaultAddressField';
 
 interface DiscussionPostsRowData {
@@ -43,17 +43,7 @@ const columns: ColumnsType<DiscussionPostsRowData> = [
 		title: 'Posted By',
 		dataIndex: 'username',
 		key: 'postedBy',
-		render: (username, rowData) => {
-			return (
-				!rowData.address ? <span className='username text-sidebarBlue'> { username } </span> :
-					<Address
-						address={rowData.address}
-						className='text-sm'
-						displayInline={true}
-						disableIdenticon={true}
-					/>
-			);
-		}
+		render: (username, { address }) => <NameLabel defaultAddress={address} username={username} disableIdenticon={true} />
 	},
 	{
 		title: 'Created',
