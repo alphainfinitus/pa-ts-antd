@@ -6,7 +6,7 @@ import { CheckOutlined, CloseOutlined, LinkOutlined } from '@ant-design/icons';
 import styled from '@xstyled/styled-components';
 import { Alert, Button, Form, Input } from 'antd';
 import { ApolloQueryResult } from 'apollo-client';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { NotificationContext } from 'src/context/NotificationContext';
 import { DiscussionPostAndCommentsQuery, MotionPostAndCommentsQuery, ProposalPostAndCommentsQuery, ReferendumPostAndCommentsQuery, TipPostAndCommentsQuery, TreasuryProposalPostAndCommentsQuery, useEditPostMutation } from 'src/generated/graphql';
 import { NotificationStatus } from 'src/types';
@@ -29,6 +29,7 @@ interface Props {
 
 const PostContentForm = ({ className, postId, title, content, toggleEdit, refetch } : Props) => {
 	const { queueNotification } = useContext(NotificationContext);
+	const [formDisabled, setFormDisabled] = useState<boolean>(false);
 	const [form] = Form.useForm();
 
 	const [editPostMutation, { error }] = useEditPostMutation({
@@ -40,6 +41,7 @@ const PostContentForm = ({ className, postId, title, content, toggleEdit, refetc
 	});
 
 	const onFinish = ({ title, content }: any) => {
+		setFormDisabled(true);
 		editPostMutation({
 			variables: {
 				content,
@@ -54,6 +56,7 @@ const PostContentForm = ({ className, postId, title, content, toggleEdit, refetc
 					status: NotificationStatus.SUCCESS
 				});
 				refetch();
+				setFormDisabled(false);
 			}
 		})
 			.catch((e) => {
@@ -63,6 +66,7 @@ const PostContentForm = ({ className, postId, title, content, toggleEdit, refetc
 					message: 'Error in saving your post',
 					status: NotificationStatus.ERROR
 				});
+				setFormDisabled(false);
 			});
 	};
 
@@ -78,6 +82,7 @@ const PostContentForm = ({ className, postId, title, content, toggleEdit, refetc
 					content,
 					title
 				}}
+				disabled={formDisabled}
 			>
 				<Form.Item name="title" label="Title" rules={[{ required: true }]}>
 					<Input autoFocus placeholder='Your title...' className='text-black' />

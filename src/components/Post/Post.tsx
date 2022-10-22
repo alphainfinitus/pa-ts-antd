@@ -143,7 +143,6 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 
 	return (
 		<>
-			<Button onClick={() => setIsEditing(true)} className='mb-6' >Edit Post</Button>
 			<div className="flex flex-col lg:flex-row">
 				{/* Post Content */}
 				<div className={`bg-white drop-shadow-md p-5 md:p-6 rounded-md w-full lg:w-8/12 ${isEditing ? 'lg:mr-auto' : 'mx-auto lg:mr-9'} mb-6 lg:mb-0`}>
