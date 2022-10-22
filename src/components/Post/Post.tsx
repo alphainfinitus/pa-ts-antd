@@ -4,6 +4,7 @@
 
 //TODO: REMOVE
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { Button } from 'antd';
 import { ApolloQueryResult } from 'apollo-client';
 import React, { useContext, useEffect, useState } from 'react';
 import { MetaContext } from 'src/context/MetaContext';
@@ -142,9 +143,10 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 
 	return (
 		<>
+			<Button onClick={() => setIsEditing(true)} className='mb-6' >Edit Post</Button>
 			<div className="flex flex-col lg:flex-row">
 				{/* Post Content */}
-				<div className="bg-white drop-shadow-md p-5 md:p-6 rounded-md w-full lg:w-8/12 mx-auto lg:mr-9 mb-6 lg:mb-0">
+				<div className={`bg-white drop-shadow-md p-5 md:p-6 rounded-md w-full lg:w-8/12 ${isEditing ? 'lg:mr-auto' : 'mx-auto lg:mr-9'} mb-6 lg:mb-0`}>
 					<EditablePostContent
 						isEditing={isEditing}
 						isTipProposal={isTipProposal}
@@ -156,7 +158,7 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 					/>
 				</div>
 
-				<Sidebar />
+				{!isEditing && <Sidebar />}
 
 			</div>
 		</>

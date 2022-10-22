@@ -7,6 +7,7 @@ import React from 'react';
 import { DiscussionPostAndCommentsQuery,DiscussionPostFragment, MotionPostAndCommentsQuery, MotionPostFragment, ProposalPostAndCommentsQuery, ProposalPostFragment, ReferendumPostAndCommentsQuery, ReferendumPostFragment, TipPostAndCommentsQuery, TipPostFragment, TreasuryProposalPostAndCommentsQuery, TreasuryProposalPostFragment } from 'src/generated/graphql';
 
 import PostContent from './PostContent';
+import PostContentForm from './PostContentForm';
 
 interface Props {
 	className?: string
@@ -24,10 +25,15 @@ interface Props {
 	toggleEdit: () => void
 }
 
-const EditablePostContent = ({ className, isTipProposal, onchainId, post, postStatus } : Props) => {
+const EditablePostContent = ({ className, isEditing, isTipProposal, onchainId, post, postStatus, toggleEdit, refetch } : Props) => {
 	return (
 		<div className={className}>
-			<PostContent isTipProposal={isTipProposal} onchainId={onchainId} post={post} postStatus={postStatus}/>
+			{
+				isEditing ?
+					<PostContentForm postId={post.id} title={post.title} content={post.content} toggleEdit={toggleEdit} refetch={refetch} />
+					:
+					<PostContent isTipProposal={isTipProposal} onchainId={onchainId} post={post} postStatus={postStatus}/>
+			}
 		</div>
 	);
 };
