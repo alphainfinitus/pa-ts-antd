@@ -36,4 +36,3 @@ export const PostEmptyState = ({ postCategory } : { postCategory:PostCategory })
 		/>
 	);
 };
-
