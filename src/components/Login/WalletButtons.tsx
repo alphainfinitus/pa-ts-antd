@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { Divider } from 'antd';
 import React from 'react';
 import { Wallet } from 'src/types';
 
@@ -25,9 +26,7 @@ const WalletButtons = ({ onWalletSelect, disabled } : Props) => {
 	return (
 		<div className='w-full'>
 			<div className='flex items-center gap-x-2'>
-				<span className='border border-grey_light w-full'></span>
-				<h6 className='text-center text-base text-grey_primary font-semibold w-full'>Or Login with</h6>
-				<span className='border border-grey_light w-full'></span>
+				<Divider className='text-grey_primary'>Or Login with</Divider>
 			</div>
 			<div className="flex mt-3 max-w-xs gap-4 flex-col m-auto justify-center sm:flex-row sm:mx-2 sm:max-w-none">
 				<WalletButton disabled={disabled} onClick={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => handleWalletClick(event, Wallet.POLKADOT)} name="Polkadot.js" icon={<PolkadotJSIcon />} />
