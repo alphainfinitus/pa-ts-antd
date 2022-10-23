@@ -4,10 +4,11 @@
 
 import { HomeFilled, TwitterOutlined, YoutubeFilled } from '@ant-design/icons';
 import styled from '@xstyled/styled-components';
-import { Space } from 'antd';
+import { Alert, Space } from 'antd';
 import React from 'react';
 import { useNetworkSocialsQuery } from 'src/generated/graphql';
 import { CubeIcon, DiscordIcon, GithubIcon, RedditIcon, TelegramIcon } from 'src/ui-components/CustomIcons';
+import cleanError from 'src/util/cleanError';
 import getNetwork from 'src/util/getNetwork';
 
 const network = getNetwork();
@@ -70,7 +71,7 @@ const AboutNetwork = ({ className } : {className?: string}) => {
 		<div className={`${className} bg-white drop-shadow-md p-5 md:p-6 rounded-md`}>
 			<div className="flex items-center justify-between">
 				<h2 className='dashboard-heading'>About</h2>
-				{error && <p>{error.message}</p>}
+				{error && <Alert message={cleanError(error.message)} type="error" className='mb-4' />}
 				<div className='hidden lg:inline-block'>
 					{!error && data && socialLinks(data.blockchain_socials[0])}
 				</div>

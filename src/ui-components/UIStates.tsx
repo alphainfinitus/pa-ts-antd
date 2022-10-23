@@ -5,6 +5,7 @@ import { FrownOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Button, Empty, Result } from 'antd';
 import React from 'react';
 import { PostCategory } from 'src/global/post_categories';
+import cleanError from 'src/util/cleanError';
 
 export const LoadingState = () => {
 	return (
@@ -19,7 +20,7 @@ export const ErrorState = ({ errorMessage } : { errorMessage:string }) => {
 	return (
 		<Result
 			icon={<FrownOutlined />}
-			title={errorMessage}
+			title={cleanError(errorMessage)}
 			extra={<Button type="primary" className='text-pink_primary hover:text-white' onClick={() => window.location.reload()}>Refresh</Button>}
 		/>
 	);
@@ -36,4 +37,3 @@ export const PostEmptyState = ({ postCategory } : { postCategory:PostCategory })
 		/>
 	);
 };
-

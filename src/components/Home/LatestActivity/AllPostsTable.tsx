@@ -10,9 +10,9 @@ import { useNavigate } from 'react-router-dom';
 import { useGetLatestPostsQuery } from 'src/generated/graphql';
 import { noTitle } from 'src/global/noTitle';
 import { PostCategory } from 'src/global/post_categories';
-import Address from 'src/ui-components/Address';
 import { BountiesIcon, DemocracyProposalsIcon, DiscussionsIcon, MotionsIcon, ReferendaIcon, TipsIcon, TreasuryProposalsIcon } from 'src/ui-components/CustomIcons';
 import { EmptyLatestActivity, ErrorLatestActivity, LoadingLatestActivity, PopulatedLatestActivity, PopulatedLatestActivityCard } from 'src/ui-components/LatestActivityStates';
+import NameLabel from 'src/ui-components/NameLabel';
 import StatusTag from 'src/ui-components/StatusTag';
 import getDefaultAddressField from 'src/util/getDefaultAddressField';
 
@@ -170,17 +170,7 @@ const columns: ColumnsType<AllPostsRowData> = [
 		title: 'Posted By',
 		dataIndex: 'username',
 		key: 'postedBy',
-		render: (username, { address }) => {
-			return (
-				!address ? <span className='username text-sidebarBlue'> { username } </span> :
-					<Address
-						address={address}
-						className='text-sm'
-						displayInline={true}
-						disableIdenticon={true}
-					/>
-			);
-		}
+		render: (username, { address }) => <NameLabel defaultAddress={address} username={username} disableIdenticon={true} />
 	},
 	{
 		title: 'Created',
