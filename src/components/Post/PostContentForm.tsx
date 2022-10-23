@@ -6,10 +6,10 @@ import { CheckOutlined, CloseOutlined, LinkOutlined } from '@ant-design/icons';
 import styled from '@xstyled/styled-components';
 import { Alert, Button, Form, Input } from 'antd';
 import { ApolloQueryResult } from 'apollo-client';
-import React, { useContext, useState } from 'react';
-import { NotificationContext } from 'src/context/NotificationContext';
+import React, { useState } from 'react';
 import { DiscussionPostAndCommentsQuery, MotionPostAndCommentsQuery, ProposalPostAndCommentsQuery, ReferendumPostAndCommentsQuery, TipPostAndCommentsQuery, TreasuryProposalPostAndCommentsQuery, useEditPostMutation } from 'src/generated/graphql';
 import { NotificationStatus } from 'src/types';
+import queueNotification from 'src/ui-components/QueueNotification';
 
 import ContentForm from '../ContentForm';
 
@@ -28,7 +28,6 @@ interface Props {
 }
 
 const PostContentForm = ({ className, postId, title, content, toggleEdit, refetch } : Props) => {
-	const { queueNotification } = useContext(NotificationContext);
 	const [formDisabled, setFormDisabled] = useState<boolean>(false);
 	const [form] = Form.useForm();
 
@@ -41,7 +40,10 @@ const PostContentForm = ({ className, postId, title, content, toggleEdit, refetc
 	});
 
 	const onFinish = ({ title, content }: any) => {
+		if(!title || !content) return;
+
 		setFormDisabled(true);
+
 		editPostMutation({
 			variables: {
 				content,
@@ -57,13 +59,14 @@ const PostContentForm = ({ className, postId, title, content, toggleEdit, refetc
 				});
 				refetch();
 				setFormDisabled(false);
+				toggleEdit();
 			}
 		})
 			.catch((e) => {
 				console.error('Error saving post', e);
 				queueNotification({
 					header: 'Error!',
-					message: 'Error in saving your post',
+					message: 'Error in saving your post.',
 					status: NotificationStatus.ERROR
 				});
 				setFormDisabled(false);
@@ -83,6 +86,9 @@ const PostContentForm = ({ className, postId, title, content, toggleEdit, refetc
 					title
 				}}
 				disabled={formDisabled}
+				validateMessages= {
+					{ required: "Please add the '${name}'" }
+				}
 			>
 				<Form.Item name="title" label="Title" rules={[{ required: true }]}>
 					<Input autoFocus placeholder='Your title...' className='text-black' />
@@ -111,6 +117,7 @@ const PostContentForm = ({ className, postId, title, content, toggleEdit, refetc
 
 export default styled(PostContentForm)`
 	.ant-form-item-explain-error {
+		margin-top: 0.3em !important;
 		margin-bottom: 1em !important;
 	}
 `;

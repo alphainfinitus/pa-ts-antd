@@ -10,7 +10,6 @@ import Apollo from './components/Apollo';
 import AppLayout from './components/AppLayout';
 import { ApiContextProvider } from './context/ApiContext';
 import { MetaProvider } from './context/MetaContext';
-import { NotificationProvider } from './context/NotificationContext';
 import { UserDetailsProvider } from './context/UserDetailsContext';
 import { theme } from './themes/theme';
 import { GlobalStyle } from './ui-components/GlobalStyle';
@@ -19,18 +18,16 @@ function App() {
 	return (
 		<BrowserRouter>
 			<ThemeProvider theme={theme}>
-				<NotificationProvider>
-					<UserDetailsProvider>
-						<MetaProvider>
-							<Apollo>
-								<GlobalStyle />
-								<ApiContextProvider>
-									<AppLayout />
-								</ApiContextProvider>
-							</Apollo>
-						</MetaProvider>
-					</UserDetailsProvider>
-				</NotificationProvider>
+				<UserDetailsProvider>
+					<MetaProvider>
+						<Apollo>
+							<GlobalStyle />
+							<ApiContextProvider>
+								<AppLayout />
+							</ApiContextProvider>
+						</Apollo>
+					</MetaProvider>
+				</UserDetailsProvider>
 			</ThemeProvider>
 		</BrowserRouter>
 	);
