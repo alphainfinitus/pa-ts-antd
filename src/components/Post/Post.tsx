@@ -4,6 +4,7 @@
 
 //TODO: REMOVE
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { FormOutlined } from '@ant-design/icons';
 import { Button } from 'antd';
 import { ApolloQueryResult } from 'apollo-client';
 import React, { useContext, useEffect, useState } from 'react';
@@ -13,6 +14,9 @@ import { BountyPostAndCommentsQuery, BountyPostAndCommentsQueryHookResult, Bount
 import { PostCategory } from 'src/global/post_categories';
 import { PostEmptyState } from 'src/ui-components/UIStates';
 
+import PostReactionBar from './ActionsBar/Reactionbar/PostReactionBar';
+import ReportButton from './ActionsBar/ReportButton';
+import SubscriptionButton from './ActionsBar/SubscriptionButton/SubscriptionButton';
 import EditablePostContent from './EditablePostContent';
 
 interface Props {
@@ -145,7 +149,7 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 		<>
 			<div className="flex flex-col lg:flex-row">
 				{/* Post Content */}
-				<div className={`bg-white drop-shadow-md p-5 md:p-6 rounded-md w-full lg:w-8/12 ${isEditing ? 'lg:mr-auto' : 'mx-auto lg:mr-9'} mb-6 lg:mb-0`}>
+				<div className='bg-white drop-shadow-md p-5 md:p-6 rounded-md w-full flex-1 lg:w-8/12 mx-auto lg:mr-9 mb-6 lg:mb-0'>
 					<EditablePostContent
 						isEditing={isEditing}
 						isTipProposal={isTipProposal}
@@ -155,6 +159,13 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 						refetch={refetch}
 						toggleEdit={toggleEdit}
 					/>
+
+					<div id='actions-bar' className="flex items-center">
+						<PostReactionBar className='reactions' postId={post.id} />
+						{id && !isEditing && <SubscriptionButton postId={post.id}/>}
+						{canEdit && <Button className={'text-pink_primary flex items-center border-none shadow-none'} onClick={toggleEdit}><FormOutlined />Edit</Button>}
+						{!id && !isEditing && !isOnchainPost && <ReportButton type='post' contentId={`${post.id}`} />}
+					</div>
 				</div>
 
 				{!isEditing && <Sidebar />}

@@ -10,6 +10,7 @@ import React, { useState } from 'react';
 import { DiscussionPostAndCommentsQuery, MotionPostAndCommentsQuery, ProposalPostAndCommentsQuery, ReferendumPostAndCommentsQuery, TipPostAndCommentsQuery, TreasuryProposalPostAndCommentsQuery, useEditPostMutation } from 'src/generated/graphql';
 import { NotificationStatus } from 'src/types';
 import queueNotification from 'src/ui-components/QueueNotification';
+import cleanError from 'src/util/cleanError';
 
 import ContentForm from '../../ContentForm';
 import LinkPostModal from './LinkPostModal';
@@ -84,7 +85,7 @@ const PostContentForm = ({ className, postId, title, content, toggleEdit, refetc
 
 	return (
 		<div className={className}>
-			{error && <Alert message={error.message} type="error" className='mb-4' />}
+			{error && <Alert message={cleanError(error.message)} type="error" className='mb-4' />}
 			<Form
 				form={form}
 				name="post-content-form"

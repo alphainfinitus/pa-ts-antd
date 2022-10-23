@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import { useDiscussionPostAndCommentsLazyQuery } from 'src/generated/graphql';
 import { NotificationStatus } from 'src/types';
 import queueNotification from 'src/ui-components/QueueNotification';
+import cleanError from 'src/util/cleanError';
 
 interface Props {
 	className?: string
@@ -46,7 +47,7 @@ const LinkPostModal = ({ className, setNewTitle, setNewContent } : Props) => {
 		} catch (error) {
 			queueNotification({
 				header: 'Error!',
-				message: error.message,
+				message: cleanError(error.message),
 				status: NotificationStatus.ERROR
 			});
 
