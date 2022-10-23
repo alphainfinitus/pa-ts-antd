@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { CheckOutlined, CloseOutlined, LinkOutlined } from '@ant-design/icons';
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import styled from '@xstyled/styled-components';
 import { Alert, Button, Form, Input } from 'antd';
 import { ApolloQueryResult } from 'apollo-client';
@@ -11,7 +11,8 @@ import { DiscussionPostAndCommentsQuery, MotionPostAndCommentsQuery, ProposalPos
 import { NotificationStatus } from 'src/types';
 import queueNotification from 'src/ui-components/QueueNotification';
 
-import ContentForm from '../ContentForm';
+import ContentForm from '../../ContentForm';
+import LinkPostModal from './LinkPostModal';
 
 interface Props {
 	className?: string;
@@ -39,9 +40,9 @@ const PostContentForm = ({ className, postId, title, content, toggleEdit, refetc
 		}
 	});
 
-	const onFinish = ({ title, content }: any) => {
+	const onFinish = async ({ title, content }: any) => {
+		await form.validateFields();
 		if(!title || !content) return;
-
 		setFormDisabled(true);
 
 		editPostMutation({
@@ -73,6 +74,14 @@ const PostContentForm = ({ className, postId, title, content, toggleEdit, refetc
 			});
 	};
 
+	const setNewTitle = (title: string) => {
+		form.setFieldValue('title', title);
+	};
+
+	const setNewContent = (content: string) => {
+		form.setFieldValue('content', content);
+	};
+
 	return (
 		<div className={className}>
 			{error && <Alert message={error.message} type="error" className='mb-4' />}
@@ -96,9 +105,7 @@ const PostContentForm = ({ className, postId, title, content, toggleEdit, refetc
 				<ContentForm />
 				<Form.Item>
 					<div className='flex items-center justify-between'>
-						<Button htmlType="button" className='mr-2 flex items-center'>
-							<LinkOutlined /> Link Post
-						</Button>
+						<LinkPostModal className='mr-2 flex items-center' setNewTitle={setNewTitle} setNewContent={setNewContent} />
 
 						<div className='flex items-center justify-end'>
 							<Button htmlType="button" onClick={toggleEdit} className='mr-2 flex items-center'>

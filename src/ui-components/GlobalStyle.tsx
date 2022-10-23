@@ -65,4 +65,16 @@ export const GlobalStyle = createGlobalStyle`
 			line-height: 27px;
 			color: nav_blue;
 		}
+
+		.ant-btn-primary {
+			color: pink_primary !important;
+
+			&:hover, &:focus, &:active{
+				color: #fff !important;
+			}
+
+			&[disabled] {
+				color: grey !important;
+			}
+		}
 `;
