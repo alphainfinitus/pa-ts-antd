@@ -4,12 +4,12 @@
 
 import '@polkadot/api-augment';
 
-import { CaretDownOutlined, CaretUpOutlined, InfoCircleOutlined } from '@ant-design/icons';
+import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
 import { LoadingOutlined } from '@ant-design/icons';
 import { DeriveBalancesAccount } from '@polkadot/api-derive/types';
 import type { Balance } from '@polkadot/types/interfaces';
 import { BN_MILLION, BN_ZERO, u8aConcat, u8aToHex } from '@polkadot/util';
-import { Divider, Progress, Tooltip } from 'antd';
+import { Divider, Progress } from 'antd';
 import BN from 'bn.js';
 import moment from 'moment';
 import React, { useContext, useEffect, useState } from 'react';
@@ -17,6 +17,7 @@ import { ApiContext } from 'src/context/ApiContext';
 import { REACT_APP_SUBSCAN_API_KEY } from 'src/global/apiKeys';
 import { chainProperties } from 'src/global/networkConstants';
 import { useBlockTime } from 'src/hooks';
+import HelperTooltip from 'src/ui-components/HelperTooltip';
 import blockToDays from 'src/util/blockToDays';
 import fetchTokenToUSDPrice from 'src/util/fetchTokenToUSDPrice';
 import formatBnBalance from 'src/util/formatBnBalance';
@@ -233,9 +234,9 @@ const TreasuryOverview = () => {
 						Available
 					</span>
 
-					<Tooltip color='#E5007A' title='Funds collected through a portion of block production rewards, transaction fees, slashing, staking inefficiencies, etc.'>
-						<InfoCircleOutlined />
-					</Tooltip>
+					<HelperTooltip
+						text='Funds collected through a portion of block production rewards, transaction fees, slashing, staking inefficiencies, etc.'
+					/>
 				</div>
 				<div className="mt-3 text-sidebarBlue font-medium">
 					{result.value ?
@@ -292,9 +293,9 @@ const TreasuryOverview = () => {
 						Spend Period Remaining
 					</span>
 
-					<Tooltip color='#E5007A' title='Funds held in the treasury can be spent by making a spending proposal that, if approved by the Council, will enter a spend period before distribution, it is subject to governance, with the current default set to 24 days.'>
-						<InfoCircleOutlined />
-					</Tooltip>
+					<HelperTooltip
+						text='Funds held in the treasury can be spent by making a spending proposal that, if approved by the Council, will enter a spend period before distribution, it is subject to governance, with the current default set to 24 days.'
+					/>
 				</div>
 
 				<div className="mt-3 text-sidebarBlue font-medium">
@@ -316,9 +317,9 @@ const TreasuryOverview = () => {
 						Next Burn
 					</span>
 
-					<Tooltip color='#E5007A' title='If the Treasury ends a spend period without spending all of its funds, it suffers a burn of a percentage of its funds.'>
-						<InfoCircleOutlined />
-					</Tooltip>
+					<HelperTooltip
+						text='If the Treasury ends a spend period without spending all of its funds, it suffers a burn of a percentage of its funds.'
+					/>
 				</div>
 
 				<div className="mt-3 text-sidebarBlue font-medium">

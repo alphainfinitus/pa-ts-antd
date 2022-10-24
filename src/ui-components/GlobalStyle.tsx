@@ -77,4 +77,9 @@ export const GlobalStyle = createGlobalStyle`
 				color: grey !important;
 			}
 		}
+
+		.ant-form-item-explain-error {
+			margin-top: 0.3em !important;
+			margin-bottom: 1em !important;
+		}
 `;

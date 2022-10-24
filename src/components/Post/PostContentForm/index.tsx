@@ -3,7 +3,6 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
-import styled from '@xstyled/styled-components';
 import { Alert, Button, Form, Input } from 'antd';
 import { ApolloQueryResult } from 'apollo-client';
 import React, { useState } from 'react';
@@ -123,9 +122,4 @@ const PostContentForm = ({ className, postId, title, content, toggleEdit, refetc
 	);
 };
 
-export default styled(PostContentForm)`
-	.ant-form-item-explain-error {
-		margin-top: 0.3em !important;
-		margin-bottom: 1em !important;
-	}
-`;
+export default PostContentForm;

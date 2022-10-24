@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BookOutlined } from '@ant-design/icons';
+import { BookFilled, BookOutlined } from '@ant-design/icons';
 import styled from '@xstyled/styled-components';
 import { Button, Tooltip } from 'antd';
 import React, { useContext,useEffect, useState } from 'react';
@@ -104,7 +104,8 @@ const SubscriptionButton = function ({
 		disabled={email_verified ? false : true}
 		onClick={handleSubscribe}
 	>
-		<BookOutlined /> {subscribed && email_verified ? 'Unsubscribe' : 'Subscribe'}
+		{subscribed && email_verified ? <BookFilled /> : <BookOutlined />}
+		{subscribed && email_verified ? 'Unsubscribe' : 'Subscribe'}
 	</Button>;
 
 	return email_verified

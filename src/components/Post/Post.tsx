@@ -14,9 +14,12 @@ import { BountyPostAndCommentsQuery, BountyPostAndCommentsQueryHookResult, Bount
 import { PostCategory } from 'src/global/post_categories';
 import { PostEmptyState } from 'src/ui-components/UIStates';
 
+import CreateOptionPoll from './ActionsBar/OptionPoll/CreateOptionPoll';
 import PostReactionBar from './ActionsBar/Reactionbar/PostReactionBar';
 import ReportButton from './ActionsBar/ReportButton';
+import ShareButton from './ActionsBar/ShareButton';
 import SubscriptionButton from './ActionsBar/SubscriptionButton/SubscriptionButton';
+import TrackerButton from './ActionsBar/TrackerButton';
 import EditablePostContent from './EditablePostContent';
 
 interface Props {
@@ -160,11 +163,26 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 						toggleEdit={toggleEdit}
 					/>
 
+					{/* Actions Bar */}
 					<div id='actions-bar' className="flex items-center">
 						<PostReactionBar className='reactions' postId={post.id} />
 						{id && !isEditing && <SubscriptionButton postId={post.id}/>}
 						{canEdit && <Button className={'text-pink_primary flex items-center border-none shadow-none'} onClick={toggleEdit}><FormOutlined />Edit</Button>}
-						{!id && !isEditing && !isOnchainPost && <ReportButton type='post' contentId={`${post.id}`} />}
+						{id && !isEditing && !isOnchainPost && <ReportButton type='post' contentId={`${post.id}`} />}
+						{canEdit && !isEditing && <CreateOptionPoll postId={post.id} />}
+						{id && onchainId && isOnchainPost && !isEditing && (
+							<TrackerButton
+								onchainId={onchainId}
+								isBounty={isBounty}
+								isMotion={isMotion}
+								isProposal={isProposal}
+								isReferendum={isReferendum}
+								isTipProposal={isTipProposal}
+								isTreasuryProposal={isTreasuryProposal}
+								isTechCommitteeProposal={isTechCommitteeProposal}
+							/>)
+						}
+						<ShareButton title={post.title} />
 					</div>
 				</div>
 

@@ -36,9 +36,9 @@ const ReportButton = function ({ type, contentId }:DiscussionProps) {
 	const [form] = Form.useForm();
 
 	const handleReport = async () => {
+		await form.validateFields();
 		const error = form.getFieldError('reason');
 		if(error.length > 0) return;
-		await form.validateFields();
 		setFormDisabled(true);
 		const reason = form.getFieldValue('reason');
 		const comments = form.getFieldValue('comments');
@@ -90,7 +90,7 @@ const ReportButton = function ({ type, contentId }:DiscussionProps) {
 					<Button key="back" disabled={loading} onClick={() => setShowModal(false)}>
             Cancel
 					</Button>,
-					<Button htmlType='submit' key="submit" type="primary" disabled={loading} onClick={handleReport}>
+					<Button htmlType='submit' key="submit" className='bg-pink_primary hover:bg-pink_secondary text-white' disabled={loading} onClick={handleReport}>
             Report
 					</Button>
 				]}

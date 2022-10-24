@@ -13,8 +13,7 @@ interface Props{
 	status: string
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const StatusTag = ({ children, className, content, status }: Props) => {
+const StatusTag = ({ className, content, status }: Props) => {
 
 	if (content && tipStatusMap[content]) {
 		content = tipStatusMap[content];

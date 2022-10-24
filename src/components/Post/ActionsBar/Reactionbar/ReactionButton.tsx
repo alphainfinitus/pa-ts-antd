@@ -189,7 +189,7 @@ const ReactionButton = function ({
 	}
 
 	return userNames.length > 0 ?
-		<Tooltip title={popupContent}>
+		<Tooltip color='#E5007A' title={popupContent}>
 			{button}
 		</Tooltip> : button;
 };

@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ClockCircleOutlined, CommentOutlined } from '@ant-design/icons';
 import { Divider, Space } from 'antd';
 import moment from 'moment';
@@ -38,7 +37,7 @@ const DiscussionCard = ({
 						</Space>
 						<Divider className='hidden md:inline-block' type="vertical" style={{ borderLeft: '1px solid #90A0B7' }} />
 
-						<div className='flex items-center -mt-2'>
+						<div className='flex items-center'>
 							{relativeCreatedAt && <>
 								<div className='flex items-center'>
 									<ClockCircleOutlined className='mr-1' /> {relativeCreatedAt}
