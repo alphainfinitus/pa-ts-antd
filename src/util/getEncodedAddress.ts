@@ -12,9 +12,7 @@ import getNetwork from 'src/util/getNetwork';
  * @param address An address
  *
  */
-
-// eslint-disable-next-line react/display-name
-export default function (address: string): string | null {
+export default function getEncodedAddress(address: string): string | null {
 	const network = getNetwork();
 	const ss58Format = chainProperties?.[network]?.ss58Format;
 

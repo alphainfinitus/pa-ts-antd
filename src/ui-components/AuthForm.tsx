@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Form as AntForm } from 'antd';
+import { Form } from 'antd';
 import React, { FC, PropsWithChildren } from 'react';
 
 interface Props extends PropsWithChildren{
@@ -10,12 +10,12 @@ interface Props extends PropsWithChildren{
     onSubmit?: ((values: React.BaseSyntheticEvent<object, any, any> | undefined) => void);
 }
 
-const Form: FC<Props> = ({ children, onSubmit, className }) => {
+const AuthForm: FC<Props> = ({ children, onSubmit, className }) => {
 	return (
-		<AntForm onFinish={onSubmit} className={className}>
+		<Form onFinish={onSubmit} className={className}>
 			{children}
-		</AntForm>
+		</Form>
 	);
 };
 
-export default Form;
+export default AuthForm;

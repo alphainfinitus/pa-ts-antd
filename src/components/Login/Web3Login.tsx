@@ -17,8 +17,8 @@ import { APPNAME } from 'src/global/appName';
 import { handleTokenChange } from 'src/services/auth.service';
 import { Wallet } from 'src/types';
 import AccountSelectionForm from 'src/ui-components/AccountSelectionForm';
+import AuthForm from 'src/ui-components/AuthForm';
 import FilteredError from 'src/ui-components/FilteredError';
-import Form from 'src/ui-components/Form';
 import Loader from 'src/ui-components/Loader';
 import getEncodedAddress from 'src/util/getEncodedAddress';
 import getExtensionUrl from 'src/util/getExtensionUrl';
@@ -228,7 +228,7 @@ const Web3Login: FC<Props> = ({
           chosenWallet.slice(1).replace('-', '.')}{' '}
         Login
 			</h3>
-			<Form onSubmit={handleLogin} className="flex flex-col gap-y-6">
+			<AuthForm onSubmit={handleLogin} className="flex flex-col gap-y-6">
 				{extensionNotFound?
 					<div className='flex justify-center items-center my-5'>
 						<Alert
@@ -313,7 +313,7 @@ const Web3Login: FC<Props> = ({
 					</>
 				)}
 				<div>
-					{error?.message && <FilteredError className='info' text={error?.message}/>}
+					{error?.message && <FilteredError text={error?.message}/>}
 				</div>
 				<div className="flex justify-center items-center gap-x-2 font-semibold">
 					<label className="text-md text-grey_primary">
@@ -323,7 +323,7 @@ const Web3Login: FC<Props> = ({
             Sign Up
 					</Link>
 				</div>
-			</Form>
+			</AuthForm>
 		</article>
 	);
 };

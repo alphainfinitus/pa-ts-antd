@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Button,Form as AntdForm ,Input, Row } from 'antd';
+import { Button,Form ,Input, Row } from 'antd';
 import React, { FC } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useModalContext } from 'src/context';
-import Form from 'src/ui-components/Form';
+import AuthForm from 'src/ui-components/AuthForm';
 import messages from 'src/util/messages';
 import * as validation from 'src/util/validation';
 
@@ -22,7 +22,6 @@ const RequestResetPassword: FC<Props> = () => {
     useRequestResetPasswordMutation();
 
 	const handleSubmitForm = (data: any): void => {
-		if (!data) return;
 		const { email } = data;
 		if (email) {
 			requestResetPasswordMutation({
@@ -54,7 +53,7 @@ const RequestResetPassword: FC<Props> = () => {
 		<Row justify='center' align='middle' className='h-full -mt-16'>
 			<article className="bg-white shadow-md rounded-md p-8 flex flex-col gap-y-6 md:min-w-[500px]">
 				<h3 className='text-2xl font-semibold text-[#1E232C]'>Request Password Reset</h3>
-				<Form
+				<AuthForm
 					onSubmit={handleSubmitForm}
 					className="flex flex-col gap-y-6"
 				>
@@ -65,7 +64,7 @@ const RequestResetPassword: FC<Props> = () => {
 						>
             Email
 						</label>
-						<AntdForm.Item
+						<Form.Item
 							name="email"
 							rules={
 								[
@@ -81,7 +80,7 @@ const RequestResetPassword: FC<Props> = () => {
 								className="rounded-md py-3 px-4"
 								id="email"
 							/>
-						</AntdForm.Item>
+						</Form.Item>
 					</div>
 
 					<div className='flex justify-center items-center'>
@@ -90,7 +89,7 @@ const RequestResetPassword: FC<Props> = () => {
 						</Button>
 					</div>
 					{error?.message && <FilteredError text={error.message} />}
-				</Form>
+				</AuthForm>
 			</article>
 		</Row>
 	);

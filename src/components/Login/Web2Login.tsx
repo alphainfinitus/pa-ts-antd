@@ -1,15 +1,15 @@
 // Copyright 2019-2020 @Premiurly/polkassembly authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
-import { Alert, Button, Form as AntdForm, Input } from 'antd';
+import { Alert, Button, Form , Input } from 'antd';
 import React, { FC } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useUserDetailsContext } from 'src/context';
 import { useLoginMutation } from 'src/generated/graphql';
 import { handleTokenChange } from 'src/services/auth.service';
 import { Wallet } from 'src/types';
+import AuthForm from 'src/ui-components/AuthForm';
 import FilteredError from 'src/ui-components/FilteredError';
-import Form from 'src/ui-components/Form';
 import messages from 'src/util/messages';
 import * as validation from 'src/util/validation';
 
@@ -26,7 +26,6 @@ const Web2Login: FC<Props> = ({ walletError, onWalletSelect }) => {
 	const [loginMutation, { error, loading }] = useLoginMutation();
 
 	const handleSubmitForm = (data: any): void => {
-		if (!data) return;
 		const { username, password } = data;
 
 		if (username && password) {
@@ -51,7 +50,7 @@ const Web2Login: FC<Props> = ({ walletError, onWalletSelect }) => {
 		<article className="bg-white shadow-md rounded-md p-8 flex flex-col gap-y-6 md:min-w-[500px]">
 			<h3 className="text-2xl font-semibold text-[#1E232C]">Login</h3>
 			{walletError && <Alert message={walletError} type="error" />}
-			<Form
+			<AuthForm
 				onSubmit={handleSubmitForm}
 				className="flex flex-col gap-y-6"
 			>
@@ -62,7 +61,7 @@ const Web2Login: FC<Props> = ({ walletError, onWalletSelect }) => {
 					>
                         Username
 					</label>
-					<AntdForm.Item
+					<Form.Item
 						name="username"
 						rules={[
 							{
@@ -88,7 +87,7 @@ const Web2Login: FC<Props> = ({ walletError, onWalletSelect }) => {
 							className="rounded-md py-3 px-4"
 							id="username"
 						/>
-					</AntdForm.Item>
+					</Form.Item>
 				</div>
 				<div className="flex flex-col gap-y-1">
 					<label
@@ -97,7 +96,7 @@ const Web2Login: FC<Props> = ({ walletError, onWalletSelect }) => {
 					>
                         Password
 					</label>
-					<AntdForm.Item
+					<Form.Item
 						name="password"
 						rules={[
 							{
@@ -115,7 +114,7 @@ const Web2Login: FC<Props> = ({ walletError, onWalletSelect }) => {
 							className="rounded-md py-3 px-4"
 							id="password"
 						/>
-					</AntdForm.Item>
+					</Form.Item>
 					<div className="text-right text-pink_primary my-3">
 						<Link to="/request-reset-password">Forgot Password?</Link>
 					</div>
@@ -142,7 +141,7 @@ const Web2Login: FC<Props> = ({ walletError, onWalletSelect }) => {
                         Sign Up
 					</Link>
 				</div>
-			</Form>
+			</AuthForm>
 		</article>
 	);
 };
