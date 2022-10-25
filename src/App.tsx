@@ -8,8 +8,10 @@ import { BrowserRouter } from 'react-router-dom';
 
 import Apollo from './components/Apollo';
 import AppLayout from './components/AppLayout';
+import Modal from './components/Modal';
 import { ApiContextProvider } from './context/ApiContext';
 import { MetaProvider } from './context/MetaContext';
+import { ModalProvider } from './context/ModalContext';
 import { UserDetailsProvider } from './context/UserDetailsContext';
 import { theme } from './themes/theme';
 import { GlobalStyle } from './ui-components/GlobalStyle';
@@ -18,16 +20,19 @@ function App() {
 	return (
 		<BrowserRouter>
 			<ThemeProvider theme={theme}>
-				<UserDetailsProvider>
-					<MetaProvider>
-						<Apollo>
-							<GlobalStyle />
-							<ApiContextProvider>
-								<AppLayout />
-							</ApiContextProvider>
-						</Apollo>
-					</MetaProvider>
-				</UserDetailsProvider>
+				<ModalProvider>
+					<UserDetailsProvider>
+						<MetaProvider>
+							<Apollo>
+								<GlobalStyle />
+								<Modal/>
+								<ApiContextProvider>
+									<AppLayout />
+								</ApiContextProvider>
+							</Apollo>
+						</MetaProvider>
+					</UserDetailsProvider>
+				</ModalProvider>
 			</ThemeProvider>
 		</BrowserRouter>
 	);

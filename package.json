@@ -12,7 +12,6 @@
     "@polkadot/ui-settings": "^2.9.11",
     "@polkadot/util": "^10.1.9",
     "@polkadot/util-crypto": "^10.1.9",
-    "@polkassembly/util": "^0.2.0",
     "@tinymce/tinymce-react": "^4.2.0",
     "@types/jsonwebtoken": "^8.5.9",
     "@typescript-eslint/eslint-plugin": "^5.39.0",
