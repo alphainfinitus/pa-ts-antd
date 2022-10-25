@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Button, Input, Row } from 'antd';
+import { Button,Form as AntdForm ,Input, Row } from 'antd';
 import React, { FC } from 'react';
-import { Controller, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { useModalContext } from 'src/context';
 import Form from 'src/ui-components/Form';
+import messages from 'src/util/messages';
 import * as validation from 'src/util/validation';
 
 import { useRequestResetPasswordMutation } from '../../generated/graphql';
@@ -20,9 +20,9 @@ const RequestResetPassword: FC<Props> = () => {
 	const { setModal } = useModalContext();
 	const [requestResetPasswordMutation, { loading, error }] =
     useRequestResetPasswordMutation();
-	const { control, handleSubmit } = useForm();
 
-	const handleSubmitForm = (data: Record<string, any>): void => {
+	const handleSubmitForm = (data: any): void => {
+		if (!data) return;
 		const { email } = data;
 		if (email) {
 			requestResetPasswordMutation({
@@ -55,7 +55,7 @@ const RequestResetPassword: FC<Props> = () => {
 			<article className="bg-white shadow-md rounded-md p-8 flex flex-col gap-y-6 md:min-w-[500px]">
 				<h3 className='text-2xl font-semibold text-[#1E232C]'>Request Password Reset</h3>
 				<Form
-					onSubmit={handleSubmit(handleSubmitForm)}
+					onSubmit={handleSubmitForm}
 					className="flex flex-col gap-y-6"
 				>
 					<div className="flex flex-col gap-y-1">
@@ -65,19 +65,23 @@ const RequestResetPassword: FC<Props> = () => {
 						>
             Email
 						</label>
-						<Controller
-							control={control}
-							rules={validation.email}
+						<AntdForm.Item
 							name="email"
-							render={({ field }) => (
-								<Input
-									{...field}
-									placeholder="email@example.com"
-									className="rounded-md py-3 px-4"
-									id="email"
-								/>
-							)}
-						/>
+							rules={
+								[
+									{
+										message: messages.VALIDATION_EMAIL_ERROR,
+										pattern: validation.email.pattern
+									}
+								]
+							}
+						>
+							<Input
+								placeholder="email@example.com"
+								className="rounded-md py-3 px-4"
+								id="email"
+							/>
+						</AntdForm.Item>
 					</div>
 
 					<div className='flex justify-center items-center'>

@@ -1,9 +1,8 @@
 // Copyright 2019-2020 @Premiurly/polkassembly authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
-import { Alert, Button, Input } from 'antd';
+import { Alert, Button, Form as AntdForm, Input } from 'antd';
 import React, { FC } from 'react';
-import { Controller, FieldError, useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { useUserDetailsContext } from 'src/context';
 import { useLoginMutation } from 'src/generated/graphql';
@@ -21,16 +20,13 @@ interface Props {
   walletError: string | undefined;
 }
 const Web2Login: FC<Props> = ({ walletError, onWalletSelect }) => {
+	const { password, username } = validation;
 	const navigate = useNavigate();
 	const currentUser = useUserDetailsContext();
 	const [loginMutation, { error, loading }] = useLoginMutation();
-	const {
-		control,
-		handleSubmit,
-		formState: { errors }
-	} = useForm();
 
-	const handleSubmitForm = (data: Record<string, any>): void => {
+	const handleSubmitForm = (data: any): void => {
+		if (!data) return;
 		const { username, password } = data;
 
 		if (username && password) {
@@ -56,7 +52,7 @@ const Web2Login: FC<Props> = ({ walletError, onWalletSelect }) => {
 			<h3 className="text-2xl font-semibold text-[#1E232C]">Login</h3>
 			{walletError && <Alert message={walletError} type="error" />}
 			<Form
-				onSubmit={handleSubmit(handleSubmitForm)}
+				onSubmit={handleSubmitForm}
 				className="flex flex-col gap-y-6"
 			>
 				<div className="flex flex-col gap-y-1">
@@ -66,39 +62,33 @@ const Web2Login: FC<Props> = ({ walletError, onWalletSelect }) => {
 					>
                         Username
 					</label>
-					<Controller
-						control={control}
-						rules={validation.username}
+					<AntdForm.Item
 						name="username"
-						render={({ field }) => (
-							<Input
-								{...field}
-								placeholder="John"
-								className="rounded-md py-3 px-4"
-								id="username"
-							/>
-						)}
-					/>
-					{(errors.username as FieldError)?.type === 'maxLength' && (
-						<span className="text-red_secondary mt-1">
-							{messages.VALIDATION_USERNAME_MAXLENGTH_ERROR}
-						</span>
-					)}
-					{(errors.username as FieldError)?.type === 'minLength' && (
-						<span className="text-red_secondary mt-1">
-							{messages.VALIDATION_USERNAME_MINLENGTH_ERROR}
-						</span>
-					)}
-					{(errors.username as FieldError)?.type === 'pattern' && (
-						<span className="text-red_secondary mt-1">
-							{messages.VALIDATION_USERNAME_PATTERN_ERROR}
-						</span>
-					)}
-					{(errors.username as FieldError)?.type === 'required' && (
-						<span className="text-red_secondary mt-1">
-							{messages.VALIDATION_USERNAME_REQUIRED_ERROR}
-						</span>
-					)}
+						rules={[
+							{
+								message: messages.VALIDATION_USERNAME_REQUIRED_ERROR,
+								required: username.required
+							},
+							{
+								message: messages.VALIDATION_USERNAME_PATTERN_ERROR,
+								pattern: username.pattern
+							},
+							{
+								max: username.maxLength,
+								message: messages.VALIDATION_USERNAME_MAXLENGTH_ERROR
+							},
+							{
+								message: messages.VALIDATION_USERNAME_MINLENGTH_ERROR,
+								min: username.minLength
+							}
+						]}
+					>
+						<Input
+							placeholder="John"
+							className="rounded-md py-3 px-4"
+							id="username"
+						/>
+					</AntdForm.Item>
 				</div>
 				<div className="flex flex-col gap-y-1">
 					<label
@@ -107,24 +97,25 @@ const Web2Login: FC<Props> = ({ walletError, onWalletSelect }) => {
 					>
                         Password
 					</label>
-					<Controller
-						control={control}
-						rules={validation.password}
+					<AntdForm.Item
 						name="password"
-						render={({ field }) => (
-							<Input.Password
-								{...field}
-								placeholder="Password"
-								className="rounded-md py-3 px-4"
-								id="password"
-							/>
-						)}
-					/>
-					{errors.password && (
-						<span className="text-red_secondary mt-1">
-							{messages.VALIDATION_PASSWORD_ERROR}
-						</span>
-					)}
+						rules={[
+							{
+								message: messages.VALIDATION_PASSWORD_ERROR,
+								required: password.required
+							},
+							{
+								message: messages.VALIDATION_PASSWORD_ERROR,
+								min: password.minLength
+							}
+						]}
+					>
+						<Input.Password
+							placeholder='Password'
+							className="rounded-md py-3 px-4"
+							id="password"
+						/>
+					</AntdForm.Item>
 					<div className="text-right text-pink_primary my-3">
 						<Link to="/request-reset-password">Forgot Password?</Link>
 					</div>
