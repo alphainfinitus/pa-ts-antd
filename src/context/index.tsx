@@ -7,15 +7,10 @@ import { useContext } from 'react';
 import { ApiContext } from './ApiContext';
 import { MetaContext } from './MetaContext';
 import { ModalContext } from './ModalContext';
-import { NotificationContext } from './NotificationContext';
 import { UserDetailsContext } from './UserDetailsContext';
 
 const useModalContext = () => {
 	return useContext(ModalContext);
-};
-
-const useNotificationContext = () => {
-	return useContext(NotificationContext);
 };
 
 const useUserDetailsContext = () => {
@@ -30,4 +25,4 @@ const useMetaContext = () => {
 	return useContext(MetaContext);
 };
 
-export { useModalContext, useNotificationContext, useUserDetailsContext, useApiContext, useMetaContext };
+export { useModalContext, useUserDetailsContext, useApiContext, useMetaContext };
