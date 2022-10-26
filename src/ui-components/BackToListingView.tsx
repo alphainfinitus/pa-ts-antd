@@ -40,11 +40,13 @@ const BackToListingView = ({ postCategory } : { postCategory:PostCategory }) => 
 		break;
 	}
 
+	const listingPageText = path.replace(/-|_/g, ' ');
+
 	return (
 		<Link className='text-sidebarBlue hover:text-pink_primary' to={`/${path}`}>
 			<div className='flex items-center'>
 				<LeftOutlined className='text-xs mr-2' />
-				<span className='text-sm font-medium'>Back to <span className='capitalize'>{postCategory}</span></span>
+				<span className='text-sm font-medium'>Back to <span className='capitalize'>{listingPageText}</span></span>
 			</div>
 		</Link>
 	);

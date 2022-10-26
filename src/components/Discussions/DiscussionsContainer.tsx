@@ -58,7 +58,7 @@ const DiscussionsContainer = ({ className } : { className?:string }) => {
 				{sortByDropdown}
 			</div>
 
-			<DiscussionListingWrapper sortBy={sortBy} className='mt-6' />
+			<DiscussionListingWrapper sortBy={sortBy} count={discussionsData?.posts_aggregate.aggregate?.count} className='mt-6' />
 		</div>
 	);
 };

@@ -33,7 +33,7 @@ const CreationLabel = ({ className, children, created_at, defaultAddress, hideCr
 			/>
 			{text}&nbsp;
 			{topic &&
-			<>in <InlineTag className='ml-2' topic={topic} /> </>
+			<> in <InlineTag className='ml-2' topic={topic} /> </>
 			}
 		</div>
 

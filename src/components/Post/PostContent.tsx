@@ -32,27 +32,24 @@ const PostContent = ({ className, isTipProposal, onchainId, post, postStatus }:P
 
 	return (
 		<div className={className}>
-			{postStatus && <StatusTag className='post_tags' status={postStatus}/>}
+			{postStatus && <StatusTag className='mb-3' status={postStatus}/>}
 			<h2 className='text-lg font-medium mb-1'>{(onchainId || onchainId === 0) && !isTipProposal && `#${onchainId}`} {title || noTitle}</h2>
 			<div className='mb-8'>
-				{onchainId || onchainId === 0 ?
-					null :
-					<>
-						<CreationLabel
+				<>
+					<CreationLabel
+						className='md'
+						created_at={created_at}
+						defaultAddress={defaultAddress}
+						username={author.username}
+						topic={post.topic.name}
+					>
+						<UpdateLabel
 							className='md'
 							created_at={created_at}
-							defaultAddress={defaultAddress}
-							username={author.username}
-							topic={post.topic.name}
-						>
-							<UpdateLabel
-								className='md'
-								created_at={created_at}
-								updated_at={updated_at}
-							/>
-						</CreationLabel>
-					</>
-				}
+							updated_at={updated_at}
+						/>
+					</CreationLabel>
+				</>
 			</div>
 			<Markdown md={content} />
 		</div>
@@ -66,17 +63,5 @@ export default styled(PostContent)`
 	.post_info {
 		display: inline-block;
 		margin-bottom: 2rem;
-	}
-
-	.post_tags {
-		position: absolute;
-		top: 0rem;
-		right: 0rem;
-		text-align: right;
-
-		@media only screen and (max-width: 768px) {
-			position: relative;
-			margin-bottom: 2rem;
-		}
 	}
 `;

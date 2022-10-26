@@ -28,7 +28,7 @@ const StatusTag = ({ className, content, status }: Props) => {
 	}
 
 	return (
-		<div className={`${className} ${status} text-xs rounded-full border-2 px-3 py-1 whitespace-nowrap truncate`}>
+		<div className={`${className} ${status} text-xs rounded-full border-2 px-3 py-1 whitespace-nowrap truncate h-min`}>
 			{content}
 		</div>
 	);

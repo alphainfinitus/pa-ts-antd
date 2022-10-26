@@ -31,7 +31,6 @@ const DiscussionCard = ({
 	return (
 		<div className={`${ownPost && 'border-l-pink_primary border-l-4'} border-2 border-grey_light hover:border-pink_primary hover:shadow-xl transition-all duration-200 rounded-md p-3 md:p-4`}>
 			<div className="flex">
-				{/* Content */}
 				<div className="content">
 					<h1 className='text-sidebarBlue font-medium text-sm'>{title}</h1>
 					<Space className="mt-3 font-medium text-navBlue text-xs flex flex-col md:flex-row items-start md:items-center">

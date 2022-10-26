@@ -107,9 +107,81 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 	let techCommitteeProposalPost: TechCommitteeProposalPostFragment | undefined;
 	let definedOnchainLink: OnchainLinkTechCommitteeProposalFragment | OnchainLinkBountyFragment | OnchainLinkChildBountyFragment | OnchainLinkMotionFragment | OnchainLinkReferendumFragment | OnchainLinkProposalFragment | OnchainLinkTipFragment | OnchainLinkTreasuryProposalFragment | undefined;
 	let postStatus: string | undefined;
-	// TODO: Remove
-	// eslint-disable-next-line prefer-const
 	let redirection: Redirection = {};
+
+	if (post && isTechCommitteeProposal) {
+		techCommitteeProposalPost = post as TechCommitteeProposalPostFragment;
+		definedOnchainLink = techCommitteeProposalPost.onchain_link as OnchainLinkTechCommitteeProposalFragment;
+		onchainId = definedOnchainLink.onchain_tech_committee_proposal_id;
+		postStatus = techCommitteeProposalPost?.onchain_link?.onchain_tech_committee_proposal?.[0]?.status?.[0].status;
+	}
+
+	if (post && isBounty) {
+		bountyPost = post as BountyPostFragment;
+		definedOnchainLink = bountyPost.onchain_link as OnchainLinkBountyFragment;
+		onchainId = definedOnchainLink.onchain_bounty_id;
+		postStatus = bountyPost?.onchain_link?.onchain_bounty?.[0]?.bountyStatus?.[0].status;
+	}
+
+	if (post && isChildBounty) {
+		childBountyPost = post as ChildBountyPostFragment;
+		definedOnchainLink = childBountyPost.onchain_link as OnchainLinkChildBountyFragment;
+		onchainId = definedOnchainLink.onchain_child_bounty_id;
+		postStatus = childBountyPost?.onchain_link?.onchain_child_bounty?.[0]?.childBountyStatus?.[0].status;
+	}
+
+	if (post && isReferendum) {
+		referendumPost = post as ReferendumPostFragment;
+		definedOnchainLink = referendumPost.onchain_link as OnchainLinkReferendumFragment;
+		onchainId = definedOnchainLink.onchain_referendum_id;
+		postStatus = referendumPost?.onchain_link?.onchain_referendum?.[0]?.referendumStatus?.[0].status;
+	}
+
+	if (post && isProposal) {
+		proposalPost = post as ProposalPostFragment;
+		definedOnchainLink = proposalPost.onchain_link as OnchainLinkProposalFragment;
+		onchainId = definedOnchainLink.onchain_proposal_id;
+		postStatus = proposalPost?.onchain_link?.onchain_proposal?.[0]?.proposalStatus?.[0].status;
+		if (definedOnchainLink.onchain_referendum_id || definedOnchainLink.onchain_referendum_id === 0){
+			redirection = {
+				link: `/referendum/${definedOnchainLink.onchain_referendum_id}`,
+				text: `Referendum #${definedOnchainLink.onchain_referendum_id}`
+			};
+		}
+	}
+
+	if (post && isMotion) {
+		motionPost = post as MotionPostFragment;
+		definedOnchainLink = motionPost.onchain_link as OnchainLinkMotionFragment;
+		onchainId = definedOnchainLink.onchain_motion_id;
+		postStatus = motionPost?.onchain_link?.onchain_motion?.[0]?.motionStatus?.[0].status;
+		if (definedOnchainLink.onchain_referendum_id || definedOnchainLink.onchain_referendum_id === 0){
+			redirection = {
+				link: `/referendum/${definedOnchainLink.onchain_referendum_id}`,
+				text: `Referendum #${definedOnchainLink.onchain_referendum_id}`
+			};
+		}
+	}
+
+	if (post && isTreasuryProposal) {
+		treasuryPost = post as TreasuryProposalPostFragment;
+		definedOnchainLink = treasuryPost.onchain_link as OnchainLinkTreasuryProposalFragment;
+		onchainId = definedOnchainLink.onchain_treasury_proposal_id;
+		postStatus = treasuryPost?.onchain_link?.onchain_treasury_spend_proposal?.[0]?.treasuryStatus?.[0].status;
+		if (definedOnchainLink.onchain_motion_id || definedOnchainLink.onchain_motion_id === 0){
+			redirection = {
+				link: `/motion/${definedOnchainLink.onchain_motion_id}`,
+				text: `Motion #${definedOnchainLink.onchain_motion_id}`
+			};
+		}
+	}
+
+	if (post && isTipProposal) {
+		tipPost = post as TipPostFragment;
+		definedOnchainLink = tipPost.onchain_link as OnchainLinkTipFragment;
+		onchainId = definedOnchainLink.onchain_tip_id;
+		postStatus = tipPost?.onchain_link?.onchain_tip?.[0]?.tipStatus?.[0].status;
+	}
 
 	const isDiscussion = (post: TechCommitteeProposalPostFragment | BountyPostFragment | ChildBountyPostFragment | TipPostFragment | TreasuryProposalPostFragment | MotionPostFragment | ProposalPostFragment | DiscussionPostFragment | ReferendumPostFragment): post is DiscussionPostFragment => {
 		if (!isTechCommitteeProposal && !isReferendum && !isProposal && !isMotion && !isTreasuryProposal && !isTipProposal && !isBounty && !isChildBounty) {
