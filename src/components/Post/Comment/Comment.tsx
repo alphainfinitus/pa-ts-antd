@@ -74,6 +74,7 @@ export const Comment = ({ className, comment, refetch } : Props) => {
 				</CreationLabel>
 				<EditableCommentContent
 					authorId={author.id}
+					created_at={created_at}
 					className='comment-content'
 					comment={comment}
 					commentId={id}

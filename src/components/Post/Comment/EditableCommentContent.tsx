@@ -27,6 +27,7 @@ interface Props {
 	comment: CommentFieldsFragment,
 	commentId: string,
 	content: string,
+	created_at: Date,
 	refetch: (variables?:
 		DiscussionPostAndCommentsQueryVariables |
 		ProposalPostAndCommentsQueryVariables |
@@ -196,6 +197,9 @@ const EditableCommentContent = ({ authorId, className, content, commentId, refet
 			content: ''
 		}
 	});
+
+	// TODO: Implement
+	// const relativeCreatedAt = created_at ? moment(created_at).isAfter(moment().subtract(1, 'w')) ? moment(created_at).startOf('day').fromNow(true) : moment(created_at).format('Do MMM \'YY') : null;
 
 	return (
 		<>

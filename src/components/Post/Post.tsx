@@ -22,6 +22,7 @@ import SubscriptionButton from './ActionsBar/SubscriptionButton/SubscriptionButt
 import TrackerButton from './ActionsBar/TrackerButton';
 import Comments from './Comment/Comments';
 import EditablePostContent from './EditablePostContent';
+import PostCommentForm from './PostCommentForm';
 
 interface Props {
 	className?: string
@@ -153,7 +154,7 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 		<>
 			<div className="flex flex-col lg:flex-row">
 				{/* Post Content */}
-				<div className='bg-white drop-shadow-md p-5 md:p-6 rounded-md w-full flex-1 lg:w-8/12 mx-auto lg:mr-9 mb-6 lg:mb-0'>
+				<div className='bg-white drop-shadow-md p-3 md:p-6 rounded-md w-full flex-1 lg:w-8/12 mx-auto lg:mr-9 mb-6 lg:mb-0'>
 					<EditablePostContent
 						isEditing={isEditing}
 						isTipProposal={isTipProposal}
@@ -191,6 +192,8 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 					</div>
 
 					{!isEditing && <div className='flex lg:hidden mb-8'><Sidebar /></div>}
+
+					{ id && <PostCommentForm postId={post.id} refetch={refetch} /> }
 
 					{ !!post.comments?.length &&
 						<Comments
