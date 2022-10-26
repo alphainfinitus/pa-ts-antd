@@ -2,7 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { UserOutlined } from '@ant-design/icons';
 import styled from '@xstyled/styled-components';
+import { Avatar } from 'antd';
 import { ApolloQueryResult } from 'apollo-client';
 import React, { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -45,7 +47,13 @@ export const Comment = ({ className, comment, refetch } : Props) => {
 		}
 	}, [hash, id]);
 
-	if (!author || !author.id || !author.username || !content) return <div>Comment not available</div>;
+	if (!author || !author.id || !author.username || !content) return (<div className={`${className} mb-5`}>
+		<Avatar className='bg-gray-300' size="large" icon={<UserOutlined />} />
+
+		<div className='comment-content'>
+			Comment not available
+		</div>
+	</div>);
 
 	const defaultAddressField = getDefaultAddressField();
 	const defaultAddress = author[defaultAddressField];
@@ -89,6 +97,7 @@ export const Comment = ({ className, comment, refetch } : Props) => {
 
 export default styled(Comment)`
 	display: flex;
+
 	.comment-box {
 		background-color: white;
 		border-radius: 3px;
