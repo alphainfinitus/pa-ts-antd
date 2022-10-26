@@ -20,6 +20,7 @@ import ReportButton from './ActionsBar/ReportButton';
 import ShareButton from './ActionsBar/ShareButton';
 import SubscriptionButton from './ActionsBar/SubscriptionButton/SubscriptionButton';
 import TrackerButton from './ActionsBar/TrackerButton';
+import Comments from './Comment/Comments';
 import EditablePostContent from './EditablePostContent';
 
 interface Props {
@@ -142,8 +143,8 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 		isChildBountyProposer
 	);
 
-	const Sidebar = () => <>
-		<div className="bg-white drop-shadow-md p-5 md:p-6 rounded-md w-full lg:w-4/12 mx-auto">
+	const Sidebar = ({ className } : {className?:string}) => <>
+		<div className={`${className} bg-white  md:drop-shadow-md md:p-6 rounded-md w-full lg:w-4/12 mx-auto`}>
 			Sidebar Area
 		</div>
 	</>;
@@ -164,29 +165,43 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 					/>
 
 					{/* Actions Bar */}
-					<div id='actions-bar' className="flex items-center">
-						<PostReactionBar className='reactions' postId={post.id} />
-						{id && !isEditing && <SubscriptionButton postId={post.id}/>}
-						{canEdit && <Button className={'text-pink_primary flex items-center border-none shadow-none'} onClick={toggleEdit}><FormOutlined />Edit</Button>}
-						{id && !isEditing && !isOnchainPost && <ReportButton type='post' contentId={`${post.id}`} />}
-						{canEdit && !isEditing && <CreateOptionPoll postId={post.id} />}
-						{id && onchainId && isOnchainPost && !isEditing && (
-							<TrackerButton
-								onchainId={onchainId}
-								isBounty={isBounty}
-								isMotion={isMotion}
-								isProposal={isProposal}
-								isReferendum={isReferendum}
-								isTipProposal={isTipProposal}
-								isTreasuryProposal={isTreasuryProposal}
-								isTechCommitteeProposal={isTechCommitteeProposal}
-							/>)
-						}
-						<ShareButton title={post.title} />
+					<div id='actions-bar' className="flex items-center flex-col md:flex-row mb-8">
+						<div className='flex items-center'>
+							<PostReactionBar className='reactions' postId={post.id} />
+							{id && !isEditing && <SubscriptionButton postId={post.id}/>}
+							{canEdit && <Button className={'text-pink_primary flex items-center border-none shadow-none'} onClick={toggleEdit}><FormOutlined />Edit</Button>}
+						</div>
+						<div className='flex items-center'>
+							{id && !isEditing && !isOnchainPost && <ReportButton type='post' contentId={`${post.id}`} />}
+							{canEdit && !isEditing && <CreateOptionPoll postId={post.id} />}
+							{id && onchainId && isOnchainPost && !isEditing && (
+								<TrackerButton
+									onchainId={onchainId}
+									isBounty={isBounty}
+									isMotion={isMotion}
+									isProposal={isProposal}
+									isReferendum={isReferendum}
+									isTipProposal={isTipProposal}
+									isTreasuryProposal={isTreasuryProposal}
+									isTechCommitteeProposal={isTechCommitteeProposal}
+								/>)
+							}
+							<ShareButton title={post.title} />
+						</div>
 					</div>
+
+					{!isEditing && <div className='flex lg:hidden mb-8'><Sidebar /></div>}
+
+					{ !!post.comments?.length &&
+						<Comments
+							className='ml-0 md:ml-4'
+							comments={post.comments}
+							refetch={refetch}
+						/>
+					}
 				</div>
 
-				{!isEditing && <Sidebar />}
+				{!isEditing && <Sidebar className='hidden lg:block' />}
 
 			</div>
 		</>

@@ -167,7 +167,7 @@ const ReactionButton = function ({
 
 	const button =  <span className={className}>
 		<Button
-			className={'border-none shadow-none disabled:opacity-[0.5] disabled:bg-transparent'}
+			className={'border-none px-2 shadow-none disabled:opacity-[0.5] disabled:bg-transparent'}
 			onClick={handleReact}
 			disabled={!id || reactionsDisabled}
 		>

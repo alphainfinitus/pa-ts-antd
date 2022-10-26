@@ -97,7 +97,7 @@ const TrackerButton = function ({
 
 	return (
 		<Button
-			className={'text-pink_primary flex items-center border-none shadow-none'}
+			className={'text-pink_primary flex items-center border-none shadow-none px-1 md:px-2'}
 			onClick={handleTrack}
 		>
 			{tracked ? <EyeInvisibleOutlined /> : <EyeOutlined />}

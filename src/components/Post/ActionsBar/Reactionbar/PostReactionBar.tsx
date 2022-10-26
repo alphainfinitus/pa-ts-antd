@@ -44,7 +44,7 @@ const PostReactionBar = function ({ className, postId }: Props) {
 	});
 
 	return (
-		<div className={className}>
+		<div className={`${className} flex items-center`}>
 			{Object.keys(reactionMap).map((reaction) => {
 				return (
 					<ReactionButton
