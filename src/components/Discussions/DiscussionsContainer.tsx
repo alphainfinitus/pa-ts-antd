@@ -45,7 +45,7 @@ const DiscussionsContainer = ({ className } : { className?:string }) => {
 	);
 
 	const sortByDropdown = (<Dropdown overlay={menu} trigger={['click']}>
-		<div className='dropdown-div flex items-center cursor-pointer hover:bg-pink_primary_transparent hover:text-white py-1 px-2 rounded'>
+		<div className='dropdown-div flex items-center cursor-pointer hover:text-pink_primary py-1 px-2 rounded'>
 			<span className='mr-2'>Sort By</span>
 			<SwapOutlined rotate={90} style={ { fontSize: '14px' } } />
 		</div>
@@ -65,7 +65,6 @@ const DiscussionsContainer = ({ className } : { className?:string }) => {
 
 export default styled(DiscussionsContainer)`
 	.ant-dropdown-trigger.ant-dropdown-open {
-		color: #fff !important;
-		background-color: pink_primary_transparent !important;
+		color: pink_primary !important;
 	}
 `;
