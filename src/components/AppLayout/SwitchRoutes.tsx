@@ -4,14 +4,18 @@
 
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Discussions from 'src/screens/Discussions';
 import Home from 'src/screens/Home';
+import Bounties from 'src/screens/Listing/Bounties';
+import Discussions from 'src/screens/Listing/Discussions';
+import Proposals from 'src/screens/Listing/Proposals';
+import Referenda from 'src/screens/Listing/Referenda';
+import Treasury from 'src/screens/Listing/Treasury';
 import LoginForm from 'src/screens/LoginForm';
+import BountyPost from 'src/screens/Posts/BountyPost';
 import DiscussionPost from 'src/screens/Posts/DiscussionPost';
-import PostProposal from 'src/screens/Posts/ProposalPost';
+import ProposalPost from 'src/screens/Posts/ProposalPost';
 import ReferendumPost from 'src/screens/Posts/ReferendumPost';
-import Proposals from 'src/screens/Proposals';
-import Referenda from 'src/screens/Referenda';
+import TreasuryPost from 'src/screens/Posts/TreasuryPost';
 import RequestResetPassword from 'src/screens/RequestResetPassword';
 
 const SwitchRoutes = () => {
@@ -27,10 +31,16 @@ const SwitchRoutes = () => {
 			</Route>
 
 			<Route path="/proposals" element={<Proposals />}/>
-			<Route path="/proposal/:id" element={<PostProposal />} />
+			<Route path="/proposal/:id" element={<ProposalPost />} />
 
 			<Route path="/referenda" element={<Referenda />} />
 			<Route path="/referendum/:id" element={<ReferendumPost />} />
+
+			<Route path="/treasury-proposals" element={<Treasury />} />
+			<Route path="/treasury/:id" element={<TreasuryPost />} />
+
+			<Route path="/bounties" element={<Bounties />} />
+			<Route path="/bounty/:id" element={<BountyPost />} />
 		</Routes>
 	);
 };
