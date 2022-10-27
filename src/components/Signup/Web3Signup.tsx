@@ -226,7 +226,7 @@ const Web3Signup: FC<Props> = ({
 				<span>
 					<WalletIcon which={chosenWallet} />
 				</span>
-				<span>
+				<span className='text-navBlue'>
 					{
 						chosenWallet.charAt(0).toUpperCase() + chosenWallet.slice(1).replace('-', '.')
 					}
