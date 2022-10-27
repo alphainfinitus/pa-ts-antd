@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 import React from 'react';
 import { Link } from 'react-router-dom';
-import DiscussionsContainer from 'src/components/Discussions/DiscussionsContainer';
+import DiscussionsContainer from 'src/components/Listing/Discussions/DiscussionsContainer';
 
 const Discussions = () => {
 	return (

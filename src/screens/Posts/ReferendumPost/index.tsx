@@ -4,30 +4,29 @@
 
 import React from 'react';
 import { useParams } from 'react-router-dom';
+import Post from 'src/components/Post/Post';
+import { useReferendumPostAndCommentsQuery } from 'src/generated/graphql';
 import { PostCategory } from 'src/global/post_categories';
 import BackToListingView from 'src/ui-components/BackToListingView';
 import { ErrorState, LoadingState } from 'src/ui-components/UIStates';
 
-import Post from '../../components/Post/Post';
-import { useProposalPostAndCommentsQuery } from '../../generated/graphql';
-
-const ProposalPost = () => {
+const ReferendumPost = () => {
 	const { id } = useParams();
 	const idNumber = Number(id) || 0;
 
-	const { data, error, refetch } = useProposalPostAndCommentsQuery({ variables: { 'id': idNumber } });
+	const { data, error, refetch } = useReferendumPostAndCommentsQuery({ variables: { 'id': idNumber } });
 
 	if (error?.message) return <ErrorState errorMessage={error.message} />;
 
 	if (data) return (<div>
-		<BackToListingView postCategory={PostCategory.PROPOSAL} />
+		<BackToListingView postCategory={PostCategory.REFERENDA} />
 
 		<div className='mt-6'>
-			<Post data={data} isProposal refetch={refetch} />
+			<Post data={data} isReferendum refetch={refetch} />
 		</div>
 	</div>);
 
 	return <div className='mt-16'><LoadingState /></div>;
 };
 
-export default ProposalPost;
+export default ReferendumPost;

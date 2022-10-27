@@ -4,12 +4,14 @@
 
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import DiscussionPost from 'src/screens/DiscussionPost';
 import Discussions from 'src/screens/Discussions';
 import Home from 'src/screens/Home';
 import LoginForm from 'src/screens/LoginForm';
-import PostProposal from 'src/screens/ProposalPost';
+import DiscussionPost from 'src/screens/Posts/DiscussionPost';
+import PostProposal from 'src/screens/Posts/ProposalPost';
+import ReferendumPost from 'src/screens/Posts/ReferendumPost';
 import Proposals from 'src/screens/Proposals';
+import Referenda from 'src/screens/Referenda';
 import RequestResetPassword from 'src/screens/RequestResetPassword';
 
 const SwitchRoutes = () => {
@@ -18,12 +20,17 @@ const SwitchRoutes = () => {
 			<Route path='/' element={<Home />} />
 			<Route path="/request-reset-password" element={<RequestResetPassword/>}/>
 			<Route path="/login" element={<LoginForm />}/>
+
 			<Route path='/discussions' element={<Discussions />} />
 			<Route path='/post'>
 				<Route path=':id' element={<DiscussionPost />} />
 			</Route>
+
 			<Route path="/proposals" element={<Proposals />}/>
 			<Route path="/proposal/:id" element={<PostProposal />} />
+
+			<Route path="/referenda" element={<Referenda />} />
+			<Route path="/referendum/:id" element={<ReferendumPost />} />
 		</Routes>
 	);
 };

@@ -58,8 +58,8 @@ const GovernanceCard = function ({
 		<div className={`${className} ${ownProposal && 'border-l-pink_primary border-l-4'} border-2 border-grey_light hover:border-pink_primary hover:shadow-xl transition-all duration-200 rounded-md p-3 md:p-4`}>
 			<div className="flex justify-between">
 				<div className="content">
-					<h1 className='text-sidebarBlue font-medium text-sm flex'>
-						{!tipReason && <span className='font-semibold mr-2'>#{onchainId}</span>} {mainTitle}
+					<h1 className='text-sidebarBlue font-semibold text-sm flex'>
+						{!tipReason && <span className='font-medium mr-2'>#{onchainId}</span>} {mainTitle}
 					</h1>
 					<h2 className='text-navBlue font-medium text-sm'>{subTitle}</h2>
 
