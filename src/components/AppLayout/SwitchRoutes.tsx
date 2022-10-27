@@ -11,6 +11,7 @@ import LoginForm from 'src/screens/LoginForm';
 import PostProposal from 'src/screens/ProposalPost';
 import Proposals from 'src/screens/Proposals';
 import RequestResetPassword from 'src/screens/RequestResetPassword';
+import SignupForm from 'src/screens/SignupForm';
 
 const SwitchRoutes = () => {
 	return (
@@ -18,6 +19,7 @@ const SwitchRoutes = () => {
 			<Route path='/' element={<Home />} />
 			<Route path="/request-reset-password" element={<RequestResetPassword/>}/>
 			<Route path="/login" element={<LoginForm />}/>
+			<Route path="/signup" element={<SignupForm/>} />
 			<Route path='/discussions' element={<Discussions />} />
 			<Route path='/post'>
 				<Route path=':id' element={<DiscussionPost />} />
