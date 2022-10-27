@@ -34,7 +34,8 @@ const overviewItems = [
 	getSiderMenuItem('Overview', '/', <OverviewIcon className='text-white' />),
 	getSiderMenuItem('Discussions', '/discussions', <DiscussionsIcon className='text-white' />),
 	getSiderMenuItem('Calendar', '/calendar', <CalendarIcon className='text-white' />),
-	getSiderMenuItem('News', '/news', <NewsIcon className='text-white' />)
+	getSiderMenuItem('News', '/news', <NewsIcon className='text-white' />),
+	getSiderMenuItem('Parachains', '/parachains', <NewsIcon className='text-white' />)
 ];
 
 const democracyItems = [
@@ -81,8 +82,8 @@ const items: MenuProps['items'] = [
 const collapsedItems: MenuProps['items'] = [
 	...overviewItems,
 	...democracyItems,
-	...councilItems,
 	...treasuryItems,
+	...councilItems,
 	...techCommItems
 ];
 

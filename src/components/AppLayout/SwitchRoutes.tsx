@@ -7,6 +7,7 @@ import { Route, Routes } from 'react-router-dom';
 import Home from 'src/screens/Home';
 import Bounties from 'src/screens/Listing/Bounties';
 import Discussions from 'src/screens/Listing/Discussions';
+import Parachains from 'src/screens/Listing/Parachains';
 import Proposals from 'src/screens/Listing/Proposals';
 import Referenda from 'src/screens/Listing/Referenda';
 import Treasury from 'src/screens/Listing/Treasury';
@@ -29,6 +30,8 @@ const SwitchRoutes = () => {
 			<Route path='/post'>
 				<Route path=':id' element={<DiscussionPost />} />
 			</Route>
+
+			<Route path='parachains' element={<Parachains/>} />
 
 			<Route path="/proposals" element={<Proposals />}/>
 			<Route path="/proposal/:id" element={<ProposalPost />} />
