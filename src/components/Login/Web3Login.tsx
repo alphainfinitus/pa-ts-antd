@@ -223,10 +223,13 @@ const Web3Login: FC<Props> = ({
 			<h3 className="text-2xl font-semibold text-[#1E232C] flex gap-x-2 items-center">
 				<span>
 					<WalletIcon which={chosenWallet} />
-				</span>{' '}
-				{chosenWallet.charAt(0).toUpperCase() +
-          chosenWallet.slice(1).replace('-', '.')}{' '}
-        Login
+				</span>
+				<span>
+					{
+						chosenWallet.charAt(0).toUpperCase() + chosenWallet.slice(1).replace('-', '.')
+					}
+				</span>
+				<span>Login</span>
 			</h3>
 			<AuthForm onSubmit={handleLogin} className="flex flex-col gap-y-6">
 				{extensionNotFound?

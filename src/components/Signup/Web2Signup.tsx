@@ -13,12 +13,14 @@ import FilteredError from 'src/ui-components/FilteredError';
 import messages from 'src/util/messages';
 import * as validation from 'src/util/validation';
 
+import WalletButtons from '../Login/WalletButtons';
+
 interface Props {
 	onWalletSelect: (wallet: Wallet) => void;
 	walletError: string | undefined;
 }
 
-const Web2Signup: FC<Props> = ({ walletError }) => {
+const Web2Signup: FC<Props> = ({ walletError, onWalletSelect }) => {
 	const { password, username } = validation;
 	const navigate = useNavigate();
 	const currentUser = useUserDetailsContext();
@@ -225,6 +227,9 @@ const Web2Signup: FC<Props> = ({ walletError }) => {
 					</Button>
 				</div>
 				{error?.message && <FilteredError text={error.message} />}
+				<div>
+					<WalletButtons disabled={loading} onWalletSelect={onWalletSelect} />
+				</div>
 				<div className='flex justify-center items-center gap-x-2 font-semibold'>
 					<label className='text-md text-grey_primary'>Already have an account?</label>
 					<Link to='/login' className='text-pink_primary text-md'>
