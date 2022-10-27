@@ -23,7 +23,7 @@ const Signup = () => {
 	return (
 		<>
 			<Row justify='center' align='middle' className='h-full -mt-5'>
-				<Col>
+				<Col className='min-w-full sm:min-w-[500px]'>
 					{ displayWeb === 2
 						? <Web2Signup onWalletSelect={onWalletSelect} walletError={walletError} /> : null}
 

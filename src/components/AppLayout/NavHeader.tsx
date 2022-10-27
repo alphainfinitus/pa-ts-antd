@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BellOutlined, BookOutlined, DownOutlined, LogoutOutlined, MenuOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import { BellOutlined, BookOutlined, DownOutlined, LoginOutlined, LogoutOutlined, MenuOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 import { Dropdown, Menu, Space } from 'antd';
 import { Header } from 'antd/lib/layout/layout';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
@@ -91,7 +91,7 @@ const NavHeader = ({ sidebarCollapsed, setSidebarCollapsed } : Props) => {
 							</Dropdown>
 						</>
 						: <>
-							<Link className='ml-4 text-navBlue hover:text-pink_primary font-medium' to='/login'>Login</Link>
+							<Link className='ml-4 text-navBlue hover:text-pink_primary font-medium flex items-center gap-x-1' to='/login'>{<LoginOutlined className='lg:hidden' />} Login</Link>
 							<Link className='text-navBlue hidden lg:inline-block hover:text-pink_primary font-medium' to='/signup'>Sign-up</Link>
 						</>
 					}

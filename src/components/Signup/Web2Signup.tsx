@@ -66,19 +66,19 @@ const Web2Signup: FC<Props> = ({ walletError, onWalletSelect }) => {
 		}
 	};
 	return (
-		<article className="bg-white shadow-md rounded-md p-8 flex flex-col gap-y-6 md:min-w-[500px]">
+		<article className="bg-white shadow-md rounded-md p-8 flex flex-col gap-y-6">
 			<div className='grid grid-cols-2'>
 				<div onClick={() => {
 					setIsPassword(false);
 					if (error) {
 						error.message ='';
 					}
-				}} className={`cursor-pointer font-medium text-grey_primary flex justify-center items-center gap-x-2 border-b-2 pb-2 ${!isPassword &&'border-pink_primary'}`}>
-					<span className={`flex justify-center items-center w-8 h-8 text-white ${isPassword?'bg-green_primary':'bg-pink_primary'} rounded-full`}>1</span>
+				}} className={`cursor-pointer font-medium text-grey_primary flex flex-col gap-y-2 text-xs justify-center items-center sm:flex-row sm:text-sm gap-x-2 border-b-2 pb-2 ${!isPassword &&'border-pink_primary'}`}>
+					<span className={`flex justify-center items-center w-6 h-6 sm:w-8 sm:h-8 text-white ${isPassword?'bg-green_primary':'bg-pink_primary'} rounded-full`}>1</span>
 					<span>Create Username</span>
 				</div>
-				<div className={`font-medium text-grey_primary flex justify-center items-center gap-x-2 border-b-2 pb-2 ${isPassword &&'border-pink_primary'}`}>
-					<span className={`flex justify-center items-center w-8 h-8 text-white ${isPassword?'bg-pink_primary':'bg-grey_secondary'} rounded-full`}>2</span>
+				<div className={`font-medium text-grey_primary flex flex-col gap-y-2 text-xs justify-center items-center sm:flex-row sm:text-sm gap-x-2 border-b-2 pb-2 ${isPassword &&'border-pink_primary'}`}>
+					<span className={`flex justify-center items-center w-6 h-6 sm:w-8 sm:h-8 text-white ${isPassword?'bg-pink_primary':'bg-grey_secondary'} rounded-full`}>2</span>
 					<span>Set Password</span>
 				</div>
 			</div>
