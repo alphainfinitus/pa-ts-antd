@@ -5,10 +5,9 @@
 import { Empty } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import GovernanceCard from 'src/components/GovernanceCard';
 import { GetLatestDemocracyProposalPostsQuery } from 'src/generated/graphql';
 import { LoadingState } from 'src/ui-components/UIStates';
-
-import GovernanceCard from '../GovernanceCard';
 
 interface Props {
   className?: string

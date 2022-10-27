@@ -4,24 +4,25 @@
 
 import gql from 'graphql-tag';
 import { authorFields } from 'src/fragments/author';
+import { commentFields } from 'src/fragments/comments';
 
-import { commentFields } from '../../fragments/comments';
-
-const onchainLinkProposal = gql`
-    fragment onchainLinkProposal on onchain_links {
+const onchainLinkReferendum = gql`
+    fragment onchainLinkReferendum on onchain_links {
         id,
         proposer_address,
-        onchain_proposal_id,
         onchain_referendum_id,
-        onchain_proposal(where: {}) {
+        onchain_referendum(where: {}) {
             id
-            depositAmount
-            proposalStatus(orderBy: id_DESC) {
-                id
-                status
+            delay
+            end
+            voteThreshold
+            referendumStatus(orderBy: id_DESC) {
                 blockNumber {
-                  number
+                    startDateTime
+                    number
                 }
+                status
+                id
             }
             preimage {
                 hash
@@ -38,8 +39,8 @@ const onchainLinkProposal = gql`
     }
 `;
 
-const proposalPost = gql`
-    fragment proposalPost on posts {
+const referendumPost = gql`
+    fragment referendumPost on posts {
         author {
             ...authorFields
         }
@@ -51,7 +52,7 @@ const proposalPost = gql`
             ...commentFields
         }
         onchain_link{
-            ...onchainLinkProposal
+            ...onchainLinkReferendum
         }
         title
         topic {
@@ -65,15 +66,15 @@ const proposalPost = gql`
     }
     ${authorFields}
     ${commentFields}
-    ${onchainLinkProposal}
+    ${onchainLinkReferendum}
 `;
 
-export const QUERY_PROPOSAL_POST_AND_COMMENTS = gql`
-    query ProposalPostAndComments ($id:Int!) {
-        posts(where: {onchain_link: {onchain_proposal_id: {_eq: $id}}}) {
-            ...proposalPost
+export const QUERY_REFERENDUM_POST_AND_COMMENTS = gql`
+    query ReferendumPostAndComments ($id:Int!) {
+        posts(where: {onchain_link: {onchain_referendum_id: {_eq: $id}}}) {
+            ...referendumPost
         }
     }
-    ${proposalPost}
+    ${referendumPost}
 `;
 

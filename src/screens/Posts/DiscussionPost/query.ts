@@ -3,9 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import gql from 'graphql-tag';
-
-import { authorFields } from '../../fragments/author';
-import { commentFields } from '../../fragments/comments';
+import { authorFields } from 'src/fragments/author';
+import { commentFields } from 'src/fragments/comments';
 
 const onchainLinkDiscussion = gql`
     fragment onchainLinkDiscussion on onchain_links {
