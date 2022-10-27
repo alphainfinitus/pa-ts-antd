@@ -156,10 +156,10 @@ const Web2Signup: FC<Props> = ({ walletError, onWalletSelect }) => {
 						:<>
 							<div className="flex flex-col gap-y-1">
 								<label
-									className="text-base text-sidebarBlue font-medium"
+									className="text-base text-sidebarBlue font-medium tracking-wide"
 									htmlFor="username"
 								>
-                        Username
+									Username
 								</label>
 								<Form.Item
 									name="username"
@@ -192,9 +192,9 @@ const Web2Signup: FC<Props> = ({ walletError, onWalletSelect }) => {
 							<div className="flex flex-col gap-y-1">
 								<label
 									htmlFor="email"
-									className="text-base text-sidebarBlue font-medium"
+									className="text-base text-sidebarBlue font-medium tracking-wide"
 								>
-						Email
+									Email
 								</label>
 								<Form.Item
 									name="email"
