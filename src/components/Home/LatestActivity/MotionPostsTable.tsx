@@ -4,7 +4,6 @@
 
 /* eslint-disable sort-keys */
 import { ColumnsType } from 'antd/lib/table';
-import moment from 'moment';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGetLatestMotionPostsQuery } from 'src/generated/graphql';
@@ -52,7 +51,7 @@ const columns: ColumnsType<MotionPostsRowData> = [
 		key: 'created',
 		dataIndex: 'createdAt',
 		render: (createdAt) => {
-			const relativeCreatedAt = createdAt ? moment(createdAt).isAfter(moment().subtract(1, 'w')) ? moment(createdAt).startOf('day').fromNow() : moment(createdAt).format('Do MMM \'YY') : null;
+			const relativeCreatedAt = getRelativeCreatedAt(createdAt);
 			return (
 				<span>{relativeCreatedAt}</span>
 			);
