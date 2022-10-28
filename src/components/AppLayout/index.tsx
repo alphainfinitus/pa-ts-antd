@@ -5,7 +5,7 @@ import { BookOutlined, DownOutlined, LogoutOutlined, SettingOutlined, UserOutlin
 import styled from '@xstyled/styled-components';
 import { Avatar, Dropdown, Layout, Menu, MenuProps } from 'antd';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import noUserImg from 'src/assets/no-user-img.png';
 import { useUserDetailsContext } from 'src/context';
@@ -68,12 +68,18 @@ const getUserDropDown = (handleLogout: any, img?: string | null, username?: stri
 	];
 	const menu = <Menu className='max-h-96 overflow-y-auto' items={dropdownMenuItems} />;
 
-	return getSiderMenuItem(<div className='flex items-center justify-between gap-x-2'>
-		<span>{username || ''}</span>
-		<Dropdown overlay={menu}>
-			<DownOutlined className='text-navBlue hover:text-pink_primary text-base' />
+	const AuthDropdown = ({ children }: {children: ReactNode}) => (
+		<Dropdown overlay={menu} trigger={['click']}>
+			{children}
 		</Dropdown>
-	</div>, 'userMenu', <Avatar className='-ml-2.5' size={40} src={img || noUserImg} />);
+	);
+
+	return getSiderMenuItem(
+		<AuthDropdown>
+			<div className='flex items-center justify-between gap-x-2'>
+				<span className='truncate w-[85%]'>{username || ''}</span> <DownOutlined className='text-navBlue hover:text-pink_primary text-base' />
+			</div>
+		</AuthDropdown>, 'userMenu', <AuthDropdown><Avatar className='-ml-2.5 mr-2' size={40} src={img || noUserImg} /></AuthDropdown>);
 };
 
 const overviewItems = [
