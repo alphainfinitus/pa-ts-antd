@@ -7,8 +7,9 @@ import { Divider } from 'antd';
 import React from 'react';
 import kusamaLogo from 'src/assets/kusama-logo.gif';
 import auctionIcon from 'src/assets/parachains/auction.png';
-import chainIcon from 'src/assets/parachains/chain.png';
-import crowdloansIcon from 'src/assets/parachains/crowdloans.png';
+import chainIcon from 'src/assets/parachains/chain-link.png';
+import crowdloansIcon from 'src/assets/parachains/crowdloan.png';
+import projectsIcon from 'src/assets/parachains/projects.png';
 import polkadotLogo from 'src/assets/polkadot-logo-small-inverted.png';
 
 interface Props {
@@ -20,13 +21,15 @@ const ParachainInfoCard = ({ className, network }: Props) => {
 	const polkadotMetrics = {
 		auction: '14th',
 		crowdloans: '5',
-		parachains: '14'
+		parachains: '14',
+		projects: '23'
 	};
 
 	const kusamaMetrics = {
 		auction: '31st',
 		crowdloans: '5',
-		parachains: '29'
+		parachains: '29',
+		projects: '23'
 	};
 
 	const metrics = network=='polkadot' ? polkadotMetrics : kusamaMetrics;
@@ -72,9 +75,18 @@ const ParachainInfoCard = ({ className, network }: Props) => {
 					<div className='metric-container'>
 						<div className='metric-line'>
 							<img src={chainIcon} alt="Parachains Icon" />
-							<span className='metric-num'>{metrics.parachains}</span>
+							<span className='metric-num'>{metrics.projects}</span>
 						</div>
 						<div className='metric-name'>Parachains</div>
+					</div>
+
+					{/* Projects */}
+					<div className='metric-container'>
+						<div className='metric-line'>
+							<img src={projectsIcon} alt="Parachains Icon" />
+							<span className='metric-num'>{metrics.projects}</span>
+						</div>
+						<div className='metric-name'>Projects</div>
 					</div>
 				</div>
 			</div>
@@ -90,14 +102,12 @@ export default styled(ParachainInfoCard)`
 
 			@media only screen and (max-width: 768px) {
 				font-size: 16px !important;
-				color: #7E7E7E !important;
 				font-weight: 500;
 			}
 			
 			img {
 				margin-right: 20px;
 				margin-top: 2px;
-				border-radius: 50%;
 				height: 33px;
 				width: 33px;
 
@@ -110,6 +120,7 @@ export default styled(ParachainInfoCard)`
 			.network-name {
 				text-transform: capitalize;
 				color: #334D6E;
+				font-weight: 500;
 			}
 
 			.dotDivider {
@@ -179,8 +190,8 @@ export default styled(ParachainInfoCard)`
 				.metric-num {
 					margin-left: 7px;
 					font-weight: 500;
-					font-size: 22px;
-					color: #334D6E;
+					font-size: 20px;
+					color: #90A0B7;
 
 					@media only screen and (max-width: 768px) {
 						font-size: 14px;

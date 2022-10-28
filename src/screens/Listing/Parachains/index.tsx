@@ -7,7 +7,7 @@ import { Col,Row,Tabs } from 'antd';
 import React, { useEffect, useState } from 'react';
 import ParachainInfoCard from 'src/components/ParachainInfoCard';
 
-// import ParachainProjectsTabs from './ParachainProjectsTabs';
+import ChainDataTable from './ChainDataTable';
 
 interface Props {
   className?: string
@@ -21,6 +21,7 @@ const Parachains = ({ className }: Props) => {
 		fetch('parachains.json')
 			.then((r) => r.json())
 			.then((data) => {
+				console.log(data);
 				setParachainsData(data);
 			});
 	},[]);
@@ -29,9 +30,11 @@ const Parachains = ({ className }: Props) => {
 
 	const tabItems = [
 		// eslint-disable-next-line sort-keys
-		{ label: 'Polkadot', key: 'discussions', children: <div>Polkadot</div> },
+		{ label: 'All', key: 'all', children: <ChainDataTable data={parachainsData} chain='all' /> },
 		// eslint-disable-next-line sort-keys
-		{ label: 'Kusama', key: 'discussions', children: <div>Kusama</div> }
+		{ label: 'Polkadot', key: 'polkadot', children: <ChainDataTable data={parachainsData} chain='polkadot' /> },
+		// eslint-disable-next-line sort-keys
+		{ label: 'Kusama', key: 'kusama', children: <ChainDataTable data={parachainsData} chain='kusama' /> }
 	];
 
 	return (
