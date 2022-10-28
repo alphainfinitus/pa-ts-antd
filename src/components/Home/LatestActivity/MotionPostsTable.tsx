@@ -13,6 +13,7 @@ import { post_type } from 'src/global/post_types';
 import { EmptyLatestActivity, ErrorLatestActivity, LoadingLatestActivity, PopulatedLatestActivity, PopulatedLatestActivityCard } from 'src/ui-components/LatestActivityStates';
 import NameLabel from 'src/ui-components/NameLabel';
 import StatusTag from 'src/ui-components/StatusTag';
+import getRelativeCreatedAt from 'src/util/getRelativeCreatedAt';
 
 interface MotionPostsRowData {
   key: string | number;
