@@ -24,7 +24,14 @@ const NavHeader = ({ sidebarCollapsed, setSidebarCollapsed } : Props) => {
 
 	return (
 		<Header className='flex items-center bg-white h-[60px] max-h-[60px] px-6 z-50'>
-			<MenuOutlined className='lg:hidden mr-5' onClick={() => setSidebarCollapsed(!sidebarCollapsed)} />
+			<MenuOutlined className='lg:hidden mr-5' onClick={() => {
+				setSidebarCollapsed(!sidebarCollapsed);
+				if (sidebarCollapsed) {
+					document.body.classList.add('overflow-hidden');
+				} else{
+					document.body.classList.remove('overflow-hidden');
+				}
+			}} />
 			<nav className='w-full lg:w-5/6 lg:mx-auto flex items-center justify-between'>
 				<Link className='flex' to='/'><PALogoBlack /></Link>
 				<Space className='flex items-center justify-between'>

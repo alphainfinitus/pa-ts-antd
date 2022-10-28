@@ -184,7 +184,7 @@ const AppLayout = ({ className }: { className?:string }) => {
 				<Layout className='min-h-[calc(100vh - 10rem)] flex flex-row'>
 					{/* Dummy Collapsed Sidebar for auto margins */}
 					<div className="hidden lg:block bottom-0 left-0 w-[80px] -z-50"></div>
-					<Content className='flex-initial mx-auto min-h-[90vh] w-[94vw] lg:w-[85vw] xl:w-5/6 my-6'>
+					<Content className={`${!sidebarCollapsed && 'opacity-25'} lg:opacity-100 flex-initial mx-auto min-h-[90vh] w-[94vw] lg:w-[85vw] xl:w-5/6 my-6`}>
 						<SwitchRoutes />
 					</Content>
 				</Layout>
