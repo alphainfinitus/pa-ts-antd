@@ -68,7 +68,7 @@ const NavHeader = ({ sidebarCollapsed, setSidebarCollapsed } : Props) => {
 	];
 	const menu = <Menu className='max-h-96 overflow-y-auto' items={dropdownMenuItems} />;
 	return (
-		<Header className='fixed w-full z-50 shadow-md flex items-center bg-white h-[60px] max-h-[60px] px-6'>
+		<Header className='flex items-center bg-white h-[60px] max-h-[60px] px-6 z-50'>
 			<MenuOutlined className='lg:hidden mr-5' onClick={() => setSidebarCollapsed(!sidebarCollapsed)} />
 			<nav className='w-full lg:w-5/6 lg:mx-auto flex items-center justify-between'>
 				<Link className='flex' to='/'><PALogoBlack /></Link>
