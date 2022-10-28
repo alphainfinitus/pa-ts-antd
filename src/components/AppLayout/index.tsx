@@ -2,8 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { UserOutlined } from '@ant-design/icons';
 import styled from '@xstyled/styled-components';
-import { Layout, Menu, MenuProps } from 'antd';
+import { Avatar, Layout, Menu, MenuProps } from 'antd';
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { BountiesIcon, CalendarIcon, DemocracyProposalsIcon, DiscussionsIcon, MembersIcon, MotionsIcon, NewsIcon, OverviewIcon, ReferendaIcon, TipsIcon, TreasuryProposalsIcon } from 'src/ui-components/CustomIcons';
@@ -29,6 +30,8 @@ function getSiderMenuItem(
 		label
 	} as MenuItem;
 }
+
+const userDropdown = getSiderMenuItem('Username', 'userMenu', <Avatar size={40} icon={<UserOutlined />} />);
 
 const overviewItems = [
 	getSiderMenuItem('Overview', '/', <OverviewIcon className='text-white' />),
@@ -79,6 +82,7 @@ const items: MenuProps['items'] = [
 ];
 
 const collapsedItems: MenuProps['items'] = [
+	userDropdown,
 	...overviewItems,
 	...democracyItems,
 	...councilItems,
@@ -92,6 +96,8 @@ const AppLayout = ({ className }: { className?:string }) => {
 	const { pathname } = useLocation();
 
 	const handleMenuClick = (menuItem: any) => {
+		if(menuItem.key === 'userMenu') return;
+
 		navigate(menuItem.key);
 		// only for mobile devices
 		if (window.innerWidth < 1024) {
@@ -116,9 +122,13 @@ const AppLayout = ({ className }: { className?:string }) => {
 						mode="inline"
 						selectedKeys={[pathname]}
 						defaultOpenKeys={['democracy_group', 'treasury_group', 'council_group', 'tech_comm_group']}
-						items={sidebarCollapsed ? collapsedItems : items}
+						items={sidebarCollapsed ? collapsedItems : [
+							userDropdown,
+							...items
+						]}
 						onClick={handleMenuClick}
-						className='mt-[60px]'
+						// TODO: auth-sider-menu should be a conditional class
+						className='auth-sider-menu mt-[60px]'
 					/>
 				</Sider>
 				<Layout className='min-h-[calc(100vh - 10rem)] flex flex-row'>
@@ -164,5 +174,9 @@ export default styled(AppLayout)`
 	font-size: 14px;
 	line-height: 21px;
 	letter-spacing: 0.01em;
+}
+
+.auth-sider-menu > li:first-child {
+  margin-bottom: 25px;
 }
 `;
