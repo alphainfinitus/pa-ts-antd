@@ -12,7 +12,7 @@ import { Alert, Button, Divider } from 'antd';
 import React, { FC, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useUserDetailsContext } from 'src/context';
-import { useAddressLoginMutation, useAddressLoginStartMutation } from 'src/generated/graphql';
+import { useAddressSignupConfirmMutation, useAddressSignupStartMutation } from 'src/generated/graphql';
 import { APPNAME } from 'src/global/appName';
 import { handleTokenChange } from 'src/services/auth.service';
 import { Wallet } from 'src/types';
@@ -22,6 +22,7 @@ import FilteredError from 'src/ui-components/FilteredError';
 import Loader from 'src/ui-components/Loader';
 import getEncodedAddress from 'src/util/getEncodedAddress';
 import getExtensionUrl from 'src/util/getExtensionUrl';
+import getNetwork from 'src/util/getNetwork';
 
 import { ReactComponent as NovaWalletIcon } from '../../assets/wallet/nova-wallet-star.svg';
 import { ReactComponent as PolkadotJSIcon } from '../../assets/wallet/polkadotjs-icon.svg';
@@ -52,7 +53,7 @@ const WalletIcon: FC<IWalletIconProps> = ({ which }) => {
 		return null;
 	}
 };
-const Web3Login: FC<Props> = ({
+const Web3Signup: FC<Props> = ({
 	chosenWallet,
 	setDisplayWeb2,
 	setWalletError
@@ -64,15 +65,15 @@ const Web3Login: FC<Props> = ({
 	const [extensionNotFound, setExtensionNotFound] = useState(false);
 	const [accountsNotFound, setAccountsNotFound] = useState(false);
 	const navigate = useNavigate();
-	const [addressLoginStartMutation] = useAddressLoginStartMutation();
-	const [addressLoginMutation, { loading }] = useAddressLoginMutation();
+	const [addressSignupStartMutation] = useAddressSignupStartMutation();
+	const [addressSignupConfirmMutation, { loading }] = useAddressSignupConfirmMutation();
 	const currentUser = useUserDetailsContext();
 	useEffect(() => {
 		if (!accounts?.length) {
 			getAccounts(chosenWallet);
 		}
 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [chosenWallet]);
+	}, [accounts?.length, chosenWallet]);
 
 	const getAccounts = async (chosenWallet: Wallet): Promise<undefined> => {
 		const injectedWindow = window as Window & InjectedWindow;
@@ -151,7 +152,7 @@ const Web3Login: FC<Props> = ({
 		setSelectedAccount(data);
 	};
 
-	const handleLogin: ( values: React.BaseSyntheticEvent<object, any, any> | undefined ) => void = async  () => {
+	const handleSignup: ( values: React.BaseSyntheticEvent<object, any, any> | undefined ) => void = async  () => {
 		if (!accounts.length) {
 			return getAccounts(chosenWallet);
 		}
@@ -182,13 +183,13 @@ const Web3Login: FC<Props> = ({
 				return console.error('Signer not available');
 			}
 
-			const { data: startResult } = await addressLoginStartMutation({
+			const { data: startResult } = await addressSignupStartMutation({
 				variables: {
 					address: selectedAccount?.address
 				}
 			});
 
-			const signMessage = startResult?.addressLoginStart?.signMessage;
+			const signMessage = startResult?.addressSignupStart?.signMessage;
 
 			if (!signMessage) {
 				throw new Error('Challenge message not found');
@@ -200,15 +201,16 @@ const Web3Login: FC<Props> = ({
 				type: 'bytes'
 			});
 
-			const { data: loginResult } = await addressLoginMutation({
+			const { data: signResult } = await addressSignupConfirmMutation({
 				variables: {
 					address: selectedAccount?.address,
+					network: getNetwork(),
 					signature
 				}
 			});
 
-			if (loginResult?.addressLogin?.token) {
-				handleTokenChange(loginResult.addressLogin.token, currentUser);
+			if (signResult?.addressSignupConfirm?.token) {
+				handleTokenChange(signResult.addressSignupConfirm.token, currentUser);
 				navigate(-1);
 			} else {
 				throw new Error('Web3 Login failed');
@@ -221,7 +223,7 @@ const Web3Login: FC<Props> = ({
 	return (
 		<article className="bg-white shadow-md rounded-md p-8 flex flex-col gap-y-6">
 			<h3 className="text-2xl font-semibold text-[#1E232C] flex flex-col gap-y-4">
-				<span>Login</span>
+				<span>Sign Up</span>
 				<p className='flex gap-x-2 items-center justify-center'>
 					<span>
 						<WalletIcon which={chosenWallet} />
@@ -233,7 +235,7 @@ const Web3Login: FC<Props> = ({
 					</span>
 				</p>
 			</h3>
-			<AuthForm onSubmit={handleLogin} className="flex flex-col gap-y-6">
+			<AuthForm onSubmit={handleSignup} className="flex flex-col gap-y-6">
 				{extensionNotFound?
 					<div className='flex justify-center items-center my-5'>
 						<Alert
@@ -298,7 +300,7 @@ const Web3Login: FC<Props> = ({
 								size="large"
 								className="bg-pink_primary w-56 rounded-md outline-none border-none text-white"
 							>
-                Login
+                Sign-up
 							</Button>
 						</div>
 						<div>
@@ -310,22 +312,20 @@ const Web3Login: FC<Props> = ({
 										disabled={loading}
 										onClick={handleToggle}
 									>
-                    Login with Username
+                    Sign-up with Username
 									</Button>
 								</div>
 							</Divider>
 						</div>
 					</>
 				)}
-				<div>
-					{error?.message && <FilteredError text={error?.message}/>}
-				</div>
+				{error?.message && <FilteredError text={error?.message}/>}
 				<div className="flex justify-center items-center gap-x-2 font-semibold">
 					<label className="text-md text-grey_primary">
-            Don&apos;t have an account?
+            Already have an account?
 					</label>
-					<Link to="/signup" className="text-pink_primary text-md">
-            Sign Up
+					<Link to="/login" className="text-pink_primary text-md">
+            Login
 					</Link>
 				</div>
 			</AuthForm>
@@ -333,4 +333,4 @@ const Web3Login: FC<Props> = ({
 	);
 };
 
-export default Web3Login;
+export default Web3Signup;

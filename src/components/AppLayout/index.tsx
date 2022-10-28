@@ -1,12 +1,16 @@
 // Copyright 2019-2020 @Premiurly/polkassembly authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
-
-import { UserOutlined } from '@ant-design/icons';
+import { BookOutlined, DownOutlined, LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 import styled from '@xstyled/styled-components';
-import { Avatar, Layout, Menu, MenuProps } from 'antd';
+import { Avatar, Dropdown, Layout, Menu, MenuProps } from 'antd';
+import { ItemType } from 'antd/lib/menu/hooks/useItems';
 import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import noUserImg from 'src/assets/no-user-img.png';
+import { useUserDetailsContext } from 'src/context';
+import { useLogoutMutation } from 'src/generated/graphql';
+import { logout } from 'src/services/auth.service';
 import { BountiesIcon, CalendarIcon, DemocracyProposalsIcon, DiscussionsIcon, MembersIcon, MotionsIcon, NewsIcon, OverviewIcon, ReferendaIcon, TipsIcon, TreasuryProposalsIcon } from 'src/ui-components/CustomIcons';
 
 import Footer from './Footer';
@@ -31,7 +35,46 @@ function getSiderMenuItem(
 	} as MenuItem;
 }
 
-const userDropdown = getSiderMenuItem('Username', 'userMenu', <Avatar size={40} icon={<UserOutlined />} />);
+const getUserDropDown = (handleLogout: any, img?: string | null, username?: string): MenuItem => {
+	const dropdownMenuItems: ItemType[] = [
+		{
+			key: 'view profile',
+			label: <Link className='text-navBlue hover:text-pink_primary font-medium flex items-center gap-x-2' to={`/user/${username}`}>
+				<UserOutlined />
+				View <span>Profile</span>
+			</Link>
+		},
+		{
+			key: 'tracker',
+			label: <Link className='text-navBlue hover:text-pink_primary font-medium flex items-center gap-x-2' to='/tracker'>
+				<BookOutlined />
+				<span>Tracker</span>
+			</Link>
+		},
+		{
+			key: 'settings',
+			label: <Link className='text-navBlue hover:text-pink_primary font-medium flex items-center gap-x-2' to='/settings'>
+				<SettingOutlined />
+				<span>Settings</span>
+			</Link>
+		},
+		{
+			key: 'logout',
+			label: <Link className='text-navBlue hover:text-pink_primary font-medium flex items-center gap-x-2' onClick={handleLogout} to='/'>
+				<LogoutOutlined />
+				<span>Logout</span>
+			</Link>
+		}
+	];
+	const menu = <Menu className='max-h-96 overflow-y-auto' items={dropdownMenuItems} />;
+
+	return getSiderMenuItem(<div className='flex items-center justify-between gap-x-2'>
+		<span>{username || ''}</span>
+		<Dropdown overlay={menu}>
+			<DownOutlined className='text-navBlue hover:text-pink_primary text-base' />
+		</Dropdown>
+	</div>, 'userMenu', <Avatar className='-ml-2.5' size={40} src={img || noUserImg} />);
+};
 
 const overviewItems = [
 	getSiderMenuItem('Overview', '/', <OverviewIcon className='text-white' />),
@@ -82,7 +125,6 @@ const items: MenuProps['items'] = [
 ];
 
 const collapsedItems: MenuProps['items'] = [
-	userDropdown,
 	...overviewItems,
 	...democracyItems,
 	...councilItems,
@@ -91,6 +133,7 @@ const collapsedItems: MenuProps['items'] = [
 ];
 
 const AppLayout = ({ className }: { className?:string }) => {
+	const { setUserDetailsContextState, username, picture } = useUserDetailsContext();
 	const [sidebarCollapsed, setSidebarCollapsed] = useState<boolean>(true);
 	const navigate = useNavigate();
 	const { pathname } = useLocation();
@@ -103,6 +146,17 @@ const AppLayout = ({ className }: { className?:string }) => {
 		if (window.innerWidth < 1024) {
 			setSidebarCollapsed(true);
 		}
+	};
+	const [logoutMutation] = useLogoutMutation();
+
+	const handleLogout = async () => {
+		try {
+			await logoutMutation();
+		} catch (error) {
+			console.error(error);
+		}
+		logout(setUserDetailsContextState);
+		navigate('/');
 	};
 
 	return (
@@ -122,19 +176,15 @@ const AppLayout = ({ className }: { className?:string }) => {
 						mode="inline"
 						selectedKeys={[pathname]}
 						defaultOpenKeys={['democracy_group', 'treasury_group', 'council_group', 'tech_comm_group']}
-						items={sidebarCollapsed ? collapsedItems : [
-							userDropdown,
-							...items
-						]}
+						items={sidebarCollapsed ? username? [getUserDropDown(handleLogout, picture, username), ...collapsedItems]: collapsedItems : username? [getUserDropDown(handleLogout, picture, username), ...items]: items}
 						onClick={handleMenuClick}
-						// TODO: auth-sider-menu should be a conditional class
-						className='auth-sider-menu mt-[60px]'
+						className={`${username?'auth-sider-menu':''} mt-[60px]`}
 					/>
 				</Sider>
 				<Layout className='min-h-[calc(100vh - 10rem)] flex flex-row'>
 					{/* Dummy Collapsed Sidebar for auto margins */}
 					<div className="hidden lg:block bottom-0 left-0 w-[80px] -z-50"></div>
-					<Content className='flex-initial mx-auto min-h-[90vh] w-[94vw] lg:w-[85vw] xl:w-5/6 my-6'>
+					<Content className={`${!sidebarCollapsed && 'opacity-25'} lg:opacity-100 flex-initial mx-auto min-h-[90vh] w-[94vw] lg:w-[85vw] xl:w-5/6 my-6`}>
 						<SwitchRoutes />
 					</Content>
 				</Layout>
@@ -145,9 +195,6 @@ const AppLayout = ({ className }: { className?:string }) => {
 };
 
 export default styled(AppLayout)`
-.sidebar {
-	box-shadow: 6px 0px 18px rgba(0, 0, 0, 0.06);
-}
 
 .ant-menu-item-selected {
 	background: #fff !important;
