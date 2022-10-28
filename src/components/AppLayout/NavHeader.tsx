@@ -35,14 +35,14 @@ const NavHeader = ({ sidebarCollapsed, setSidebarCollapsed } : Props) => {
 			<nav className='w-full lg:w-5/6 lg:mx-auto flex items-center justify-between'>
 				<Link className='flex' to='/'><PALogoBlack /></Link>
 				<Space className='flex items-center justify-between'>
-					<Link className='text-navBlue hidden hover:text-pink_primary text-lg md:flex items-center mr-4' to='/notification-settings'>
+					<Link className='text-navBlue hidden hover:text-pink_primary text-lg items-center mr-4' to='/notification-settings'>
 						<BellOutlined />
 					</Link>
-					<NetworkDropdown />
+					<NetworkDropdown setSidebarCollapsed={setSidebarCollapsed} />
 					{!username
-						&& <div className='hidden md:flex items-center gap-x-2 ml-4'>
-							<Link className='text-navBlue hover:text-pink_primary font-medium' to='/login'>Login</Link>
-							<Link className='text-navBlue hover:text-pink_primary font-medium' to='/signup'>Sign-up</Link>
+						&& <div className='flex items-center lg:gap-x-2 ml-2 lg:ml-4'>
+							<Link className='text-navBlue hover:text-pink_primary font-medium' onClick={() => {setSidebarCollapsed(true);}} to='/login'>Login</Link>
+							<Link className='hidden lg:block text-navBlue hover:text-pink_primary font-medium' to='/signup'>Sign-up</Link>
 						</div>
 					}
 				</Space>
