@@ -36,7 +36,7 @@ const CreatePost = ({ className } : Props) => {
 	const [formDisabled, setFormDisabled] = useState<boolean>(false);
 
 	useEffect(() => {
-		if (currentUser?.id) {
+		if (!currentUser?.id) {
 			navigate('/');
 		}
 	}, [currentUser?.id, navigate]);
