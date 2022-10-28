@@ -109,7 +109,7 @@ const AppLayout = ({ className }: { className?:string }) => {
 					collapsed={sidebarCollapsed}
 					onMouseOver={() => setSidebarCollapsed(false)}
 					onMouseLeave={() => setSidebarCollapsed(true)}
-					className={`${sidebarCollapsed ? 'hidden': 'min-w-[256px]'} sidebar bg-white lg:block bottom-0 left-0 h-screen overflow-y-auto fixed lg:sticky top-[60px] lg:top-0 z-50`}
+					className={`${sidebarCollapsed ? 'hidden': 'min-w-[256px]'} shadow-md bg-white lg:block bottom-0 left-0 h-screen overflow-y-auto fixed top-[60px] z-50`}
 				>
 					<Menu
 						theme="light"
@@ -132,9 +132,6 @@ const AppLayout = ({ className }: { className?:string }) => {
 };
 
 export default styled(AppLayout)`
-.sidebar {
-	box-shadow: 6px 0px 18px rgba(0, 0, 0, 0.06);
-}
 
 .ant-menu-item-selected {
 	background: #fff !important;

@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { BellOutlined, BookOutlined, DownOutlined, LoginOutlined, LogoutOutlined, MenuOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import { BellOutlined, BookOutlined, DownCircleOutlined, LogoutOutlined, MenuOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
 import { Dropdown, Menu, Space } from 'antd';
 import { Header } from 'antd/lib/layout/layout';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
@@ -38,13 +38,6 @@ const NavHeader = ({ sidebarCollapsed, setSidebarCollapsed } : Props) => {
 
 	const dropdownMenuItems: ItemType[] = [
 		{
-			key: 'notification',
-			label: <Link className='text-navBlue hover:text-pink_primary font-medium flex items-center gap-x-2' to='/notification-settings'>
-				<BellOutlined />
-				<span>Notification</span>
-			</Link>
-		},
-		{
 			key: 'settings',
 			label: <Link className='text-navBlue hover:text-pink_primary font-medium flex items-center gap-x-2' to='/settings'>
 				<SettingOutlined />
@@ -75,25 +68,27 @@ const NavHeader = ({ sidebarCollapsed, setSidebarCollapsed } : Props) => {
 	];
 	const menu = <Menu className='max-h-96 overflow-y-auto' items={dropdownMenuItems} />;
 	return (
-		<Header className='flex items-center bg-white h-[60px] max-h-[60px] px-6'>
+		<Header className='fixed w-full z-50 shadow-md flex items-center bg-white h-[60px] max-h-[60px] px-6'>
 			<MenuOutlined className='lg:hidden mr-5' onClick={() => setSidebarCollapsed(!sidebarCollapsed)} />
 			<nav className='w-full lg:w-5/6 lg:mx-auto flex items-center justify-between'>
 				<Link className='flex' to='/'><PALogoBlack /></Link>
 				<Space className='flex items-center justify-between'>
+					<Link className='text-navBlue hidden hover:text-pink_primary text-lg md:flex items-center mr-4' to='/notification-settings'>
+						<BellOutlined />
+					</Link>
 					<NetworkDropdown />
 					{username
 						? <>
-							<Dropdown className='ml-4' overlay={menu}>
-								<div className='flex items-center gap-x-2'>
-									<span className='text-navBlue font-medium'>{username}</span>
-									<DownOutlined className='text-navBlue font-medium' />
+							<Dropdown overlay={menu} className='hidden md:block ml-4'>
+								<div className="flex items-center">
+									<DownCircleOutlined className='text-navBlue hover:text-pink_primary text-lg' />
 								</div>
 							</Dropdown>
 						</>
-						: <>
-							<Link className='ml-4 text-navBlue hover:text-pink_primary font-medium flex items-center gap-x-1' to='/login'>{<LoginOutlined className='lg:hidden' />} Login</Link>
-							<Link className='text-navBlue hidden lg:inline-block hover:text-pink_primary font-medium' to='/signup'>Sign-up</Link>
-						</>
+						: <div className='hidden md:flex items-center gap-x-2 ml-4'>
+							<Link className='text-navBlue hover:text-pink_primary font-medium' to='/login'>Login</Link>
+							<Link className='text-navBlue hover:text-pink_primary font-medium' to='/signup'>Sign-up</Link>
+						</div>
 					}
 				</Space>
 			</nav>
