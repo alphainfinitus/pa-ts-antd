@@ -70,7 +70,7 @@ const getUserDropDown = (handleLogout: any, img?: string | null, username?: stri
 
 	return getSiderMenuItem(<div className='flex items-center justify-between gap-x-2'>
 		<span>{username || ''}</span>
-		<Dropdown overlay={menu} className='hidden md:block ml-4'>
+		<Dropdown overlay={menu}>
 			<DownOutlined className='text-navBlue hover:text-pink_primary text-base' />
 		</Dropdown>
 	</div>, 'userMenu', <Avatar className='-ml-2.5' size={40} src={img || noUserImg} />);
