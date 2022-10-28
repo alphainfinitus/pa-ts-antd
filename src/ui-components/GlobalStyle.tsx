@@ -10,6 +10,7 @@ import { createGlobalStyle } from '@xstyled/styled-components';
 export const GlobalStyle = createGlobalStyle`
 	::-webkit-scrollbar {
 		width: 6px;
+		height: 6px;
 	}
 
 	::-webkit-scrollbar-track {
@@ -98,5 +99,17 @@ export const GlobalStyle = createGlobalStyle`
 	.ant-form-item-explain-error {
 		margin-top: 0.3em !important;
 		margin-bottom: 1em !important;
+	}
+
+	.ant-switch {
+		background: #CED4DE !important;
+	}
+
+	.ant-switch-checked{
+		background-color: pink_primary !important;
+	}
+
+	.ant-segmented-item-selected .ant-segmented-item-label {
+		color: pink_primary !important;
 	}
 `;

@@ -4,6 +4,7 @@
 
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import CreatePost from 'src/screens/CreatePost';
 import Home from 'src/screens/Home';
 import Bounties from 'src/screens/Listing/Bounties';
 import ChildBounties from 'src/screens/Listing/ChildBounties';
@@ -36,6 +37,7 @@ const SwitchRoutes = () => {
 			<Route path='/discussions' element={<Discussions />} />
 			<Route path='/post'>
 				<Route path=':id' element={<DiscussionPost />} />
+				<Route path="create" element={<CreatePost />} />
 			</Route>
 
 			<Route path="/proposals" element={<Proposals />}/>
