@@ -16,6 +16,7 @@ import TechCommProposals from 'src/screens/Listing/TechCommProposals';
 import Tips from 'src/screens/Listing/Tips';
 import Treasury from 'src/screens/Listing/Treasury';
 import LoginForm from 'src/screens/LoginForm';
+import NotFound from 'src/screens/NotFound';
 import BountyPost from 'src/screens/Posts/BountyPost';
 import ChildBountyPost from 'src/screens/Posts/ChildBountyPost';
 import DiscussionPost from 'src/screens/Posts/DiscussionPost';
@@ -63,6 +64,8 @@ const SwitchRoutes = () => {
 
 			<Route path="/tech-comm-proposals" element={<TechCommProposals />} />
 			<Route path="/tech/:id" element={<TechCommProposalPost />} />
+
+			<Route path="*" element={<NotFound />} />
 
 		</Routes>
 	);
