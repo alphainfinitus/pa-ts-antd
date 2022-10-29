@@ -10,6 +10,7 @@ import Bounties from 'src/screens/Listing/Bounties';
 import ChildBounties from 'src/screens/Listing/ChildBounties';
 import Discussions from 'src/screens/Listing/Discussions';
 import Motions from 'src/screens/Listing/Motions';
+import Parachains from 'src/screens/Listing/Parachains';
 import Proposals from 'src/screens/Listing/Proposals';
 import Referenda from 'src/screens/Listing/Referenda';
 import TechCommProposals from 'src/screens/Listing/TechCommProposals';
@@ -41,6 +42,8 @@ const SwitchRoutes = () => {
 				<Route path=':id' element={<DiscussionPost />} />
 				<Route path="create" element={<CreatePost />} />
 			</Route>
+
+			<Route path='parachains' element={<Parachains/>} />
 
 			<Route path="/proposals" element={<Proposals />}/>
 			<Route path="/proposal/:id" element={<ProposalPost />} />

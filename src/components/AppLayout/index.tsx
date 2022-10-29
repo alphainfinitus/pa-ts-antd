@@ -11,7 +11,7 @@ import noUserImg from 'src/assets/no-user-img.png';
 import { useUserDetailsContext } from 'src/context';
 import { useLogoutMutation } from 'src/generated/graphql';
 import { logout } from 'src/services/auth.service';
-import { BountiesIcon, CalendarIcon, DemocracyProposalsIcon, DiscussionsIcon, MembersIcon, MotionsIcon, NewsIcon, OverviewIcon, ReferendaIcon, TipsIcon, TreasuryProposalsIcon } from 'src/ui-components/CustomIcons';
+import { BountiesIcon, CalendarIcon, DemocracyProposalsIcon, DiscussionsIcon, MembersIcon, MotionsIcon, NewsIcon, OverviewIcon, ParachainsIcon, ReferendaIcon, TipsIcon, TreasuryProposalsIcon } from 'src/ui-components/CustomIcons';
 
 import Footer from './Footer';
 import NavHeader from './NavHeader';
@@ -86,7 +86,8 @@ const overviewItems = [
 	getSiderMenuItem('Overview', '/', <OverviewIcon className='text-white' />),
 	getSiderMenuItem('Discussions', '/discussions', <DiscussionsIcon className='text-white' />),
 	getSiderMenuItem('Calendar', '/calendar', <CalendarIcon className='text-white' />),
-	getSiderMenuItem('News', '/news', <NewsIcon className='text-white' />)
+	getSiderMenuItem('News', '/news', <NewsIcon className='text-white' />),
+	getSiderMenuItem('Parachains', '/parachains', <ParachainsIcon className='text-white' />)
 ];
 
 const democracyItems = [
@@ -133,8 +134,8 @@ const items: MenuProps['items'] = [
 const collapsedItems: MenuProps['items'] = [
 	...overviewItems,
 	...democracyItems,
-	...councilItems,
 	...treasuryItems,
+	...councilItems,
 	...techCommItems
 ];
 
