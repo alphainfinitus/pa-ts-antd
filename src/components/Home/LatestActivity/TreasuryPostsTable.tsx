@@ -4,7 +4,6 @@
 
 /* eslint-disable sort-keys */
 import { ColumnsType } from 'antd/lib/table';
-import moment from 'moment';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGetLatestDemocracyTreasuryProposalPostsQuery } from 'src/generated/graphql';
@@ -15,6 +14,7 @@ import { post_type } from 'src/global/post_types';
 import { EmptyLatestActivity, ErrorLatestActivity, LoadingLatestActivity, PopulatedLatestActivity, PopulatedLatestActivityCard } from 'src/ui-components/LatestActivityStates';
 import NameLabel from 'src/ui-components/NameLabel';
 import StatusTag from 'src/ui-components/StatusTag';
+import getRelativeCreatedAt from 'src/util/getRelativeCreatedAt';
 
 interface TreasuryPostsRowData {
   key: string | number;
@@ -53,7 +53,7 @@ const columns: ColumnsType<TreasuryPostsRowData> = [
 		key: 'created',
 		dataIndex: 'createdAt',
 		render: (createdAt) => {
-			const relativeCreatedAt = createdAt ? moment(createdAt).isAfter(moment().subtract(1, 'w')) ? moment(createdAt).startOf('day').fromNow() : moment(createdAt).format('Do MMM \'YY') : null;
+			const relativeCreatedAt = getRelativeCreatedAt(createdAt);
 			return (
 				<span>{relativeCreatedAt}</span>
 			);

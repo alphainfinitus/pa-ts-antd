@@ -4,20 +4,31 @@
 
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import CreatePost from 'src/screens/CreatePost';
 import Home from 'src/screens/Home';
 import Bounties from 'src/screens/Listing/Bounties';
+import ChildBounties from 'src/screens/Listing/ChildBounties';
 import Discussions from 'src/screens/Listing/Discussions';
 import Parachains from 'src/screens/Listing/Parachains';
+import Motions from 'src/screens/Listing/Motions';
 import Proposals from 'src/screens/Listing/Proposals';
 import Referenda from 'src/screens/Listing/Referenda';
+import TechCommProposals from 'src/screens/Listing/TechCommProposals';
+import Tips from 'src/screens/Listing/Tips';
 import Treasury from 'src/screens/Listing/Treasury';
 import LoginForm from 'src/screens/LoginForm';
+import NotFound from 'src/screens/NotFound';
 import BountyPost from 'src/screens/Posts/BountyPost';
+import ChildBountyPost from 'src/screens/Posts/ChildBountyPost';
 import DiscussionPost from 'src/screens/Posts/DiscussionPost';
+import MotionPost from 'src/screens/Posts/MotionPost';
 import ProposalPost from 'src/screens/Posts/ProposalPost';
 import ReferendumPost from 'src/screens/Posts/ReferendumPost';
+import TechCommProposalPost from 'src/screens/Posts/TechCommProposalPost';
+import TipPost from 'src/screens/Posts/TipPost';
 import TreasuryPost from 'src/screens/Posts/TreasuryPost';
 import RequestResetPassword from 'src/screens/RequestResetPassword';
+import SignupForm from 'src/screens/SignupForm';
 
 const SwitchRoutes = () => {
 	return (
@@ -25,10 +36,11 @@ const SwitchRoutes = () => {
 			<Route path='/' element={<Home />} />
 			<Route path="/request-reset-password" element={<RequestResetPassword/>}/>
 			<Route path="/login" element={<LoginForm />}/>
-
+			<Route path="/signup" element={<SignupForm/>} />
 			<Route path='/discussions' element={<Discussions />} />
 			<Route path='/post'>
 				<Route path=':id' element={<DiscussionPost />} />
+				<Route path="create" element={<CreatePost />} />
 			</Route>
 
 			<Route path='parachains' element={<Parachains/>} />
@@ -44,6 +56,21 @@ const SwitchRoutes = () => {
 
 			<Route path="/bounties" element={<Bounties />} />
 			<Route path="/bounty/:id" element={<BountyPost />} />
+
+			<Route path="/child_bounties" element={<ChildBounties />} />
+			<Route path="/child_bounty/:id" element={<ChildBountyPost />} />
+
+			<Route path="/tips" element={<Tips />} />
+			<Route path="/tip/:hash" element={<TipPost />} />
+
+			<Route path="/motions" element={<Motions />} />
+			<Route path="/motion/:id" element={<MotionPost />} />
+
+			<Route path="/tech-comm-proposals" element={<TechCommProposals />} />
+			<Route path="/tech/:id" element={<TechCommProposalPost />} />
+
+			<Route path="*" element={<NotFound />} />
+
 		</Routes>
 	);
 };

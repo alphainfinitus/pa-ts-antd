@@ -6,6 +6,7 @@ import { InjectedAccount } from '@polkadot/extension-inject/types';
 import React from 'react';
 
 import AddressDropdown from './AddressDropdown';
+import HelperTooltip from './HelperTooltip';
 
 interface Props{
 	title: string
@@ -17,7 +18,10 @@ interface Props{
 
 const AccountSelectionForm = ({ title, selectedAccount, accounts, onAccountChange }: Props) =>
 	<article className='w-full'>
-		<h3 className='mb-2 font-semibold text-base'>{title}</h3>
+		<div className='flex items-center gap-x-2 mb-2'>
+			<h3 className='font-semibold text-base'>{title}</h3>
+			<HelperTooltip text='You can choose an account from the extension.' />
+		</div>
 		<AddressDropdown
 			selectedAccount={selectedAccount}
 			accounts={accounts}
