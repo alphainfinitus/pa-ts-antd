@@ -18,7 +18,7 @@ interface IPasswordProps {
 
 const Password: FC<IPasswordProps> = ({ name, placeholder, rules, onChange }) => {
 	return (
-		<div className='flex flex-col gap-y-2 h-full'>
+		<div className='flex flex-col gap-y-2 h-full max-w-[250px]'>
 			<label
 				className="text-sm text-sidebarBlue font-normal leading-6 tracking-wide"
 				htmlFor={name}
@@ -51,7 +51,7 @@ const Profile = () => {
 	const [success, setSuccess] = useState('');
 
 	const handleSubmit = (values: any) => {
-		if (values?.old_password && !err) {
+		if (values?.old_password && !err && !success) {
 			const { old_password } = values;
 			setPasswords((prevState) => ({ ...prevState, old: old_password }));
 			setIsChange(true);
@@ -131,12 +131,14 @@ const Profile = () => {
 								]}
 							/>
 						</article>
-						: <article className='w-full flex flex-col md:items-center md:flex-row gap-x-4'>
+						: <article className='w-full flex flex-col md:flex-row gap-x-4'>
 							<Password
 								onChange={
 									() => {
 										if (err){
 											setErr('');
+										} else if (success) {
+											setSuccess('');
 										}
 									}
 								}
@@ -157,7 +159,7 @@ const Profile = () => {
 								loading={loading}
 								size='small'
 								htmlType='submit'
-								className='border-none outline-none bg-none flex items-center p-0 m-0 md:mt-1.5 text-pink_primary text-sm leading-6 tracking-wide'
+								className='border-none outline-none bg-none flex items-center p-0 m-0 md:mt-10 text-pink_primary text-sm leading-6 tracking-wide'
 							>
                                 Change
 							</Button>
