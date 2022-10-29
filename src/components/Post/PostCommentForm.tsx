@@ -3,13 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { CheckOutlined } from '@ant-design/icons';
-import { Alert, Button, Form } from 'antd';
+import { Button, Form } from 'antd';
 import { ApolloQueryResult } from 'apollo-client';
 import React, { useContext, useState } from 'react';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
 import { DiscussionPostAndCommentsQuery, DiscussionPostAndCommentsQueryVariables, MotionPostAndCommentsQuery, MotionPostAndCommentsQueryVariables, ProposalPostAndCommentsQuery, ProposalPostAndCommentsQueryVariables, ReferendumPostAndCommentsQuery, ReferendumPostAndCommentsQueryVariables, TipPostAndCommentsQuery, TipPostAndCommentsQueryVariables, TreasuryProposalPostAndCommentsQuery, TreasuryProposalPostAndCommentsQueryVariables, useAddPostCommentMutation, usePostSubscribeMutation } from 'src/generated/graphql';
+import ErrorAlert from 'src/ui-components/ErrorAlert';
 import UserAvatar from 'src/ui-components/UserAvatar';
-import cleanError from 'src/util/cleanError';
 import styled from 'styled-components';
 
 import ContentForm from '../ContentForm';
@@ -97,7 +97,7 @@ const PostCommentForm = ({ className, postId, refetch }: Props) => {
 
 	return (
 		<div className={className}>
-			{error?.message && <Alert message={cleanError(error.message)} type="error" className='mb-4' />}
+			{error?.message && <ErrorAlert errorMsg={error.message} className='mb-4' />}
 			<UserAvatar
 				className='mt-4 hidden md:inline-block'
 				username={username || ''}

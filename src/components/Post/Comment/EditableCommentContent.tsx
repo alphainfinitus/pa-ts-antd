@@ -4,7 +4,7 @@
 
 import { CheckOutlined, CloseOutlined, DeleteOutlined, FormOutlined, LinkOutlined, LoadingOutlined } from '@ant-design/icons';
 import styled from '@xstyled/styled-components';
-import { Alert, Button, Form } from 'antd';
+import { Button, Form } from 'antd';
 import { ApolloQueryResult } from 'apollo-client';
 import React, { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -12,9 +12,9 @@ import ContentForm from 'src/components/ContentForm';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
 import { CommentFieldsFragment, DiscussionPostAndCommentsQuery, DiscussionPostAndCommentsQueryVariables, MotionPostAndCommentsQuery, MotionPostAndCommentsQueryVariables, ProposalPostAndCommentsQuery, ProposalPostAndCommentsQueryVariables, ReferendumPostAndCommentsQuery, ReferendumPostAndCommentsQueryVariables, TipPostAndCommentsQuery, TipPostAndCommentsQueryVariables, TreasuryProposalPostAndCommentsQuery, TreasuryProposalPostAndCommentsQueryVariables, useAddCommentReplyMutation,useDeleteCommentMutation, useEditCommentMutation } from 'src/generated/graphql';
 import { NotificationStatus } from 'src/types';
+import ErrorAlert from 'src/ui-components/ErrorAlert';
 import Markdown from 'src/ui-components/Markdown';
 import queueNotification from 'src/ui-components/QueueNotification';
-import cleanError from 'src/util/cleanError';
 import copyToClipboard from 'src/util/copyToClipboard';
 import getNetwork from 'src/util/getNetwork';
 
@@ -204,7 +204,7 @@ const EditableCommentContent = ({ authorId, className, content, commentId, refet
 	return (
 		<>
 			<div className={className}>
-				{error?.message && <div><Alert message={cleanError(error.message)} type="error" className='mb-4' /></div>}
+				{error?.message && <div><ErrorAlert errorMsg={error.message} className='mb-4' /></div>}
 				{
 					isEditing
 						?

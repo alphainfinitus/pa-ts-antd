@@ -14,6 +14,7 @@ import { BountyPostAndCommentsQuery, BountyPostAndCommentsQueryHookResult, Bount
 import { PostCategory } from 'src/global/post_categories';
 import { PostEmptyState } from 'src/ui-components/UIStates';
 
+import OptionPoll from './ActionsBar/OptionPoll';
 import CreateOptionPoll from './ActionsBar/OptionPoll/CreateOptionPoll';
 import PostReactionBar from './ActionsBar/Reactionbar/PostReactionBar';
 import ReportButton from './ActionsBar/ReportButton';
@@ -216,11 +217,15 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 		isChildBountyProposer
 	);
 
-	const Sidebar = ({ className } : {className?:string}) => <>
-		<div className={`${className} bg-white  md:drop-shadow-md md:p-6 rounded-md w-full lg:w-4/12 mx-auto`}>
-			Sidebar Area
-		</div>
-	</>;
+	const Sidebar = ({ className } : {className?:string}) => {
+		const sidebarCardClasses = `${className} w-full lg:max-w-[33.333333%] mx-auto bg-white md:drop-shadow-md md:pt-1 md:pb-4 md:px-6 rounded-md`;
+
+		return (
+			<>
+				<OptionPoll className={sidebarCardClasses} postId={post.id} canEdit={post.author?.id === id} />
+			</>
+		);
+	};
 
 	return (
 		<>
@@ -263,7 +268,7 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 						</div>
 					</div>
 
-					{!isEditing && <div className='flex lg:hidden mb-8'><Sidebar /></div>}
+					{!isEditing && <div className='flex lg:hidden mb-8 mx-2'><Sidebar /></div>}
 
 					{ id && <PostCommentForm postId={post.id} refetch={refetch} /> }
 

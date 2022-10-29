@@ -3,10 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { FlagOutlined } from '@ant-design/icons';
-import { Alert, Button,Form,Input,Modal, Select } from 'antd';
+import { Button,Form,Input,Modal, Select } from 'antd';
 import React, { useState } from 'react';
 import { useReportContentMutation } from 'src/generated/graphql';
 import { NotificationStatus } from 'src/types';
+import ErrorAlert from 'src/ui-components/ErrorAlert';
 import queueNotification from 'src/ui-components/QueueNotification';
 import cleanError from 'src/util/cleanError';
 import getNetwork from 'src/util/getNetwork';
@@ -109,7 +110,7 @@ const ReportButton = function ({ type, contentId }:DiscussionProps) {
 						reason: reasons[0]
 					}}
 				>
-					{error && <Alert message={cleanError(error.message)} type="error" className='mb-4' />}
+					{error && <ErrorAlert errorMsg={error.message} className='mb-4' />}
 
 					<Form.Item name='reason' label="Reason" rules={[{ required: true }]}>
 						<Select>

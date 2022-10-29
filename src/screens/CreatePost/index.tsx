@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Alert, Button, Form, Input, Switch } from 'antd';
+import { Button, Form, Input, Switch } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ContentForm from 'src/components/ContentForm';
@@ -12,8 +12,8 @@ import { PostCategory } from 'src/global/post_categories';
 import { usePollEndBlock } from 'src/hooks';
 import { NotificationStatus } from 'src/types';
 import BackToListingView from 'src/ui-components/BackToListingView';
+import ErrorAlert from 'src/ui-components/ErrorAlert';
 import queueNotification from 'src/ui-components/QueueNotification';
-import cleanError from 'src/util/cleanError';
 
 import TopicsRadio from './TopicsRadio';
 
@@ -141,7 +141,7 @@ const CreatePost = ({ className } : Props) => {
 
 			<div className="flex flex-col mt-6 bg-white p-4 md:p-8 rounded-md w-full shadow-md mb-4">
 				<h2 className="dashboard-heading mb-8">New Post</h2>
-				{error && <Alert message={cleanError(error.message)} type="error" className='mb-4' />}
+				{error && <ErrorAlert errorMsg={error.message} className='mb-4' />}
 
 				<Form
 					form={form}

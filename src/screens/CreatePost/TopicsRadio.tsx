@@ -3,10 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { LoadingOutlined } from '@ant-design/icons';
-import { Alert, Segmented } from 'antd';
+import { Segmented } from 'antd';
 import { SegmentedValue } from 'antd/lib/segmented';
 import React from 'react';
-import cleanError from 'src/util/cleanError';
+import ErrorAlert from 'src/ui-components/ErrorAlert';
 
 import { usePost_TopicsQuery } from '../../generated/graphql';
 
@@ -22,7 +22,7 @@ const TopicsRadio = ({ className, onTopicSelection }: Props) => {
 
 	if (error?.message) {
 		console.error('Topic retrieval error', error);
-		return <Alert message={cleanError(error.message)} type="error" />;
+		return <ErrorAlert errorMsg={error.message} />;
 	}
 
 	if(data && data.post_topics.length) {

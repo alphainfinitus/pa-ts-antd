@@ -2,12 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-// TODO: REVAMP THIS FILE
-import styled from '@xstyled/styled-components';
-import { Card, Progress } from 'antd';
+import { Progress } from 'antd';
 import React, { useCallback, useContext, useState } from 'react';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
 import { useAddOptionPollVoteMutation, useDeleteOptionPollVoteMutation,useOptionPollVotesQuery } from 'src/generated/graphql';
+import ErrorAlert from 'src/ui-components/ErrorAlert';
 import HelperTooltip from 'src/ui-components/HelperTooltip';
 
 interface Props {
@@ -67,7 +66,7 @@ const OptionPoll = ({ className, optionPollId, question, options, endAt }: Props
 		}
 	}, [id, addOptionPollVoteMutation, deleteOptionPollVoteMutation, optionPollId, refetch]);
 
-	if (error?.message) return <Card>{error.message}</Card>;
+	if (error?.message) return <ErrorAlert className={className} errorMsg={error.message} />;
 
 	try {
 		parsedOptions = JSON.parse(options);
@@ -76,40 +75,37 @@ const OptionPoll = ({ className, optionPollId, question, options, endAt }: Props
 	}
 
 	return (
-		<Card className={className}>
-			<div>
-				{err?.message && <p>{err.message}</p>}
-				{error?.message && <p>{error.message}</p>}
+		<div className={className}>
+			<div className='mt-2 mb-4'>
+				{err?.message && <ErrorAlert errorMsg={err.message} />}
+				{error?.message && <ErrorAlert errorMsg={error.message} />}
 			</div>
-			<h3>Poll: {question}? <HelperTooltip text='Click on option to vote' /></h3>
+
+			<div className="flex items-center mb-4">
+				<h3 className='dashboard-heading'><span className='text-navBlue mr-1'>Poll:</span>{question}?</h3>
+				{id && <HelperTooltip className='ml-2 -mt-0.5' text='Click on option to vote' />}
+			</div>
+
 			<div>
 				{parsedOptions.map(option => (
-					<Progress
-						className='progress'
-						key={option}
-						percent={totalVotes && Math.round((optionMap[option] || 0)*100/totalVotes)}
-						// color='blue'
-						// progress
-						// onClick={() => castVote(option)}
-					>
-						{option}
-					</Progress>
+					<div key={option} className={`${id && 'cursor-pointer'} mb-2`} onClick={() => castVote(option)}>
+						<Progress
+							type='line'
+							strokeWidth={11}
+							percent={totalVotes && Math.round((optionMap[option] || 0) * 100/totalVotes)}
+							format={(percent) => (<div> {percent} % </div>)}
+						/>
+						<div className='mt-1'>{option}</div>
+					</div>
 				))}
 			</div>
-			<div>
+
+			<div className='mt-4'>
 				<span>{totalVotes} votes.</span>
 				<span>{endAt && Math.round(Date.now()/1000) > endAt ? 'Poll Ended': ''}</span>
 			</div>
-		</Card>
+		</div>
 	);
 };
 
-export default styled(OptionPoll)`
-	.progress {
-		cursor: pointer;
-	}
-
-	.errorText {
-		color: red_secondary;
-	}
-`;
+export default OptionPoll;
