@@ -4,7 +4,7 @@
 
 import { DownOutlined } from '@ant-design/icons';
 import { Dropdown, Menu } from 'antd';
-import React from 'react';
+import React, { FC } from 'react';
 import chainLogo from 'src/assets/parachain-logos/chain-logo.jpg';
 import { chainProperties, network } from 'src/global/networkConstants';
 import getNetwork from 'src/util/getNetwork';
@@ -32,10 +32,14 @@ for (const key of Object.keys(network)) {
 
 const menu = <Menu className='max-h-96 overflow-y-auto' items={dropdownMenuItems} />;
 
-const NetworkDropdown = () => {
+const NetworkDropdown: FC<{setSidebarCollapsed: React.Dispatch<React.SetStateAction<boolean>>}> = ({ setSidebarCollapsed }) => {
 	return (
 		<Dropdown overlay={menu} trigger={['click']}>
-			<a className='flex items-center justify-between text-navBlue hover:text-pink_primary' onClick={e => e.preventDefault()}>
+			<a className='flex items-center justify-between text-navBlue hover:text-pink_primary' onClick={e => {
+				e.preventDefault();
+				setSidebarCollapsed(true);
+			}}
+			>
 				<img
 					className='w-[20px] h-[20px] mr-2 rounded-full'
 					src={chainProperties[currentNetwork]?.logo ? chainProperties[currentNetwork].logo : chainLogo}

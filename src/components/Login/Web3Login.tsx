@@ -219,14 +219,19 @@ const Web3Login: FC<Props> = ({
 	};
 	const handleToggle = () => setDisplayWeb2();
 	return (
-		<article className="bg-white shadow-md rounded-md p-8 flex flex-col gap-y-6 md:min-w-[500px]">
-			<h3 className="text-2xl font-semibold text-[#1E232C] flex gap-x-2 items-center">
-				<span>
-					<WalletIcon which={chosenWallet} />
-				</span>{' '}
-				{chosenWallet.charAt(0).toUpperCase() +
-          chosenWallet.slice(1).replace('-', '.')}{' '}
-        Login
+		<article className="bg-white shadow-md rounded-md p-8 flex flex-col gap-y-6">
+			<h3 className="text-2xl font-semibold text-[#1E232C] flex flex-col gap-y-4">
+				<span>Login</span>
+				<p className='flex gap-x-2 items-center justify-center'>
+					<span>
+						<WalletIcon which={chosenWallet} />
+					</span>
+					<span className='text-navBlue text-lg sm:text-xl'>
+						{
+							chosenWallet.charAt(0).toUpperCase() + chosenWallet.slice(1).replace('-', '.')
+						}
+					</span>
+				</p>
 			</h3>
 			<AuthForm onSubmit={handleLogin} className="flex flex-col gap-y-6">
 				{extensionNotFound?
