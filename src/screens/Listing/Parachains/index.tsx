@@ -21,12 +21,9 @@ const Parachains = ({ className }: Props) => {
 		fetch('parachains.json')
 			.then((r) => r.json())
 			.then((data) => {
-				console.log(data);
 				setParachainsData(data);
 			});
 	},[]);
-
-	console.log(parachainsData);
 
 	const tabItems = [
 		// eslint-disable-next-line sort-keys

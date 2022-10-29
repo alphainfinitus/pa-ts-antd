@@ -34,8 +34,6 @@ const ParachainInfoCard = ({ className, network }: Props) => {
 
 	const metrics = network=='polkadot' ? polkadotMetrics : kusamaMetrics;
 
-	console.log(metrics);
-
 	return (
 		<div className={className}>
 			<div className="bg-white drop-shadow-md p-3 lg:p-6 rounded-md">

@@ -165,8 +165,6 @@ const ChainDataTable = ({ chain, data }:Props) => {
 		}
 	}, [chain, data]);
 
-	console.log(data);
-
 	if(chainData){
 
 		const tableData: ParachainRowData[] = [];
@@ -194,7 +192,7 @@ const ChainDataTable = ({ chain, data }:Props) => {
 		});
 		return(<>
 			<div className='hidden lg:block'>
-				<PopulatedLatestActivity columns={chain === 'all' ? allColumns : columns} tableData={tableData} onClick={(rowData) => console.log(rowData)} />;
+				<PopulatedLatestActivity columns={chain === 'all' ? allColumns : columns} tableData={tableData} onClick={() => null} />;
 			</div>
 
 			<div className="block lg:hidden h-[520px] overflow-y-auto">
