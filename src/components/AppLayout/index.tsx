@@ -6,7 +6,7 @@ import styled from '@xstyled/styled-components';
 import { Layout, Menu, MenuProps } from 'antd';
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { BountiesIcon, CalendarIcon, DemocracyProposalsIcon, DiscussionsIcon, MembersIcon, MotionsIcon, NewsIcon, OverviewIcon, ReferendaIcon, TipsIcon, TreasuryProposalsIcon } from 'src/ui-components/CustomIcons';
+import { BountiesIcon, CalendarIcon, DemocracyProposalsIcon, DiscussionsIcon, MembersIcon, MotionsIcon, NewsIcon, OverviewIcon, ParachainsIcon, ReferendaIcon, TipsIcon, TreasuryProposalsIcon } from 'src/ui-components/CustomIcons';
 
 import Footer from './Footer';
 import NavHeader from './NavHeader';
@@ -35,7 +35,7 @@ const overviewItems = [
 	getSiderMenuItem('Discussions', '/discussions', <DiscussionsIcon className='text-white' />),
 	getSiderMenuItem('Calendar', '/calendar', <CalendarIcon className='text-white' />),
 	getSiderMenuItem('News', '/news', <NewsIcon className='text-white' />),
-	getSiderMenuItem('Parachains', '/parachains', <NewsIcon className='text-white' />)
+	getSiderMenuItem('Parachains', '/parachains', <ParachainsIcon className='text-white' />)
 ];
 
 const democracyItems = [

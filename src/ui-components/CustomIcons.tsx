@@ -18,6 +18,7 @@ import { ReactComponent as MembersSVG } from 'src/assets/sidebar/members.svg';
 import { ReactComponent as MotionsSVG } from 'src/assets/sidebar/motions.svg';
 import { ReactComponent as NewsSVG } from 'src/assets/sidebar/news.svg';
 import { ReactComponent as OverviewSVG } from 'src/assets/sidebar/overview.svg';
+import { ReactComponent as ParachainsSVG } from 'src/assets/sidebar/parachains.svg';
 import { ReactComponent as ReferendaSVG } from 'src/assets/sidebar/referenda.svg';
 import { ReactComponent as TipsSVG } from 'src/assets/sidebar/tips.svg';
 import { ReactComponent as TreasuryProposalsSVG } from 'src/assets/sidebar/treasury_proposals.svg';
@@ -56,6 +57,10 @@ export const MembersIcon = (props: Partial<CustomIconComponentProps>) => (
 
 export const MotionsIcon = (props: Partial<CustomIconComponentProps>) => (
 	<Icon component={MotionsSVG} {...props} />
+);
+
+export const ParachainsIcon = (props: Partial<CustomIconComponentProps>) => (
+	<Icon component={ParachainsSVG} {...props} />
 );
 
 export const ReferendaIcon = (props: Partial<CustomIconComponentProps>) => (
