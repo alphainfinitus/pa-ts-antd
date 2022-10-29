@@ -4,6 +4,7 @@
 import { Col, Divider, Row } from 'antd';
 import React, { FC } from 'react';
 
+import Delete from './Delete';
 import Profile from './Profile';
 
 interface Props {}
@@ -17,6 +18,7 @@ const Settings: FC<Props> = () => {
 			<Row className='mt-6 w-full bg-white shadow-md p-8 rounded-md'>
 				<Profile />
 				<Divider />
+				<Delete />
 			</Row>
 		</Col>
 	);
