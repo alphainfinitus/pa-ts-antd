@@ -117,7 +117,6 @@ const Cards = function ({
 			</div>
 
 			<div className="parachain-card-tags">
-				<h3>Tags</h3>
 				<div className='project-badges'>
 					{badgeArray.map(
 						(badge: string) => {

@@ -39,9 +39,9 @@ const ParachainInfoCard = ({ className, network }: Props) => {
 			<div className="bg-white drop-shadow-md p-3 lg:p-6 rounded-md">
 				<div className='parachain-card-header'>
 					<img src={network=='polkadot' ? polkadotLogo : kusamaLogo} alt="Chain Logo" />
-					<span className='network-name'>{network}</span>
+					<span className='network-name text-sidebarBlue'>{network}</span>
 				</div>
-				<div className='parachain-card-meta'>
+				<div className='parachain-card-meta text-sidebarBlue opacity-90'>
 					{network == 'polkadot' ? '11%' : '31%' } of Total Supply Locked<span className='hidden-sm'> in Parachains and Crowdloans</span>
 				</div>
 
@@ -55,36 +55,36 @@ const ParachainInfoCard = ({ className, network }: Props) => {
 					<div className='metric-container'>
 						<div className='metric-line'>
 							<img src={auctionIcon} alt="Auction Icon" />
-							<span className='metric-num'>{metrics.auction}</span>
+							<span className='metric-num text-sidebarBlue'>{metrics.auction}</span>
 						</div>
-						<div className='metric-name'>Auction</div>
+						<div className='metric-name text-navBlue'>Auction</div>
 					</div>
 
 					{/* Crowdloans */}
 					<div className='metric-container'>
 						<div className='metric-line'>
 							<img src={crowdloansIcon} alt="Crowdloans Icon" />
-							<span className='metric-num'>{metrics.crowdloans}</span>
+							<span className='metric-num text-sidebarBlue'>{metrics.crowdloans}</span>
 						</div>
-						<div className='metric-name'>Crowdloans</div>
+						<div className='metric-name text-navBlue'>Crowdloans</div>
 					</div>
 
 					{/* Parachains */}
 					<div className='metric-container'>
 						<div className='metric-line'>
 							<img src={chainIcon} alt="Parachains Icon" />
-							<span className='metric-num'>{metrics.projects}</span>
+							<span className='metric-num text-sidebarBlue'>{metrics.projects}</span>
 						</div>
-						<div className='metric-name'>Parachains</div>
+						<div className='metric-name text-navBlue'>Parachains</div>
 					</div>
 
 					{/* Projects */}
 					<div className='metric-container'>
 						<div className='metric-line'>
 							<img src={projectsIcon} alt="Parachains Icon" />
-							<span className='metric-num'>{metrics.projects}</span>
+							<span className='metric-num text-sidebarBlue'>{metrics.projects}</span>
 						</div>
-						<div className='metric-name'>Projects</div>
+						<div className='metric-name text-navBlue'>Projects</div>
 					</div>
 				</div>
 			</div>
@@ -96,7 +96,7 @@ export default styled(ParachainInfoCard)`
 		.parachain-card-header {
 			display: flex !important;
 			align-items: center;
-			font-size: 24px !important;
+			font-size: 18px !important;
 
 			@media only screen and (max-width: 768px) {
 				font-size: 16px !important;
@@ -117,7 +117,6 @@ export default styled(ParachainInfoCard)`
 
 			.network-name {
 				text-transform: capitalize;
-				color: #334D6E;
 				font-weight: 500;
 			}
 
@@ -129,26 +128,13 @@ export default styled(ParachainInfoCard)`
 				border-radius: 50%;
 				display: inline-block;
 			}
-
-			.sub-text {
-				color: #A7A7A7;
-				font-size: 12px;
-				font-weight: 400;
-				display: none;
-				margin-left: 6px;
-
-				@media only screen and (max-width: 768px) {
-					display: inline-block;
-				}
-			}
 		}
 
 		.parachain-card-meta {
 			margin-left: 53px;
 			margin-top: 12px;
 			margin-bottom: 24px;
-			font-size: 15px !important;
-			color: #646464 !important;
+			font-size: 14px !important;
 
 			@media only screen and (max-width: 768px) {
 				font-size: 12px !important;
@@ -188,18 +174,17 @@ export default styled(ParachainInfoCard)`
 				.metric-num {
 					margin-left: 7px;
 					font-weight: 500;
-					font-size: 20px;
-					color: #90A0B7;
+					font-size: 14px;
 
 					@media only screen and (max-width: 768px) {
-						font-size: 14px;
+						font-size: 12px;
 					}
 				}
 			}
 
 			.metric-name {
 				margin-top: 8px !important;
-				font-size: 18px;
+				font-size: 14px;
 
 				@media only screen and (max-width: 768px) {
 					font-size: 12px;

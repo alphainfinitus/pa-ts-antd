@@ -41,7 +41,7 @@ const columns: ColumnsType<ParachainRowData> = [
 		dataIndex: 'index',
 		fixed: 'left',
 		key: 'index',
-		render: (index) => <div>#{index}</div>,
+		render: (index) => <div className='text-sidebarBlue'>#{index}</div>,
 		title: 'Index',
 		width: 75
 	},
@@ -52,9 +52,9 @@ const columns: ColumnsType<ParachainRowData> = [
 		render:(name, { badgeArray, logoURL }) => (
 			<div style={{ alignItems:'center', display:'flex' }}>
 				<img style={{ marginRight:'16px' }} src={logoURL} height={34} width={34} alt={`${name} logo`} />
-				<div style={{ marginRight:'16px' }}>{name}</div>
+				<div className='text-sidebarBlue' style={{ marginRight:'16px' }}>{name}</div>
 				{badgeArray.map((item : any) => (
-					<div key={item} style={{ backgroundColor:'#EA729D', borderRadius:'48px', color:'#ffffff', marginRight:'10px', padding:'4px 10px' }}>{item}</div>
+					<div key={item} className='bg-pink_light text-white text-[12px]' style={{  borderRadius:'48px', marginRight:'10px', padding:'4px 10px' }}>{item}</div>
 				))}
 			</div>
 		),
@@ -67,10 +67,10 @@ const columns: ColumnsType<ParachainRowData> = [
 		render:(status) => (
 			<>
 				{
-					status.search('auction') !== -1 ? <span className='flex items-center gap-4'><img src={auctionIcon} height={16} width={16} alt='Auction Icon' /> In Auction</span>:
-						status.search('Testing') !== -1 ? <span className='flex items-center gap-4'><img src={testingIcon} height={16} width={16} alt='Testing Icon' /> Testing</span> :
-							status.search('announced') !== -1 ? <span className='flex items-center gap-4'><img src={announcedIcon} height={16} width={16} alt='Announced Icon' /> Announced</span>:
-								status.search('live') !== -1 ? <span className='flex items-center gap-4'><img src={liveIcon} height={16} width={16} alt='Live Icon' /> Live</span> : null
+					status.search('auction') !== -1 ? <span className='flex items-center gap-4 text-sidebarBlue'><img src={auctionIcon} height={16} width={16} alt='Auction Icon' /> In Auction</span>:
+						status.search('Testing') !== -1 ? <span className='flex items-center gap-4 text-sidebarBlue'><img src={testingIcon} height={16} width={16} alt='Testing Icon' /> Testing</span> :
+							status.search('announced') !== -1 ? <span className='flex items-center gap-4 text-sidebarBlue'><img src={announcedIcon} height={16} width={16} alt='Announced Icon' /> Announced</span>:
+								status.search('live') !== -1 ? <span className='flex items-center gap-4 text-sidebarBlue'><img src={liveIcon} height={16} width={16} alt='Live Icon' /> Live</span> : null
 				}
 			</>
 		),
@@ -79,6 +79,7 @@ const columns: ColumnsType<ParachainRowData> = [
 	{
 		dataIndex: 'token',
 		key: 'token',
+		render:(token) => <div className='text-sidebarBlue'>{token}</div>,
 		title: 'Token'
 	},
 	{
@@ -124,7 +125,7 @@ const columns: ColumnsType<ParachainRowData> = [
 	{
 		dataIndex: 'investors',
 		key: 'investors',
-		render: (investors) => <>{!!investors && investors}</>,
+		render: (investors) => <div className='text-sidebarBlue'>{!!investors && investors}</div>,
 		title: 'Investors',
 		width: 'auto'
 	},

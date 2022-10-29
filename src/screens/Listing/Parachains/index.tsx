@@ -27,11 +27,11 @@ const Parachains = ({ className }: Props) => {
 
 	const tabItems = [
 		// eslint-disable-next-line sort-keys
-		{ label: 'All', key: 'all', children: <ChainDataTable data={parachainsData} chain='all' /> },
+		{ label: `All (${parachainsData?.length})`, key: 'all', children: <ChainDataTable data={parachainsData} chain='all' /> },
 		// eslint-disable-next-line sort-keys
-		{ label: 'Polkadot', key: 'polkadot', children: <ChainDataTable data={parachainsData} chain='polkadot' /> },
+		{ label: `Polkadot (${parachainsData?.filter((item : any) => item?.chain === 'polkadot').length})`, key: 'polkadot', children: <ChainDataTable data={parachainsData} chain='polkadot' /> },
 		// eslint-disable-next-line sort-keys
-		{ label: 'Kusama', key: 'kusama', children: <ChainDataTable data={parachainsData} chain='kusama' /> }
+		{ label: `Kusama (${parachainsData?.filter((item : any) => item?.chain === 'kusama').length})`, key: 'kusama', children: <ChainDataTable data={parachainsData} chain='kusama' /> }
 	];
 
 	return (
@@ -50,6 +50,7 @@ const Parachains = ({ className }: Props) => {
 			<div className={`${className} bg-white drop-shadow-md p-2 lg:p-6 rounded-md h-[650px]`}>
 				<h2 className='dashboard-heading mb-6'>Projects</h2>
 				<Tabs
+					tabBarStyle={{ color:'#334D6E' }}
 					type="card"
 					items={tabItems}
 				/>
