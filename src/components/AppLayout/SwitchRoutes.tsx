@@ -9,6 +9,7 @@ import Home from 'src/screens/Home';
 import Bounties from 'src/screens/Listing/Bounties';
 import ChildBounties from 'src/screens/Listing/ChildBounties';
 import Discussions from 'src/screens/Listing/Discussions';
+import Members from 'src/screens/Listing/Members';
 import Motions from 'src/screens/Listing/Motions';
 import Parachains from 'src/screens/Listing/Parachains';
 import Proposals from 'src/screens/Listing/Proposals';
@@ -65,6 +66,8 @@ const SwitchRoutes = () => {
 
 			<Route path="/motions" element={<Motions />} />
 			<Route path="/motion/:id" element={<MotionPost />} />
+
+			<Route path="/council" element={<Members />} />
 
 			<Route path="/tech-comm-proposals" element={<TechCommProposals />} />
 			<Route path="/tech/:id" element={<TechCommProposalPost />} />

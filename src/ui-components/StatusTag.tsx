@@ -72,7 +72,7 @@ export default styled(StatusTag).attrs(( { status }: Props) => ({
 		background: #5BC044;
 	}
 	&.${childBountyStatus.CLAIMED},
-	&.prime {
+	&.prime, &.Prime {
 		border-color: green_primary;
 		background-color: green_primary;
 	}
