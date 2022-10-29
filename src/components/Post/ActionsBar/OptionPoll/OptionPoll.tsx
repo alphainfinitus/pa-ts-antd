@@ -2,7 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Divider, Progress } from 'antd';
+import { LoadingOutlined } from '@ant-design/icons';
+import { Divider, Progress, Spin } from 'antd';
 import React, { useCallback, useContext, useState } from 'react';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
 import { useAddOptionPollVoteMutation, useDeleteOptionPollVoteMutation,useOptionPollVotesQuery } from 'src/generated/graphql';
@@ -20,6 +21,7 @@ interface Props {
 
 const OptionPoll = ({ className, optionPollId, question, options, endAt }: Props) => {
 	const [err, setErr] = useState<Error | null>(null);
+	const [loading, setLoading] = useState<boolean>(false);
 	const { id } = useContext(UserDetailsContext);
 	const { data, error, refetch } = useOptionPollVotesQuery({ variables: { optionPollId } });
 	const [addOptionPollVoteMutation] = useAddOptionPollVoteMutation();
@@ -39,6 +41,8 @@ const OptionPoll = ({ className, optionPollId, question, options, endAt }: Props
 		if (!id) {
 			return;
 		}
+
+		setLoading(true);
 
 		try {
 			await deleteOptionPollVoteMutation({
@@ -64,6 +68,8 @@ const OptionPoll = ({ className, optionPollId, question, options, endAt }: Props
 		} catch (error) {
 			setErr(error);
 		}
+
+		setLoading(false);
 	}, [id, addOptionPollVoteMutation, deleteOptionPollVoteMutation, optionPollId, refetch]);
 
 	if (error?.message) return <ErrorAlert className={className} errorMsg={error.message} />;
@@ -86,7 +92,7 @@ const OptionPoll = ({ className, optionPollId, question, options, endAt }: Props
 				{id && <HelperTooltip className='ml-2 -mt-0.5' text='Click on option to vote' />}
 			</div>
 
-			<div>
+			<Spin spinning={loading} indicator={<LoadingOutlined />}>
 				{parsedOptions.map(option => (
 					<div key={option} className={`${id && 'cursor-pointer'} mb-2`} onClick={() => castVote(option)}>
 						<Progress
@@ -98,12 +104,15 @@ const OptionPoll = ({ className, optionPollId, question, options, endAt }: Props
 						<div className='mt-1'>{option}</div>
 					</div>
 				))}
-			</div>
+			</Spin>
 
 			<div className='mt-4 text-right text-sidebarBlue font-medium'>
 				<span>{totalVotes} {totalVotes > 1 ? 'votes' : 'vote'}</span>
-				<Divider className='mx-2' type="vertical" style={{ borderLeft: '1px solid #90A0B7' }} />
-				<span>{endAt && Math.round(Date.now()/1000) > endAt ? 'Poll Ended': ''}</span>
+
+				{ endAt && Math.round(Date.now()/1000) > endAt && <>
+					<Divider className='mx-2' type="vertical" style={{ borderLeft: '1px solid #90A0B7' }} />
+					<span>Poll Ended</span>
+				</>}
 			</div>
 		</div>
 	);
