@@ -92,6 +92,12 @@ const Profile = () => {
 				</p>
 			</div>
 			<Form form={form} onFinish={handleSubmit} className='mt-8'>
+				{err && <div className='mb-4 flex items-start'>
+					<Alert type='error' message={err} />
+				</div>}
+				{success && <div className='mb-4 flex items-start'>
+					<Alert type='success' message={success} />
+				</div>}
 				{
 					isChange
 						? <article className='flex flex-col lg:flex-row gap-x-5'>
@@ -165,12 +171,6 @@ const Profile = () => {
 							</Button>
 						</article>
 				}
-				{err && <div className='mt-2 flex items-start'>
-					<Alert type='error' message={err} />
-				</div>}
-				{success && <div className='mt-2 flex items-start'>
-					<Alert type='success' message={success} />
-				</div>}
 				<Button
 					loading={loading}
 					disabled={!isSave}
