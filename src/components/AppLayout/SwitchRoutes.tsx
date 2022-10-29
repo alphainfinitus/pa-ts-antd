@@ -27,6 +27,7 @@ import TechCommProposalPost from 'src/screens/Posts/TechCommProposalPost';
 import TipPost from 'src/screens/Posts/TipPost';
 import TreasuryPost from 'src/screens/Posts/TreasuryPost';
 import RequestResetPassword from 'src/screens/RequestResetPassword';
+import Settings from 'src/screens/Settings';
 import SignupForm from 'src/screens/SignupForm';
 
 const SwitchRoutes = () => {
@@ -36,6 +37,7 @@ const SwitchRoutes = () => {
 			<Route path="/request-reset-password" element={<RequestResetPassword/>}/>
 			<Route path="/login" element={<LoginForm />}/>
 			<Route path="/signup" element={<SignupForm/>} />
+			<Route path="/settings" element={<Settings/>} />
 			<Route path='/discussions' element={<Discussions />} />
 			<Route path='/post'>
 				<Route path=':id' element={<DiscussionPost />} />
