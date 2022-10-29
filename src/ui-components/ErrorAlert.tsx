@@ -4,7 +4,6 @@
 import { Alert } from 'antd';
 import React from 'react';
 import cleanError from 'src/util/cleanError';
-// TODO: Implement this everywhere
 
 interface Props {
 	className?: string;

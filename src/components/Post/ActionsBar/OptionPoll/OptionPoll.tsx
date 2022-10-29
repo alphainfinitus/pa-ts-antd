@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Progress } from 'antd';
+import { Divider, Progress } from 'antd';
 import React, { useCallback, useContext, useState } from 'react';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
 import { useAddOptionPollVoteMutation, useDeleteOptionPollVoteMutation,useOptionPollVotesQuery } from 'src/generated/graphql';
@@ -100,8 +100,9 @@ const OptionPoll = ({ className, optionPollId, question, options, endAt }: Props
 				))}
 			</div>
 
-			<div className='mt-4'>
-				<span>{totalVotes} votes.</span>
+			<div className='mt-4 text-right text-sidebarBlue font-medium'>
+				<span>{totalVotes} {totalVotes > 1 ? 'votes' : 'vote'}</span>
+				<Divider className='mx-2' type="vertical" style={{ borderLeft: '1px solid #90A0B7' }} />
 				<span>{endAt && Math.round(Date.now()/1000) > endAt ? 'Poll Ended': ''}</span>
 			</div>
 		</div>
