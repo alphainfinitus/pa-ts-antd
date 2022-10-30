@@ -9,6 +9,8 @@ import cleanError from 'src/util/cleanError';
 import messages from 'src/util/messages';
 import * as validation from 'src/util/validation';
 
+import Header from './Header';
+
 interface IPasswordProps {
     name: string;
     placeholder: string;
@@ -83,14 +85,7 @@ const Profile = () => {
 	};
 	return (
 		<Row className='flex flex-col w-full'>
-			<div>
-				<h3 className='font-medium text-lg tracking-wide leading-7 text-sidebarBlue'>
-                    Profile Settings
-				</h3>
-				<p className='text-sm leading-6 tracking-wide mt-2 text-navBlue'>
-                    Update your profile settings
-				</p>
-			</div>
+			<Header heading='Profile Settings' subHeading='Update your profile settings' />
 			<Form form={form} onFinish={handleSubmit} className='mt-8'>
 				{err && <div className='mb-4 flex items-start'>
 					<Alert type='error' message={err} />

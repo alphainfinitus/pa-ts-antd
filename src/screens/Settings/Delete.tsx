@@ -11,10 +11,11 @@ import { logout } from 'src/services/auth.service';
 import FilteredError from 'src/ui-components/FilteredError';
 import cleanError from 'src/util/cleanError';
 
+import Header from './Header';
+
 const Delete: FC<{className?: string}> = ({ className }) => {
 	const [error, setError] = useState('');
 	const [showModal, setShowModal] = useState(false);
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [isOther,setIsOther] = useState(false);
 	const [deleteAccountMutation, { loading }] = useDeleteAccountMutation();
 	const [form] = Form.useForm();
@@ -59,14 +60,7 @@ const Delete: FC<{className?: string}> = ({ className }) => {
 	const { Option } = Select;
 	return (
 		<Form className={className} form={form} onFinish={handleSubmit}>
-			<div>
-				<h3 className='font-medium text-lg tracking-wide leading-7 text-sidebarBlue'>
-                        Delete Account
-				</h3>
-				<p className='text-sm leading-6 tracking-wide mt-2 text-navBlue'>
-                        Once you delete your account, there is no going back. Please be certain.
-				</p>
-			</div>
+			<Header heading='Delete Account' subHeading='Once you delete your account, there is no going back. Please be certain.' />
 			<Modal
 				closable={false}
 				title={Title}
