@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { ApolloQueryResult } from 'apollo-client';
 import React, { useContext } from 'react';
 import ErrorAlert from 'src/ui-components/ErrorAlert';
@@ -43,7 +42,7 @@ const Poll = ({ pollId, endBlock, canEdit, pollRefetch }: Props) => {
 
 	return (
 		<>
-			{/* <GeneralSignals
+			<GeneralSignals
 				ayes={ayes}
 				endBlock={endBlock}
 				nays={nays}
@@ -52,7 +51,7 @@ const Poll = ({ pollId, endBlock, canEdit, pollRefetch }: Props) => {
 				canEdit={canEdit}
 				pollRefetch={pollRefetch}
 				votesRefetch={refetch}
-			/> */}
+			/>
 			<CouncilSignals data={data} endBlock={endBlock} />
 		</>
 	);

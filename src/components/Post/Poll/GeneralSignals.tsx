@@ -2,9 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import styled from '@xstyled/styled-components';
-import { Button, Card, Form } from 'antd';
+import { Button } from 'antd';
 import { ApolloQueryResult } from 'apollo-client';
 import React, { useCallback, useContext, useState } from 'react';
 import BlockCountdown from 'src/components/BlockCountdown';
@@ -12,13 +11,12 @@ import { UserDetailsContext } from 'src/context/UserDetailsContext';
 import useCurrentBlock from 'src/hooks/useCurrentBlock';
 import usePollEndBlock from 'src/hooks/usePollEndBlock';
 import { Vote } from 'src/types';
+import AyeNayButtons from 'src/ui-components/AyeNayButtons';
 import ErrorAlert from 'src/ui-components/ErrorAlert';
 import GovSidebarCard from 'src/ui-components/GovSidebarCard';
 import HelperTooltip from 'src/ui-components/HelperTooltip';
 
 import { PollQuery, PollQueryVariables, PollVotesQuery, PollVotesQueryVariables, useAddPollVoteMutation, useDeleteVoteMutation, useEditPollMutation } from '../../../generated/graphql';
-// import AyeNayButtons from '../../../ui-components/AyeNayButtons';
-// import GeneralChainSignalBar from '../../../ui-components/GeneralChainSignalBar';
 
 interface Props {
 	ayes: number
@@ -32,7 +30,7 @@ interface Props {
 	votesRefetch: (variables?: PollVotesQueryVariables | undefined) => Promise<ApolloQueryResult<PollVotesQuery>>
 }
 
-const CouncilSignals = ({ ayes, className, endBlock, nays, ownVote, pollId, canEdit, pollRefetch, votesRefetch }: Props) => {
+const GeneralSignals = ({ ayes, className, endBlock, nays, ownVote, pollId, canEdit, pollRefetch, votesRefetch }: Props) => {
 	const { id } = useContext(UserDetailsContext);
 	const [error, setErr] = useState<Error | null>(null);
 	const [addPollVoteMutation] = useAddPollVoteMutation();
@@ -104,28 +102,50 @@ const CouncilSignals = ({ ayes, className, endBlock, nays, ownVote, pollId, canE
 	return (
 		<GovSidebarCard className={className}>
 			<h3 className='flex items-center'><span className='mr-2 dashboard-heading'>Poll Signals</span> <HelperTooltip text='This represents the off-chain votes of Polkassembly users including council members'/></h3>
-			{/* <GeneralChainSignalBar
-				ayeSignals={ayes}
-				naySignals={nays}
-			/> */}
+
+			{<div className="my-6 flex">
+				<div className='flex flex-col items-center text-white text-base'>
+					<div id="bigCircle" className={`${ayes >= nays ? 'bg-aye_green' : 'bg-nay_red'} rounded-full h-[110px] w-[110px] flex items-center justify-center z-10`}>
+						{
+							ayes >= nays ? ((ayes/(ayes + nays)) * 100).toFixed(1) : ((nays/(ayes + nays)) * 100).toFixed(1)
+						}%
+					</div>
+					<div id="smallCircle" className={`${ayes < nays ? 'bg-aye_green' : 'bg-nay_red'} -mt-8 border-2 border-white rounded-full h-[75px] w-[75px] flex items-center justify-center z-20`}>
+						{
+							ayes < nays ? ((ayes/(ayes + nays)) * 100).toFixed(1) : ((nays/(ayes + nays)) * 100).toFixed(1)
+						}%
+					</div>
+				</div>
+
+				<div className='flex-1 flex flex-col justify-between ml-12 py-9'>
+					<div className='mb-auto flex items-center'>
+						<div className='mr-auto text-sidebarBlue font-medium'>Aye</div>
+						<div className='text-navBlue'>{ayes}</div>
+					</div>
+
+					<div className='flex items-center'>
+						<div className='mr-auto text-sidebarBlue font-medium'>Nay</div>
+						<div className='text-navBlue'>{nays}</div>
+					</div>
+				</div>
+			</div>}
+
 			<div>
 				{error?.message && <ErrorAlert errorMsg={error.message} />}
 			</div>
-			<Form>
-				{/* <AyeNayButtons
-					className={`signal-btns ${ownVote}`}
+			<div>
+				<AyeNayButtons
+					className='mt-9 mb-6 mx-auto'
+					size='large'
 					disabled={!id || !!ownVote || !canVote}
 					onClickAye={() => castVote(Vote.AYE)}
 					onClickNay={() => castVote(Vote.NAY)}
-				/> */}
-				<div>
+				/>
+				<div className='flex items-center justify-between'>
 					{ownVote && canVote &&
-						<>
-							<Button className='info text-muted cancelVoteLink' onClick={cancelVote}>
-								Cancel {ownVote.toLowerCase()} vote
-							</Button>
-							<span className='separator'>•</span>
-						</>
+						<Button size='middle' className='info text-muted cancelVoteLink' onClick={cancelVote}>
+							Cancel <span className='capitalize'>&nbsp;{ownVote.toLowerCase()}&nbsp;</span> vote
+						</Button>
 					}
 					{canVote
 						? <span>Poll ends in <BlockCountdown endBlock={endBlock}/></span>
@@ -135,17 +155,12 @@ const CouncilSignals = ({ ayes, className, endBlock, nays, ownVote, pollId, canE
 						</span>
 					}
 				</div>
-			</Form>
+			</div>
 		</GovSidebarCard>
 	);
 };
 
-export default styled(CouncilSignals)`
-	.separator {
-		margin-left: 1rem;
-		margin-right: 1rem;
-	}
-
+export default styled(GeneralSignals)`
 	.blockCountdown {
 		display: inline;
 		font-weight: 500;

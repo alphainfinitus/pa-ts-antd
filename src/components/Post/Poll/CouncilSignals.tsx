@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { DislikeFilled,LikeFilled } from '@ant-design/icons';
+import { DislikeFilled, LikeFilled } from '@ant-design/icons';
 import { QueryResult } from '@apollo/react-common';
 import { Divider, Progress } from 'antd';
 import React, { useEffect, useState } from 'react';
@@ -93,7 +93,7 @@ const CouncilSignals = ({ className, endBlock, data }: Props) => {
 		<GovSidebarCard className={className}>
 			<h3 className='flex items-center'><span className='mr-2 dashboard-heading'>Council Signals</span> <HelperTooltip text='This represents the off-chain votes of council members'/></h3>
 
-			<div className="mt-6 flex sitems-center">
+			<div className="mt-6 flex">
 				<div>
 					<Progress
 						percent={100}

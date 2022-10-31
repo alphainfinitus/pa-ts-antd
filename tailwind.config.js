@@ -33,7 +33,9 @@ module.exports = {
         pink_light: "#EA729D",
         red_light: "#FFF1F0",
         red_primary: "#FF5A47",
-        red_secondary: "#D94C3D"
+        red_secondary: "#D94C3D",
+        aye_green: "#2ED47A",
+        nay_red: "#FF3C5F"
       }
     }
   },
