@@ -12,7 +12,7 @@ interface Props {
 	className?: string
 	errorContent?: any
 	height?: number
-	onChange?: (content: string) => void
+	onChange?: any
 	value?: string
 }
 

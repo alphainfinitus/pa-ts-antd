@@ -19,7 +19,7 @@ const MembersListing = ({ className, data, prime } : Props) => {
 			{data.map(
 				(member) => (
 					<li key={member} className='my-5'>
-						{<Link to='/motion'>
+						{<Link to={`/profile/${member}?council=true`}>
 							<CouncilMembersCard
 								data={member}
 								prime={prime}

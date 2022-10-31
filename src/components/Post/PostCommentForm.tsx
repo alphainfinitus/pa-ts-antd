@@ -119,7 +119,7 @@ const PostCommentForm = ({ className, postId, refetch }: Props) => {
 						{ required: "Please add the '${name}'" }
 					}
 				>
-					<ContentForm onChange={(content) => onContentChange(content)} height={300} />
+					<ContentForm onChange={(content : any) => onContentChange(content)} height={300} />
 					<Form.Item>
 						<div className='flex items-center justify-end'>
 							<Button htmlType="submit" className='bg-pink_primary text-white border-white hover:bg-pink_secondary flex items-center'>

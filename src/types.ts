@@ -62,11 +62,24 @@ export interface JWTPayploadType {
   web3signup: boolean;
 }
 
+export interface NotificationContextType {
+  deQueueNotification: (id: number) => void;
+  notificationsQueue: Map<number, NotificationType>;
+  queueNotification: (notification: NotificationType) => void;
+}
+
 export enum NotificationStatus {
   SUCCESS= 'success',
   ERROR = 'error',
   WARNING = 'warning',
   INFO = 'info'
+}
+
+export interface NotificationType {
+  header: string;
+  message: string;
+  status: NotificationStatus;
+  timeout?: number;
 }
 
 export interface ModalType {
