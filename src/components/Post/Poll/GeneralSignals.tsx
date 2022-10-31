@@ -107,12 +107,12 @@ const GeneralSignals = ({ ayes, className, endBlock, nays, ownVote, pollId, canE
 				<div className='flex flex-col items-center text-white text-base'>
 					<div id="bigCircle" className={`${ayes >= nays ? 'bg-aye_green' : 'bg-nay_red'} rounded-full h-[110px] w-[110px] flex items-center justify-center z-10`}>
 						{
-							ayes >= nays ? ((ayes/(ayes + nays)) * 100).toFixed(1) : ((nays/(ayes + nays)) * 100).toFixed(1)
+							(ayes == 0 && nays == 0) ? '0' : ayes >= nays ? ((ayes/(ayes + nays)) * 100).toFixed(1) : ((nays/(ayes + nays)) * 100).toFixed(1)
 						}%
 					</div>
 					<div id="smallCircle" className={`${ayes < nays ? 'bg-aye_green' : 'bg-nay_red'} -mt-8 border-2 border-white rounded-full h-[75px] w-[75px] flex items-center justify-center z-20`}>
 						{
-							ayes < nays ? ((ayes/(ayes + nays)) * 100).toFixed(1) : ((nays/(ayes + nays)) * 100).toFixed(1)
+							(ayes == 0 && nays == 0) ? '0' : ayes < nays ? ((ayes/(ayes + nays)) * 100).toFixed(1) : ((nays/(ayes + nays)) * 100).toFixed(1)
 						}%
 					</div>
 				</div>
