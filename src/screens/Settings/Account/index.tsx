@@ -45,7 +45,10 @@ const Account: FC<Props> = ({ className }) => {
 						id='link_address'
 						onChange={setIsLinkAddress}
 					/>
-					{isLinkAddress? <Address />: null}
+					<Address
+						open={isLinkAddress}
+						dismissModal={() => setIsLinkAddress(false)}
+					/>
 				</section>
 				<section>
 					<AddressHeader
