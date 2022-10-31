@@ -141,12 +141,14 @@ const GeneralSignals = ({ ayes, className, endBlock, nays, ownVote, pollId, canE
 					onClickAye={() => castVote(Vote.AYE)}
 					onClickNay={() => castVote(Vote.NAY)}
 				/>
-				<div className='flex items-center justify-between'>
-					{ownVote && canVote &&
-						<Button size='middle' className='info text-muted cancelVoteLink' onClick={cancelVote}>
-							Cancel <span className='capitalize'>&nbsp;{ownVote.toLowerCase()}&nbsp;</span> vote
-						</Button>
-					}
+				<div className='flex items-center justify-between mt-6'>
+					<div>
+						{ownVote && canVote &&
+							<Button size='middle' className='info text-muted cancelVoteLink' onClick={cancelVote}>
+								Cancel <span className='capitalize'>&nbsp;{ownVote.toLowerCase()}&nbsp;</span> vote
+							</Button>
+						}
+					</div>
 					{canVote
 						? <span>Poll ends in <BlockCountdown endBlock={endBlock}/></span>
 						: <span>Poll ended. {canEdit

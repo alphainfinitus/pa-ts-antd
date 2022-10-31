@@ -3,9 +3,9 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 //TODO: REMOVE
+/* eslint-disable sort-keys */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { FormOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
+import { Tabs } from 'antd';
 import { ApolloQueryResult } from 'apollo-client';
 import React, { useContext, useEffect, useState } from 'react';
 import { MetaContext } from 'src/context/MetaContext';
@@ -15,16 +15,11 @@ import { PostCategory } from 'src/global/post_categories';
 import { PostEmptyState } from 'src/ui-components/UIStates';
 
 import OptionPoll from './ActionsBar/OptionPoll';
-import CreateOptionPoll from './ActionsBar/OptionPoll/CreateOptionPoll';
-import PostReactionBar from './ActionsBar/Reactionbar/PostReactionBar';
-import ReportButton from './ActionsBar/ReportButton';
-import ShareButton from './ActionsBar/ShareButton';
-import SubscriptionButton from './ActionsBar/SubscriptionButton/SubscriptionButton';
 import TrackerButton from './ActionsBar/TrackerButton';
-import Comments from './Comment/Comments';
 import EditablePostContent from './EditablePostContent';
 import Poll from './Poll';
-import PostCommentForm from './PostCommentForm';
+import PostHeading from './PostHeading';
+import PostDescription from './Tabs/PostDescription';
 
 interface Props {
 	className?: string
@@ -227,58 +222,73 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 		);
 	};
 
+	const TrackerButtonComp = <>
+		{id && onchainId && isOnchainPost && !isEditing && (
+			<TrackerButton
+				onchainId={onchainId}
+				isBounty={isBounty}
+				isMotion={isMotion}
+				isProposal={isProposal}
+				isReferendum={isReferendum}
+				isTipProposal={isTipProposal}
+				isTreasuryProposal={isTreasuryProposal}
+				isTechCommitteeProposal={isTechCommitteeProposal}
+			/>)
+		}
+	</>;
+
+	const getOnChainTabs = () => {
+		if (isDiscussion(post)) return [];
+
+		const onChainTabs = [
+			{ label: 'Timeline',
+				key: 'timeline',
+				children: <h1>Timeline</h1>
+			},
+			{ label: 'On Chain Info',
+				key: 'onChainInfo',
+				children: <h1>On Chain Info</h1>
+			}
+		];
+
+		return onChainTabs;
+	};
+
+	const tabItems: any[] = [
+		{ label: 'Description',
+			key: 'description',
+			children: <PostDescription
+				id={id}
+				post={post}
+				isEditing={isEditing}
+				canEdit={canEdit}
+				toggleEdit={toggleEdit}
+				isOnchainPost={isOnchainPost}
+				TrackerButtonComp={TrackerButtonComp}
+				Sidebar={Sidebar}
+				refetch={refetch}
+			/>
+		},
+		...getOnChainTabs()
+	];
+
 	return (
 		<>
 			<div className="flex flex-col lg:flex-row">
 				{/* Post Content */}
 				<div className='bg-white drop-shadow-md p-3 md:p-6 rounded-md w-full flex-1 lg:w-8/12 mx-auto lg:mr-9 mb-6 lg:mb-0'>
-					<EditablePostContent
-						isEditing={isEditing}
-						isTipProposal={isTipProposal}
-						onchainId={onchainId}
+					{isEditing && <EditablePostContent
 						post={post}
-						postStatus={postStatus}
 						refetch={refetch}
 						toggleEdit={toggleEdit}
+					/>}
+
+					<PostHeading className='mb-8' isTipProposal={isTipProposal} onchainId={onchainId} post={post} postStatus={postStatus} />
+
+					<Tabs
+						type="card"
+						items={tabItems}
 					/>
-
-					{/* Actions Bar */}
-					<div id='actions-bar' className="flex items-center flex-col md:flex-row mb-8">
-						<div className='flex items-center'>
-							<PostReactionBar className='reactions' postId={post.id} />
-							{id && !isEditing && <SubscriptionButton postId={post.id}/>}
-							{canEdit && <Button className={'text-pink_primary flex items-center border-none shadow-none'} onClick={toggleEdit}><FormOutlined />Edit</Button>}
-						</div>
-						<div className='flex items-center'>
-							{id && !isEditing && !isOnchainPost && <ReportButton type='post' contentId={`${post.id}`} />}
-							{canEdit && !isEditing && <CreateOptionPoll postId={post.id} />}
-							{id && onchainId && isOnchainPost && !isEditing && (
-								<TrackerButton
-									onchainId={onchainId}
-									isBounty={isBounty}
-									isMotion={isMotion}
-									isProposal={isProposal}
-									isReferendum={isReferendum}
-									isTipProposal={isTipProposal}
-									isTreasuryProposal={isTreasuryProposal}
-									isTechCommitteeProposal={isTechCommitteeProposal}
-								/>)
-							}
-							<ShareButton title={post.title} />
-						</div>
-					</div>
-
-					{!isEditing && <div className='flex lg:hidden mb-8 mx-2'><Sidebar /></div>}
-
-					{ id && <PostCommentForm postId={post.id} refetch={refetch} /> }
-
-					{ !!post.comments?.length &&
-						<Comments
-							className='ml-0 md:ml-4'
-							comments={post.comments}
-							refetch={refetch}
-						/>
-					}
 				</div>
 
 				{!isEditing && <Sidebar className='hidden lg:block' />}
