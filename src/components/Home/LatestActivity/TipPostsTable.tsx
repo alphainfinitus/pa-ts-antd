@@ -125,7 +125,7 @@ const TipPostsTable = () => {
 
 		return(<>
 			<div className='hidden lg:block'>
-				<PopulatedLatestActivity columns={columns} tableData={tableData} onClick={(rowData) => navigate(`/tip/${rowData.onChainId}`)} />;
+				<PopulatedLatestActivity columns={columns} tableData={tableData} onClick={(rowData) => navigate(`/tip/${rowData.onChainId}`)} />
 			</div>
 
 			<div className="block lg:hidden h-[520px] overflow-y-auto">

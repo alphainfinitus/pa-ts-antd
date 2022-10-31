@@ -193,7 +193,7 @@ const ChainDataTable = ({ chain, data }:Props) => {
 		});
 		return(<>
 			<div className='hidden lg:block'>
-				<PopulatedLatestActivity columns={chain === 'all' ? allColumns : columns} tableData={tableData} onClick={() => null} />;
+				<PopulatedLatestActivity columns={chain === 'all' ? allColumns : columns} tableData={tableData} onClick={() => null} />
 			</div>
 
 			<div className="block lg:hidden h-[520px] overflow-y-auto">

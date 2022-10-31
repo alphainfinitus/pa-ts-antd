@@ -23,6 +23,7 @@ import SubscriptionButton from './ActionsBar/SubscriptionButton/SubscriptionButt
 import TrackerButton from './ActionsBar/TrackerButton';
 import Comments from './Comment/Comments';
 import EditablePostContent from './EditablePostContent';
+import Poll from './Poll';
 import PostCommentForm from './PostCommentForm';
 
 interface Props {
@@ -218,12 +219,11 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 	);
 
 	const Sidebar = ({ className } : {className?:string}) => {
-		const sidebarCardClasses = `${className} w-full lg:max-w-[33.333333%] mx-auto bg-white md:drop-shadow-md md:pt-1 md:pb-4 md:px-6 rounded-md`;
-
 		return (
-			<>
-				<OptionPoll className={sidebarCardClasses} postId={post.id} canEdit={post.author?.id === id} />
-			</>
+			<div className={`${className} flex flex-col w-full lg:w-4/12 mx-auto`}>
+				{isDiscussion(post) && <Poll postId={post.id} canEdit={post.author?.id === id} />}
+				<OptionPoll postId={post.id} canEdit={post.author?.id === id} />
+			</div>
 		);
 	};
 

@@ -102,7 +102,7 @@ const DiscussionPostsTable = () => {
 
 		return(<>
 			<div className='hidden lg:block'>
-				<PopulatedLatestActivity columns={columns} tableData={tableData} onClick={(rowData) => navigate(`/post/${rowData.postId}`)} />;
+				<PopulatedLatestActivity columns={columns} tableData={tableData} onClick={(rowData) => navigate(`/post/${rowData.postId}`)} />
 			</div>
 
 			<div className="block lg:hidden h-[520px] overflow-y-auto">

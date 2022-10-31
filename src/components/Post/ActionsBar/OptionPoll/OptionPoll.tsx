@@ -82,31 +82,31 @@ const OptionPoll = ({ className, optionPollId, question, options, endAt }: Props
 
 	return (
 		<div className={className}>
+			<div className="flex items-center mb-6">
+				<h3 className='dashboard-heading'><span className='text-navBlue mr-1'>Poll:</span>{question}?</h3>
+				<HelperTooltip className='ml-2 -mt-0.5' text={id ? 'Click on option to vote' : 'Please login to vote'} />
+			</div>
+
 			<div className='mt-2 mb-4'>
 				{err?.message && <ErrorAlert errorMsg={err.message} />}
 				{error?.message && <ErrorAlert errorMsg={error.message} />}
 			</div>
 
-			<div className="flex items-center mb-4">
-				<h3 className='dashboard-heading'><span className='text-navBlue mr-1'>Poll:</span>{question}?</h3>
-				{id && <HelperTooltip className='ml-2 -mt-0.5' text='Click on option to vote' />}
-			</div>
-
 			<Spin spinning={loading} indicator={<LoadingOutlined />}>
 				{parsedOptions.map(option => (
-					<div key={option} className={`${id && 'cursor-pointer'} mb-2`} onClick={() => castVote(option)}>
+					<div key={option} className={`${id && 'cursor-pointer'} mb-4`} onClick={() => castVote(option)}>
+						<div>{option}</div>
 						<Progress
 							type='line'
 							strokeWidth={11}
 							percent={totalVotes && Math.round((optionMap[option] || 0) * 100/totalVotes)}
 							format={(percent) => (<div> {percent} % </div>)}
 						/>
-						<div className='mt-1'>{option}</div>
 					</div>
 				))}
 			</Spin>
 
-			<div className='mt-4 text-right text-sidebarBlue font-medium'>
+			<div className='mt-6 text-right text-sidebarBlue font-medium'>
 				<span>{totalVotes} {totalVotes > 1 ? 'votes' : 'vote'}</span>
 
 				{ endAt && Math.round(Date.now()/1000) > endAt && <>

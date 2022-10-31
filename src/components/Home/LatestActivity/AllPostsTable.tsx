@@ -292,7 +292,7 @@ const AllPostsTable = () => {
 		return (
 			<>
 				<div className='hidden lg:block'>
-					<PopulatedLatestActivity columns={columns} tableData={tableData} onClick={(rowData) => gotoPost(rowData)} />;
+					<PopulatedLatestActivity columns={columns} tableData={tableData} onClick={(rowData) => gotoPost(rowData)} />
 				</div>
 
 				<div className="block lg:hidden h-[520px] overflow-y-auto">
