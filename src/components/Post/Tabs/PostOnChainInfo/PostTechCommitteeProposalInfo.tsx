@@ -61,7 +61,7 @@ const PostTechCommitteeProposalInfo = ({ className, onchainLink, setOtherProposa
 				</Row>
 
 				<div>
-					<div className='arguments'>
+					<div className='arguments overflow-x-auto'>
 						{proposalArguments && proposalArguments.length
 							? <ArgumentsTableJSONView postArguments={proposalArguments} showAccountArguments={false} />
 							: null}
@@ -77,7 +77,7 @@ const PostTechCommitteeProposalInfo = ({ className, onchainLink, setOtherProposa
 						</Col>
 					</Row>
 					<ProposalInfo preimage={preimage}/>
-					<Col span={12}>
+					<Col span={24}>
 						<ExternalLinks isTechCommitteeProposal={true} onchainId={onchainLink.onchain_tech_committee_proposal_id} />
 					</Col>
 				</div>
