@@ -6,7 +6,7 @@ import React from 'react';
 import { useChildBountiesCountQuery } from 'src/generated/graphql';
 import { post_type } from 'src/global/post_types';
 
-import ChildBountyListingWrapper from './ChildBountyListingWrapper';
+import ChildBountyListingContainer from './ChildBountyListingContainer';
 
 const ChildBountyContainer = ({ className } : { className?:string }) => {
 	// TODO: Enable Refetch
@@ -21,7 +21,7 @@ const ChildBountyContainer = ({ className } : { className?:string }) => {
 				<h1 className='dashboard-heading'>{ data?.posts_aggregate.aggregate?.count } Child Bounties</h1>
 			</div>
 
-			<ChildBountyListingWrapper className='mt-6' count={data?.posts_aggregate.aggregate?.count} />
+			<ChildBountyListingContainer className='mt-6' count={data?.posts_aggregate.aggregate?.count} />
 		</div>
 	);
 };

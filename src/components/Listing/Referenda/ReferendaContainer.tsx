@@ -6,7 +6,7 @@ import React from 'react';
 import { useReferundumCountQuery } from 'src/generated/graphql';
 import { post_type } from 'src/global/post_types';
 
-import ReferendaListingWrapper from './ReferendaListingWrapper';
+import ReferendaListingContainer from './ReferendaListingContainer';
 
 const ProposalsContainer = ({ className } : { className?:string }) => {
 	// TODO: Enable Refetch
@@ -21,7 +21,7 @@ const ProposalsContainer = ({ className } : { className?:string }) => {
 				<h1 className='dashboard-heading'>{ data?.posts_aggregate.aggregate?.count } Referenda</h1>
 			</div>
 
-			<ReferendaListingWrapper className='mt-6' count={data?.posts_aggregate.aggregate?.count} />
+			<ReferendaListingContainer className='mt-6' count={data?.posts_aggregate.aggregate?.count} />
 		</div>
 	);
 };

@@ -4,25 +4,23 @@
 
 import { Pagination } from 'antd';
 import React, { useState } from 'react';
-import { useAllChildBountyPostsQuery } from 'src/generated/graphql';
-import { post_topic } from 'src/global/post_topics';
+import { useAllReferendaPostsQuery } from 'src/generated/graphql';
 import { post_type } from 'src/global/post_types';
 import { ErrorState } from 'src/ui-components/UIStates';
 import { handlePaginationChange } from 'src/util/handlePaginationChange';
 
-import ChildBountyListing from './ChildBountyListing';
+import ReferendaListing from './ReferendaListing';
 
 const LIMIT = 10;
 
-const ChildBountyListingWrapper = ({ className, count } : { className?:string, count: number | null | undefined }) => {
+const ReferendaListingContainer = ({ className, count } : { className?:string, count: number | null | undefined }) => {
 	const [offset, setOffset] = useState(0);
 
 	// TODO: Enable Refetch
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { data, error, loading, refetch } = useAllChildBountyPostsQuery({ variables: {
+	const { data, error, loading, refetch } = useAllReferendaPostsQuery({ variables: {
 		limit: LIMIT,
 		offset,
-		postTopic: post_topic.TREASURY,
 		postType: post_type.ON_CHAIN
 	} });
 
@@ -36,7 +34,7 @@ const ChildBountyListingWrapper = ({ className, count } : { className?:string, c
 
 	return (
 		<div className={className}>
-			<ChildBountyListing loading={loading} data={data} />
+			<ReferendaListing loading={loading} data={data} />
 			<div className='flex justify-end mt-6'>
 				{
 					count && count > 0 && count > LIMIT &&
@@ -55,4 +53,4 @@ const ChildBountyListingWrapper = ({ className, count } : { className?:string, c
 	);
 };
 
-export default ChildBountyListingWrapper;
+export default ReferendaListingContainer;

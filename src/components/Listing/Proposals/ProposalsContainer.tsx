@@ -7,7 +7,7 @@ import { useDemocracyProposalCountQuery } from 'src/generated/graphql';
 import { post_topic } from 'src/global/post_topics';
 import { post_type } from 'src/global/post_types';
 
-import ProposalsListingWrapper from './ProposalsListingWrapper';
+import ProposalsListingContainer from './ProposalsListingContainer';
 
 const ProposalsContainer = ({ className } : { className?:string }) => {
 	// TODO: Enable Refetch
@@ -23,7 +23,7 @@ const ProposalsContainer = ({ className } : { className?:string }) => {
 				<h1 className='dashboard-heading'>{ proposalData?.posts_aggregate.aggregate?.count } Proposals</h1>
 			</div>
 
-			<ProposalsListingWrapper className='mt-6' count={proposalData?.posts_aggregate.aggregate?.count} />
+			<ProposalsListingContainer className='mt-6' count={proposalData?.posts_aggregate.aggregate?.count} />
 		</div>
 	);
 };

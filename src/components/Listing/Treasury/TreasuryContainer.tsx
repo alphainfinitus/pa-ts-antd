@@ -7,7 +7,7 @@ import { useDemocracyTreasuryProposalCountQuery } from 'src/generated/graphql';
 import { post_topic } from 'src/global/post_topics';
 import { post_type } from 'src/global/post_types';
 
-import TreasuryListingWrapper from './TreasuryListingWrapper';
+import TreasuryListingContainer from './TreasuryListingContainer';
 
 const ProposalsContainer = ({ className } : { className?:string }) => {
 	// TODO: Enable Refetch
@@ -23,7 +23,7 @@ const ProposalsContainer = ({ className } : { className?:string }) => {
 				<h1 className='dashboard-heading'>{ data?.posts_aggregate.aggregate?.count } Treasury Proposals</h1>
 			</div>
 
-			<TreasuryListingWrapper className='mt-6' count={data?.posts_aggregate.aggregate?.count} />
+			<TreasuryListingContainer className='mt-6' count={data?.posts_aggregate.aggregate?.count} />
 		</div>
 	);
 };

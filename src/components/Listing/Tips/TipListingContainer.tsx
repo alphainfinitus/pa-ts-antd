@@ -4,22 +4,22 @@
 
 import { Pagination } from 'antd';
 import React, { useState } from 'react';
-import { useAllBountyPostsQuery } from 'src/generated/graphql';
+import { useAllTipPostsQuery } from 'src/generated/graphql';
 import { post_topic } from 'src/global/post_topics';
 import { post_type } from 'src/global/post_types';
 import { ErrorState } from 'src/ui-components/UIStates';
 import { handlePaginationChange } from 'src/util/handlePaginationChange';
 
-import BountyListing from './BountyListing';
+import TipListing from './TipListing';
 
 const LIMIT = 10;
 
-const BountyListingWrapper = ({ className, count } : { className?:string, count: number | null | undefined }) => {
+const TipListingContainer = ({ className, count } : { className?:string, count: number | null | undefined }) => {
 	const [offset, setOffset] = useState(0);
 
 	// TODO: Enable Refetch
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { data, error, loading, refetch } = useAllBountyPostsQuery({ variables: {
+	const { data, error, loading, refetch } = useAllTipPostsQuery({ variables: {
 		limit: LIMIT,
 		offset,
 		postTopic: post_topic.TREASURY,
@@ -36,7 +36,7 @@ const BountyListingWrapper = ({ className, count } : { className?:string, count:
 
 	return (
 		<div className={className}>
-			<BountyListing loading={loading} data={data} />
+			<TipListing loading={loading} data={data} />
 			<div className='flex justify-end mt-6'>
 				{
 					count && count > 0 && count > LIMIT &&
@@ -55,4 +55,4 @@ const BountyListingWrapper = ({ className, count } : { className?:string, count:
 	);
 };
 
-export default BountyListingWrapper;
+export default TipListingContainer;

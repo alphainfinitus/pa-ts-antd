@@ -4,25 +4,25 @@
 
 import { Pagination } from 'antd';
 import React, { useState } from 'react';
-import { useAllDemocracyProposalPostsQuery } from 'src/generated/graphql';
+import { useAllBountyPostsQuery } from 'src/generated/graphql';
 import { post_topic } from 'src/global/post_topics';
 import { post_type } from 'src/global/post_types';
 import { ErrorState } from 'src/ui-components/UIStates';
 import { handlePaginationChange } from 'src/util/handlePaginationChange';
 
-import ProposalsListing from './ProposalsListing';
+import BountyListing from './BountyListing';
 
 const LIMIT = 10;
 
-const ProposalsListingWrapper = ({ className, count } : { className?:string, count: number | null | undefined }) => {
+const BountyListingContainer = ({ className, count } : { className?:string, count: number | null | undefined }) => {
 	const [offset, setOffset] = useState(0);
 
 	// TODO: Enable Refetch
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { data, error, loading, refetch } = useAllDemocracyProposalPostsQuery({ variables: {
+	const { data, error, loading, refetch } = useAllBountyPostsQuery({ variables: {
 		limit: LIMIT,
 		offset,
-		postTopic: post_topic.DEMOCRACY,
+		postTopic: post_topic.TREASURY,
 		postType: post_type.ON_CHAIN
 	} });
 
@@ -36,7 +36,7 @@ const ProposalsListingWrapper = ({ className, count } : { className?:string, cou
 
 	return (
 		<div className={className}>
-			<ProposalsListing loading={loading} data={data} />
+			<BountyListing loading={loading} data={data} />
 			<div className='flex justify-end mt-6'>
 				{
 					count && count > 0 && count > LIMIT &&
@@ -55,4 +55,4 @@ const ProposalsListingWrapper = ({ className, count } : { className?:string, cou
 	);
 };
 
-export default ProposalsListingWrapper;
+export default BountyListingContainer;

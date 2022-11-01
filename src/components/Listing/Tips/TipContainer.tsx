@@ -7,7 +7,7 @@ import { useTipProposalCountQuery } from 'src/generated/graphql';
 import { post_topic } from 'src/global/post_topics';
 import { post_type } from 'src/global/post_types';
 
-import TipListingWrapper from './TipListingWrapper';
+import TipListingContainer from './TipListingContainer';
 
 const TipContainer = ({ className } : { className?:string }) => {
 	// TODO: Enable Refetch
@@ -23,7 +23,7 @@ const TipContainer = ({ className } : { className?:string }) => {
 				<h1 className='dashboard-heading'>{ data?.posts_aggregate.aggregate?.count } Tips</h1>
 			</div>
 
-			<TipListingWrapper className='mt-6' count={data?.posts_aggregate.aggregate?.count} />
+			<TipListingContainer className='mt-6' count={data?.posts_aggregate.aggregate?.count} />
 		</div>
 	);
 };

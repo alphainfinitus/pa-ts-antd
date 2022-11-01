@@ -5,7 +5,7 @@
 import React from 'react';
 import { BountyPostFragment, ChildBountyPostFragment, MotionPostFragment, ProposalPostFragment, ReferendumPostFragment, TechCommitteeProposalPostFragment,TipPostFragment, TreasuryProposalPostFragment } from 'src/generated/graphql';
 
-import TimelineWrapper from './TimelineWrapper';
+import TimelineContainer from './TimelineContainer';
 
 interface Props {
 	className?: string;
@@ -49,7 +49,7 @@ const PostTimeline = ({
 	return (
 		<div className={`${className} mt-4`}>
 			{ isTechCommitteeProposal &&
-				<TimelineWrapper
+				<TimelineContainer
 					statuses={techCommitteeProposalPost?.onchain_link?.onchain_tech_committee_proposal?.[0]?.status?.map(s => ({
 						blockNumber: s.blockNumber?.number || 0,
 						status: s.status || ''
@@ -57,7 +57,7 @@ const PostTimeline = ({
 				/>
 			}
 			{ isBounty &&
-				<TimelineWrapper
+				<TimelineContainer
 					statuses={bountyPost?.onchain_link?.onchain_bounty?.[0]?.bountyStatus?.map(s => ({
 						blockNumber: s.blockNumber?.number || 0,
 						status: s.status || ''
@@ -65,7 +65,7 @@ const PostTimeline = ({
 				/>
 			}
 			{ isChildBounty &&
-					<TimelineWrapper
+					<TimelineContainer
 						statuses={childBountyPost?.onchain_link?.onchain_child_bounty?.[0]?.childBountyStatus?.map(s => ({
 							blockNumber: s.blockNumber?.number || 0,
 							status: s.status || ''
@@ -73,7 +73,7 @@ const PostTimeline = ({
 					/>
 			}
 			{ isMotion &&
-					<TimelineWrapper
+					<TimelineContainer
 						statuses={motionPost?.onchain_link?.onchain_motion?.[0]?.motionStatus?.map(s => ({
 							blockNumber: s.blockNumber?.number || 0,
 							status: s.status || ''
@@ -81,7 +81,7 @@ const PostTimeline = ({
 					/>
 			}
 			{ isProposal &&
-					<TimelineWrapper
+					<TimelineContainer
 						statuses={proposalPost?.onchain_link?.onchain_proposal?.[0]?.proposalStatus?.map(s => ({
 							blockNumber: s.blockNumber?.number || 0,
 							status: s.status || ''
@@ -89,7 +89,7 @@ const PostTimeline = ({
 					/>
 			}
 			{ isReferendum &&
-					<TimelineWrapper
+					<TimelineContainer
 						statuses={referendumPost?.onchain_link?.onchain_referendum?.[0]?.referendumStatus?.map(s => ({
 							blockNumber: s.blockNumber?.number || 0,
 							status: s.status || ''
@@ -97,7 +97,7 @@ const PostTimeline = ({
 					/>
 			}
 			{ isTreasuryProposal &&
-					<TimelineWrapper
+					<TimelineContainer
 						statuses={treasuryPost?.onchain_link?.onchain_treasury_spend_proposal?.[0]?.treasuryStatus?.map(s => ({
 							blockNumber: s.blockNumber?.number || 0,
 							status: s.status || ''
@@ -105,7 +105,7 @@ const PostTimeline = ({
 					/>
 			}
 			{ isTipProposal &&
-					<TimelineWrapper
+					<TimelineContainer
 						statuses={tipPost?.onchain_link?.onchain_tip?.[0]?.tipStatus?.map(s => ({
 							blockNumber: s.blockNumber?.number || 0,
 							status: s.status || ''

@@ -15,7 +15,7 @@ interface Props {
 	loading?: boolean
 }
 
-const TreasuryListing = ({ className, data, loading } : Props) => {
+const MotionsListing = ({ className, data, loading } : Props) => {
 	if(!data || loading) return <div className={className}><LoadingState /></div>;
 
 	const noPost = !data.posts || !data.posts.length;
@@ -59,4 +59,4 @@ const TreasuryListing = ({ className, data, loading } : Props) => {
 	);
 };
 
-export default TreasuryListing;
+export default MotionsListing;

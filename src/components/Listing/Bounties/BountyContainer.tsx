@@ -6,7 +6,7 @@ import React from 'react';
 import { useBountiesCountQuery } from 'src/generated/graphql';
 import { post_type } from 'src/global/post_types';
 
-import BountyListingWrapper from './BountyListingWrapper';
+import BountyListingContainer from './BountyListingContainer';
 
 const BountyContainer = ({ className } : { className?:string }) => {
 	// TODO: Enable Refetch
@@ -21,7 +21,7 @@ const BountyContainer = ({ className } : { className?:string }) => {
 				<h1 className='dashboard-heading'>{ data?.posts_aggregate.aggregate?.count } Bounties</h1>
 			</div>
 
-			<BountyListingWrapper className='mt-6' count={data?.posts_aggregate.aggregate?.count} />
+			<BountyListingContainer className='mt-6' count={data?.posts_aggregate.aggregate?.count} />
 		</div>
 	);
 };

@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import { useDiscussionsCountQuery } from 'src/generated/graphql';
 import { sortValues } from 'src/global/sortOptions';
 
-import DiscussionListingWrapper from './DiscussionListingWrapper';
+import DiscussionListingContainer from './DiscussionListingContainer';
 
 const DiscussionsContainer = ({ className } : { className?:string }) => {
 	const [sortBy, setSortBy] = useState<string>(sortValues.COMMENTED);
@@ -58,7 +58,7 @@ const DiscussionsContainer = ({ className } : { className?:string }) => {
 				{sortByDropdown}
 			</div>
 
-			<DiscussionListingWrapper sortBy={sortBy} count={discussionsData?.posts_aggregate.aggregate?.count} className='mt-6' />
+			<DiscussionListingContainer sortBy={sortBy} count={discussionsData?.posts_aggregate.aggregate?.count} className='mt-6' />
 		</div>
 	);
 };

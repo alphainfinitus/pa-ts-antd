@@ -6,7 +6,7 @@ import React from 'react';
 import { useGetLatestMotionsCountQuery } from 'src/generated/graphql';
 import { post_type } from 'src/global/post_types';
 
-import MotionsListingWrapper from './MotionsListingWrapper';
+import MotionsListingContainer from './MotionsListingContainer';
 
 const MotionsContainer = ({ className } : { className?:string }) => {
 	// TODO: Enable Refetch
@@ -21,7 +21,7 @@ const MotionsContainer = ({ className } : { className?:string }) => {
 				<h1 className='dashboard-heading'>{ data?.posts_aggregate.aggregate?.count } Motions</h1>
 			</div>
 
-			<MotionsListingWrapper className='mt-6' count={data?.posts_aggregate.aggregate?.count} />
+			<MotionsListingContainer className='mt-6' count={data?.posts_aggregate.aggregate?.count} />
 		</div>
 	);
 };

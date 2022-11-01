@@ -4,31 +4,25 @@
 
 import { Pagination } from 'antd';
 import React, { useState } from 'react';
-import { useDiscussionPostsIdAscQuery, useDiscussionPostsIdDescQuery, useLatestDiscussionPostsQuery } from 'src/generated/graphql';
-import { sortValues } from 'src/global/sortOptions';
+import { useAllMotionPostsQuery } from 'src/generated/graphql';
+import { post_type } from 'src/global/post_types';
 import { ErrorState } from 'src/ui-components/UIStates';
 import { handlePaginationChange } from 'src/util/handlePaginationChange';
 
-import DiscussionsListing from './DiscussionsListing';
+import MotionsListing from './MotionsListing';
 
 const LIMIT = 10;
 
-const DiscussionListingWrapper = ({ className, sortBy, count } : { className?:string, sortBy:string, count: number | null | undefined }) => {
+const MotionsListingContainer = ({ className, count } : { className?:string, count: number | null | undefined }) => {
 	const [offset, setOffset] = useState(0);
-
-	let postsQuery: typeof useDiscussionPostsIdDescQuery | typeof useDiscussionPostsIdAscQuery | typeof useLatestDiscussionPostsQuery;
-
-	if (sortBy === sortValues.NEWEST)
-		postsQuery = useDiscussionPostsIdDescQuery;
-	else if (sortBy === sortValues.OLDEST) {
-		postsQuery = useDiscussionPostsIdAscQuery;
-	} else {
-		postsQuery = useLatestDiscussionPostsQuery;
-	}
 
 	// TODO: Enable Refetch
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { data, error, loading, refetch } = postsQuery({ variables: { limit: LIMIT, offset } });
+	const { data, error, loading, refetch } = useAllMotionPostsQuery({ variables: {
+		limit: LIMIT,
+		offset,
+		postType: post_type.ON_CHAIN
+	} });
 
 	const onPaginationChange = (page:number) => {
 		handlePaginationChange({ LIMIT, page, setOffset });
@@ -40,7 +34,7 @@ const DiscussionListingWrapper = ({ className, sortBy, count } : { className?:st
 
 	return (
 		<div className={className}>
-			<DiscussionsListing loading={loading} data={data} />
+			<MotionsListing loading={loading} data={data} />
 			<div className='flex justify-end mt-6'>
 				{
 					count && count > 0 && count > LIMIT &&
@@ -59,4 +53,4 @@ const DiscussionListingWrapper = ({ className, sortBy, count } : { className?:st
 	);
 };
 
-export default DiscussionListingWrapper;
+export default MotionsListingContainer;

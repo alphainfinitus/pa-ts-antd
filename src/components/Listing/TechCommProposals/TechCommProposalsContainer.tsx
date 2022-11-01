@@ -6,7 +6,7 @@ import React from 'react';
 import { useTechCommitteeProposalCountQuery } from 'src/generated/graphql';
 import { post_type } from 'src/global/post_types';
 
-import TechCommProposalsListingWrapper from './TechCommProposalsListingWrapper';
+import TechCommProposalsListingContainer from './TechCommProposalsListingContainer';
 
 const TechCommProposalsContainer = ({ className } : { className?:string }) => {
 	// TODO: Enable Refetch
@@ -21,7 +21,7 @@ const TechCommProposalsContainer = ({ className } : { className?:string }) => {
 				<h1 className='dashboard-heading'>{ data?.posts_aggregate.aggregate?.count } Tech Comm. Proposals</h1>
 			</div>
 
-			<TechCommProposalsListingWrapper className='mt-6' count={data?.posts_aggregate.aggregate?.count} />
+			<TechCommProposalsListingContainer className='mt-6' count={data?.posts_aggregate.aggregate?.count} />
 		</div>
 	);
 };

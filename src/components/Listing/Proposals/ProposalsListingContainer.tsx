@@ -4,23 +4,25 @@
 
 import { Pagination } from 'antd';
 import React, { useState } from 'react';
-import { useAllTechCommitteeProposalPostsQuery } from 'src/generated/graphql';
+import { useAllDemocracyProposalPostsQuery } from 'src/generated/graphql';
+import { post_topic } from 'src/global/post_topics';
 import { post_type } from 'src/global/post_types';
 import { ErrorState } from 'src/ui-components/UIStates';
 import { handlePaginationChange } from 'src/util/handlePaginationChange';
 
-import TechCommProposalsListing from './TechCommProposalsListing';
+import ProposalsListing from './ProposalsListing';
 
 const LIMIT = 10;
 
-const TechCommProposalsListingWrapper = ({ className, count } : { className?:string, count: number | null | undefined }) => {
+const ProposalsListingContainer = ({ className, count } : { className?:string, count: number | null | undefined }) => {
 	const [offset, setOffset] = useState(0);
 
 	// TODO: Enable Refetch
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { data, error, loading, refetch } = useAllTechCommitteeProposalPostsQuery({ variables: {
+	const { data, error, loading, refetch } = useAllDemocracyProposalPostsQuery({ variables: {
 		limit: LIMIT,
 		offset,
+		postTopic: post_topic.DEMOCRACY,
 		postType: post_type.ON_CHAIN
 	} });
 
@@ -34,7 +36,7 @@ const TechCommProposalsListingWrapper = ({ className, count } : { className?:str
 
 	return (
 		<div className={className}>
-			<TechCommProposalsListing loading={loading} data={data} />
+			<ProposalsListing loading={loading} data={data} />
 			<div className='flex justify-end mt-6'>
 				{
 					count && count > 0 && count > LIMIT &&
@@ -53,4 +55,4 @@ const TechCommProposalsListingWrapper = ({ className, count } : { className?:str
 	);
 };
 
-export default TechCommProposalsListingWrapper;
+export default ProposalsListingContainer;

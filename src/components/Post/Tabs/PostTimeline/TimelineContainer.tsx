@@ -27,7 +27,7 @@ function sortfunc(a: BlockStatus, b: BlockStatus) {
 	return a.blockNumber - b.blockNumber;
 }
 
-const TimelineWrapper = ({ className, statuses }: Props) => {
+const TimelineContainer = ({ className, statuses }: Props) => {
 	const { blocktime } = useBlockTime();
 	const ZERO = new BN(0);
 	const currentBlock = useCurrentBlock() || ZERO;
@@ -91,4 +91,4 @@ const TimelineWrapper = ({ className, statuses }: Props) => {
 	);
 };
 
-export default TimelineWrapper;
+export default TimelineContainer;
