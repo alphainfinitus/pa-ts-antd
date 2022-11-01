@@ -17,6 +17,7 @@ import TechCommProposals from 'src/screens/Listing/TechCommProposals';
 import Tips from 'src/screens/Listing/Tips';
 import Treasury from 'src/screens/Listing/Treasury';
 import LoginForm from 'src/screens/LoginForm';
+import News from 'src/screens/News';
 import NotFound from 'src/screens/NotFound';
 import BountyPost from 'src/screens/Posts/BountyPost';
 import ChildBountyPost from 'src/screens/Posts/ChildBountyPost';
@@ -40,6 +41,7 @@ const SwitchRoutes = () => {
 			<Route path="/signup" element={<SignupForm/>} />
 			<Route path="/settings" element={<Settings/>} />
 			<Route path='/discussions' element={<Discussions />} />
+			<Route path='/news' element={<News />} />
 			<Route path='/post'>
 				<Route path=':id' element={<DiscussionPost />} />
 				<Route path="create" element={<CreatePost />} />
