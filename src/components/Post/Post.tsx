@@ -20,6 +20,7 @@ import EditablePostContent from './EditablePostContent';
 import Poll from './Poll';
 import PostHeading from './PostHeading';
 import PostDescription from './Tabs/PostDescription';
+import PostOnChainInfo from './Tabs/PostOnChainInfo';
 import PostTimeline from './Tabs/PostTimeline';
 
 interface Props {
@@ -265,7 +266,17 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 			},
 			{ label: 'On Chain Info',
 				key: 'onChainInfo',
-				children: <h1>On Chain Info</h1>
+				children: <PostOnChainInfo
+					isBounty={isBounty}
+					isMotion={isMotion}
+					isProposal={isProposal}
+					isReferendum={isReferendum}
+					isTipProposal={isTipProposal}
+					isTreasuryProposal={isTreasuryProposal}
+					isTechCommitteeProposal={isTechCommitteeProposal}
+					isChildBounty={isChildBounty}
+					definedOnchainLink={definedOnchainLink}
+				/>
 			}
 		];
 

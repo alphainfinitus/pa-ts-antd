@@ -131,7 +131,7 @@ const Address = ({ address, className, displayInline, disableIdenticon, extensio
 									<div className={'description display_inline'}>{shortenAddress(address, shortenAddressLength)}</div>
 								</Space>
 							</Tooltip>
-							: <Space>
+							: <div>
 								<Space className={'header'}>
 									{identity && mainDisplay && !extensionName && <IdentityBadge identity={identity} flags={flags} />}
 									<span className='identityName'>
@@ -139,8 +139,8 @@ const Address = ({ address, className, displayInline, disableIdenticon, extensio
 										{!extensionName && sub && <span className='sub'>/{sub}</span>}
 									</span>
 								</Space>
-								<div className={'description text-xs'}>{shortenAddress(address, shortenAddressLength)}</div>
-							</Space>
+								<div className={'description text-xs ml-0.5'}>{shortenAddress(address, shortenAddressLength)}</div>
+							</div>
 						: <div className={'description text-xs'}>{shortenAddress(address, shortenAddressLength)}</div>
 				}
 			</div>}
