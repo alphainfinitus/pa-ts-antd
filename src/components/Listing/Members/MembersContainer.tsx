@@ -45,10 +45,6 @@ const MembersContainer = ({ className } : { className?:string }) => {
 		postType: post_type.ON_CHAIN
 	} });
 
-	console.log('members', members);
-	console.log('runners', runnersUp);
-	console.log('prime', prime);
-
 	if (error) {
 		return <ErrorState errorMessage={error.message} />;
 	}

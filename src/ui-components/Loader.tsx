@@ -32,7 +32,7 @@ const Loader = ({ timeout, text, timeoutText = 'Process timeout', size = 'defaul
 			<div className='flex justify-center items-center'>
 				{displayLoader
 					?
-					<Spin tip={text} size={size} indicator={<LoadingOutlined spin />} />
+					<Spin tip={text} size={size} indicator={<LoadingOutlined />} />
 					:
 					<Alert className='w-2/3 text-center' type='error' message={timeoutText} />
 				}

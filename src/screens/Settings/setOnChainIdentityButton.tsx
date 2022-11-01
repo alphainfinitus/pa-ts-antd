@@ -11,10 +11,9 @@ import type { Registration } from '@polkadot/types/interfaces';
 import { u8aToString } from '@polkadot/util';
 import { checkAddress } from '@polkadot/util-crypto';
 import styled from '@xstyled/styled-components';
-import { Button, Form, Input, Modal } from 'antd';
+import { Button, Form, Input, Modal, Tooltip } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { ApiContext } from 'src/context/ApiContext';
-import { NotificationContext } from 'src/context/NotificationContext';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
 import { APPNAME } from 'src/global/appName';
 import { addressPrefix } from 'src/global/networkConstants';
@@ -23,6 +22,7 @@ import { LoadingStatusType, NotificationStatus } from 'src/types';
 import Card from 'src/ui-components/Card';
 import HelperTooltip from 'src/ui-components/HelperTooltip';
 import Loader from 'src/ui-components/Loader';
+import queueNotification from 'src/ui-components/QueueNotification';
 import getEncodedAddress from 'src/util/getEncodedAddress';
 import getNetwork from 'src/util/getNetwork';
 
@@ -89,12 +89,10 @@ const SetOnChainIdentityButton = ({
 	// setTipModalOpen,
 } : Props) => {
 	const { id } = useContext(UserDetailsContext);
-	console.log(id);
 	const currentNetwork = getNetwork();
 
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 	const [validAddress, setValidAddress] = useState<boolean>(false);
-	const { queueNotification } = useContext(NotificationContext);
 
 	const [displayName, setDisplayName] = useState<string>('');
 	const [legalName, setLegalName] = useState<string>('');
@@ -136,8 +134,6 @@ const SetOnChainIdentityButton = ({
 
 		return true;
 	};
-
-	console.log(validAddress, okDisplay, okEmail, okLegal, okRiot, okTwitter, okWeb);
 
 	const handleDetect = async (updateForInput: AvailableAccountsInput) => {
 		const extensions = await web3Enable(APPNAME);
@@ -356,8 +352,8 @@ const SetOnChainIdentityButton = ({
 		});
 	};
 
-	// const triggerBtn = <Button disabled={!id} style={ { background: '#E5007A', color:'#fff', textTransform: 'capitalize' } } size='huge'> <Icon name='linkify' /> Set On-Chain Identity</Button>;
-	// const triggerBtnLoginDisabled = <Popover position='bottom center' content='Please signup/login to set on-chain identity' trigger={<Button style={ {  background: '#E5007A', backgroundImage: 'none', boxShadow: 'none',  color:'#fff', cursor: 'default', opacity: '.45', textTransform: 'capitalize' } } size='huge'> <Icon name='linkify' /> Set On-Chain Identity</Button> } />;
+	const triggerBtn = <Button disabled={!id} type="primary" className='mt-5' onClick={() => setModalOpen(true)}> Set On-Chain Identity</Button>;
+	const triggerBtnLoginDisabled = <Tooltip  color='#E5007A' title='Please signup/login to set on-chain identity'> <Button type="primary" disabled={true} className='mt-5 w-full' > Set On-Chain Identity</Button></Tooltip>;
 
 	return (
 		loadingStatus.isLoading
@@ -365,9 +361,7 @@ const SetOnChainIdentityButton = ({
 				<Loader text={loadingStatus.message}/>
 			</Card>:
 			<>
-				<Button type="primary" className='mt-5' onClick={() => setModalOpen(true)}>
-        Set on-chain Identity
-				</Button>
+				{!id ? triggerBtnLoginDisabled : triggerBtn}
 
 				<Modal
 					className={className}
@@ -376,7 +370,6 @@ const SetOnChainIdentityButton = ({
 					centered
 					footer={[<Button key='close' onClick={() => setModalOpen(false)}>Close</Button>, <Button key='submit' disabled={!okAll} className='submitBtn' onClick={ handleSignAndSubmit }>Set Identity</Button>]}
 					onCancel={() => setModalOpen(false)}
-				// trigger={!id ? triggerBtnLoginDisabled : triggerBtn}
 				>
 					<div>
 						<div className='modal-desc'>
@@ -398,13 +391,14 @@ const SetOnChainIdentityButton = ({
 											size={26}
 											theme={'polkadot'}
 										/>
-										<Input
-											value={submitWithAccount}
-											className={`${submitWithAccount === '' ? 'px-[0.5em]' : 'pl-10'}`}
-											onChange={ (e) => onSubmitWithAccountChange(e.target.value)}
-											placeholder='Account Address'
-										// error={!validAddress}
-										/>
+										<Form.Item className=' mb-0 w-full' validateStatus={!validAddress ? 'error' : ''} >
+											<Input
+												value={submitWithAccount}
+												className={`${submitWithAccount === '' ? 'px-[0.5em]' : 'pl-10'}`}
+												onChange={ (e) => onSubmitWithAccountChange(e.target.value)}
+												placeholder='Account Address'
+											/>
+										</Form.Item>
 									</div>
 
 									{!extensionNotAvailable && <div className=' flex justify-between mb-[1em]'>
@@ -421,7 +415,7 @@ const SetOnChainIdentityButton = ({
 									<div className=' flex justify-between mb-[0.5em] px-[0.5em]'>
 										<label className='font-bold text-sidebarBlue'>Display Name</label>
 									</div>
-									<Form.Item name='Name' rules={[{ required:true }]}>
+									<Form.Item name='Name' rules={[{ required:true }]} className=' mb-0' validateStatus={!okDisplay ? 'error' : ''} >
 										<Input
 											className='px-[0.5em]'
 											value={displayName}
@@ -438,13 +432,15 @@ const SetOnChainIdentityButton = ({
 										<label className='font-bold text-sidebarBlue'>Legal Name</label>
 										<span>*Optional</span>
 									</div>
-									<Input
-										className='px-[0.5em]'
-										placeholder='Full Legal Name'
-										value={legalName}
-										onChange={ (e) => setLegalName(e.target.value)}
-										// error={!okLegal}
-									/>
+									<Form.Item name='Legal name' className=' mb-0' validateStatus={!okLegal ? 'error' : ''}>
+
+										<Input
+											className='px-[0.5em]'
+											placeholder='Full Legal Name'
+											value={legalName}
+											onChange={ (e) => setLegalName(e.target.value)}
+										/>
+									</Form.Item>
 								</div>
 
 								{/* Email */}
@@ -453,13 +449,15 @@ const SetOnChainIdentityButton = ({
 										<label className='font-bold text-sidebarBlue'>Email</label>
 										<span>*Optional</span>
 									</div>
-									<Input
-										className='px-[0.5em]'
-										value={email}
-										placeholder='somebody@example.com'
-										onChange={ (e) => setEmail(e.target.value.toLowerCase())}
-										// error={!okEmail}
-									/>
+									<Form.Item name='Email' className=' mb-0' validateStatus={!okEmail ? 'error' : ''}>
+
+										<Input
+											className='px-[0.5em]'
+											value={email}
+											placeholder='somebody@example.com'
+											onChange={ (e) => setEmail(e.target.value.toLowerCase())}
+										/>
+									</Form.Item>
 								</div>
 
 								{/* Website */}
@@ -468,13 +466,16 @@ const SetOnChainIdentityButton = ({
 										<label className='font-bold text-sidebarBlue'>Website</label>
 										<span>*Optional</span>
 									</div>
-									<Input
-										className='px-[0.5em]'
-										value={website}
-										placeholder='https://example.com'
-										onChange={ (e) => setWebsite(e.target.value)}
+									<Form.Item name='Website' className=' mb-0' validateStatus={!okWeb ? 'error' : ''} >
+
+										<Input
+											className='px-[0.5em]'
+											value={website}
+											placeholder='https://example.com'
+											onChange={ (e) => setWebsite(e.target.value)}
 										// error={!okWeb}
-									/>
+										/>
+									</Form.Item>
 								</div>
 
 								{/* Twitter */}
@@ -483,13 +484,15 @@ const SetOnChainIdentityButton = ({
 										<label className='font-bold text-sidebarBlue'>Twitter</label>
 										<span>*Optional</span>
 									</div>
-									<Input
-										className='px-[0.5em]'
-										value={twitter}
-										placeholder='@YourTwitterName'
-										onChange={ (e) => setTwitter(e.target.value)}
-										// error={!okTwitter}
-									/>
+									<Form.Item name='Twitter' className=' mb-0' validateStatus={!okTwitter ? 'error' : ''} >
+										<Input
+											className='px-[0.5em]'
+											value={twitter}
+											placeholder='@YourTwitterName'
+											onChange={ (e) => setTwitter(e.target.value)}
+										/>
+
+									</Form.Item>
 								</div>
 
 								{/* Riot Name */}
@@ -498,13 +501,15 @@ const SetOnChainIdentityButton = ({
 										<label className='font-bold text-sidebarBlue'>Riot Name</label>
 										<span>*Optional</span>
 									</div>
-									<Input
-										className='px-[0.5em]'
-										value={riotName}
-										placeholder='@yourname:matrix.org'
-										onChange={ (e) => setRiotName(e.target.value)}
-										// error={!okRiot}
-									/>
+									<Form.Item name='Riot' className=' mb-0' validateStatus={!okRiot ? 'error' : ''} >
+										<Input
+											className='px-[0.5em]'
+											value={riotName}
+											placeholder='@yourname:matrix.org'
+											onChange={ (e) => setRiotName(e.target.value)}
+										/>
+
+									</Form.Item>
 								</div>
 
 								{/* Total Deposit */}
@@ -514,7 +519,7 @@ const SetOnChainIdentityButton = ({
 									</div>
 
 									<div className="balance-input flex items-center">
-										<Form.Item className='flex-1 mb-0' name='Deposit' rules={[{ required:true }]}>
+										<Form.Item  className='flex-1 mb-0' name='Deposit' rules={[{ required:true }]}>
 											<Input
 												type='number'
 												placeholder={'0'}

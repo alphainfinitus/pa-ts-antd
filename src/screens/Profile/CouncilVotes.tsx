@@ -66,8 +66,6 @@ const CouncilVotes = ({ className, address } : Props) => {
 
 	const { loading, error, data } = useQuery(VOTES_QUERY);
 
-	console.log(data);
-
 	const dataSource = data?.councillor?.voteHistory?.nodes?.length ? [...data.councillor.voteHistory.nodes.map((node:any) => ({
 		block: node?.block,
 		proposal: node.proposalHash?.index,

@@ -9,16 +9,15 @@ import { InjectedExtension } from '@polkadot/extension-inject/types' ;
 import { stringToHex } from '@polkadot/util';
 import { Button, Col, Divider, Form, Row } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
-import {  useForm } from 'react-hook-form';
+import { useParams,useSearchParams } from 'react-router-dom';
 import ContentForm from 'src/components/ContentForm';
 import TitleForm from 'src/components/TitleForm';
+import queueNotification from 'src/ui-components/QueueNotification';
 
 import Balance from '../../components/Balance';
 import { ApiContext } from '../../context/ApiContext';
-import { NotificationContext } from '../../context/NotificationContext';
 import { useAboutQuery, useChangeAboutMutation } from '../../generated/graphql';
 import { APPNAME } from '../../global/appName';
-import { useRouter } from '../../hooks';
 import { NotificationStatus } from '../../types';
 import AddressComponent from '../../ui-components/Address';
 import FilteredError from '../../ui-components/FilteredError';
@@ -38,9 +37,11 @@ const CouncilEmoji = () => <span aria-label="council member" className='councilM
 const network = getNetwork();
 
 const Profile = ({ className }: Props): JSX.Element => {
-	const router = useRouter();
-	const address = router.query.address;
-	const council = router.query.council === 'true';
+	const [searchParams] = useSearchParams();
+	const params = useParams();
+	const address = params.address || '' ;
+	const username = params.username || '';
+	const council = searchParams.get('council') === 'true';
 
 	// { data, loading, error }
 	const aboutQueryResult = useAboutQuery({
@@ -52,7 +53,6 @@ const Profile = ({ className }: Props): JSX.Element => {
 	const aboutDescription = aboutQueryResult?.data?.about?.description;
 	const aboutTitle = aboutQueryResult?.data?.about?.title;
 
-	const { queueNotification } = useContext(NotificationContext);
 	const { api, apiReady } = useContext(ApiContext);
 	const [identity, setIdentity] = useState<DeriveAccountRegistration | null>(null);
 	const [flags, setFlags] = useState<DeriveAccountFlags | undefined>(undefined);
@@ -60,7 +60,6 @@ const Profile = ({ className }: Props): JSX.Element => {
 	const [description, setDescription] = useState(aboutDescription || '');
 	const [canEdit, setCanEdit] = useState(false);
 	const [isEditing, setIsEditing] = useState(false);
-	const { formState: { errors } , handleSubmit, setValue } = useForm();
 
 	const noDescription = `This page belongs to address (${address}). Only this user can edit this description and the title. If you own this address, edit this page and tell us more about yourself.`;
 
@@ -146,8 +145,8 @@ const Profile = ({ className }: Props): JSX.Element => {
 	const color: 'brown' | 'green' | 'grey' = isGood ? 'green' : isBad ? 'brown' : 'grey';
 	const icon = isGood ? <CheckCircleFilled style={{ color: color, verticalAlign:'middle' }} /> : <MinusCircleFilled style={{ color: color, verticalAlign:'middle' }} />;
 
-	const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>[]) => {setTitle(event[0].currentTarget.value); return event[0].currentTarget.value;};
-	const onDescriptionChange = (data: Array<string>) => {setDescription(data[0]); return data[0].length ? data[0] : null;};
+	const onTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {setTitle(event.currentTarget.value); return event.currentTarget.value;};
+	const onDescriptionChange = (data: string) => {setDescription(data); return data.length ? data : null;};
 
 	const handleEdit = () => {
 		setIsEditing(true);
@@ -206,8 +205,6 @@ const Profile = ({ className }: Props): JSX.Element => {
 
 		const signMessage = `<Bytes>about::network:${network}|address:${address}|title:${title || ''}|description:${description || ''}|image:</Bytes>`;
 
-		// console.log(signMessage);
-
 		const { signature } = await signRaw({
 			address,
 			data: stringToHex(signMessage),
@@ -234,13 +231,6 @@ const Profile = ({ className }: Props): JSX.Element => {
 		}).catch( e => console.error(e));
 	};
 
-	useEffect(() => {
-		if (isEditing) {
-			setValue('description', aboutDescription);
-			setValue('title', aboutTitle);
-		}
-	}, [aboutDescription, isEditing, setValue, aboutTitle]);
-
 	if (!apiReady) {
 		return <Loader text={'Initializing Connection...'} />;
 	}
@@ -252,16 +242,14 @@ const Profile = ({ className }: Props): JSX.Element => {
 					<h3>Update Profile</h3>
 					<TitleForm
 						onChange={onTitleChange}
-						errorTitle={errors.title}
 					/>
 					<ContentForm
 						onChange={onDescriptionChange}
-						errorContent={errors.content}
 					/>
 
 					<div className={'flex flex-col items-center mt-[3rem] justify-center'}>
 						<Button
-							onClick={handleSubmit(handleSend)}
+							onClick={handleSend}
 							disabled={loading}
 							type='primary'
 							htmlType='submit'
@@ -297,7 +285,7 @@ const Profile = ({ className }: Props): JSX.Element => {
 						<Divider className='mb-0 mt-[2em]' />
 					</div>
 					<div className='info-box w-full break-words p-1 lg:p-3'>
-						<h2>{router.query.username}</h2>
+						<h2>{username}</h2>
 						{address ? <>
 							<div className=" flex flex-col items-center mb-2">
 								<AddressComponent address={address}/>

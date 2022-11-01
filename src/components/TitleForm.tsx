@@ -2,43 +2,70 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import styled from '@xstyled/styled-components';
-import { Form } from 'antd';
-import React from 'react';
-
-import messages from '../util/messages';
+import { Form,Input } from 'antd';
+import React, { useState } from 'react';
 
 interface Props {
 	className?: string
-	errorTitle?: any
-	onChange?: any
+	onChange?: (event: React.ChangeEvent<HTMLInputElement>) => string | void
 	value?: string
 }
 
-const TitleForm = ({ className, errorTitle, onChange, value = '' }:Props): JSX.Element => {
+type ValidationStatus = Parameters<typeof Form.Item>[0]['validateStatus'];
+
+type ValidationResult = {
+	errorMsg: string | null;
+	validateStatus: ValidationStatus;
+}
+
+const validateTitle = (
+	content: string
+): ValidationResult => {
+	if(content) {
+		return {
+			errorMsg: null,
+			validateStatus: 'success'
+		};
+	}
+	return {
+		errorMsg: 'Please add the title.',
+		validateStatus: 'error'
+	};
+};
+
+const TitleForm = ({ className, onChange, value = '' }:Props): JSX.Element => {
+
+	const [validationStatus, setValidation] = useState<ValidationResult>({
+		errorMsg: null,
+		validateStatus: 'success'
+	});
+
+	const onChangeWrapper = (event:React.ChangeEvent<HTMLInputElement>) => {
+		const validationStatus = validateTitle(event.currentTarget.value);
+		setValidation(validationStatus);
+		if(onchange){
+			onChange!(event);
+		}
+
+		return event.currentTarget.value;
+	};
 
 	return (
 		<div className={className}>
 			<Form>
-				<Form.Item >
-					<label>Title</label>
-					<input
-						className={errorTitle ? ' border-red_secondary text-[1.4rem]' : 'text-[1.4rem]'}
+				<label>Title</label>
+				<Form.Item name='title' validateStatus={validationStatus.validateStatus} help={validationStatus.errorMsg}  >
+					<Input
+						className='text-[1.4rem]'
 						name={'title'}
-						onChange={onChange}
+						onChange={onChangeWrapper}
 						placeholder='Your title...'
-						type='text'
 						value={value}
 					/>
-					{errorTitle && <span className={' text-red_secondary'}>{messages.VALIDATION_TITLE_ERROR}</span>}
 				</Form.Item>
 			</Form>
 		</div>
 	);
 };
 
-export default styled(TitleForm)`
-	.fields {
-		padding: 0;
-	}
-`;
+export default TitleForm;

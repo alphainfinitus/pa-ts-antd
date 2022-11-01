@@ -2,7 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import styled from '@xstyled/styled-components';
 import React, { ReactNode } from 'react';
 
 interface Props {
@@ -16,13 +15,4 @@ const Card = ({ className, children }:Props ) => {
 	);
 };
 
-export default styled(Card)`
-	h5, h6 {
-		font-size: 1.4rem;
-	}
-
-	.ui.divided.grid:not([class*="vertically divided"])>.column:not(.row),
-	.ui.divided.grid:not([class*="vertically divided"])>.row>.column {
-		box-shadow: none;
-	}
-`;
+export default Card;
