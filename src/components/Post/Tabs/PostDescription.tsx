@@ -42,7 +42,7 @@ interface Props {
 const PostDescription = ({ className, canEdit, id, isEditing, isOnchainPost, post, refetch, toggleEdit, Sidebar, TrackerButtonComp } : Props) => {
 	const { content } = post;
 	return (
-		<div className={className}>
+		<div className={`${className} mt-4`}>
 			{content && <Markdown md={content} />}
 
 			{/* Actions Bar */}

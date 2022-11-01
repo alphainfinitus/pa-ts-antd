@@ -20,6 +20,7 @@ import EditablePostContent from './EditablePostContent';
 import Poll from './Poll';
 import PostHeading from './PostHeading';
 import PostDescription from './Tabs/PostDescription';
+import PostTimeline from './Tabs/PostTimeline';
 
 interface Props {
 	className?: string
@@ -243,7 +244,24 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 		const onChainTabs = [
 			{ label: 'Timeline',
 				key: 'timeline',
-				children: <h1>Timeline</h1>
+				children: <PostTimeline
+					isBounty={isBounty}
+					isMotion={isMotion}
+					isProposal={isProposal}
+					isReferendum={isReferendum}
+					isTipProposal={isTipProposal}
+					isTreasuryProposal={isTreasuryProposal}
+					isTechCommitteeProposal={isTechCommitteeProposal}
+					isChildBounty={isChildBounty}
+					referendumPost={referendumPost}
+					proposalPost={proposalPost}
+					motionPost={motionPost}
+					treasuryPost={treasuryPost}
+					tipPost={tipPost}
+					bountyPost={bountyPost}
+					childBountyPost={childBountyPost}
+					techCommitteeProposalPost={techCommitteeProposalPost}
+				/>
 			},
 			{ label: 'On Chain Info',
 				key: 'onChainInfo',
@@ -274,7 +292,7 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 
 	return (
 		<>
-			<div className="flex flex-col lg:flex-row">
+			<div className={`${className} flex flex-col lg:flex-row`}>
 				{/* Post Content */}
 				<div className='bg-white drop-shadow-md p-3 md:p-6 rounded-md w-full flex-1 lg:w-8/12 mx-auto lg:mr-9 mb-6 lg:mb-0'>
 					{isEditing && <EditablePostContent
