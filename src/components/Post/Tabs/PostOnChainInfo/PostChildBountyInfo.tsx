@@ -40,7 +40,7 @@ const PostChildBountyInfo = ({ onchainLink, setOtherProposalsSidebarAddr }: Prop
 	return (
 		<>
 			<OnchainInfoWrapper>
-				<Row>
+				<Row gutter={40}>
 					<Col xs={24} md={12}>
 						<h6>Proposer
 							<span className='text-pink_primary cursor-pointer ml-3' onClick={() => setOtherProposalsSidebarAddr(proposerAddress)}>

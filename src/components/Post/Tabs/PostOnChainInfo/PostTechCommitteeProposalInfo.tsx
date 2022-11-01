@@ -66,7 +66,7 @@ const PostTechCommitteeProposalInfo = ({ className, onchainLink, setOtherProposa
 							? <ArgumentsTableJSONView postArguments={proposalArguments} showAccountArguments={false} />
 							: null}
 					</div>
-					<Row>
+					<Row gutter={40}>
 						<Col span={24}>
 							{ metaDescription &&
 								<>

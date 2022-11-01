@@ -35,7 +35,7 @@ const PostProposalInfo = ({ onchainLink, setOtherProposalsSidebarAddr }: Props) 
 	return (
 		<>
 			<OnchainInfoWrapper>
-				<Row>
+				<Row gutter={40}>
 					<Col xs={24} md={12}>
 						<h6>Proposer
 							<span className='text-pink_primary cursor-pointer ml-3' onClick={() => setOtherProposalsSidebarAddr(proposerAddress)}>
@@ -51,13 +51,13 @@ const PostProposalInfo = ({ onchainLink, setOtherProposalsSidebarAddr }: Props) 
 					</Col>}
 					{method &&
 					<>
-						<Row>
+						<Row gutter={40} className='px-5'>
 							<Col span={24}>
 								<h6>Method</h6>
 								{method}
 							</Col>
 						</Row>
-						<div className='overflow-x-auto'>
+						<div className='overflow-x-auto px-5'>
 							<div className='arguments'>
 								{preimageArguments && preimageArguments.length
 									? <ArgumentsTableJSONView postArguments={preimageArguments} showAccountArguments={true}  />
@@ -65,20 +65,21 @@ const PostProposalInfo = ({ onchainLink, setOtherProposalsSidebarAddr }: Props) 
 							</div>
 						</div>
 					</>}
-					<Row>
-						<Col span={24}>
-							{ metaDescription &&
+				</Row>
+				<Row gutter={40} className='px-5'>
+					<Col span={24}>
+						{ metaDescription &&
 							<>
 								<h6>Description</h6>
 								<p className='text-navBlue leading-6'>{metaDescription}</p>
-							</>}
-						</Col>
-					</Row>
-					<Row>
-						<Col span={24}>
-							<ExternalLinks isProposal={true} onchainId={onchainLink.onchain_proposal_id} />
-						</Col>
-					</Row>
+							</>
+						}
+					</Col>
+				</Row>
+				<Row gutter={40} className='px-5'>
+					<Col span={24}>
+						<ExternalLinks isProposal={true} onchainId={onchainLink.onchain_proposal_id} />
+					</Col>
 				</Row>
 			</OnchainInfoWrapper>
 		</>

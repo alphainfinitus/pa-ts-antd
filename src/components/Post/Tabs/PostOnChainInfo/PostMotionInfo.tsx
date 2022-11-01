@@ -37,10 +37,13 @@ const PostMotionInfo = ({ className, onchainLink, setOtherProposalsSidebarAddr }
 	return (
 		<>
 			<OnchainInfoWrapper className={className}>
-				<h4>On-chain info</h4>
-				<Row>
+				<Row gutter={40}>
 					<Col xs={24} md={12}>
-						<h6>Proposer</h6>
+						<h6>Proposer
+							<span className='text-pink_primary cursor-pointer ml-3' onClick={() => setOtherProposalsSidebarAddr(proposerAddress)}>
+								View Other Proposals
+							</span>
+						</h6>
 						<Address address={proposerAddress}/>
 					</Col>
 					<Col xs={24} md={12}>
@@ -55,7 +58,7 @@ const PostMotionInfo = ({ className, onchainLink, setOtherProposalsSidebarAddr }
 						<h6>Motion&apos;s method</h6>
 						<span className={method === 'rejectProposal' ? 'bold-red-text' : ''}>{method}</span>
 					</Col>
-					<div className='overflow-x-auto'>
+					<div className='overflow-x-auto px-5'>
 						<div className='arguments'>
 							{motionProposalArguments && motionProposalArguments.length
 								? <ArgumentsTableJSONView postArguments={motionProposalArguments} showAccountArguments={false}  />
@@ -69,12 +72,6 @@ const PostMotionInfo = ({ className, onchainLink, setOtherProposalsSidebarAddr }
 					</Col>
 				</Row>
 			</OnchainInfoWrapper>
-
-			<OnchainInfoWrapper>
-				<span className='prev-proposals-btn' onClick={() => setOtherProposalsSidebarAddr(proposerAddress)}>
-					Show all proposals by proposer &gt;
-				</span>
-			</OnchainInfoWrapper>
 		</>
 	);
 };
@@ -87,7 +84,7 @@ const ProposalInfo = ({ preimage } : {preimage?: OnchainLinkMotionPreimageFragme
 	const { metaDescription, method: preimageMethod, preimageArguments } = preimage;
 
 	return (
-		<Row className='motion-sub-info with-table'>
+		<Row className='motion-sub-info with-table mx-0' gutter={40}>
 			{preimageMethod &&
 				<>
 					<Col span={24}>
@@ -123,7 +120,7 @@ const TreasuryInfo = ({ treasurySpendProposal }: {treasurySpendProposal?: Onchai
 	const { beneficiary, bond, value } = treasurySpendProposal;
 
 	return (
-		<Row className='motion-sub-info treasury-info'>
+		<Row className='motion-sub-info treasury-info mx-0' gutter={40}>
 			{beneficiary &&
 				<Col xs={24} md={12}>
 					<h6>Beneficiary</h6>
