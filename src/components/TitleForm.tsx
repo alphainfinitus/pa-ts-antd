@@ -23,14 +23,14 @@ const TitleForm = ({ className, errorTitle, onChange, value = '' }:Props): JSX.E
 				<Form.Item >
 					<label>Title</label>
 					<input
-						className={errorTitle ? 'error title' : 'title'}
+						className={errorTitle ? ' border-red_secondary text-[1.4rem]' : 'text-[1.4rem]'}
 						name={'title'}
 						onChange={onChange}
 						placeholder='Your title...'
 						type='text'
 						value={value}
 					/>
-					{errorTitle && <span className={'errorText'}>{messages.VALIDATION_TITLE_ERROR}</span>}
+					{errorTitle && <span className={' text-red_secondary'}>{messages.VALIDATION_TITLE_ERROR}</span>}
 				</Form.Item>
 			</Form>
 		</div>
@@ -40,17 +40,5 @@ const TitleForm = ({ className, errorTitle, onChange, value = '' }:Props): JSX.E
 export default styled(TitleForm)`
 	.fields {
 		padding: 0;
-	}
-
-	input.title {
-		font-size: 1.4rem !important;
-	}
-
-	input.error {
-		border-color: red_secondary !important;
-	}
-
-	.errorText {
-		color: red_secondary;
 	}
 `;

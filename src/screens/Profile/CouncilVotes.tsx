@@ -9,7 +9,6 @@ import {
 	gql,
 	InMemoryCache,
 	useQuery  } from '@apollo/client';
-import styled from '@xstyled/styled-components';
 import { Table } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import React from 'react';
@@ -102,13 +101,13 @@ const CouncilVotes = ({ className, address } : Props) => {
 			render: (vote) => (
 				<>
 					{vote ? <>
-						<div className='thumbs up'>
+						<div className='thumbs up bg-green_primary rounded-full text-white w-[2rem] h-[2rem] align-middle text-center text-[1rem] inline-block'>
 							<LikeFilled />
-						</div> Aye
+						</div> <span className='text-sidebarBlue ml-2'>Aye</span>
 					</> : <>
-						<div className='thumbs down'>
+						<div className='thumbs down bg-red_primary rounded-full text-white w-[2rem] h-[2rem] align-middle text-center text-[1rem] inline-block'>
 							<DislikeFilled />
-						</div> Nay
+						</div> <span className='text-sidebarBlue ml-2'>Nay</span>
 					</>}
 				</>
 			),
@@ -117,8 +116,8 @@ const CouncilVotes = ({ className, address } : Props) => {
 	];
 
 	return (
-		<div className={`${className} bg-white drop-shadow-md p-3 lg:p-6 rounded-md`}>
-			<div className='dashboard-heading'>Voting History <HelperTooltip text='This represents the onchain votes of council member'/></div>
+		<div className={`${className} bg-white drop-shadow-md p-3 lg:p-6 rounded-md `}>
+			<div className='dashboard-heading mb-4'>Voting History <HelperTooltip className='align-middle ml-3' text='This represents the onchain votes of council member'/></div>
 			<div>
 				{loading ? <Loader text={'Loading...'} /> : null}
 				{error ? <FilteredError text={error.message} /> : null}
@@ -129,32 +128,10 @@ const CouncilVotes = ({ className, address } : Props) => {
 
 };
 
-const StyledCouncilVotes = styled(CouncilVotes)`
-
-	.thumbs {
-		display: inline-block;
-		text-align: center;
-		vertical-align: middle;
-		color: white;
-		width: 2rem;
-		height: 2rem;
-		border-radius: 50%;
-		font-size: 1rem;
-	}
-
-	.thumbs.up {
-		background-color: green_primary;
-	}
-
-	.thumbs.down {
-		background-color: red_primary;
-	}
-`;
-
 const Container = ({ address }: { address: string }) => {
 	return (
 		<ApolloProvider client={client}>
-			<StyledCouncilVotes address={address} />
+			<CouncilVotes address={address} />
 		</ApolloProvider>
 	);
 };

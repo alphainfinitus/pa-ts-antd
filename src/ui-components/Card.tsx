@@ -12,22 +12,11 @@ interface Props {
 
 const Card = ({ className, children }:Props ) => {
 	return (
-		<div className={className}>{children}</div>
+		<div className={`${className} bg-white py-[2rem] px-[2rem] md:px-[3rem] drop-shadow-md rounded-md mb-[1rem] text-sm`}>{children}</div>
 	);
 };
 
 export default styled(Card)`
-	background-color: white;
-	padding: 2rem 3rem 2rem 3rem;
-	border-radius: 3px;
-	box-shadow: box_shadow_card;
-	margin-bottom: 1rem;
-	@media only screen and (max-width: 768px) {
-		padding: 2rem;
-	}
-
-	font-size: sm;
-
 	h5, h6 {
 		font-size: 1.4rem;
 	}

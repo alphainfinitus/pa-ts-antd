@@ -4,14 +4,14 @@
 
 import { Col,Row } from 'antd';
 import React from 'react';
-import BountyContainer from 'src/components/Listing/Bounties/BountyContainer';
-import MotionContainer from 'src/components/Listing/Motions/MotionsContainer';
-import ProposalContainer from 'src/components/Listing/Proposals/ProposalsContainer';
-import TechCommitteeProposalsContainer from 'src/components/Listing/TechCommProposals/TechCommProposalsContainer';
-import TipContainer from 'src/components/Listing/Tips/TipContainer';
-import TreasuryContainer from 'src/components/Listing/Treasury/TreasuryContainer';
 
+import BountyContainer from './Bounties';
+import MotionContainer from './Motion';
+import ProposalContainer from './Proposals';
 import ReferendaContainer from './Referenda';
+import TechCommitteeProposalsContainer from './TechCommitteeProposals';
+import TipContainer from './Tips';
+import TreasuryContainer from './Treasury';
 
 const TrackerContainer = ({ className } : {className?: string}) => {
 

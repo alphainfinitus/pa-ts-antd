@@ -191,12 +191,12 @@ const SetOnChainIdentityButton = ({
 
 	const getAvailableAccounts = (updateForInput: AvailableAccountsInput) => {
 		return (
-			<div className='availableAccountsForm'>
+			<div className=' w-full pl-[1.5em] pr-[1em]'>
 				{availableAccounts.map(account => {
 					const address = getEncodedAddress(account.address);
 
 					return address &&
-							<div key={address} onClick={() => handleSelectAvailableAccount(updateForInput, address)} className='availableAddressItem'>
+							<div key={address} onClick={() => handleSelectAvailableAccount(updateForInput, address)} className=' mb-[10px] flex justify-between items-center cursor-pointer'>
 								<div className='item'>
 									<AddressComponent className='item' address={address} extensionName={account.meta.name} />
 								</div>
@@ -374,7 +374,7 @@ const SetOnChainIdentityButton = ({
 					title={'Set On-Chain Identity'}
 					open={modalOpen}
 					centered
-					footer={[<Button key='submit' disabled={!okAll} className='submitBtn' onClick={ handleSignAndSubmit }>Set Identity</Button>,<Button key='close' onClick={() => setModalOpen(false)}>Close</Button>]}
+					footer={[<Button key='close' onClick={() => setModalOpen(false)}>Close</Button>, <Button key='submit' disabled={!okAll} className='submitBtn' onClick={ handleSignAndSubmit }>Set Identity</Button>]}
 					onCancel={() => setModalOpen(false)}
 				// trigger={!id ? triggerBtnLoginDisabled : triggerBtn}
 				>
@@ -382,33 +382,33 @@ const SetOnChainIdentityButton = ({
 						<div className='modal-desc'>
 							<Form className='identity-form'>
 								{/* Select account */}
-								<div className='form-group'>
-									<div className='input-label-div'>
-										<label >
+								<div className=' mb-[1.5em]'>
+									<div className=' flex justify-between mb-[0.5em] px-[0.5em]'>
+										<label className='font-bold text-sidebarBlue' >
 												Submit with account
 											<HelperTooltip className='ml-1 align-middle' text='Set identity for account' />
 										</label>
 
 									</div>
 
-									<div className='accountInputDiv'>
+									<div className='accountInputDiv flex items-center'>
 										<Identicon
-											className='identicon absolute left-8'
+											className='z-10 absolute left-8'
 											value={submitWithAccount}
 											size={26}
 											theme={'polkadot'}
 										/>
 										<Input
 											value={submitWithAccount}
-											className='pl-10'
+											className={`${submitWithAccount === '' ? 'px-[0.5em]' : 'pl-10'}`}
 											onChange={ (e) => onSubmitWithAccountChange(e.target.value)}
 											placeholder='Account Address'
-											// error={!validAddress}
+										// error={!validAddress}
 										/>
 									</div>
 
-									{!extensionNotAvailable && <div className='availableAddressOptions'>
-										<div onClick={() => handleDetect(AvailableAccountsInput.submitWithAccount)} className='availableAddressToggle'>
+									{!extensionNotAvailable && <div className=' flex justify-between mb-[1em]'>
+										<div onClick={() => handleDetect(AvailableAccountsInput.submitWithAccount)} className=' text-pink_primary cursor-pointer ml-[1.5em] mt-[0.25em]'>
 													or choose from available addresses
 											{showAvailableAccountsObj['submitWithAccount'] ? <UpOutlined className='ml-1 align-middle' /> : <DownOutlined className='ml-1 align-middle'/>}
 										</div>
@@ -417,27 +417,29 @@ const SetOnChainIdentityButton = ({
 									{showAvailableAccountsObj['submitWithAccount'] && availableAccounts.length > 0 && getAvailableAccounts(AvailableAccountsInput.submitWithAccount)}
 								</div>
 								{/* Display Name */}
-								<div className='form-group'>
-									<div className='input-label-div'>
-										<label>Display Name</label>
+								<div className=' mb-[1.5em]'>
+									<div className=' flex justify-between mb-[0.5em] px-[0.5em]'>
+										<label className='font-bold text-sidebarBlue'>Display Name</label>
 									</div>
-									<Input
-										className='custom-input'
-										value={displayName}
-										placeholder='My On-Chain Name'
-										onChange={ (e) => setDisplayName(e.target.value)}
+									<Form.Item name='Name' rules={[{ required:true }]}>
+										<Input
+											className='px-[0.5em]'
+											value={displayName}
+											placeholder='My On-Chain Name'
+											onChange={ (e) => setDisplayName(e.target.value)}
 										// error={!okDisplay}
-									/>
+										/>
+									</Form.Item>
 								</div>
 
 								{/* Legal Name */}
-								<div className='form-group'>
-									<div className='input-label-div'>
-										<label>Legal Name</label>
+								<div className=' mb-[1.5em]'>
+									<div className=' flex justify-between mb-[0.5em] px-[0.5em]'>
+										<label className='font-bold text-sidebarBlue'>Legal Name</label>
 										<span>*Optional</span>
 									</div>
 									<Input
-										className='custom-input'
+										className='px-[0.5em]'
 										placeholder='Full Legal Name'
 										value={legalName}
 										onChange={ (e) => setLegalName(e.target.value)}
@@ -446,13 +448,13 @@ const SetOnChainIdentityButton = ({
 								</div>
 
 								{/* Email */}
-								<div className='form-group'>
-									<div className='input-label-div'>
-										<label>Email</label>
+								<div className=' mb-[1.5em]'>
+									<div className=' flex justify-between mb-[0.5em] px-[0.5em]'>
+										<label className='font-bold text-sidebarBlue'>Email</label>
 										<span>*Optional</span>
 									</div>
 									<Input
-										className='custom-input'
+										className='px-[0.5em]'
 										value={email}
 										placeholder='somebody@example.com'
 										onChange={ (e) => setEmail(e.target.value.toLowerCase())}
@@ -461,13 +463,13 @@ const SetOnChainIdentityButton = ({
 								</div>
 
 								{/* Website */}
-								<div className='form-group'>
-									<div className='input-label-div'>
-										<label>Website</label>
+								<div className=' mb-[1.5em]'>
+									<div className=' flex justify-between mb-[0.5em] px-[0.5em]'>
+										<label className='font-bold text-sidebarBlue'>Website</label>
 										<span>*Optional</span>
 									</div>
 									<Input
-										className='custom-input'
+										className='px-[0.5em]'
 										value={website}
 										placeholder='https://example.com'
 										onChange={ (e) => setWebsite(e.target.value)}
@@ -476,13 +478,13 @@ const SetOnChainIdentityButton = ({
 								</div>
 
 								{/* Twitter */}
-								<div className='form-group'>
-									<div className='input-label-div'>
-										<label>Twitter</label>
+								<div className=' mb-[1.5em]'>
+									<div className=' flex justify-between mb-[0.5em] px-[0.5em]'>
+										<label className='font-bold text-sidebarBlue'>Twitter</label>
 										<span>*Optional</span>
 									</div>
 									<Input
-										className='custom-input'
+										className='px-[0.5em]'
 										value={twitter}
 										placeholder='@YourTwitterName'
 										onChange={ (e) => setTwitter(e.target.value)}
@@ -491,13 +493,13 @@ const SetOnChainIdentityButton = ({
 								</div>
 
 								{/* Riot Name */}
-								<div className='form-group'>
-									<div className='input-label-div'>
-										<label>Riot Name</label>
+								<div className=' mb-[1.5em]'>
+									<div className=' flex justify-between mb-[0.5em] px-[0.5em]'>
+										<label className='font-bold text-sidebarBlue'>Riot Name</label>
 										<span>*Optional</span>
 									</div>
 									<Input
-										className='custom-input'
+										className='px-[0.5em]'
 										value={riotName}
 										placeholder='@yourname:matrix.org'
 										onChange={ (e) => setRiotName(e.target.value)}
@@ -506,19 +508,22 @@ const SetOnChainIdentityButton = ({
 								</div>
 
 								{/* Total Deposit */}
-								<div className='form-group'>
-									<div className='input-label-div'>
-										<label>Total Deposit</label>
+								<div className=' mb-[1.5em]'>
+									<div className=' flex justify-between mb-[0.5em] px-[0.5em]'>
+										<label className='font-bold text-sidebarBlue'>Total Deposit</label>
 									</div>
 
-									<div className="balance-input">
-										<Input
-											placeholder={'0'}
-											className='custom-input'
-											// onChange={onBalanceChange}
-											value={DEPOSIT[currentNetwork]}
-										/>
-										<span>
+									<div className="balance-input flex items-center">
+										<Form.Item className='flex-1 mb-0' name='Deposit' rules={[{ required:true }]}>
+											<Input
+												type='number'
+												placeholder={'0'}
+												className='px-[0.5em]'
+												// onChange={onBalanceChange}
+												value={DEPOSIT[currentNetwork]}
+											/>
+										</Form.Item>
+										<span className='ml-1'>
 											{chainProperties[currentNetwork].tokenSymbol}
 										</span>
 									</div>
@@ -533,88 +538,6 @@ const SetOnChainIdentityButton = ({
 };
 
 export default styled(SetOnChainIdentityButton)`
-	.text-center  {
-		text-align : center;
-	}
-	.modal-header{
-		text-transform: capitalize;
-	}
-
-	.form-group{
-		margin-bottom: 1.5em !important;
-
-		.custom-input { 
-			padding-left: 0.5em;
-			padding-right: 0.5em;
-
-			&.error > input {
-				border-color: #e0b4b4 !important;
-				color: #9f3a38 !important;
-			}
-		}
-	}
-
-	.input-label-div {
-		display: flex;
-		justify-content: space-between;
-		margin-bottom: 0.5em !important;
-		padding-left: 0.5em;
-		padding-right: 0.5em;
-
-		label {
-			font-weight: bold;
-		}
-	}
-
-	.availableAccountsForm {
-		width: 100%;
-		padding-left: 1.5em;
-		padding-right: 1em;
-	}
-	.availableAddressItem {
-		margin-bottom: 10px;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		cursor: pointer;
-	}
-	.availableAddressOptions{ 
-		display: flex;
-		justify-content: space-between;
-		margin-bottom: 1em;
-	}
-	
-	.availableAddressToggle {
-		color: pink_primary;
-		cursor: pointer;
-		margin-left: 1.5em;
-		margin-top: 0.25em;
-	}
-	.accountInputDiv { 
-		display: flex;
-		align-items: center;
-		.identicon {
-			z-index: 10;
-		}
-	}
-	.input-form-field {
-		margin-right: 1.5em !important;
-	}
-	.value-form-group{
-		display: flex !important;
-		align-items: center;
-		margin-left: 0.45em !important;
-	}
-	.text-input{
-		margin-left: 1.5em;
-	}
-	.textarea-input {
-		min-height: 100;
-		margin-left: 1.5em !important;
-	}
-	.hide-pointer{
-		pointer-events:none;
-	}
 	/* Hides Increment Arrows in number input */
 	input::-webkit-outer-spin-button,
 	input::-webkit-inner-spin-button {
@@ -624,24 +547,9 @@ export default styled(SetOnChainIdentityButton)`
 	input[type=number] {
 		-moz-appearance: textfield;
 	}
-	.post-form-div {
-		border-top: 1px solid #ddd;
-		padding-top: 2em;
-		margin-left: 1em;
-		margin-top: 2.5em;
-	}
-	.modal-actions{
-		margin-bottom: 2.4em !important;
-	}
+
 	.submitBtn{
 		background-color: pink_primary;
 		color: #fff;
-	}
-	.balance-input {
-		display: flex;
-		align-items: center;
-		span {
-			margin-top: -0.9em;
-		}
 	}
 `;

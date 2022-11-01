@@ -105,7 +105,7 @@ const PostCommentForm = ({ className, postId, refetch }: Props) => {
 				id={id}
 			/>
 
-			<div className='comment-box'>
+			<div className='comment-box bg-white p-[1rem] rounded-md drop-shadow-md'>
 				<Form
 					form={form}
 					name="comment-content-form"
@@ -138,10 +138,6 @@ export default styled(PostCommentForm)`
 	margin: 2rem 0;
 
 	.comment-box {
-		background-color: white;
-		padding: 1rem;
-		border-radius: 3px;
-		box-shadow: box_shadow_card;
 		width: calc(100% - 60px);
 
 		@media only screen and (max-width: 768px) {

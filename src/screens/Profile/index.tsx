@@ -7,7 +7,6 @@ import { DeriveAccountFlags, DeriveAccountInfo, DeriveAccountRegistration } from
 import { web3Accounts, web3Enable, web3FromSource } from '@polkadot/extension-dapp';
 import { InjectedExtension } from '@polkadot/extension-inject/types' ;
 import { stringToHex } from '@polkadot/util';
-import styled from '@xstyled/styled-components';
 import { Button, Col, Divider, Form, Row } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import {  useForm } from 'react-hook-form';
@@ -260,7 +259,7 @@ const Profile = ({ className }: Props): JSX.Element => {
 						errorContent={errors.content}
 					/>
 
-					<div className={'mainButtonContainer'}>
+					<div className={'flex flex-col items-center mt-[3rem] justify-center'}>
 						<Button
 							onClick={handleSubmit(handleSend)}
 							disabled={loading}
@@ -274,9 +273,9 @@ const Profile = ({ className }: Props): JSX.Element => {
 				</Form> : <div className="bg-white drop-shadow-md p-3 lg:p-6 rounded-md mb-[1rem]">
 					{aboutQueryResult?.error ? <FilteredError text={aboutQueryResult?.error?.message}/> : null}
 					{aboutQueryResult?.loading ? <Loader text={'Fetching Profile'}/> : <>
-						<h2>{aboutQueryResult?.data?.about?.title || 'Title not edited'}</h2>
+						<h2 className='dashboard-heading mb-4'>{aboutQueryResult?.data?.about?.title || 'Title not edited'}</h2>
 						<Markdown md={aboutQueryResult?.data?.about?.description || noDescription} />
-						{canEdit ? <div className={'mainButtonContainer'}>
+						{canEdit ? <div className={'flex flex-col items-center mt-[3rem] justify-center'}>
 							<Button
 								onClick={handleEdit}
 								disabled={loading}
@@ -292,49 +291,49 @@ const Profile = ({ className }: Props): JSX.Element => {
 			</Col>
 			<Col span={8}>
 				<div className='bg-white drop-shadow-md rounded-md ' >
-					<div className='card-right p-4 lg:p-6'>
+					<div className='flex flex-col p-4 lg:p-6'>
 						<div className='dashboard-heading'>Identity </div>
 						<SetOnChainIdentityButton />
-						<Divider className='divider' />
+						<Divider className='mb-0 mt-[2em]' />
 					</div>
-					<div className='info-box p-1 lg:p-3'>
+					<div className='info-box w-full break-words p-1 lg:p-3'>
 						<h2>{router.query.username}</h2>
 						{address ? <>
-							<div className="address-container">
+							<div className=" flex flex-col items-center mb-2">
 								<AddressComponent address={address}/>
 								<Balance address={address}/>
 							</div>
 							{identity && <div className='mt-4'>
 								{identity?.legal && <Row className='border-b-[1px] border-slate-300'>
-									<Col span={8} className='desc py-2 pr-2 border-r-[1px] border-slate-300 text-left'>Legal:</Col>
+									<Col span={8} className='desc py-2 pr-2 border-r-[1px] border-slate-300 text-left text-sidebarBlue font-bold'>Legal:</Col>
 									<Col span={16} className='py-2 pl-2 text-left'>{identity.legal}</Col>
 								</Row>}
 								{identity?.email && <Row className='border-b-[1px] border-slate-300'>
-									<Col span={8} className='desc py-2 pr-2 border-r-[1px] border-slate-300 text-left'>Email:</Col>
+									<Col span={8} className='desc py-2 pr-2 border-r-[1px] border-slate-300 text-left text-sidebarBlue font-bold'>Email:</Col>
 									<Col span={16} className='py-2 pl-2 text-left text-pink_primary'><a href={`mailto:${identity.email}`}>{identity.email}</a></Col>
 								</Row>}
 								{identity?.judgements?.length > 0 && <Row className='border-b-[1px] border-slate-300'>
-									<Col span={8} className='desc py-2 pr-2 border-r-[1px] border-slate-300 text-left'>Judgements:</Col>
+									<Col span={8} className='desc py-2 pr-2 border-r-[1px] border-slate-300 text-left text-sidebarBlue font-bold'>Judgements:</Col>
 									<Col span={16} className='judgments py-2 pl-2 text-left'>{icon} {displayJudgements}</Col>
 								</Row>}
 								{identity?.pgp && <Row className='border-b-[1px] border-slate-300'>
-									<Col span={8} className='desc py-2 pr-2 border-r-[1px] border-slate-300 text-left'>PGP:</Col>
+									<Col span={8} className='desc py-2 pr-2 border-r-[1px] border-slate-300 text-left text-sidebarBlue font-bold'>PGP:</Col>
 									<Col span={16} className='py-2 pl-2 text-left'>{identity.pgp}</Col>
 								</Row>}
 								{identity?.riot && <Row className='border-b-[1px] border-slate-300'>
-									<Col span={8} className='desc py-2 pr-2 border-r-[1px] border-slate-300 text-left'>Riot:</Col>
+									<Col span={8} className='desc py-2 pr-2 border-r-[1px] border-slate-300 text-left text-sidebarBlue font-bold'>Riot:</Col>
 									<Col span={16} className='py-2 pl-2 text-left'>{identity.riot}</Col>
 								</Row>}
 								{identity?.twitter && <Row className='border-b-[1px] border-slate-300'>
-									<Col span={8} className='desc py-2 pr-2 border-r-[1px] border-slate-300 text-left'>Twitter:</Col>
+									<Col span={8} className='desc py-2 pr-2 border-r-[1px] border-slate-300 text-left text-sidebarBlue font-bold'>Twitter:</Col>
 									<Col span={16} className='py-2 pl-2 text-left text-pink_primary'><a href={`https://twitter.com/${identity.twitter.substring(1)}`}>{identity.twitter}</a></Col>
 								</Row>}
 								{identity?.web && <Row className='border-b-[1px] border-slate-300'>
-									<Col span={8} className='desc py-2 pr-2 border-r-[1px] border-slate-300 text-left'>Web:</Col>
+									<Col span={8} className='desc py-2 pr-2 border-r-[1px] border-slate-300 text-left text-sidebarBlue font-bold'>Web:</Col>
 									<Col span={16} className='py-2 pl-2 text-left'>{identity.web}</Col>
 								</Row>}
 								{flags?.isCouncil && <Row>
-									<Col span={8} className='desc py-2 pr-2 border-r-[1px] border-slate-300 text-left'>Roles:</Col>
+									<Col span={8} className='desc py-2 pr-2 border-r-[1px] border-slate-300 text-left text-sidebarBlue font-bold'>Roles:</Col>
 									<Col span={16} className='py-2 pl-2 text-left'>Council member <CouncilEmoji/></Col>
 								</Row>}
 							</div>}
@@ -346,58 +345,4 @@ const Profile = ({ className }: Props): JSX.Element => {
 	);
 };
 
-export default styled(Profile)`
-	.profile_content {
-		background-color: white;
-		border-radius: 3px;
-		box-shadow: box_shadow_card;
-		padding: 3rem 3rem 0.8rem 3rem;
-		margin-bottom: 1rem;
-	}
-
-	.card-right {
-		display: flex;
-		flex-direction: column;
-
-		.divider {
-			margin-top: 2em;
-            margin-bottom: 0;
-		}
-
-		@media only screen and (max-width: 576px) {
-			width: 100%;
-			border-radius: 0px;
-		}
-	}
-
-	.info-box {
-		word-break: break-word;
-		padding: 10px;
-
-		@media only screen and (max-width: 576px) {
-			width: 100%;
-			border-radius: 0px;
-		}
-	}
-
-	.address-container {
-		margin: 10px 0;
-        text-align: center;
-        display: flex;
-		flex-direction: column;
-        align-items: center;
-	}
-
-	.desc {
-		font-weight: bold;
-        color: black;
-	}
-
-	.mainButtonContainer{
-		align-items: center;
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		margin-top: 3rem;
-	}
-`;
+export default Profile;
