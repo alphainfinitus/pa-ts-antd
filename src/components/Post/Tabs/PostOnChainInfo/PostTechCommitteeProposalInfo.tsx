@@ -14,7 +14,7 @@ import OnchainInfoWrapper from './OnchainInfoWrapper';
 interface Props {
 	className?: string;
 	onchainLink: OnchainLinkTechCommitteeProposalFragment
-	setOtherProposalsSidebarAddr: React.Dispatch<React.SetStateAction<string | null>>
+	setOtherProposalsSidebarAddr: (address: string) => void
 }
 
 const PostTechCommitteeProposalInfo = ({ className, onchainLink, setOtherProposalsSidebarAddr }: Props) => {

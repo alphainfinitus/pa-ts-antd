@@ -16,7 +16,7 @@ import OnchainInfoWrapper from './OnchainInfoWrapper';
 
 interface Props{
 	onchainLink: OnchainLinkReferendumFragment
-	setOtherProposalsSidebarAddr: React.Dispatch<React.SetStateAction<string | null>>
+	setOtherProposalsSidebarAddr: (address: string) => void
 }
 
 const PostReferendumInfo = ({ onchainLink, setOtherProposalsSidebarAddr }: Props) => {

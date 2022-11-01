@@ -17,7 +17,7 @@ import OnchainInfoWrapper from './OnchainInfoWrapper';
 interface Props {
 	className?: string;
 	onchainLink: OnchainLinkMotionFragment
-	setOtherProposalsSidebarAddr: React.Dispatch<React.SetStateAction<string | null>>
+	setOtherProposalsSidebarAddr: (address: string) => void
 }
 
 const PostMotionInfo = ({ className, onchainLink, setOtherProposalsSidebarAddr }: Props) => {

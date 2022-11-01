@@ -25,6 +25,7 @@ interface Props {
 	isTipProposal?: boolean;
 	isChildBounty?: boolean;
 	definedOnchainLink: OnchainLinkTechCommitteeProposalFragment | OnchainLinkBountyFragment | OnchainLinkChildBountyFragment | OnchainLinkMotionFragment | OnchainLinkReferendumFragment | OnchainLinkProposalFragment | OnchainLinkTipFragment | OnchainLinkTreasuryProposalFragment | undefined;
+	handleOpenSidebar: (address: string) => void;
 }
 
 const PostOnChainInfo = ({
@@ -37,59 +38,63 @@ const PostOnChainInfo = ({
 	isTechCommitteeProposal,
 	isTipProposal,
 	isChildBounty,
-	definedOnchainLink
+	definedOnchainLink,
+	handleOpenSidebar
 } : Props) => {
+
 	return (
-		<div className={`${className} mt-4`}>
-			{ isTechCommitteeProposal &&
-				<PostTechCommitteeProposalInfo
-					onchainLink={definedOnchainLink as OnchainLinkTechCommitteeProposalFragment}
-					setOtherProposalsSidebarAddr={() => console.log('open all proposals sidebar')}
-				/>
-			}
-			{ isBounty &&
-				<PostBountyInfo
-					onchainLink={definedOnchainLink as OnchainLinkBountyFragment}
-					setOtherProposalsSidebarAddr={() => console.log('open all proposals sidebar')}
-				/>
-			}
-			{ isChildBounty &&
-				<PostChildBountyInfo
-					onchainLink={definedOnchainLink as OnchainLinkChildBountyFragment}
-					setOtherProposalsSidebarAddr={() => console.log('open all proposals sidebar')}
-				/>
-			}
-			{ isMotion &&
-				<PostMotionInfo
-					onchainLink={definedOnchainLink as OnchainLinkMotionFragment}
-					setOtherProposalsSidebarAddr={() => console.log('open all proposals sidebar')}
-				/>
-			}
-			{ isProposal &&
-				<PostProposalInfo
-					onchainLink={definedOnchainLink as OnchainLinkProposalFragment}
-					setOtherProposalsSidebarAddr={() => console.log('open all proposals sidebar')}
-				/>
-			}
-			{ isReferendum &&
-				<PostReferendumInfo
-					onchainLink={definedOnchainLink as OnchainLinkReferendumFragment}
-					setOtherProposalsSidebarAddr={() => console.log('open all proposals sidebar')}
-				/>
-			}
-			{ isTreasuryProposal &&
-				<PostTreasuryInfo
-					onchainLink={definedOnchainLink as OnchainLinkTreasuryProposalFragment}
-					setOtherProposalsSidebarAddr={() => console.log('open all proposals sidebar')}
-				/>
-			}
-			{ isTipProposal &&
-				<PostTipInfo
-					onchainLink={definedOnchainLink as OnchainLinkTipFragment}
-					setOtherProposalsSidebarAddr={() => console.log('open all proposals sidebar')}
-				/>
-			}
-		</div>
+		<>
+			<div className={`${className} mt-4`}>
+				{ isTechCommitteeProposal &&
+					<PostTechCommitteeProposalInfo
+						onchainLink={definedOnchainLink as OnchainLinkTechCommitteeProposalFragment}
+						setOtherProposalsSidebarAddr={handleOpenSidebar}
+					/>
+				}
+				{ isBounty &&
+					<PostBountyInfo
+						onchainLink={definedOnchainLink as OnchainLinkBountyFragment}
+						setOtherProposalsSidebarAddr={handleOpenSidebar}
+					/>
+				}
+				{ isChildBounty &&
+					<PostChildBountyInfo
+						onchainLink={definedOnchainLink as OnchainLinkChildBountyFragment}
+						setOtherProposalsSidebarAddr={handleOpenSidebar}
+					/>
+				}
+				{ isMotion &&
+					<PostMotionInfo
+						onchainLink={definedOnchainLink as OnchainLinkMotionFragment}
+						setOtherProposalsSidebarAddr={handleOpenSidebar}
+					/>
+				}
+				{ isProposal &&
+					<PostProposalInfo
+						onchainLink={definedOnchainLink as OnchainLinkProposalFragment}
+						setOtherProposalsSidebarAddr={handleOpenSidebar}
+					/>
+				}
+				{ isReferendum &&
+					<PostReferendumInfo
+						onchainLink={definedOnchainLink as OnchainLinkReferendumFragment}
+						setOtherProposalsSidebarAddr={handleOpenSidebar}
+					/>
+				}
+				{ isTreasuryProposal &&
+					<PostTreasuryInfo
+						onchainLink={definedOnchainLink as OnchainLinkTreasuryProposalFragment}
+						setOtherProposalsSidebarAddr={handleOpenSidebar}
+					/>
+				}
+				{ isTipProposal &&
+					<PostTipInfo
+						onchainLink={definedOnchainLink as OnchainLinkTipFragment}
+						setOtherProposalsSidebarAddr={handleOpenSidebar}
+					/>
+				}
+			</div>
+		</>
 	);
 };
 

@@ -14,6 +14,8 @@ import { BountyPostAndCommentsQuery, BountyPostAndCommentsQueryHookResult, Bount
 import { PostCategory } from 'src/global/post_categories';
 import { PostEmptyState } from 'src/ui-components/UIStates';
 
+import OtherProposals from '../OtherProposals';
+import SidebarRight from '../SidebarRight';
 import OptionPoll from './ActionsBar/OptionPoll';
 import TrackerButton from './ActionsBar/TrackerButton';
 import EditablePostContent from './EditablePostContent';
@@ -67,6 +69,8 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 	const [isEditing, setIsEditing] = useState(false);
 	const toggleEdit = () => setIsEditing(!isEditing);
 	const { setMetaContextState } = useContext(MetaContext);
+	const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+	const [proposerAddress, setProposerAddress] = useState<string>('');
 
 	useEffect(() => {
 		const users: string[] = [];
@@ -239,6 +243,11 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 		}
 	</>;
 
+	const handleOpenSidebar = (address:string) => {
+		setSidebarOpen(true);
+		setProposerAddress(address);
+	};
+
 	const getOnChainTabs = () => {
 		if (isDiscussion(post)) return [];
 
@@ -276,6 +285,7 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 					isTechCommitteeProposal={isTechCommitteeProposal}
 					isChildBounty={isChildBounty}
 					definedOnchainLink={definedOnchainLink}
+					handleOpenSidebar={handleOpenSidebar}
 				/>
 			}
 		];
@@ -321,8 +331,14 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 				</div>
 
 				{!isEditing && <Sidebar className='hidden lg:block' />}
-
 			</div>
+
+			<SidebarRight
+				open={sidebarOpen}
+				closeSidebar={() => setSidebarOpen(false)}
+			>
+				{ proposerAddress && <OtherProposals proposerAddress={proposerAddress} currPostOnchainID={Number(onchainId)} closeSidebar={() => setSidebarOpen(false)} /> }
+			</SidebarRight>
 		</>
 	);
 };

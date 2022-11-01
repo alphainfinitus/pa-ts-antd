@@ -14,7 +14,7 @@ import OnchainInfoWrapper from './OnchainInfoWrapper';
 
 interface Props {
 	onchainLink: OnchainLinkChildBountyFragment
-	setOtherProposalsSidebarAddr: React.Dispatch<React.SetStateAction<string | null>>
+	setOtherProposalsSidebarAddr: (address: string) => void
 }
 
 const currentNetwork = getNetwork();
