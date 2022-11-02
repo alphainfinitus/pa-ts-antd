@@ -45,8 +45,7 @@ const SecondProposal = ({ className, proposalId, address, accounts, onAccountCha
 		}
 
 		setLoadingStatus({ isLoading: true, message: 'Waiting for signature' });
-		// TODO CHANGE SECOND PARAMETER
-		const second = api.tx.democracy.second(proposalId, 6);
+		const second = api.tx.democracy.second(proposalId);
 
 		second.signAndSend(address, ({ status }: any) => {
 			if (status.isInBlock) {

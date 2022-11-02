@@ -2,8 +2,6 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import '@polkadot/api-augment';
-
 import { CaretDownOutlined, CaretUpOutlined } from '@ant-design/icons';
 import { LoadingOutlined } from '@ant-design/icons';
 import { DeriveBalancesAccount } from '@polkadot/api-derive/types';
