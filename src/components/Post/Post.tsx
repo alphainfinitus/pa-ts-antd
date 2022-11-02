@@ -20,6 +20,7 @@ import SidebarRight from '../SidebarRight';
 import OptionPoll from './ActionsBar/OptionPoll';
 import TrackerButton from './ActionsBar/TrackerButton';
 import EditablePostContent from './EditablePostContent';
+import GovernanceSideBar from './GovernanceSideBar';
 import Poll from './Poll';
 import PostHeading from './PostHeading';
 import PostDescription from './Tabs/PostDescription';
@@ -223,6 +224,21 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 	const Sidebar = ({ className } : {className?:string}) => {
 		return (
 			<div className={`${className} flex flex-col w-full lg:w-4/12 mx-auto`}>
+				<GovernanceSideBar
+					isBounty={isBounty}
+					isChildBounty={isChildBounty}
+					isMotion={isMotion}
+					isProposal={isProposal}
+					isReferendum={isReferendum}
+					isTipProposal={isTipProposal}
+					isTreasuryProposal={isTreasuryProposal}
+					isTechCommitteeProposal={isTechCommitteeProposal}
+					onchainId={onchainId}
+					onchainLink={definedOnchainLink}
+					status={postStatus}
+					canEdit={canEdit}
+					startTime={post.created_at}
+				/>
 				{isDiscussion(post) && <Poll postId={post.id} canEdit={post.author?.id === id} />}
 				<OptionPoll postId={post.id} canEdit={post.author?.id === id} />
 			</div>
