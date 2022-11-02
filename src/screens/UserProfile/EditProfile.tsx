@@ -12,7 +12,6 @@ import queueNotification from 'src/ui-components/QueueNotification';
 import noUserImage from '../../assets/no-user-img.png';
 
 interface Props {
-    open: boolean
     setEditProfile: React.Dispatch<React.SetStateAction<boolean>>
     refetch: (variables?: Exact<{
         user_id: number;
@@ -23,7 +22,7 @@ interface Props {
 
 // TODO: Enable refetch
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const EditProfileModal = ({ data, refetch, open, setEditProfile, id }: Props) => {
+const EditProfileModal = ({ data, refetch, setEditProfile, id }: Props) => {
 	const [title, setTitle] = useState<string>('aaa');
 	const [badges, setBadges] = useState<string[]>([]);
 	const [bio, setBio] = useState<string>('');
@@ -156,35 +155,7 @@ const EditProfileModal = ({ data, refetch, open, setEditProfile, id }: Props) =>
 	const updatePhotoButton = <Button className='flex items-center justify-center absolute bottom-2 right-2 border-none outline-none bg-white rounded-full shadow-md' disabled={loading} loading={loading} onClick={() => { setImageUrlError(false); setOpenModal(true);}} icon={<CameraOutlined />} />;
 
 	return (
-		<Modal
-			title={
-				<span className='font-semibold text-2xl text-sidebarBlue'>
-                    Edit Profile
-				</span>
-			}
-			open={open}
-			footer={[
-				<Button
-					key='cancel'
-					onClick={closeEditProfileSidebar}
-					disabled={loading}
-					className='border-pink_primary text-pink_primary rounded-md font-semibold'
-				>
-                    Cancel
-				</Button>,
-				<Button
-					key='update profile'
-					disabled={loading}
-					loading={loading}
-					onClick={updateProfileData}
-					className='border-pink_primary text-white rounded-md font-semibold bg-pink_primary'
-				>
-                    Update Profile
-				</Button>
-			]}
-			onCancel={() => setEditProfile(false)}
-			className='md:min-w-[650px]'
-		>
+		<div className='flex flex-col gap-y-5 h-full justify-between'>
 			<Modal
 				closable={false}
 				title={
@@ -240,88 +211,109 @@ const EditProfileModal = ({ data, refetch, open, setEditProfile, id }: Props) =>
 					}
 				</div>
 			</Modal>
-			<section className='flex flex-col gap-y-5'>
-				{error && <Alert message={error.message} type='error' />}
-				<article className='flex'>
-					{userImage || finalImgUrl ?
-						<div className='relative flex items-center justify-center'>
-							<img className='flex h-w-32 w-32 rounded-full' src={finalImgUrl ? finalImgUrl : userImage} alt="user avatar" />
-							{updatePhotoButton}
-						</div>
-						: <div className=''>
-							<img className='flex h-w-32 w-32 rounded-full' src={noUserImage} alt="user avatar" />
-							{updatePhotoButton}
-						</div>
-					}
-				</article>
-				<article>
-					<label
-						className='text-base text-grey_primary font-medium cursor-pointer'
-						htmlFor='title'
-					>
-					Job Title
-					</label>
-					<Input
-						id='title'
-						value={title}
-						placeholder='eg. Manager'
-						onChange={(e) => setTitle(e.target.value)}
-						className="rounded-md py-2 px-3 border-grey_border"
-					/>
-				</article>
-				<article>
-					<label
-						className='text-base text-grey_primary font-medium cursor-pointer'
-						htmlFor='bio'
-					>
-					Bio
-					</label>
-					<Input.TextArea
-						id='bio'
-						value={bio}
-						placeholder='eg. I am a Web Developer'
-						onChange={(e) => setBio(e.target.value)}
-						className="rounded-md py-2 px-3 border-grey_border"
-					/>
-				</article>
-				<article className='flex flex-col gap-y-2'>
-					<label
-						className='text-base text-grey_primary font-medium cursor-pointer'
-						htmlFor='badges'
-					>
-                        Badges
-					</label>
-					<p className='text-grey_secondary text-sm'>
-                        Badges are pointers that indicate individual successes, abilities, skills and/or interests.
-					</p>
-					<div className='flex gap-x-2 items-center'>
-						<Input
-							id='badges'
-							value={newBadge}
-							placeholder='eg. Movie'
-							onChange={(e) => setNewBadge(e.target.value)}
-							onKeyPress={(e: any) => handleNewBadgeKeyPress(e)}
-							className="rounded-md py-1.5 px-3 border-grey_border"
-						/>
-						<Button
-							size='large'
-							className='h-full border-pink_primary text-pink_primary flex items-center text-sm rounded-md font-semibold'
-							icon={<PlusOutlined />}
-							onClick={() => addNewBadge()}
-						>
-                        Add Badge
-						</Button>
+			{error && <Alert message={error.message} type='error' />}
+			<article className='flex flex-col gap-y-2 items-start'>
+				<h3 className='font-semibold text-2xl text-sidebarBlue'>
+                    Edit Profile
+				</h3>
+				{userImage || finalImgUrl ?
+					<div className='relative flex items-center justify-center'>
+						<img className='flex h-w-32 w-32 rounded-full' src={finalImgUrl ? finalImgUrl : userImage} alt="user avatar" />
+						{updatePhotoButton}
 					</div>
-					{ newBadgeError && <Alert message='This badge already exists.' type='warning' /> }
-					{
-						badges.length >= 0 &&
+					: <div className=''>
+						<img className='flex h-w-32 w-32 rounded-full' src={noUserImage} alt="user avatar" />
+						{updatePhotoButton}
+					</div>
+				}
+			</article>
+			<article>
+				<label
+					className='text-base text-grey_primary font-medium cursor-pointer'
+					htmlFor='title'
+				>
+					Job Title
+				</label>
+				<Input
+					id='title'
+					value={title}
+					placeholder='eg. Manager'
+					onChange={(e) => setTitle(e.target.value)}
+					className="rounded-md py-2 px-3 border-grey_border"
+				/>
+			</article>
+			<article>
+				<label
+					className='text-base text-grey_primary font-medium cursor-pointer'
+					htmlFor='bio'
+				>
+					Bio
+				</label>
+				<Input.TextArea
+					id='bio'
+					value={bio}
+					placeholder='eg. I am a Web Developer'
+					onChange={(e) => setBio(e.target.value)}
+					className="rounded-md py-2 px-3 border-grey_border"
+				/>
+			</article>
+			<article className='flex flex-col gap-y-4'>
+				<label
+					className='text-base text-grey_primary font-medium cursor-pointer'
+					htmlFor='badges'
+				>
+                        Badges
+				</label>
+				<p className='text-grey_secondary text-sm'>
+                        Badges are pointers that indicate individual successes, abilities, skills and/or interests.
+				</p>
+				<div className='flex gap-x-2 items-center'>
+					<Input
+						id='badges'
+						value={newBadge}
+						placeholder='eg. Movie'
+						onChange={(e) => setNewBadge(e.target.value)}
+						onKeyPress={(e: any) => handleNewBadgeKeyPress(e)}
+						className="rounded-md py-1.5 px-3 border-grey_border"
+					/>
+					<Button
+						className='border-pink_primary text-pink_primary flex items-center text-xs rounded-md font-semibold'
+						icon={<PlusOutlined />}
+						onClick={() => addNewBadge()}
+					>
+                        Add Badge
+					</Button>
+				</div>
+				{ newBadgeError && <Alert message='This badge already exists.' type='warning' /> }
+				{
+					badges.length >= 0 &&
                         <div>{badges.map((badge) => (<Tag closeIcon={<CloseOutlined className='m-0 p-0 flex text-white' />} className='capitalize rounded-full inline-flex font-medium outline-none border-none shadow-none px-3 py-0.5 gap-x-1 items-center bg-pink_primary text-white' key={badge} closable onClose={(e) => {e.preventDefault();removeBadge(badge);
                         }} >{badge}</Tag>))}
                         </div>
-					}
-				</article>
-			</section>
-		</Modal>
+				}
+			</article>
+			<article className='flex gap-x-2 justify-end'>
+				<Button
+					key='cancel'
+					onClick={closeEditProfileSidebar}
+					disabled={loading}
+					size='large'
+					className='border-pink_primary text-pink_primary rounded-md font-semibold'
+				>
+                    Cancel
+				</Button>
+				<Button
+					key='update profile'
+					disabled={loading}
+					loading={loading}
+					onClick={updateProfileData}
+					size='large'
+					className='border-pink_primary text-white rounded-md font-semibold bg-pink_primary'
+				>
+                    Update Profile
+				</Button>
+			</article>
+		</div>
 	);
 };
 

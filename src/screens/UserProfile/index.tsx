@@ -4,12 +4,13 @@
 import { EditOutlined } from '@ant-design/icons';
 import { Button, Divider } from 'antd';
 import React, { useState } from 'react';
+import SidebarRight from 'src/components/SidebarRight';
 import { useUserDetailsContext } from 'src/context';
 import { useGetUserDetailsQuery } from 'src/generated/graphql';
 import Loader from 'src/ui-components/Loader';
 
 import noUserImage from '../../assets/no-user-img.png';
-import EditProfileModal from './EditProfileModal';
+import EditProfile from './EditProfile';
 
 const UserProfile = () => {
 	const { id, username } = useUserDetailsContext();
@@ -24,7 +25,9 @@ const UserProfile = () => {
 	});
 	return (
 		<section className='w-full bg-white shadow-md p-8 rounded-md flex flex-col'>
-			<EditProfileModal data={data} id={id} open={editProfile} refetch={refetch} setEditProfile={setEditProfile} />
+			<SidebarRight open={editProfile} closeSidebar={() => setEditProfile(false)}>
+				<EditProfile data={data} id={id} refetch={refetch} setEditProfile={setEditProfile} />
+			</SidebarRight>
 			{
 				id ?
 					<>
