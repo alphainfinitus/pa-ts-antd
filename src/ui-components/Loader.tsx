@@ -7,12 +7,13 @@ import { Alert, Spin } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 interface Props{
-	text?: string
-	timeout?: number
-	timeoutText?: string
-	size?: 'default' | 'small' | 'large',
+	className?:string;
+	text?: string;
+	timeout?: number;
+	timeoutText?: string;
+	size?: 'default' | 'small' | 'large';
 }
-const Loader = ({ timeout, text, timeoutText = 'Process timeout', size = 'default' }: Props) => {
+const Loader = ({ className, timeout, text, timeoutText = 'Process timeout', size = 'default' }: Props) => {
 	const [displayLoader, setDisplayLoader] = useState(true);
 
 	useEffect(() => {
@@ -29,7 +30,7 @@ const Loader = ({ timeout, text, timeoutText = 'Process timeout', size = 'defaul
 
 	return (
 		<>
-			<div className='flex justify-center items-center'>
+			<div className={`${className} flex justify-center items-center`}>
 				{displayLoader
 					?
 					<Spin tip={text} size={size} indicator={<LoadingOutlined />} />
