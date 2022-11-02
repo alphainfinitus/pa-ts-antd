@@ -32,6 +32,7 @@ import TreasuryPost from 'src/screens/Posts/TreasuryPost';
 import RequestResetPassword from 'src/screens/RequestResetPassword';
 import Settings from 'src/screens/Settings';
 import SignupForm from 'src/screens/SignupForm';
+import UserProfile from 'src/screens/UserProfile';
 
 const SwitchRoutes = () => {
 	return (
@@ -42,6 +43,7 @@ const SwitchRoutes = () => {
 			<Route path="/signup" element={<SignupForm/>} />
 			<Route path="/settings" element={<Settings/>} />
 			<Route path="/notification-settings" element={<NotificationSettings/>} />
+			<Route path="/user/:username" element={<UserProfile/>} />
 			<Route path='/discussions' element={<Discussions />} />
 			<Route path='/news' element={<News />} />
 			<Route path='/post'>
