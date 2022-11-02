@@ -2,6 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { LoadingOutlined } from '@ant-design/icons';
 import { Alert, Spin } from 'antd';
 import React, { useEffect, useState } from 'react';
 
@@ -31,7 +32,7 @@ const Loader = ({ timeout, text, timeoutText = 'Process timeout', size = 'defaul
 			<div className='flex justify-center items-center'>
 				{displayLoader
 					?
-					<Spin tip={text} size={size} />
+					<Spin tip={text} size={size} indicator={<LoadingOutlined />} />
 					:
 					<Alert className='w-2/3 text-center' type='error' message={timeoutText} />
 				}

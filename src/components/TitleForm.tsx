@@ -2,15 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Form } from 'antd';
+import { Form,Input } from 'antd';
 import React, { useState } from 'react';
-
-import MarkdownEditor from '../ui-components/MarkdownEditor';
 
 interface Props {
 	className?: string
-	height?: number
-	onChange?: (content: string) => void | string | null
+	onChange?: (event: React.ChangeEvent<HTMLInputElement>) => string | void
 	value?: string
 }
 
@@ -21,7 +18,7 @@ type ValidationResult = {
 	validateStatus: ValidationStatus;
 }
 
-const validateContent = (
+const validateTitle = (
 	content: string
 ): ValidationResult => {
 	if(content) {
@@ -31,40 +28,44 @@ const validateContent = (
 		};
 	}
 	return {
-		errorMsg: 'Please add the content.',
+		errorMsg: 'Please add the title.',
 		validateStatus: 'error'
 	};
 };
 
-const ContentForm = ({ className, height, onChange, value }: Props): JSX.Element => {
+const TitleForm = ({ className, onChange, value = '' }:Props): JSX.Element => {
 
 	const [validationStatus, setValidation] = useState<ValidationResult>({
 		errorMsg: null,
 		validateStatus: 'success'
 	});
 
-	const onChangeWrapper = (content:string) => {
-		const validationStatus = validateContent(content);
+	const onChangeWrapper = (event:React.ChangeEvent<HTMLInputElement>) => {
+		const validationStatus = validateTitle(event.currentTarget.value);
 		setValidation(validationStatus);
 		if(onchange){
-			onChange!(content);
+			onChange!(event);
 		}
 
-		return content;
+		return event.currentTarget.value;
 	};
 
 	return (
 		<div className={className}>
-			<Form.Item valuePropName='value' getValueFromEvent={onChangeWrapper} name='content' validateStatus={validationStatus.validateStatus} help={validationStatus.errorMsg}>
-				<MarkdownEditor
-					height={height}
-					name='content'
-					onChange={onChangeWrapper}
-					value={value || ''}
-				/>
-			</Form.Item>
+			<Form>
+				<label>Title</label>
+				<Form.Item name='title' validateStatus={validationStatus.validateStatus} help={validationStatus.errorMsg}  >
+					<Input
+						className='text-[1.4rem]'
+						name={'title'}
+						onChange={onChangeWrapper}
+						placeholder='Your title...'
+						value={value}
+					/>
+				</Form.Item>
+			</Form>
 		</div>
 	);
 };
 
-export default ContentForm;
+export default TitleForm;
