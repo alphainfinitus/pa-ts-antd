@@ -69,7 +69,7 @@ const NotificationSettings = () => {
 				<h5
 					className='font-normal text-sm text-navBlue mt-2'
 				>
-						Update your notification settings. You will be receiving your notifications on <span className='text-sidebarBlue'>hellopolkassembly@gmail.com</span>
+						Update your notification settings. You will be receiving your notifications on <span className='text-sidebarBlue'>{currentUser?.email}</span>
 				</h5>
 			</header>
 			{error?.message && <FilteredError text={error.message}/>}
