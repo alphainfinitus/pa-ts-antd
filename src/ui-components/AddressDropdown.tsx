@@ -4,51 +4,65 @@
 import { DownOutlined } from '@ant-design/icons';
 import { InjectedAccount } from '@polkadot/extension-inject/types';
 import { Dropdown, Menu } from 'antd';
-import React from 'react';
+import { ItemType } from 'antd/lib/menu/hooks/useItems';
+import React, { useState } from 'react';
 import Address from 'src/ui-components/Address';
 
 interface Props {
-  className?: string;
-  selectedAccount: InjectedAccount;
   accounts: InjectedAccount[];
+  className?: string;
+  defaultAddress: string
+  filterAccounts?: string[]
   onAccountChange: (
     event: React.SyntheticEvent<HTMLElement, Event>,
-    data: InjectedAccount
+    address: string
   ) => void;
 }
 
 const AddressDropdown = ({
 	className = 'px-4 py-3 border-2 rounded-md',
-	selectedAccount,
-	accounts,
-	onAccountChange
+	accounts, defaultAddress, filterAccounts, onAccountChange
 }: Props) => {
+	const [selectedAddress, setSelectedAddress] = useState(defaultAddress);
+	const filteredAccounts = !filterAccounts
+		? accounts
+		: accounts.filter( elem =>
+			filterAccounts.includes(elem.address)
+		);
+
+	const dropdownList: {[index: string]: string} = {};
+	const addressItems: ItemType[] = [];
+
+	filteredAccounts.forEach(account => {
+		addressItems.push({
+			key: account.address,
+			label: (
+				<Address extensionName={account.name} address={account.address} />
+			)
+		});
+
+		if (account.address && account.name){
+			dropdownList[account.address] = account.name;
+		}
+	}
+	);
 	return (
 		<Dropdown
 			className={className}
 			overlay={
 				<Menu
 					onClick={(e) => {
-						const account = accounts.find(
-							(account) => account.address === e.key
-						);
-						if (account) {
-							onAccountChange(e.domEvent, account);
-						}
+						setSelectedAddress(e.key);
+						onAccountChange(e.domEvent, e.key);
 					}}
-					items={accounts.map((account) => ({
-						key: account.address,
-						label: (
-							<Address extensionName={account.name} address={account.address} />
-						)
-					}))}
+					items={addressItems}
 				/>
 			}
 		>
 			<div className="flex justify-between items-center">
 				<Address
-					extensionName={selectedAccount?.name}
-					address={selectedAccount?.address}
+					extensionName={dropdownList[selectedAddress]}
+					address={selectedAddress}
 				/>
 				<span>
 					<DownOutlined />

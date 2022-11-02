@@ -8,6 +8,7 @@ import styled from '@xstyled/styled-components';
 import { Button, Modal, Spin } from 'antd';
 import React, { useContext, useState } from 'react';
 import { ApiContext } from 'src/context/ApiContext';
+import AccountSelectionForm from 'src/ui-components/AccountSelectionForm';
 import queueNotification from 'src/ui-components/QueueNotification';
 
 import { LoadingStatusType,NotificationStatus } from '../../../../types';
@@ -103,14 +104,13 @@ const SecondProposal = ({ className, proposalId, address, accounts, onAccountCha
 				]}
 			>
 				<Spin spinning={loadingStatus.isLoading} indicator={<LoadingOutlined />}>
-					{/* TODO: Enable AccountSelectionForm */}
-					{/* <AccountSelectionForm
-							title='Endorse with account'
-							accounts={accounts}
-							// address={address}
-							withBalance
-							onAccountChange={onAccountChange}
-						/> */}
+					<AccountSelectionForm
+						title='Endorse with account'
+						accounts={accounts}
+						address={address}
+						withBalance
+						onAccountChange={onAccountChange}
+					/>
 				</Spin>
 			</Modal>
 		</div>

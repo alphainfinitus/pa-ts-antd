@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 import { DownOutlined, PlusOutlined, UpOutlined } from '@ant-design/icons';
 import { web3Accounts, web3Enable, web3FromSource } from '@polkadot/extension-dapp';
-import { InjectedAccount, InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
+import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { stringToHex } from '@polkadot/util';
 import { Alert, Button, Checkbox, Form, Input, InputNumber, Modal } from 'antd';
 import React, { FC, useState } from 'react';
@@ -36,14 +36,14 @@ const MultiSignatureAddress: FC<Props> = ({ open, dismissModal }) => {
 	const [extensionNotAvailable, setExtensionNotAvailable] = useState(false);
 	const [, setAccountsNotFound] = useState(false);
 	const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
-	const [selectedAccount, setSelectedAccount] = useState<InjectedAccount>(accounts?.[0]);
+	const [signatory, setSignatory] = useState<string>('');
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [multisigLinkStartMutation, { error: startError }] = useMultisigLinkStartMutation();
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [multisigLinkConfirmMutation, { loading, error }] = useMultisigLinkConfirmMutation();
 
-	const onAccountChange = (event: React.SyntheticEvent<HTMLElement, Event>, data: InjectedAccount) => {
-		setSelectedAccount(data);
+	const onAccountChange = (event: React.SyntheticEvent<HTMLElement, Event>, address: string) => {
+		setSignatory(address);
 	};
 
 	const { api, apiReady } = useApiContext();
@@ -156,7 +156,7 @@ const MultiSignatureAddress: FC<Props> = ({ open, dismissModal }) => {
 
 		setAccounts(accounts);
 		if (accounts.length > 0) {
-			setSelectedAccount(accounts[0]);
+			setSignatory(accounts[0]?.address);
 
 			const injected = await web3FromSource(accounts[0].meta.source);
 
@@ -219,7 +219,7 @@ const MultiSignatureAddress: FC<Props> = ({ open, dismissModal }) => {
 
 	const handleFinish = (data: any) => {
 		if (linkStarted) {
-			handleSign(data?.multisigAddress, selectedAccount?.address, Number(data?.threshold));
+			handleSign(data?.multisigAddress, signatory, Number(data?.threshold));
 		} else {
 			handleLink();
 		}
@@ -357,7 +357,7 @@ const MultiSignatureAddress: FC<Props> = ({ open, dismissModal }) => {
 					<AccountSelectionForm
 						title='Sign with account'
 						accounts={accounts}
-						selectedAccount={selectedAccount}
+						address={signatory}
 						onAccountChange={onAccountChange}
 					/>
 				</section>}
