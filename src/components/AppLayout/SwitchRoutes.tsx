@@ -9,6 +9,7 @@ import Home from 'src/screens/Home';
 import Bounties from 'src/screens/Listing/Bounties';
 import ChildBounties from 'src/screens/Listing/ChildBounties';
 import Discussions from 'src/screens/Listing/Discussions';
+import Members from 'src/screens/Listing/Members';
 import Motions from 'src/screens/Listing/Motions';
 import Parachains from 'src/screens/Listing/Parachains';
 import Proposals from 'src/screens/Listing/Proposals';
@@ -28,9 +29,11 @@ import ReferendumPost from 'src/screens/Posts/ReferendumPost';
 import TechCommProposalPost from 'src/screens/Posts/TechCommProposalPost';
 import TipPost from 'src/screens/Posts/TipPost';
 import TreasuryPost from 'src/screens/Posts/TreasuryPost';
+import Profile from 'src/screens/Profile';
 import RequestResetPassword from 'src/screens/RequestResetPassword';
 import Settings from 'src/screens/Settings';
 import SignupForm from 'src/screens/SignupForm';
+import Tracker from 'src/screens/Tracker';
 
 const SwitchRoutes = () => {
 	return (
@@ -69,6 +72,12 @@ const SwitchRoutes = () => {
 
 			<Route path="/motions" element={<Motions />} />
 			<Route path="/motion/:id" element={<MotionPost />} />
+
+			<Route path="/council" element={<Members />} />
+
+			<Route path="/profile/:address" element={<Profile />} />
+
+			<Route path="/tracker" element={<Tracker />} />
 
 			<Route path="/tech-comm-proposals" element={<TechCommProposals />} />
 			<Route path="/tech/:id" element={<TechCommProposalPost />} />

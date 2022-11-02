@@ -105,7 +105,7 @@ const PostCommentForm = ({ className, postId, refetch }: Props) => {
 				id={id}
 			/>
 
-			<div className='comment-box'>
+			<div className='comment-box bg-white p-[1rem] rounded-md drop-shadow-md'>
 				<Form
 					form={form}
 					name="comment-content-form"
@@ -119,7 +119,7 @@ const PostCommentForm = ({ className, postId, refetch }: Props) => {
 						{ required: "Please add the '${name}'" }
 					}
 				>
-					<ContentForm onChange={(content) => onContentChange(content)} height={300} />
+					<ContentForm onChange={(content : any) => onContentChange(content)} height={300} />
 					<Form.Item>
 						<div className='flex items-center justify-end'>
 							<Button htmlType="submit" className='bg-pink_primary text-white border-white hover:bg-pink_secondary flex items-center'>
@@ -138,10 +138,6 @@ export default styled(PostCommentForm)`
 	margin: 2rem 0;
 
 	.comment-box {
-		background-color: white;
-		padding: 1rem;
-		border-radius: 3px;
-		box-shadow: box_shadow_card;
 		width: calc(100% - 60px);
 
 		@media only screen and (max-width: 768px) {
