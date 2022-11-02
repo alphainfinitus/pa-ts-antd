@@ -20,6 +20,7 @@ import Treasury from 'src/screens/Listing/Treasury';
 import LoginForm from 'src/screens/LoginForm';
 import News from 'src/screens/News';
 import NotFound from 'src/screens/NotFound';
+import NotificationSettings from 'src/screens/NotificationSettings';
 import BountyPost from 'src/screens/Posts/BountyPost';
 import ChildBountyPost from 'src/screens/Posts/ChildBountyPost';
 import DiscussionPost from 'src/screens/Posts/DiscussionPost';
@@ -34,6 +35,7 @@ import RequestResetPassword from 'src/screens/RequestResetPassword';
 import Settings from 'src/screens/Settings';
 import SignupForm from 'src/screens/SignupForm';
 import Tracker from 'src/screens/Tracker';
+import UserProfile from 'src/screens/UserProfile';
 
 const SwitchRoutes = () => {
 	return (
@@ -43,6 +45,8 @@ const SwitchRoutes = () => {
 			<Route path="/login" element={<LoginForm />}/>
 			<Route path="/signup" element={<SignupForm/>} />
 			<Route path="/settings" element={<Settings/>} />
+			<Route path="/notification-settings" element={<NotificationSettings/>} />
+			<Route path="/user/:username" element={<UserProfile/>} />
 			<Route path='/discussions' element={<Discussions />} />
 			<Route path='/news' element={<News />} />
 			<Route path='/post'>
