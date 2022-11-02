@@ -6,6 +6,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import CreatePost from 'src/screens/CreatePost';
 import Home from 'src/screens/Home';
+import { PrivacyPolicy, TermsAndConditions, TermsOfWebsite } from 'src/screens/LegalDocuments';
 import Bounties from 'src/screens/Listing/Bounties';
 import ChildBounties from 'src/screens/Listing/ChildBounties';
 import Discussions from 'src/screens/Listing/Discussions';
@@ -86,6 +87,9 @@ const SwitchRoutes = () => {
 			<Route path="/tech-comm-proposals" element={<TechCommProposals />} />
 			<Route path="/tech/:id" element={<TechCommProposalPost />} />
 
+			<Route path="/terms-and-conditions" element={<TermsAndConditions/>} />
+			<Route path="/terms-of-website" element={<TermsOfWebsite/>} />
+			<Route path="/privacy" element={<PrivacyPolicy/>} />
 			<Route path="*" element={<NotFound />} />
 
 		</Routes>
