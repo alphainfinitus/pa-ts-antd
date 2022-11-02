@@ -2,20 +2,20 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { LoadingOutlined } from '@ant-design/icons';
 import { DeriveReferendumVote } from '@polkadot/api-derive/types';
 import { Balance } from '@polkadot/types/interfaces';
-import styled from '@xstyled/styled-components';
-import { Col, Row } from 'antd';
+import { Spin } from 'antd';
 import BN from 'bn.js';
 import React, { useContext, useEffect, useMemo,useState } from 'react';
 import { ApiContext } from 'src/context/ApiContext';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
 import { getFailingThreshold, getPassingThreshold } from 'src/polkassemblyutils';
 import { LoadingStatusType, VoteThreshold } from 'src/types';
-import Card from 'src/ui-components/Card';
+import GovSidebarCard from 'src/ui-components/GovSidebarCard';
 import HelperTooltip from 'src/ui-components/HelperTooltip';
 import Loader from 'src/ui-components/Loader';
-import PassingInfo from 'src/ui-components/PassingInfo';
+import PassingInfoTag from 'src/ui-components/PassingInfoTag';
 import VoteProgress from 'src/ui-components/VoteProgress';
 import formatBnBalance from 'src/util/formatBnBalance';
 import getNetwork from 'src/util/getNetwork';
@@ -25,7 +25,6 @@ interface Props {
 	referendumId: number
 	threshold?: VoteThreshold
 	setLastVote: React.Dispatch<React.SetStateAction<string | null | undefined>>
-	isPassingInfoShow?: boolean;
 }
 
 const ZERO = new BN(0);
@@ -33,7 +32,7 @@ const ZERO = new BN(0);
 const sizing = ['0.1x', '1x', '2x', '3x', '4x', '5x', '6x'];
 const LOCKS = [1, 10, 20, 30, 40, 50, 60];
 
-const ReferendumVoteInfo = ({ className, referendumId, threshold, setLastVote, isPassingInfoShow = true }: Props) => {
+const ReferendumVoteInfo = ({ className, referendumId, threshold, setLastVote }: Props) => {
 	const { api, apiReady } = useContext(ApiContext);
 	const [turnout, setTurnout] = useState(ZERO);
 	const [totalIssuance, setTotalIssuance] = useState(ZERO);
@@ -109,8 +108,8 @@ const ReferendumVoteInfo = ({ className, referendumId, threshold, setLastVote, i
 		},
 		[voteInfo?.aye_amount, voteInfo?.aye_without_conviction, voteInfo?.isPassing, voteInfo?.nay_amount, voteInfo?.nay_without_conviction, voteInfo?.vote_threshold, totalIssuance]
 	);
+
 	useEffect(() => {
-		// eslint-disable-next-line quotes
 		fetch(`https://${getNetwork()}.api.subscan.io/api/scan/democracy/referendum`, { body: JSON.stringify({ referendum_index: referendumId }), method: 'POST' }).then(async (res) => {
 			try {
 				const response = await res.json();
@@ -237,16 +236,17 @@ const ReferendumVoteInfo = ({ className, referendumId, threshold, setLastVote, i
 
 	return (
 		<>
-			{!voteInfo?<>
-				{isPassingInfoShow && <PassingInfo isPassing={isPassing}/>}
-				<Card className={loadingStatus.isLoading ? `LoaderWrapper ${className}` : className}>
-					{loadingStatus.isLoading
-						? <Loader text={loadingStatus.message} timeout={30000} timeoutText='Api is unresponsive.'/>
-						: <>
+			{!voteInfo ?
+				<GovSidebarCard className={className}>
+					<Spin spinning={loadingStatus.isLoading} indicator={<LoadingOutlined />}>
+						<div className="flex justify-between mb-7">
+							<h6 className='dashboard-heading'>Voting Status</h6>
+						</div>
+
+						{<>
 							{
-								// delayText='The results should be available soon!' delayTextTimeout={30000}
 								isPassing === null
-									? <Loader className={'progressLoader'} text={'Loading vote progress'} timeout={90000} timeoutText='Vote calculation failed'/>
+									? <Loader className={'my-3'} text={'Loading vote progress'} timeout={90000} timeoutText='Vote calculation failed'/>
 									: <VoteProgress
 										ayeVotes={ayeVotes}
 										className='vote-progress'
@@ -257,81 +257,65 @@ const ReferendumVoteInfo = ({ className, referendumId, threshold, setLastVote, i
 									/>
 							}
 
-							<div>
-								<Row>
-									<Col>
-										<h6>Turnout {turnoutPercentage > 0 && <span className='turnoutPercentage'>({turnoutPercentage}%)</span>}</h6>
-										<div>{formatBnBalance(turnout, { numberAfterComma: 2, withUnit: true })}</div>
-									</Col>
-									<Col>
-										<h6>Aye <HelperTooltip text='Aye votes without taking conviction into account'/></h6>
-										<div>{formatBnBalance(ayeVotesWithoutConviction, { numberAfterComma: 2, withUnit: true })}</div>
-									</Col>
-									<Col>
-										<h6>Nay <HelperTooltip text='Nay votes without taking conviction into account'/></h6>
-										<div>{formatBnBalance(nayVotesWithoutConviction, { numberAfterComma: 2, withUnit: true })}</div>
-									</Col>
-								</Row>
+							<div className='flex-1 flex flex-col justify-between mx-auto p-9 gap-y-3'>
+								<div className='mb-auto flex items-center'>
+									<div className='mr-auto text-sidebarBlue font-medium'>Turnout {turnoutPercentage > 0 && <span className='turnoutPercentage'>({turnoutPercentage}%)</span>}</div>
+									<div className='text-navBlue'>{formatBnBalance(turnout, { numberAfterComma: 2, withUnit: true })}</div>
+								</div>
+
+								<div className='mb-auto flex items-center'>
+									<div className='mr-auto text-sidebarBlue font-medium flex items-center'>Aye <HelperTooltip className='ml-2' text='Aye votes without taking conviction into account'/></div>
+									<div className='text-navBlue'>{formatBnBalance(ayeVotesWithoutConviction, { numberAfterComma: 2, withUnit: true })}</div>
+								</div>
+
+								<div className='flex items-center'>
+									<div className='mr-auto text-sidebarBlue font-medium flex items-center'>Nay <HelperTooltip className='ml-2' text='Nay votes without taking conviction into account'/></div>
+									<div className='text-navBlue'>{formatBnBalance(nayVotesWithoutConviction, { numberAfterComma: 2, withUnit: true })}</div>
+								</div>
 							</div>
 						</>
-					}
-				</Card>
-			</>:<>
-				{isPassingInfoShow && <PassingInfo isPassing={voteInfo?.isPassing}/>}
-				<Card className={loadingStatus.isLoading ? `LoaderWrapper ${className}` : className}>
-					<VoteProgress
-						ayeVotes={voteInfo?.aye_amount}
-						className='vote-progress'
-						isPassing={voteInfo?.isPassing}
-						threshold={getThreshold2}
-						nayVotes={voteInfo?.nay_amount}
-						thresholdType={voteInfo?.vote_threshold}
-					/>
-					<div>
-						<Row>
-							<Col>
-								<h6>Turnout {turnoutPercentage2 > 0 && <span className='turnoutPercentage'>({turnoutPercentage2}%)</span>}</h6>
-								<div>{formatBnBalance(voteInfo?.turnout, { numberAfterComma: 2, withUnit: true })}</div>
-							</Col>
-							<Col>
-								<h6>Aye <HelperTooltip text='Aye votes without taking conviction into account'/></h6>
-								<div>{formatBnBalance(voteInfo?.aye_without_conviction, { numberAfterComma: 2, withUnit: true })}</div>
-							</Col>
-							<Col>
-								<h6>Nay <HelperTooltip text='Nay votes without taking conviction into account'/></h6>
-								<div>{formatBnBalance(voteInfo?.nay_without_conviction, { numberAfterComma: 2, withUnit: true })}</div>
-							</Col>
-						</Row>
-					</div>
-				</Card>
-			</>}
+						}
+					</Spin>
+				</GovSidebarCard>
+				:
+				<GovSidebarCard className={className}>
+					<Spin spinning={loadingStatus.isLoading} indicator={<LoadingOutlined />}>
+						<div className="flex justify-between mb-7">
+							<h6 className='dashboard-heading'>Voting Status</h6>
+							<PassingInfoTag isPassing={voteInfo?.isPassing}/>
+						</div>
+
+						<div className="flex justify-between">
+							<VoteProgress
+								ayeVotes={voteInfo?.aye_amount}
+								className='vote-progress'
+								isPassing={voteInfo?.isPassing}
+								threshold={getThreshold2}
+								nayVotes={voteInfo?.nay_amount}
+								thresholdType={voteInfo?.vote_threshold}
+							/>
+
+							<div className='flex-1 flex flex-col justify-between ml-12 py-9'>
+								<div className='mb-auto flex items-center'>
+									<div className='mr-auto text-sidebarBlue font-medium'>Turnout {turnoutPercentage2 > 0 && <span className='turnoutPercentage'>({turnoutPercentage2}%)</span>}</div>
+									<div className='text-navBlue'>{formatBnBalance(voteInfo?.turnout, { numberAfterComma: 2, withUnit: true })}</div>
+								</div>
+
+								<div className='mb-auto flex items-center'>
+									<div className='mr-auto text-sidebarBlue font-medium flex items-center'>Aye <HelperTooltip className='ml-2' text='Aye votes without taking conviction into account'/></div>
+									<div className='text-navBlue'>{formatBnBalance(voteInfo?.aye_without_conviction, { numberAfterComma: 2, withUnit: true })}</div>
+								</div>
+
+								<div className='flex items-center'>
+									<div className='mr-auto text-sidebarBlue font-medium flex items-center'>Nay <HelperTooltip className='ml-2' text='Nay votes without taking conviction into account'/></div>
+									<div className='text-navBlue'>{formatBnBalance(voteInfo?.nay_without_conviction, { numberAfterComma: 2, withUnit: true })}</div>
+								</div>
+							</div>
+						</div>
+					</Spin>
+				</GovSidebarCard>}
 		</>
 	);
 };
 
-export default styled(ReferendumVoteInfo)`
-	padding-bottom: 1rem;
-
-	.vote-progress {
-		margin-bottom: 5rem;
-	}
-
-	.LoaderWrapper {
-		height: 15rem;
-		position: absolute;
-		width: 100%;
-	}
-
-	.turnoutPercentage {
-		font-weight: normal;
-		font-size: sm;
-	}
-
-	.progressLoader{
-		position: inherit;
-		height: 10rem;
-		.loader {
-			margin-top: -4.5rem !important;
-		}
-	}
-`;
+export default ReferendumVoteInfo;

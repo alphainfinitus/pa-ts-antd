@@ -103,7 +103,7 @@ const GeneralSignals = ({ ayes, className, endBlock, nays, ownVote, pollId, canE
 		<GovSidebarCard className={className}>
 			<h3 className='flex items-center'><span className='mr-2 dashboard-heading'>Poll Signals</span> <HelperTooltip text='This represents the off-chain votes of Polkassembly users including council members'/></h3>
 
-			{<div className="my-6 flex">
+			<div className="my-6 flex">
 				<div className='flex flex-col items-center text-white text-base'>
 					<div id="bigCircle" className={`${ayes >= nays ? 'bg-aye_green' : 'bg-nay_red'} rounded-full h-[110px] w-[110px] flex items-center justify-center z-10`}>
 						{
@@ -128,7 +128,7 @@ const GeneralSignals = ({ ayes, className, endBlock, nays, ownVote, pollId, canE
 						<div className='text-navBlue'>{nays}</div>
 					</div>
 				</div>
-			</div>}
+			</div>
 
 			<div>
 				{error?.message && <ErrorAlert errorMsg={error.message} />}

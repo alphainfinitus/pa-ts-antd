@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DislikeFilled, LikeFilled } from '@ant-design/icons';
 import { Signer } from '@polkadot/api/types';
 import { isWeb3Injected, web3Enable } from '@polkadot/extension-dapp';
 import { Injected, InjectedAccount, InjectedWindow } from '@polkadot/extension-inject/types';
-import styled from '@xstyled/styled-components';
 import { Form } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { ApiContext } from 'src/context/ApiContext';
@@ -13,6 +13,7 @@ import { OnchainLinkBountyFragment, OnchainLinkChildBountyFragment, OnchainLinkM
 import { APPNAME } from 'src/global/appName';
 import { motionStatus, proposalStatus, referendumStatus, tipStatus } from 'src/global/statuses';
 import { VoteThreshold, Wallet } from 'src/types';
+import GovSidebarCard from 'src/ui-components/GovSidebarCard';
 import getEncodedAddress from 'src/util/getEncodedAddress';
 
 import ExtensionNotDetected from '../../ExtensionNotDetected';
@@ -206,21 +207,19 @@ const GovernanceSideBar = ({ canEdit, className, isMotion, isProposal, isReferen
 	if (extensionNotFound) {
 		return (
 			<div className={className}>
-				<div className='card'>
+				<GovSidebarCard>
 					<ExtensionNotDetected />
-				</div>
+				</GovSidebarCard>
 			</div>
 		);
 	}
 
 	if (accountsNotFound) {
 		return (
-			<div className={className}>
-				<div className='card'>
-					<div className='text-muted'>You need at least one account in Polkadot-js extenstion to use this feature.</div>
-					<div className='text-muted'>Please reload this page after adding accounts.</div>
-				</div>
-			</div>
+			<GovSidebarCard>
+				<div className='mb-4'>You need at least one account in Polkadot-js extenstion to use this feature.</div>
+				<div className='text-muted'>Please reload this page after adding accounts.</div>
+			</GovSidebarCard>
 		);
 	}
 
@@ -245,6 +244,7 @@ const GovernanceSideBar = ({ canEdit, className, isMotion, isProposal, isReferen
 							/>
 						}
 					</>}
+
 					{isProposal &&
 						<ProposalDisplay
 							accounts={accounts}
@@ -255,6 +255,7 @@ const GovernanceSideBar = ({ canEdit, className, isMotion, isProposal, isReferen
 							proposalId={onchainId  as number}
 						/>
 					}
+
 					{isTreasuryProposal &&
 						<EditProposalStatus
 							proposalId={onchainId  as number}
@@ -262,44 +263,50 @@ const GovernanceSideBar = ({ canEdit, className, isMotion, isProposal, isReferen
 							startTime={startTime}
 						/>
 					}
+
 					{isReferendum &&
 						<>
+							{canVote &&
+								<GovSidebarCard>
+									<h6 className="dashboard-heading mb-6">Cast your Vote!</h6>
+									<VoteReferendum
+										lastVote={lastVote}
+										setLastVote={setLastVote}
+										accounts={accounts}
+										address={address}
+										getAccounts={getAccounts}
+										onAccountChange={onAccountChange}
+										referendumId={onchainId  as number}
+									/>
+								</GovSidebarCard>
+							}
+
 							{(onchainId || onchainId === 0) && (onchainLink as OnchainLinkReferendumFragment).onchain_referendum &&
 								<div className={className}>
-									<Form>
-										<ReferendumVoteInfo
-											referendumId={onchainId as number}
-											threshold={((onchainLink as OnchainLinkReferendumFragment).onchain_referendum[0]?.voteThreshold) as VoteThreshold}
-											setLastVote={setLastVote}
-											isPassingInfoShow={true}
-										/>
-									</Form>
+									<ReferendumVoteInfo
+										referendumId={onchainId as number}
+										threshold={((onchainLink as OnchainLinkReferendumFragment).onchain_referendum[0]?.voteThreshold) as VoteThreshold}
+										setLastVote={setLastVote}
+									/>
 								</div>
 							}
-							<div className='vote-div vote-card'>
-								{lastVote != undefined ? lastVote == null ?
-									<div className='vote-reminder-text'>You haven&apos;t voted yet, vote now and do your bit for the community</div>
-									:
-									<div className='last-vote-text-cont'>
-										You Voted: { lastVote == 'aye' ? 'THUMBS UP' : 'THUMBS DOWN' }
-										<span className={`last-vote-text ${lastVote == 'aye' ? 'green-text' : 'red-text'}`}>{lastVote}</span>
-									</div>
-									: <div className="spacer"></div>
-								}
 
-								{canVote && <VoteReferendum
-									lastVote={lastVote}
-									setLastVote={setLastVote}
-									accounts={accounts}
-									address={address}
-									getAccounts={getAccounts}
-									onAccountChange={onAccountChange}
-									referendumId={onchainId  as number}
-								/>
+							<div>
+								{lastVote != undefined ? lastVote == null ?
+									<GovSidebarCard>
+										You haven&apos;t voted yet, vote now and do your bit for the community
+									</GovSidebarCard>
+									:
+									<GovSidebarCard className='flex items-center'>
+										You Voted: { lastVote == 'aye' ? <LikeFilled className='text-aye_green ml-2' /> : <DislikeFilled className='text-nay_red ml-2' /> }
+										<span className={`last-vote-text ${lastVote == 'aye' ? 'green-text' : 'red-text'}`}>{lastVote}</span>
+									</GovSidebarCard>
+									: <></>
 								}
 							</div>
 						</>
 					}
+
 					{isTipProposal && canVote &&
 					<div>
 						<TipInfo who={onchainTipProposal?onchainTipProposal?.[0]?.who: ''} onChainId={onchainId as string}/>
@@ -319,58 +326,4 @@ const GovernanceSideBar = ({ canEdit, className, isMotion, isProposal, isReferen
 	);
 };
 
-export default styled(GovernanceSideBar)`
-
-	@media only screen and (max-width: 768px) {
-		.ui.form {
-			padding: 0rem;
-		}
-	}
-
-	.vote-div {
-
-		&.vote-card {
-			background: #fff;
-			padding: 14px 28px;
-			box-shadow: rgba(83, 89, 92, 0.15) 0px 2px 4px 0px;
-		}
-
-		.vote-reminder-text, .last-vote-text-cont {
-			color: #000000;
-			font-size: 16px;
-			margin-bottom: 16px;
-			display: flex;
-			align-items: center;
-
-			.green-text {
-				color: #4DD18F;
-			}
-
-			.red-text {
-				color: #D94C3D;
-			}
-
-			.icon {
-				margin-left: 12px;
-				margin-right: 4px;
-				margin-top: -4px;
-			}
-
-			.last-vote-text {
-				text-transform: capitalize;
-				font-weight: 500;
-			}
-
-			.last-vote-date {
-				font-size: 14px;
-				font-weight: 400;
-				color: #909090;
-				margin-left: 6px;
-			}
-		}
-
-		.spacer {
-			margin-top: 9px;
-		}
-	}
-`;
+export default GovernanceSideBar;

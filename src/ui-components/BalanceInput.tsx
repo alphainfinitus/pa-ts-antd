@@ -2,10 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import styled from '@xstyled/styled-components';
-import { Form, Input } from 'antd';
+import { Form, InputNumber } from 'antd';
 import BN from 'bn.js';
 import React, { useState } from 'react';
+import { chainProperties } from 'src/global/networkConstants';
+import getNetwork from 'src/util/getNetwork';
 
 import { inputToBn } from '../util/inputToBn';
 import HelperTooltip from './HelperTooltip';
@@ -18,11 +19,18 @@ interface Props{
 	placeholder?: string
 }
 
+const currentNetwork = getNetwork();
+
 const BalanceInput = ({ className, label = '', helpText = '', onChange, placeholder = '' }: Props) => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [isValidInput, setIsValidInput] = useState(true);
-	const onBalanceChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
-		const [balance, isValid] = inputToBn(event.currentTarget.value, false);
+
+	const onBalanceChange = (value: number | null): void => {
+		if(!value || value <= 0) {
+			setIsValidInput(false);
+			return;
+		}
+
+		const [balance, isValid] = inputToBn(`${value}`, false);
 		setIsValidInput(isValid);
 
 		if(isValid){
@@ -30,28 +38,22 @@ const BalanceInput = ({ className, label = '', helpText = '', onChange, placehol
 		}
 	};
 
-	return <Form.Item className={className} >
-		<label>
-			{label}
-			{helpText && <HelperTooltip text={helpText}/> }
-		</label>
-		<Input
-			className={'balanceInput'}
-			// invalid={isValidInput}
+	return <Form.Item
+		className={className}
+		name="balance"
+		rules={[{ required: true }, {  }]}
+		validateStatus={isValidInput ? 'success' : 'error'}
+		help={!isValidInput && 'Please input a valid value'}
+	>
+		<label className='mb-3 flex items-center text-sm text-sidebarBlue'> {label} {helpText && <HelperTooltip className='ml-2' text={helpText}/> } </label>
+
+		<InputNumber
+			className='rounded-md text-sm text-sidebarBlue p-1 w-full'
 			onChange={onBalanceChange}
-			placeholder={placeholder}
-			type='number'
+			placeholder={`${placeholder} ${chainProperties[currentNetwork].tokenSymbol}`}
+			size="large"
 		/>
 	</Form.Item>;
 };
 
-export default styled(BalanceInput)`
-	label {
-		display: flex !important;
-    align-items: center !important;
-	}
-
-	.ui.selection.dropdown {
-		border-color: grey_light;
-	}
-`;
+export default BalanceInput;

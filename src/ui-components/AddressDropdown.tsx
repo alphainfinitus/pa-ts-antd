@@ -20,7 +20,7 @@ interface Props {
 }
 
 const AddressDropdown = ({
-	className = 'px-4 py-3 border-2 rounded-md',
+	className = 'px-4 py-2 border-2 rounded-md',
 	accounts, defaultAddress, filterAccounts, onAccountChange
 }: Props) => {
 	const [selectedAddress, setSelectedAddress] = useState(defaultAddress);
@@ -48,6 +48,7 @@ const AddressDropdown = ({
 	);
 	return (
 		<Dropdown
+			trigger={['click']}
 			className={className}
 			overlay={
 				<Menu

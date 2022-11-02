@@ -20,7 +20,7 @@ interface Props{
 const AccountSelectionForm = ({ accounts, address, onAccountChange, title, withBalance = false }: Props) =>
 	<article className='w-full gap-y-2 flex flex-col'>
 		<div className='flex items-center gap-x-2'>
-			<h3 className='font-semibold text-base'>{title}</h3>
+			<h3 className='text-sm'>{title}</h3>
 			<HelperTooltip text='You can choose an account from the extension.' />
 		</div>
 		<AddressDropdown

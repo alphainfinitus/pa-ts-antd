@@ -45,7 +45,7 @@ const SecondProposal = ({ className, proposalId, address, accounts, onAccountCha
 		}
 
 		setLoadingStatus({ isLoading: true, message: 'Waiting for signature' });
-		// TODO CHANGE SECOND PARAM
+		// TODO CHANGE SECOND PARAMETER
 		const second = api.tx.democracy.second(proposalId, 6);
 
 		second.signAndSend(address, ({ status }: any) => {
@@ -94,8 +94,6 @@ const SecondProposal = ({ className, proposalId, address, accounts, onAccountCha
 			<Modal
 				title="Second Proposal"
 				open={showModal}
-				// onOk={handleOk}
-				// confirmLoading={confirmLoading}
 				onCancel={() => setShowModal(false)}
 				footer={[
 					<Button className='bg-pink_primary text-white border-pink_primary hover:bg-pink_secondary' key="second" loading={loadingStatus.isLoading} disabled={!apiReady} onClick={secondProposal}>
