@@ -8,6 +8,7 @@
 import { Tabs } from 'antd';
 import { ApolloQueryResult } from 'apollo-client';
 import React, { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { MetaContext } from 'src/context/MetaContext';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
 import { BountyPostAndCommentsQuery, BountyPostAndCommentsQueryHookResult, BountyPostFragment, ChildBountyPostAndCommentsQuery, ChildBountyPostAndCommentsQueryHookResult, ChildBountyPostFragment, DiscussionPostAndCommentsQuery, DiscussionPostAndCommentsQueryHookResult, DiscussionPostFragment, MotionPostAndCommentsQuery, MotionPostAndCommentsQueryHookResult, MotionPostFragment, OnchainLinkBountyFragment, OnchainLinkChildBountyFragment, OnchainLinkMotionFragment, OnchainLinkProposalFragment, OnchainLinkReferendumFragment, OnchainLinkTechCommitteeProposalFragment, OnchainLinkTipFragment, OnchainLinkTreasuryProposalFragment, ProposalPostAndCommentsQuery, ProposalPostAndCommentsQueryHookResult, ProposalPostFragment, ReferendumPostAndCommentsQuery, ReferendumPostAndCommentsQueryHookResult, ReferendumPostFragment, TechCommitteeProposalPostAndCommentsQuery, TechCommitteeProposalPostAndCommentsQueryHookResult, TechCommitteeProposalPostFragment, TipPostAndCommentsQuery, TipPostAndCommentsQueryHookResult, TipPostFragment, TreasuryProposalPostAndCommentsQuery, TreasuryProposalPostAndCommentsQueryHookResult, TreasuryProposalPostFragment } from 'src/generated/graphql';
@@ -314,20 +315,31 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 	return (
 		<>
 			<div className={`${className} flex flex-col lg:flex-row`}>
-				{/* Post Content */}
-				<div className='bg-white drop-shadow-md p-3 md:p-6 rounded-md w-full flex-1 lg:w-8/12 mx-auto lg:mr-9 mb-6 lg:mb-0'>
-					{isEditing && <EditablePostContent
-						post={post}
-						refetch={refetch}
-						toggleEdit={toggleEdit}
-					/>}
+				<div className='flex-1 w-full lg:w-8/12 mx-auto lg:mr-9 mb-6 lg:mb-0'>
 
-					<PostHeading className='mb-8' isTipProposal={isTipProposal} onchainId={onchainId} post={post} postStatus={postStatus} />
+					{redirection.link &&
+						<Link to={redirection.link}>
+							<div className='bg-white drop-shadow-md p-3 md:p-6 rounded-md w-full mb-6 dashboard-heading'>
+								This proposal is now <span className='text-pink_primary'>{redirection.text}</span>
+							</div>
+						</Link>
+					}
 
-					<Tabs
-						type="card"
-						items={tabItems}
-					/>
+					{/* Post Content */}
+					<div className='bg-white drop-shadow-md p-3 md:p-6 rounded-md w-full mb-6'>
+						{isEditing && <EditablePostContent
+							post={post}
+							refetch={refetch}
+							toggleEdit={toggleEdit}
+						/>}
+
+						<PostHeading className='mb-8' isTipProposal={isTipProposal} onchainId={onchainId} post={post} postStatus={postStatus} />
+
+						<Tabs
+							type="card"
+							items={tabItems}
+						/>
+					</div>
 				</div>
 
 				{!isEditing && <Sidebar className='hidden lg:block' />}
