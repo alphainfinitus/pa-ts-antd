@@ -59,7 +59,7 @@ const Web3Login: FC<Props> = ({
 }) => {
 	const [error, setErr] = useState<Error | null>(null);
 	const [accounts, setAccounts] = useState<InjectedAccount[]>([]);
-	const [selectedAccount, setSelectedAccount] = useState(accounts?.[0]);
+	const [address, setAddress] = useState<string>('');
 	const [isAccountLoading, setIsAccountLoading] = useState(true);
 	const [extensionNotFound, setExtensionNotFound] = useState(false);
 	const [accountsNotFound, setAccountsNotFound] = useState(false);
@@ -142,13 +142,15 @@ const Web3Login: FC<Props> = ({
 		});
 
 		setAccounts(accounts);
-		setSelectedAccount(accounts?.[0]);
+		if (accounts.length > 0) {
+			setAddress(accounts[0].address);
+		}
 
 		setIsAccountLoading(false);
 		return;
 	};
-	const onAccountChange = (event: React.SyntheticEvent<HTMLElement, Event>, data: InjectedAccount) => {
-		setSelectedAccount(data);
+	const onAccountChange = (event: React.SyntheticEvent<HTMLElement, Event>, address: string) => {
+		setAddress(address);
 	};
 
 	const handleLogin: ( values: React.BaseSyntheticEvent<object, any, any> | undefined ) => void = async  () => {
@@ -184,7 +186,7 @@ const Web3Login: FC<Props> = ({
 
 			const { data: startResult } = await addressLoginStartMutation({
 				variables: {
-					address: selectedAccount?.address
+					address: address
 				}
 			});
 
@@ -195,14 +197,14 @@ const Web3Login: FC<Props> = ({
 			}
 
 			const { signature } = await signRaw({
-				address: selectedAccount?.address,
+				address: address,
 				data: stringToHex(signMessage),
 				type: 'bytes'
 			});
 
 			const { data: loginResult } = await addressLoginMutation({
 				variables: {
-					address: selectedAccount?.address,
+					address: address,
 					signature
 				}
 			});
@@ -263,8 +265,8 @@ const Web3Login: FC<Props> = ({
 						<div className='flex justify-center items-center my-5'>
 							<AccountSelectionForm
 								title='Choose linked account'
-								selectedAccount={selectedAccount}
 								accounts={accounts}
+								address={address}
 								onAccountChange={onAccountChange}
 							/>
 						</div>
