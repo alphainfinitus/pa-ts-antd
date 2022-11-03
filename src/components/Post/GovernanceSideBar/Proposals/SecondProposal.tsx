@@ -22,10 +22,7 @@ export interface SecondProposalProps {
 	onAccountChange: (event: React.SyntheticEvent<HTMLElement, Event>, data: any) => void
 }
 
-type Props = SecondProposalProps
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const SecondProposal = ({ className, proposalId, address, accounts, onAccountChange, getAccounts }: Props) => {
+const SecondProposal = ({ className, proposalId, address, accounts, onAccountChange, getAccounts }: SecondProposalProps) => {
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [loadingStatus, setLoadingStatus] = useState<LoadingStatusType>({ isLoading: false, message:'' });
 	const { api, apiReady } = useContext(ApiContext);
