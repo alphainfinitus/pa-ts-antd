@@ -2,8 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { DownOutlined } from '@ant-design/icons';
 import styled from '@xstyled/styled-components';
-import { Button, Card, DatePicker, Form } from 'antd';
+import type { MenuProps } from 'antd';
+import type { DatePickerProps } from 'antd';
+import { Button, Card, DatePicker, Dropdown,Form, Space } from 'antd';
 import moment from 'moment';
 import React, { useEffect,useState } from 'react';
 import { useCreateProposalTrackerMutation, useGetProposalStatusLazyQuery, useUpdateProposalTrackerMutation } from 'src/generated/graphql';
@@ -20,10 +23,10 @@ interface Props {
 	startTime: string
 }
 
-const statusOptions = [
-	{ key: 'overdue', text: 'Overdue', value: 'overdue' },
-	{ key: 'completed', text: 'Completed', value: 'completed' },
-	{ key: 'in_progress', text: 'In Progress', value: 'in_progress' }
+const statusOptions : MenuProps['items'] = [
+	{ key: 'overdue', label: 'Overdue' },
+	{ key: 'completed', label: 'Completed' },
+	{ key: 'in_progress', label: 'In Progress' }
 ];
 
 const EditProposalStatus = ({ canEdit, className, proposalId, startTime } : Props) => {
@@ -59,9 +62,8 @@ const EditProposalStatus = ({ canEdit, className, proposalId, startTime } : Prop
 
 	}, [canEdit, data]);
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const onStatusChange = (event: React.SyntheticEvent<HTMLElement, Event>, data: any) => {
-		const status = data.value as string;
+	const onStatusChange : MenuProps['onClick'] = ({ key }) => {
+		const status = key as string;
 		setStatus(status);
 	};
 
@@ -140,6 +142,10 @@ const EditProposalStatus = ({ canEdit, className, proposalId, startTime } : Prop
 		setLoading(false);
 	};
 
+	const onChange : DatePickerProps['onChange'] = (date) => {
+		setDeadlineDate(moment(date).toDate());
+	};
+
 	return (
 		<Card
 			className={className}
@@ -156,17 +162,14 @@ const EditProposalStatus = ({ canEdit, className, proposalId, startTime } : Prop
 							</label>
 
 							{(canEdit && !isUpdate) ?
-								<DatePicker />
-								// <DatePicker
-								// className={`date-input ${errorsFound.includes('deadlineDate') ? 'deadline-date-error' : ''}`}
-								// disabled={loading}
-								// onChange={setDeadlineDate}
-								// value={deadlineDate}
-								// calendarIcon={<CalendarIcon />}
-								// format='d-M-yyyy'
-								// />
+								<DatePicker
+									className={`date-input ${errorsFound.includes('deadlineDate') ? 'deadline-date-error' : ''}`}
+									disabled={loading}
+									onChange={onChange}
+									format='DD-MM-YYYY'
+								/>
 								:
-								<span className='deadline-date'>{deadlineDate==null ? 'Not Set' : moment(deadlineDate).format('MMMM Do YYYY')}</span>
+								(canEdit && isUpdate) ? <span>Deadline: {moment(deadlineDate).format('MMMM Do YYYY')}</span> : <span className='deadline-date'>{deadlineDate==null ? 'Not Set' : moment(deadlineDate).format('MMMM Do YYYY')}</span>
 							}
 						</Form.Item>
 
@@ -176,10 +179,11 @@ const EditProposalStatus = ({ canEdit, className, proposalId, startTime } : Prop
 							</label>
 
 							{canEdit ?
-								<h1>Dropdown</h1>
-								// <Dropdown placeholder='Status' className='status-dropdown' disabled={loading} selection options={statusOptions} value={status} onChange={onStatusChange} error={errorsFound.includes('status')} />
+								// eslint-disable-next-line sort-keys
+								<><Dropdown className='status-dropdown' disabled={loading} menu={{ items: statusOptions, onClick: onStatusChange }} ><Space className='cursor-pointer'>{status} <DownOutlined className='align-middle'/></Space></Dropdown></>
 								:
-								<span>{status=='Not Set' ? status :statusOptions.find(o => o.value === status)?.text}</span>
+								<span>Not set</span>
+								// <span>{status=='Not Set' ? status :statusOptions.find(o => o?.key === status)?.label}</span>
 							}
 						</Form.Item>
 					</Form>

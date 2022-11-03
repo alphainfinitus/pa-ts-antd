@@ -43,6 +43,7 @@ interface Props {
 	startTime: string
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const GovernanceSideBar = ({ canEdit, className, isMotion, isProposal, isReferendum, isTipProposal, isTreasuryProposal, onchainId, onchainLink, startTime, status }: Props) => {
 	const [address, setAddress] = useState<string>('');
 	const [accounts, setAccounts] = useState<InjectedAccount[]>([]);
