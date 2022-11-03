@@ -156,7 +156,7 @@ const EditProposalStatus = ({ canEdit, className, proposalId, startTime } : Prop
 
 					<Form>
 						<Form.Item className='date-input-form-field'>
-							<label className='input-label'>
+							<label className='input-label text-sidebarBlue'>
 								Deadline Date
 								<HelperTooltip text='This timeline will be used by the community to track the progress of the proposal. The team will be responsible for delivering the proposed items before the deadline.' />
 							</label>
@@ -169,12 +169,19 @@ const EditProposalStatus = ({ canEdit, className, proposalId, startTime } : Prop
 									format='DD-MM-YYYY'
 								/>
 								:
-								(canEdit && isUpdate) ? <span>Deadline: {moment(deadlineDate).format('MMMM Do YYYY')}</span> : <span className='deadline-date'>{deadlineDate==null ? 'Not Set' : moment(deadlineDate).format('MMMM Do YYYY')}</span>
+								(canEdit && isUpdate) ? <><div className='mb-3 text-sidebarBlue'>Deadline: {moment(deadlineDate).format('MMMM Do YYYY')}</div>
+									<DatePicker
+										className={`date-input ${errorsFound.includes('deadlineDate') ? 'deadline-date-error' : ''}`}
+										disabled={loading}
+										onChange={onChange}
+										format='DD-MM-YYYY'
+										value={moment(deadlineDate, 'DD-MM-YYYY')}
+									/></> : <span className='deadline-date text-sidebarBlue'>{deadlineDate==null ? 'Not Set' : moment(deadlineDate).format('MMMM Do YYYY')}</span>
 							}
 						</Form.Item>
 
 						<Form.Item className='status-input-form-field'>
-							<label className='input-label'>
+							<label className='input-label text-sidebarBlue'>
 								Status
 							</label>
 
@@ -182,8 +189,7 @@ const EditProposalStatus = ({ canEdit, className, proposalId, startTime } : Prop
 								// eslint-disable-next-line sort-keys
 								<><Dropdown className='status-dropdown' disabled={loading} menu={{ items: statusOptions, onClick: onStatusChange }} ><Space className='cursor-pointer'>{status} <DownOutlined className='align-middle'/></Space></Dropdown></>
 								:
-								<span>Not set</span>
-								// <span>{status=='Not Set' ? status :statusOptions.find(o => o?.key === status)?.label}</span>
+								<span className='text-sidebarBlue'>{status=='Not Set' ? status :statusOptions.find(o => o?.key === status)?.key?.toString().split('_').map((s:string) => s.charAt(0).toUpperCase() + s.slice(1)).join(' ')}</span>
 							}
 						</Form.Item>
 					</Form>
