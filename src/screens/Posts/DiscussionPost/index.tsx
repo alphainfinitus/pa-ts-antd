@@ -15,9 +15,11 @@ const DiscussionPost = ({ postID }: {postID?: number}) => {
 	const idNumber = Number(id) || Number(postID) || 0;
 
 	const [refetch, { data, error }] = useDiscussionPostAndCommentsLazyQuery({ variables: { 'id': idNumber } });
+
 	useEffect(() => {
 		refetch();
 	}, [refetch]);
+
 	if (error?.message) return <ErrorState errorMessage={error.message} />;
 
 	if (data) return (<div>

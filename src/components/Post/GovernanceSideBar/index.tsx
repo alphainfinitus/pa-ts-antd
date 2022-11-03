@@ -17,6 +17,7 @@ import GovSidebarCard from 'src/ui-components/GovSidebarCard';
 import getEncodedAddress from 'src/util/getEncodedAddress';
 
 import ExtensionNotDetected from '../../ExtensionNotDetected';
+import BountyChildBounties from './Bounty/BountyChildBounties';
 import MotionVoteInfo from './Motions/MotionVoteInfo';
 import VoteMotion from './Motions/VoteMotion';
 import ProposalDisplay from './Proposals';
@@ -43,8 +44,8 @@ interface Props {
 	startTime: string
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const GovernanceSideBar = ({ canEdit, className, isMotion, isProposal, isReferendum, isTipProposal, isTreasuryProposal, onchainId, onchainLink, startTime, status }: Props) => {
+const GovernanceSideBar = ({ canEdit, className, isMotion, isProposal, isReferendum, isBounty, isTipProposal, isTreasuryProposal, onchainId, onchainLink, startTime, status }: Props) => {
+
 	const [address, setAddress] = useState<string>('');
 	const [accounts, setAccounts] = useState<InjectedAccount[]>([]);
 	const [extensionNotFound, setExtensionNotFound] = useState(false);
@@ -307,6 +308,10 @@ const GovernanceSideBar = ({ canEdit, className, isMotion, isProposal, isReferen
 								}
 							</div>
 						</>
+					}
+
+					{isBounty &&
+						<BountyChildBounties onchainId={Number(onchainId)} />
 					}
 
 					{isTipProposal && canVote &&
