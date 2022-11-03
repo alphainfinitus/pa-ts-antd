@@ -23,7 +23,7 @@ const AddressDropdown = ({
 	className = 'px-4 py-2 border-2 rounded-md',
 	accounts, defaultAddress, filterAccounts, onAccountChange
 }: Props) => {
-	const [selectedAddress, setSelectedAddress] = useState(defaultAddress);
+	const [selectedAddress, setSelectedAddress] = useState(() => defaultAddress);
 	const filteredAccounts = !filterAccounts
 		? accounts
 		: accounts.filter( elem =>
