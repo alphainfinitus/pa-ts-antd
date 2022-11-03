@@ -4,7 +4,7 @@
 
 import React, { useContext, useEffect, useState } from 'react';
 import { ApiContext } from 'src/context/ApiContext';
-import { useGetLatestMotionsCountQuery } from 'src/generated/graphql';
+import { useGetLatestMotionsCountLazyQuery } from 'src/generated/graphql';
 import { post_type } from 'src/global/post_types';
 import { ErrorState } from 'src/ui-components/UIStates';
 import { LoadingState } from 'src/ui-components/UIStates';
@@ -39,11 +39,13 @@ const MembersContainer = ({ className } : { className?:string }) => {
 		}).catch(error => setErr(error));
 
 	}, [api, apiReady]);
-	// TODO: Enable Refetch
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { data, refetch } = useGetLatestMotionsCountQuery({ variables: {
+
+	const [refetch] = useGetLatestMotionsCountLazyQuery({ variables: {
 		postType: post_type.ON_CHAIN
 	} });
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 
 	if (error) {
 		return <ErrorState errorMessage={error.message} />;

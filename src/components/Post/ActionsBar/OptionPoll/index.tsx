@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
-import { useOptionPollQuery } from 'src/generated/graphql';
+import React, { useEffect } from 'react';
+import { useOptionPollLazyQuery } from 'src/generated/graphql';
 import ErrorAlert from 'src/ui-components/ErrorAlert';
 import GovSidebarCard from 'src/ui-components/GovSidebarCard';
 
@@ -17,8 +17,10 @@ interface Props {
 
 // eslint-disable-next-line react/display-name
 export default ({ className, postId, canEdit }: Props) => {
-	const { data, error } = useOptionPollQuery({ variables: { postId } });
-
+	const [refetch, { data, error }] = useOptionPollLazyQuery({ variables: { postId } });
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 	if (error?.message) return <ErrorAlert errorMsg={error.message} />;
 
 	if (!data?.option_poll?.length) {

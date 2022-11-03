@@ -5,7 +5,7 @@
 import React from 'react';
 import ErrorAlert from 'src/ui-components/ErrorAlert';
 
-import { usePollQuery } from '../../../generated/graphql';
+import { usePollLazyQuery } from '../../../generated/graphql';
 import Poll from './Poll';
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
 }
 
 const PollComponent = ({ className, postId, canEdit }: Props) => {
-	const { data, error, refetch } = usePollQuery({ variables: { postId } });
+	const [refetch, { data, error }] = usePollLazyQuery({ variables: { postId } });
 
 	if (error?.message) return <div className={className}><ErrorAlert errorMsg={error.message} /></div>;
 

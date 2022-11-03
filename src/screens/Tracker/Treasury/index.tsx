@@ -4,7 +4,7 @@
 
 import React, { useEffect } from 'react';
 import TreasuryListing from 'src/components/Listing/Treasury/TreasuryListing';
-import { useTrackerDemocracyTreasuryProposalPostsQuery } from 'src/generated/graphql';
+import { useTrackerDemocracyTreasuryProposalPostsLazyQuery } from 'src/generated/graphql';
 import { post_type } from 'src/global/post_types';
 import { ErrorState } from 'src/ui-components/UIStates';
 
@@ -20,7 +20,7 @@ const TreasuryProposalsContainer = ({ className } : { className?:string }) => {
 
 	const onchainTreasuryProposalIds = Object.keys(trackMap.treasuryProposal || {}).map(key => Number(key));
 
-	const { data, error, loading, refetch } = useTrackerDemocracyTreasuryProposalPostsQuery({ variables: {
+	const [refetch, { data, error, loading }] = useTrackerDemocracyTreasuryProposalPostsLazyQuery({ variables: {
 		onchainTreasuryProposalIds,
 		postType: post_type.ON_CHAIN
 	} });

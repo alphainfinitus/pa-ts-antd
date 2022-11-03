@@ -3,14 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { CheckOutlined, CloseOutlined, DeleteOutlined, FormOutlined, LinkOutlined, LoadingOutlined } from '@ant-design/icons';
+import { QueryLazyOptions } from '@apollo/client';
 import styled from '@xstyled/styled-components';
 import { Button, Form } from 'antd';
-import { ApolloQueryResult } from 'apollo-client';
 import React, { useContext, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import ContentForm from 'src/components/ContentForm';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
-import { CommentFieldsFragment, DiscussionPostAndCommentsQuery, DiscussionPostAndCommentsQueryVariables, MotionPostAndCommentsQuery, MotionPostAndCommentsQueryVariables, ProposalPostAndCommentsQuery, ProposalPostAndCommentsQueryVariables, ReferendumPostAndCommentsQuery, ReferendumPostAndCommentsQueryVariables, TipPostAndCommentsQuery, TipPostAndCommentsQueryVariables, TreasuryProposalPostAndCommentsQuery, TreasuryProposalPostAndCommentsQueryVariables, useAddCommentReplyMutation,useDeleteCommentMutation, useEditCommentMutation } from 'src/generated/graphql';
+import { CommentFieldsFragment, Exact,  useAddCommentReplyMutation,useDeleteCommentMutation, useEditCommentMutation } from 'src/generated/graphql';
 import { NotificationStatus } from 'src/types';
 import ErrorAlert from 'src/ui-components/ErrorAlert';
 import Markdown from 'src/ui-components/Markdown';
@@ -28,21 +28,11 @@ interface Props {
 	commentId: string,
 	content: string,
 	created_at: Date,
-	refetch: (variables?:
-		DiscussionPostAndCommentsQueryVariables |
-		ProposalPostAndCommentsQueryVariables |
-		ReferendumPostAndCommentsQueryVariables |
-		MotionPostAndCommentsQueryVariables |
-		TipPostAndCommentsQueryVariables |
-		TreasuryProposalPostAndCommentsQueryVariables |
-		undefined
-	) =>
-		Promise<ApolloQueryResult<TipPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<TreasuryProposalPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<MotionPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<ReferendumPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<ProposalPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<DiscussionPostAndCommentsQuery>>
+	refetch: ((options?: QueryLazyOptions<Exact<{
+		id: number;
+	}>> | undefined) => void) | ((options?: QueryLazyOptions<Exact<{
+		hash: string;
+	}>> | undefined) => void)
 }
 
 const EditableCommentContent = ({ authorId, className, content, commentId, refetch }: Props) => {

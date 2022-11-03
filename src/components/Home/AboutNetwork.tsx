@@ -5,8 +5,8 @@
 import { HomeFilled, TwitterOutlined, YoutubeFilled } from '@ant-design/icons';
 import styled from '@xstyled/styled-components';
 import { Space } from 'antd';
-import React from 'react';
-import { useNetworkSocialsQuery } from 'src/generated/graphql';
+import React, { useEffect } from 'react';
+import { useNetworkSocialsLazyQuery } from 'src/generated/graphql';
 import { CubeIcon, DiscordIcon, GithubIcon, RedditIcon, TelegramIcon } from 'src/ui-components/CustomIcons';
 import ErrorAlert from 'src/ui-components/ErrorAlert';
 import getNetwork from 'src/util/getNetwork';
@@ -61,12 +61,13 @@ export const socialLinks = (blockchain_socials: any) => {
 };
 
 const AboutNetwork = ({ className } : {className?: string}) => {
-	// TODO: Enable refetch
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { data, error, refetch } = useNetworkSocialsQuery({ variables: {
+	const [refetch, { data, error }] = useNetworkSocialsLazyQuery({ variables: {
 		network
 	} });
 
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 	return (
 		<div className={`${className} bg-white drop-shadow-md p-5 md:p-6 rounded-md`}>
 			<div className="flex items-center justify-between">

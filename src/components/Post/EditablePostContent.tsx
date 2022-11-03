@@ -2,22 +2,21 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { QueryLazyOptions } from '@apollo/client';
 import { Empty } from 'antd';
-import { ApolloQueryResult } from 'apollo-client';
 import React from 'react';
-import { DiscussionPostAndCommentsQuery,DiscussionPostFragment, MotionPostAndCommentsQuery, MotionPostFragment, ProposalPostAndCommentsQuery, ProposalPostFragment, ReferendumPostAndCommentsQuery, ReferendumPostFragment, TipPostAndCommentsQuery, TipPostFragment, TreasuryProposalPostAndCommentsQuery, TreasuryProposalPostFragment } from 'src/generated/graphql';
+import { DiscussionPostFragment, Exact,  MotionPostFragment, ProposalPostFragment,  ReferendumPostFragment, TipPostFragment, TreasuryProposalPostFragment } from 'src/generated/graphql';
 
 import PostContentForm from './PostContentForm';
 
 interface Props {
 	className?: string
 	post: DiscussionPostFragment | ProposalPostFragment | ReferendumPostFragment | TipPostFragment | TreasuryProposalPostFragment| MotionPostFragment
-	refetch: (variables?: any) => Promise<ApolloQueryResult<ReferendumPostAndCommentsQuery>>
-		| Promise<ApolloQueryResult<ProposalPostAndCommentsQuery>>
-		| Promise<ApolloQueryResult<MotionPostAndCommentsQuery>>
-		| Promise<ApolloQueryResult<TipPostAndCommentsQuery>>
-		| Promise<ApolloQueryResult<TreasuryProposalPostAndCommentsQuery>>
-		| Promise<ApolloQueryResult<DiscussionPostAndCommentsQuery>>
+	refetch: ((options?: QueryLazyOptions<Exact<{
+		id: number;
+	}>> | undefined) => void) | ((options?: QueryLazyOptions<Exact<{
+		hash: string;
+	}>> | undefined) => void)
 	toggleEdit: () => void
 }
 

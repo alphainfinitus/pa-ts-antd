@@ -4,7 +4,7 @@
 
 import React, { useEffect } from 'react';
 import MotionsListing from 'src/components/Listing/Motions/MotionsListing';
-import { useTrackerMotionPostsQuery } from 'src/generated/graphql';
+import { useTrackerMotionPostsLazyQuery } from 'src/generated/graphql';
 import { post_type } from 'src/global/post_types';
 import { ErrorState } from 'src/ui-components/UIStates';
 
@@ -20,7 +20,7 @@ const MotionsContainer = ({ className } : { className?:string }) => {
 
 	const onchainMotionIds = Object.keys(trackMap.motion || {}).map(key => Number(key));
 
-	const { data, error, loading, refetch } = useTrackerMotionPostsQuery({ variables: {
+	const [refetch, { data, error, loading }] = useTrackerMotionPostsLazyQuery({ variables: {
 		onchainMotionIds,
 		postType: post_type.ON_CHAIN
 	} });

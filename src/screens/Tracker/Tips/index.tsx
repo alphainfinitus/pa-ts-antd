@@ -4,7 +4,7 @@
 
 import React, { useEffect } from 'react';
 import TipListing from 'src/components/Listing/Tips/TipListing';
-import { useTrackerTipPostsQuery } from 'src/generated/graphql';
+import { useTrackerTipPostsLazyQuery } from 'src/generated/graphql';
 import { post_type } from 'src/global/post_types';
 import { ErrorState } from 'src/ui-components/UIStates';
 
@@ -20,7 +20,7 @@ const TipContainer = ({ className } : { className?:string }) => {
 
 	const onchainTipIds = Object.keys(trackMap.tipProposal || {}).map(key => `${key}`);
 
-	const { data, error, loading, refetch } = useTrackerTipPostsQuery({ variables: {
+	const [refetch, { data, error, loading }] = useTrackerTipPostsLazyQuery({ variables: {
 		onchainTipIds,
 		postType: post_type.ON_CHAIN
 	} });

@@ -4,7 +4,7 @@
 
 import React, { useEffect } from 'react';
 import BountyListing from 'src/components/Listing/Bounties/BountyListing';
-import { useTrackerBountyPostsQuery } from 'src/generated/graphql';
+import { useTrackerBountyPostsLazyQuery } from 'src/generated/graphql';
 import { post_type } from 'src/global/post_types';
 import { ErrorState } from 'src/ui-components/UIStates';
 
@@ -20,7 +20,7 @@ const BountyContainer = ({ className } : { className?:string }) => {
 
 	const onchainBountyIds = Object.keys(trackMap.bounty || {}).map(key => Number(key));
 
-	const { data, error, loading, refetch } = useTrackerBountyPostsQuery({ variables: {
+	const [refetch, { data, error, loading }] = useTrackerBountyPostsLazyQuery({ variables: {
 		onchainBountyIds,
 		postType: post_type.ON_CHAIN
 	} });

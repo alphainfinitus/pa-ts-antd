@@ -5,8 +5,8 @@
 import { SwapOutlined } from '@ant-design/icons';
 import styled from '@xstyled/styled-components';
 import { Dropdown, Menu } from 'antd';
-import React, { useState } from 'react';
-import { useDiscussionsCountQuery } from 'src/generated/graphql';
+import React, { useEffect, useState } from 'react';
+import { useDiscussionsCountLazyQuery } from 'src/generated/graphql';
 import { sortValues } from 'src/global/sortOptions';
 
 import DiscussionListingContainer from './DiscussionListingContainer';
@@ -16,7 +16,10 @@ const DiscussionsContainer = ({ className } : { className?:string }) => {
 
 	// TODO: Enable Refetch
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { data: discussionsData, refetch: discussionsRefetch } = useDiscussionsCountQuery();
+	const [refetch, { data: discussionsData }] = useDiscussionsCountLazyQuery();
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 
 	const handleSortByClick = ({ key }: { key:string }) => {
 		setSortBy(key);

@@ -3,10 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 import { EditOutlined } from '@ant-design/icons';
 import { Button, Divider } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SidebarRight from 'src/components/SidebarRight';
 import { useUserDetailsContext } from 'src/context';
-import { useGetUserDetailsQuery } from 'src/generated/graphql';
+import { useGetUserDetailsLazyQuery } from 'src/generated/graphql';
 import Loader from 'src/ui-components/Loader';
 
 import noUserImage from '../../assets/no-user-img.png';
@@ -16,13 +16,15 @@ const UserProfile = () => {
 	const { id, username } = useUserDetailsContext();
 	const [editProfile, setEditProfile] = useState<boolean>(false);
 
-	// TODO: Enable refetch
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { data, error, refetch } = useGetUserDetailsQuery({
+	const [refetch, { data, error }] = useGetUserDetailsLazyQuery({
 		variables: {
 			user_id: Number(id)
 		}
 	});
+
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 	return (
 		<section className='w-full bg-white shadow-md p-8 rounded-md flex flex-col'>
 			<SidebarRight open={editProfile} closeSidebar={() => setEditProfile(false)}>

@@ -2,9 +2,9 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { QueryLazyOptions } from '@apollo/client';
 import styled from '@xstyled/styled-components';
 import { Button } from 'antd';
-import { ApolloQueryResult } from 'apollo-client';
 import React, { useCallback, useContext, useState } from 'react';
 import BlockCountdown from 'src/components/BlockCountdown';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
@@ -16,7 +16,7 @@ import ErrorAlert from 'src/ui-components/ErrorAlert';
 import GovSidebarCard from 'src/ui-components/GovSidebarCard';
 import HelperTooltip from 'src/ui-components/HelperTooltip';
 
-import { PollQuery, PollQueryVariables, PollVotesQuery, PollVotesQueryVariables, useAddPollVoteMutation, useDeleteVoteMutation, useEditPollMutation } from '../../../generated/graphql';
+import { Exact, useAddPollVoteMutation, useDeleteVoteMutation, useEditPollMutation } from '../../../generated/graphql';
 
 interface Props {
 	ayes: number
@@ -26,8 +26,12 @@ interface Props {
 	ownVote?: Vote | null
 	pollId: number
 	canEdit: boolean
-	pollRefetch: (variables?: PollQueryVariables | undefined) => Promise<ApolloQueryResult<PollQuery>>
-	votesRefetch: (variables?: PollVotesQueryVariables | undefined) => Promise<ApolloQueryResult<PollVotesQuery>>
+	pollRefetch: (options?: QueryLazyOptions<Exact<{
+		postId: number;
+	}>> | undefined) => void
+	votesRefetch: (options?: QueryLazyOptions<Exact<{
+		pollId: number;
+	}>> | undefined) => void
 }
 
 const GeneralSignals = ({ ayes, className, endBlock, nays, ownVote, pollId, canEdit, pollRefetch, votesRefetch }: Props) => {

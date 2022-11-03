@@ -4,9 +4,9 @@
 
 import { LoadingOutlined } from '@ant-design/icons';
 import { Divider, Progress, Spin } from 'antd';
-import React, { useCallback, useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
-import { useAddOptionPollVoteMutation, useDeleteOptionPollVoteMutation,useOptionPollVotesQuery } from 'src/generated/graphql';
+import { useAddOptionPollVoteMutation, useDeleteOptionPollVoteMutation,useOptionPollVotesLazyQuery } from 'src/generated/graphql';
 import ErrorAlert from 'src/ui-components/ErrorAlert';
 import HelperTooltip from 'src/ui-components/HelperTooltip';
 
@@ -23,10 +23,12 @@ const OptionPoll = ({ className, optionPollId, question, options, endAt }: Props
 	const [err, setErr] = useState<Error | null>(null);
 	const [loading, setLoading] = useState<boolean>(false);
 	const { id } = useContext(UserDetailsContext);
-	const { data, error, refetch } = useOptionPollVotesQuery({ variables: { optionPollId } });
+	const [refetch, { data, error }] = useOptionPollVotesLazyQuery({ variables: { optionPollId } });
 	const [addOptionPollVoteMutation] = useAddOptionPollVoteMutation();
 	const [deleteOptionPollVoteMutation] = useDeleteOptionPollVoteMutation();
-
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 	let totalVotes = 0;
 	const optionMap: any = {};
 	let parsedOptions: string[] = [];

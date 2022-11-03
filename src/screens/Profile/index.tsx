@@ -16,7 +16,7 @@ import queueNotification from 'src/ui-components/QueueNotification';
 
 import Balance from '../../components/Balance';
 import { ApiContext } from '../../context/ApiContext';
-import { useAboutQuery, useChangeAboutMutation } from '../../generated/graphql';
+import { useAboutLazyQuery, useChangeAboutMutation } from '../../generated/graphql';
 import { APPNAME } from '../../global/appName';
 import { NotificationStatus } from '../../types';
 import AddressComponent from '../../ui-components/Address';
@@ -44,12 +44,15 @@ const Profile = ({ className }: Props): JSX.Element => {
 	const council = searchParams.get('council') === 'true';
 
 	// { data, loading, error }
-	const aboutQueryResult = useAboutQuery({
+	const [refetch, aboutQueryResult] = useAboutLazyQuery({
 		variables: {
 			address,
 			network
 		}
 	});
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 	const aboutDescription = aboutQueryResult?.data?.about?.description;
 	const aboutTitle = aboutQueryResult?.data?.about?.title;
 
@@ -227,7 +230,7 @@ const Profile = ({ className }: Props): JSX.Element => {
 				status: NotificationStatus.SUCCESS
 			});
 			setIsEditing(false);
-			aboutQueryResult?.refetch();
+			refetch();
 		}).catch( e => console.error(e));
 	};
 

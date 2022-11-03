@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 import { CameraOutlined, CloseOutlined, LinkOutlined, PlusOutlined } from '@ant-design/icons';
+import { QueryLazyOptions } from '@apollo/client';
 import { Alert, Button, Input, Modal, Tag } from 'antd';
-import { ApolloQueryResult } from 'apollo-client';
 import React, { useEffect, useState } from 'react';
 import { Exact, GetUserDetailsQuery, useAddProfileMutation } from 'src/generated/graphql';
 import { NotificationStatus } from 'src/types';
@@ -13,15 +13,13 @@ import noUserImage from '../../assets/no-user-img.png';
 
 interface Props {
     setEditProfile: React.Dispatch<React.SetStateAction<boolean>>
-    refetch: (variables?: Exact<{
-        user_id: number;
-    }> | undefined) => Promise<ApolloQueryResult<GetUserDetailsQuery>>
+	refetch: (options?: QueryLazyOptions<Exact<{
+		user_id: number;
+	}>> | undefined) => void
     id?: number | null;
     data?: GetUserDetailsQuery
 }
 
-// TODO: Enable refetch
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const EditProfileModal = ({ data, refetch, setEditProfile, id }: Props) => {
 	const [title, setTitle] = useState<string>('aaa');
 	const [badges, setBadges] = useState<string[]>([]);
@@ -103,8 +101,7 @@ const EditProfileModal = ({ data, refetch, setEditProfile, id }: Props) => {
 			}
 		}).then(({ data }) => {
 			if (data?.addProfile && data?.addProfile?.message){
-				// TODO: Enable refetch
-				// refetch();
+				refetch();
 				setEditProfile(false);
 				queueNotification({
 					header: 'Success!',
