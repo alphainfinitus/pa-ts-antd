@@ -2,28 +2,32 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Card } from 'antd';
-import React from 'react';
-import { useOptionPollQuery } from 'src/generated/graphql';
+import React, { useEffect } from 'react';
+import { useOptionPollLazyQuery } from 'src/generated/graphql';
+import ErrorAlert from 'src/ui-components/ErrorAlert';
+import GovSidebarCard from 'src/ui-components/GovSidebarCard';
 
 import OptionPoll from './OptionPoll';
 
 interface Props {
-	postId: number
-	canEdit: boolean
+	className?: string;
+	postId: number;
+	canEdit: boolean;
 }
 
 // eslint-disable-next-line react/display-name
-export default ({ postId, canEdit }: Props) => {
-	const { data, error } = useOptionPollQuery({ variables: { postId } });
-
-	if (error?.message) return <Card>{error.message}</Card>;
+export default ({ className, postId, canEdit }: Props) => {
+	const [refetch, { data, error }] = useOptionPollLazyQuery({ variables: { postId } });
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
+	if (error?.message) return <ErrorAlert errorMsg={error.message} />;
 
 	if (!data?.option_poll?.length) {
 		return null;
 	}
 
-	return <>
+	return <GovSidebarCard className={className}>
 		{data?.option_poll.map(poll => (
 			<OptionPoll
 				key={poll.id}
@@ -34,5 +38,5 @@ export default ({ postId, canEdit }: Props) => {
 				canEdit={canEdit}
 			/>
 		))}
-	</>;
+	</GovSidebarCard>;
 };

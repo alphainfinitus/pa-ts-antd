@@ -3,11 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { LikeFilled, LikeOutlined } from '@ant-design/icons';
+import { QueryLazyOptions } from '@apollo/client';
 import { Button, Tooltip } from 'antd';
-import { ApolloQueryResult } from 'apollo-client';
 import React, { useContext, useState } from 'react';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
-import { CommentReactionsQuery, PostReactionsQuery, useAddCommentReactionMutation, useAddPostReactionMutation, useDeleteCommentReactionMutation,useDeletePostReactionMutation } from 'src/generated/graphql';
+import { Exact, useAddCommentReactionMutation, useAddPostReactionMutation, useDeleteCommentReactionMutation,useDeletePostReactionMutation } from 'src/generated/graphql';
 import { ReactionMapFields } from 'src/types';
 
 export interface ReactionButtonProps {
@@ -16,8 +16,11 @@ export interface ReactionButtonProps {
 	reactionMap:  { [ key: string ]: ReactionMapFields; }
 	postId?: number
 	commentId?: string
-	refetch?: (variables?: undefined) => Promise<ApolloQueryResult<PostReactionsQuery>>
-		| Promise<ApolloQueryResult<CommentReactionsQuery>>
+	refetch?: ((options?: QueryLazyOptions<Exact<{
+		commentId: any;
+	}>> | undefined) => void) | ((options?: QueryLazyOptions<Exact<{
+		postId: number;
+	}>> | undefined) => void)
 }
 
 const ReactionButton = function ({
@@ -56,7 +59,8 @@ const ReactionButton = function ({
 	};
 
 	const refetchAndEnableReactions = () => {
-		refetch && refetch().then(() => { setReactionsDisabled(false); });
+		refetch && refetch();
+		setReactionsDisabled(false);
 	};
 
 	const handleReact = () => {

@@ -2,12 +2,12 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import jwt from 'jsonwebtoken';
-import getNetwork from 'src/util/getNetwork';
+import { decodeToken } from 'react-jwt';
 
 import { network } from '../global/networkConstants';
 import { JWTPayploadType, UserDetailsContextType } from '../types';
 import { decodePostgresArray } from '../util/decodePostgressArray';
+import getNetwork from '../util/getNetwork';
 
 const NETWORK = getNetwork();
 
@@ -43,7 +43,7 @@ export const deleteLocalStorageToken = (): void => {
 export const handleTokenChange = (token: string, currentUser: UserDetailsContextType) => {
 	token && storeLocalStorageToken(token);
 	try {
-		const tokenPayload: any = token && jwt.decode(token);
+		const tokenPayload: any = token && decodeToken<JWTPayploadType>(token);
 
 		if (tokenPayload && tokenPayload.sub) {
 			const {

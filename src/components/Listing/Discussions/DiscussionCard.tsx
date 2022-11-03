@@ -4,10 +4,10 @@
 
 import { ClockCircleOutlined, CommentOutlined } from '@ant-design/icons';
 import { Divider, Space } from 'antd';
-import moment from 'moment';
 import React, { useContext } from 'react';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
 import Address from 'src/ui-components/Address';
+import getRelativeCreatedAt from 'src/util/getRelativeCreatedAt';
 
 export interface DiscussionProps {
   created_at: Date
@@ -26,7 +26,7 @@ const DiscussionCard = ({
 }:DiscussionProps) => {
 	const currentUser = useContext(UserDetailsContext);
 	const ownPost = currentUser.username === username;
-	const relativeCreatedAt = created_at ? moment(created_at).isAfter(moment().subtract(1, 'w')) ? moment(created_at).startOf('day').fromNow() : moment(created_at).format('Do MMM \'YY') : null;
+	const relativeCreatedAt = getRelativeCreatedAt(created_at);
 
 	return (
 		<div className={`${ownPost && 'border-l-pink_primary border-l-4'} border-2 border-grey_light hover:border-pink_primary hover:shadow-xl transition-all duration-200 rounded-md p-3 md:p-4`}>

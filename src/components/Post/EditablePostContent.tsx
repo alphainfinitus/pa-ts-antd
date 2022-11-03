@@ -2,31 +2,25 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { QueryLazyOptions } from '@apollo/client';
 import { Empty } from 'antd';
-import { ApolloQueryResult } from 'apollo-client';
 import React from 'react';
-import { DiscussionPostAndCommentsQuery,DiscussionPostFragment, MotionPostAndCommentsQuery, MotionPostFragment, ProposalPostAndCommentsQuery, ProposalPostFragment, ReferendumPostAndCommentsQuery, ReferendumPostFragment, TipPostAndCommentsQuery, TipPostFragment, TreasuryProposalPostAndCommentsQuery, TreasuryProposalPostFragment } from 'src/generated/graphql';
+import { DiscussionPostFragment, Exact,  MotionPostFragment, ProposalPostFragment,  ReferendumPostFragment, TipPostFragment, TreasuryProposalPostFragment } from 'src/generated/graphql';
 
-import PostContent from './PostContent';
 import PostContentForm from './PostContentForm';
 
 interface Props {
 	className?: string
-	isEditing: boolean
-	isTipProposal: boolean
-	onchainId?: string | number | null
 	post: DiscussionPostFragment | ProposalPostFragment | ReferendumPostFragment | TipPostFragment | TreasuryProposalPostFragment| MotionPostFragment
-	postStatus?: string
-	refetch: (variables?: any) => Promise<ApolloQueryResult<ReferendumPostAndCommentsQuery>>
-		| Promise<ApolloQueryResult<ProposalPostAndCommentsQuery>>
-		| Promise<ApolloQueryResult<MotionPostAndCommentsQuery>>
-		| Promise<ApolloQueryResult<TipPostAndCommentsQuery>>
-		| Promise<ApolloQueryResult<TreasuryProposalPostAndCommentsQuery>>
-		| Promise<ApolloQueryResult<DiscussionPostAndCommentsQuery>>
+	refetch: ((options?: QueryLazyOptions<Exact<{
+		id: number;
+	}>> | undefined) => void) | ((options?: QueryLazyOptions<Exact<{
+		hash: string;
+	}>> | undefined) => void)
 	toggleEdit: () => void
 }
 
-const EditablePostContent = ({ className, isEditing, isTipProposal, onchainId, post, postStatus, toggleEdit, refetch } : Props) => {
+const EditablePostContent = ({ className, post, toggleEdit, refetch } : Props) => {
 	const { author, content, title } = post;
 
 	if (!author || !author.username || !content) return (
@@ -43,12 +37,7 @@ const EditablePostContent = ({ className, isEditing, isTipProposal, onchainId, p
 
 	return (
 		<div className={className}>
-			{
-				isEditing ?
-					<PostContentForm postId={post.id} title={title} content={post.content} toggleEdit={toggleEdit} refetch={refetch} />
-					:
-					<PostContent isTipProposal={isTipProposal} onchainId={onchainId} post={post} postStatus={postStatus}/>
-			}
+			<PostContentForm postId={post.id} title={title} content={post.content} toggleEdit={toggleEdit} refetch={refetch} />
 		</div>
 	);
 };

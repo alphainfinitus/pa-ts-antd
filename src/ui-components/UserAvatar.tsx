@@ -5,7 +5,7 @@
 import { Avatar } from 'antd';
 import { AvatarSize } from 'antd/lib/avatar/SizeContext';
 import React, { useEffect, useState } from 'react';
-import { Profile, useGetUserDetailsQuery } from 'src/generated/graphql';
+import { Profile, useGetUserDetailsLazyQuery } from 'src/generated/graphql';
 
 interface Props {
 	className?: string
@@ -17,9 +17,7 @@ interface Props {
 const UserAvatar = ({ className, id, username, size }: Props) => {
 	const [userProfileData, setUserProfileData] = useState<Profile | null>(null);
 
-	// TODO: Enable Refetch
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { data, refetch } = useGetUserDetailsQuery({
+	const [refetch, { data }] = useGetUserDetailsLazyQuery({
 		variables: {
 			user_id: Number(id)
 		}
@@ -30,9 +28,9 @@ const UserAvatar = ({ className, id, username, size }: Props) => {
 		setUserProfileData(data?.userDetails);
 	}, [data]);
 
-	// useEffect(() => {
-	// refetch();
-	// }, [refetch]);
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 
 	return (
 		userProfileData?.image ? <Avatar className={className} src={userProfileData?.image} size={size} />

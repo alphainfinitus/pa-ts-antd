@@ -4,7 +4,6 @@
 
 import { ClockCircleOutlined, CommentOutlined } from '@ant-design/icons';
 import { Divider,Space } from 'antd';
-import moment from 'moment';
 import React, { useContext } from 'react';
 import BlockCountdown from 'src/components/BlockCountdown';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
@@ -12,6 +11,7 @@ import { noTitle } from 'src/global/noTitle';
 import useCurrentBlock from 'src/hooks/useCurrentBlock';
 import OnchainCreationLabel from 'src/ui-components/OnchainCreationLabel';
 import StatusTag from 'src/ui-components/StatusTag';
+import getRelativeCreatedAt from 'src/util/getRelativeCreatedAt';
 
 interface GovernanceProps {
 	address: string
@@ -52,7 +52,7 @@ const GovernanceCard = function ({
 	const subTitle = title && tipReason && method && <h5>{title}</h5>;
 	const currentBlock = useCurrentBlock()?.toNumber() || 0;
 	const ownProposal = currentUser?.addresses?.includes(address);
-	const relativeCreatedAt = created_at ? moment(created_at).isAfter(moment().subtract(1, 'w')) ? moment(created_at).startOf('day').fromNow() : moment(created_at).format('Do MMM \'YY') : null;
+	const relativeCreatedAt = getRelativeCreatedAt(created_at);
 
 	return (
 		<div className={`${className} ${ownProposal && 'border-l-pink_primary border-l-4'} border-2 border-grey_light hover:border-pink_primary hover:shadow-xl transition-all duration-200 rounded-md p-3 md:p-4`}>

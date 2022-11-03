@@ -8,78 +8,108 @@ import '../themes/tailwindSetup.css';
 import { createGlobalStyle } from '@xstyled/styled-components';
 
 export const GlobalStyle = createGlobalStyle`
-		body {
-				margin: 0;
-				font-family: font_default, 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
-						'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-						sans-serif;
-				-webkit-font-smoothing: antialiased;
-				-moz-osx-font-smoothing: grayscale;
-				background-color: grey_app_background;
-				color: black_text;
-		}
+	::-webkit-scrollbar {
+		width: 6px;
+		height: 6px;
+	}
 
-		pre {
-				display: inline-block;
-				max-width: 100%;
-				white-space: pre-wrap;
-				background-color: grey_light;
-		}
+	::-webkit-scrollbar-track {
+		background: #f1f1f1; 
+	}
+	
+	/* Handle */
+	::-webkit-scrollbar-thumb {
+		background: #888; 
+	}
 
-		code {
-				display: inline-block;
-				max-width: 100%;
-				font-family: font_mono, source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-				monospace;
-				background-color: grey_light;
-				color: black_primary;
-				font-size: sm;
-		}
+	::-webkit-scrollbar-thumb:hover {
+		background: #555; 
+	}
 
-		ul {
-				padding: 0;
-		}
+	body {
+			margin: 0;
+			font-family: font_default, 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Oxygen',
+					'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+					sans-serif;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+			background-color: grey_app_background;
+			color: black_text;
+	}
 
-		p {
-				a {
-						color: pink_primary;
-						&:hover {
-								color: pink_secondary;
-						}
-				}
-		}
+	pre {
+			display: inline-block;
+			max-width: 100%;
+			white-space: pre-wrap;
+			background-color: grey_light;
+	}
 
-		a:hover {
-				text-decoration: none;
-		}
+	code {
+			display: inline-block;
+			max-width: 100%;
+			font-family: font_mono, source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+			monospace;
+			background-color: grey_light;
+			color: black_primary;
+			font-size: sm;
+	}
 
-		::selection {
-				background-color: black_primary;
-				color: white;
-		}
+	ul {
+			padding: 0;
+	}
 
-		.dashboard-heading {
-			font-style: normal;
-			font-weight: 500;
-			font-size: 18px;
-			line-height: 27px;
-			color: nav_blue;
-		}
-
-		.ant-btn-primary {
-			color: pink_primary !important;
-
-			&:hover, &:focus, &:active{
-				color: #fff !important;
+	p {
+			a {
+					color: pink_primary;
+					&:hover {
+							color: pink_secondary;
+					}
 			}
+	}
 
-			&[disabled] {
-				color: grey !important;
-			}
+	a:hover {
+			text-decoration: none;
+	}
+
+	::selection {
+			background-color: black_primary;
+			color: white;
+	}
+
+	.dashboard-heading {
+		font-style: normal;
+		font-weight: 500;
+		font-size: 18px;
+		line-height: 27px;
+		color: nav_blue;
+	}
+
+	.ant-btn-primary {
+		color: pink_primary !important;
+
+		&:hover, &:focus, &:active{
+			color: #fff !important;
 		}
 
-		.ant-form-item-explain-error {
-			margin-top: 0.3em !important;
-			margin-bottom: 1em !important;
+		&[disabled] {
+			color: grey !important;
 		}
+	}
+
+	.ant-form-item-explain-error {
+		margin-top: 0.3em !important;
+		margin-bottom: 1em !important;
+	}
+
+	.ant-switch {
+		background: #CED4DE !important;
+	}
+
+	.ant-switch-checked{
+		background-color: pink_primary !important;
+	}
+
+	.ant-segmented-item-selected .ant-segmented-item-label {
+		color: pink_primary !important;
+	}
 `;

@@ -4,25 +4,33 @@
 
 import { InjectedAccount } from '@polkadot/extension-inject/types';
 import React from 'react';
+import Balance from 'src/components/Balance';
 
 import AddressDropdown from './AddressDropdown';
+import HelperTooltip from './HelperTooltip';
 
 interface Props{
-	title: string
-	selectedAccount: InjectedAccount
 	accounts: InjectedAccount[]
-	onAccountChange: (event: React.SyntheticEvent<HTMLElement, Event>, data: InjectedAccount) => void
+	address: string
+	onAccountChange: (event: React.SyntheticEvent<HTMLElement, Event>, address: string) => void
+	title: string
 	withBalance?: boolean
 }
 
-const AccountSelectionForm = ({ title, selectedAccount, accounts, onAccountChange }: Props) =>
-	<article className='w-full'>
-		<h3 className='mb-2 font-semibold text-base'>{title}</h3>
+const AccountSelectionForm = ({ accounts, address, onAccountChange, title, withBalance = false }: Props) =>
+	<article className='w-full gap-y-2 flex flex-col'>
+		<div className='flex items-center gap-x-2'>
+			<h3 className='text-sm'>{title}</h3>
+			<HelperTooltip text='You can choose an account from the extension.' />
+		</div>
 		<AddressDropdown
-			selectedAccount={selectedAccount}
 			accounts={accounts}
+			defaultAddress={address || accounts[0]?.address}
 			onAccountChange={onAccountChange}
 		/>
+		{withBalance &&
+			<Balance address={address} />
+		}
 	</article>;
 
 export default AccountSelectionForm;

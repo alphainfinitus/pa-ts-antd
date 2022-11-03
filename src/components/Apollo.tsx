@@ -9,8 +9,8 @@ import { ApolloLink } from 'apollo-link';
 import { setContext } from 'apollo-link-context';
 import { HttpLink } from 'apollo-link-http';
 import { TokenRefreshLink } from 'apollo-link-token-refresh';
-import jwt from 'jsonwebtoken';
 import React, { useContext } from 'react';
+import { decodeToken } from 'react-jwt';
 
 import { UserDetailsContext } from '../context/UserDetailsContext';
 import { Get_Refresh_TokenQueryResult } from '../generated/graphql';
@@ -61,7 +61,7 @@ const isTokenValidOrUndefined = (): boolean => {
 	const token = localStorage.getItem('Authorization') || null;
 
 	if (token) {
-		const tokenPayload = jwt.decode(token) as JWTPayploadType | null;
+		const tokenPayload = decodeToken<JWTPayploadType>(token);
 
 		// if the token couldn't be decoded (tokenPayload is null) ask for a new one.
 		return tokenPayload ? tokenPayload.exp > Date.now() / 1000 : false;
@@ -90,7 +90,6 @@ interface Props {
 
 const Apollo = ( { children }:Props ) => {
 	const currentUser = useContext(UserDetailsContext);
-	const publicKey = process.env.REACT_APP_JWT_PUBLIC_KEY;
 
 	const handleError = (err:Error) => {
 		logout(currentUser.setUserDetailsContextState);
@@ -99,8 +98,6 @@ const Apollo = ( { children }:Props ) => {
 
 	const handleFetch = (accessToken : string) => {
 		try {
-			accessToken && publicKey && jwt.verify(accessToken, publicKey);
-
 			handleTokenChange(accessToken, currentUser);
 		} catch (e) {
 			// the jwt isn't valid

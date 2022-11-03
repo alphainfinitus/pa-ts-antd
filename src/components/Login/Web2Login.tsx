@@ -47,7 +47,7 @@ const Web2Login: FC<Props> = ({ walletError, onWalletSelect }) => {
 		}
 	};
 	return (
-		<article className="bg-white shadow-md rounded-md p-8 flex flex-col gap-y-6 md:min-w-[500px]">
+		<article className="bg-white shadow-md rounded-md p-8 flex flex-col gap-y-6">
 			<h3 className="text-2xl font-semibold text-[#1E232C]">Login</h3>
 			{walletError && <Alert message={walletError} type="error" />}
 			<AuthForm

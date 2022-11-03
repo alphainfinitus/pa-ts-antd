@@ -3,12 +3,12 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { AuditOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Alert, Button, Form, Input, Modal, Select } from 'antd';
+import { Button, Form, Input, Modal, Select } from 'antd';
 import React, { useState } from 'react';
 import { useCreateOptionPollMutation } from 'src/generated/graphql';
 import { NotificationStatus } from 'src/types';
+import ErrorAlert from 'src/ui-components/ErrorAlert';
 import queueNotification from 'src/ui-components/QueueNotification';
-import cleanError from 'src/util/cleanError';
 
 interface CreateOptionPollProps {
 	postId: number
@@ -124,7 +124,7 @@ const CreatePoll = function ({ postId }: CreateOptionPollProps) {
 						{ options: [undefined, undefined] }
 					}
 				>
-					{error && <Alert message={cleanError(error.message)} type="error" className='mb-4' />}
+					{error && <ErrorAlert errorMsg={error.message} className='mb-4' />}
 
 					<Form.Item name="question" label="Question" rules={[{ required: true }]}>
 						<Input name='question' autoFocus placeholder='Ask a question...' className='text-black' />

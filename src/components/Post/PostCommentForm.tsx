@@ -3,13 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { CheckOutlined } from '@ant-design/icons';
-import { Alert, Button, Form } from 'antd';
-import { ApolloQueryResult } from 'apollo-client';
+import { QueryLazyOptions } from '@apollo/client';
+import { Button, Form } from 'antd';
 import React, { useContext, useState } from 'react';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
-import { DiscussionPostAndCommentsQuery, DiscussionPostAndCommentsQueryVariables, MotionPostAndCommentsQuery, MotionPostAndCommentsQueryVariables, ProposalPostAndCommentsQuery, ProposalPostAndCommentsQueryVariables, ReferendumPostAndCommentsQuery, ReferendumPostAndCommentsQueryVariables, TipPostAndCommentsQuery, TipPostAndCommentsQueryVariables, TreasuryProposalPostAndCommentsQuery, TreasuryProposalPostAndCommentsQueryVariables, useAddPostCommentMutation, usePostSubscribeMutation } from 'src/generated/graphql';
+import {  Exact, useAddPostCommentMutation, usePostSubscribeMutation } from 'src/generated/graphql';
+import ErrorAlert from 'src/ui-components/ErrorAlert';
 import UserAvatar from 'src/ui-components/UserAvatar';
-import cleanError from 'src/util/cleanError';
 import styled from 'styled-components';
 
 import ContentForm from '../ContentForm';
@@ -17,21 +17,11 @@ import ContentForm from '../ContentForm';
 interface Props {
 	className?: string
 	postId: number
-	refetch: (variables?:
-		DiscussionPostAndCommentsQueryVariables |
-		ProposalPostAndCommentsQueryVariables |
-		ReferendumPostAndCommentsQueryVariables |
-		MotionPostAndCommentsQueryVariables |
-		TreasuryProposalPostAndCommentsQueryVariables |
-		TipPostAndCommentsQueryVariables |
-		undefined
-	) =>
-		Promise<ApolloQueryResult<TipPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<TreasuryProposalPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<MotionPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<ReferendumPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<ProposalPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<DiscussionPostAndCommentsQuery>>
+	refetch: ((options?: QueryLazyOptions<Exact<{
+		id: number;
+	}>> | undefined) => void) | ((options?: QueryLazyOptions<Exact<{
+		hash: string;
+	}>> | undefined) => void)
 }
 
 const commentKey = () => `comment:${global.window.location.href}`;
@@ -97,7 +87,7 @@ const PostCommentForm = ({ className, postId, refetch }: Props) => {
 
 	return (
 		<div className={className}>
-			{error?.message && <Alert message={cleanError(error.message)} type="error" className='mb-4' />}
+			{error?.message && <ErrorAlert errorMsg={error.message} className='mb-4' />}
 			<UserAvatar
 				className='mt-4 hidden md:inline-block'
 				username={username || ''}
@@ -105,7 +95,7 @@ const PostCommentForm = ({ className, postId, refetch }: Props) => {
 				id={id}
 			/>
 
-			<div className='comment-box'>
+			<div className='comment-box bg-white p-[1rem] rounded-md drop-shadow-md'>
 				<Form
 					form={form}
 					name="comment-content-form"
@@ -119,7 +109,7 @@ const PostCommentForm = ({ className, postId, refetch }: Props) => {
 						{ required: "Please add the '${name}'" }
 					}
 				>
-					<ContentForm onChange={(content) => onContentChange(content)} height={300} />
+					<ContentForm onChange={(content : any) => onContentChange(content)} height={300} />
 					<Form.Item>
 						<div className='flex items-center justify-end'>
 							<Button htmlType="submit" className='bg-pink_primary text-white border-white hover:bg-pink_secondary flex items-center'>
@@ -138,10 +128,6 @@ export default styled(PostCommentForm)`
 	margin: 2rem 0;
 
 	.comment-box {
-		background-color: white;
-		padding: 1rem;
-		border-radius: 3px;
-		box-shadow: box_shadow_card;
 		width: calc(100% - 60px);
 
 		@media only screen and (max-width: 768px) {

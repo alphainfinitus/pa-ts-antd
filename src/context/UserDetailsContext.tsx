@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import jwt from 'jsonwebtoken';
 import React, { createContext, useState } from 'react';
+import { decodeToken } from 'react-jwt';
 
 import { getLocalStorageToken } from '../services/auth.service';
 import { JWTPayploadType, UserDetailsContextType } from '../types';
@@ -35,7 +35,7 @@ const initialUserDetailsContext : UserDetailsContextType = {
 
 const accessToken = getLocalStorageToken();
 try {
-	const tokenPayload: any = accessToken && jwt.decode(accessToken);
+	const tokenPayload = accessToken && decodeToken<JWTPayploadType>(accessToken);
 
 	if (tokenPayload && tokenPayload.sub) {
 		const {

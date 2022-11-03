@@ -4,11 +4,11 @@
 
 import { HomeFilled, TwitterOutlined, YoutubeFilled } from '@ant-design/icons';
 import styled from '@xstyled/styled-components';
-import { Alert, Space } from 'antd';
-import React from 'react';
-import { useNetworkSocialsQuery } from 'src/generated/graphql';
+import { Space } from 'antd';
+import React, { useEffect } from 'react';
+import { useNetworkSocialsLazyQuery } from 'src/generated/graphql';
 import { CubeIcon, DiscordIcon, GithubIcon, RedditIcon, TelegramIcon } from 'src/ui-components/CustomIcons';
-import cleanError from 'src/util/cleanError';
+import ErrorAlert from 'src/ui-components/ErrorAlert';
 import getNetwork from 'src/util/getNetwork';
 
 const network = getNetwork();
@@ -61,17 +61,19 @@ export const socialLinks = (blockchain_socials: any) => {
 };
 
 const AboutNetwork = ({ className } : {className?: string}) => {
-	// TODO: Enable refetch
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { data, error, refetch } = useNetworkSocialsQuery({ variables: {
+	const [refetch, { data, error }] = useNetworkSocialsLazyQuery({ variables: {
 		network
 	} });
+
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 
 	return (
 		<div className={`${className} bg-white drop-shadow-md p-5 md:p-6 rounded-md`}>
 			<div className="flex items-center justify-between">
 				<h2 className='dashboard-heading'>About</h2>
-				{error && <Alert message={cleanError(error.message)} type="error" className='mb-4' />}
+				{error && <ErrorAlert errorMsg={error.message} className='mb-4' />}
 				<div className='hidden lg:inline-block'>
 					{!error && data && socialLinks(data.blockchain_socials[0])}
 				</div>

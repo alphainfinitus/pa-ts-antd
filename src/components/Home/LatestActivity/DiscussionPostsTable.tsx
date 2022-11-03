@@ -4,15 +4,15 @@
 
 /* eslint-disable sort-keys */
 import { ColumnsType } from 'antd/lib/table';
-import moment from 'moment';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useLatestDiscussionPostsQuery } from 'src/generated/graphql';
+import { useLatestDiscussionPostsLazyQuery } from 'src/generated/graphql';
 import { noTitle } from 'src/global/noTitle';
 import { PostCategory } from 'src/global/post_categories';
 import { EmptyLatestActivity, ErrorLatestActivity, LoadingLatestActivity, PopulatedLatestActivity, PopulatedLatestActivityCard } from 'src/ui-components/LatestActivityStates';
 import NameLabel from 'src/ui-components/NameLabel';
 import getDefaultAddressField from 'src/util/getDefaultAddressField';
+import getRelativeCreatedAt from 'src/util/getRelativeCreatedAt';
 
 interface DiscussionPostsRowData {
   key: string | number;
@@ -50,7 +50,7 @@ const columns: ColumnsType<DiscussionPostsRowData> = [
 		key: 'created',
 		dataIndex: 'createdAt',
 		render: (createdAt) => {
-			const relativeCreatedAt = createdAt ? moment(createdAt).isAfter(moment().subtract(1, 'w')) ? moment(createdAt).startOf('day').fromNow() : moment(createdAt).format('Do MMM \'YY') : null;
+			const relativeCreatedAt = getRelativeCreatedAt(createdAt);
 			return (
 				<span>{relativeCreatedAt}</span>
 			);
@@ -63,13 +63,15 @@ const defaultAddressField = getDefaultAddressField();
 const DiscussionPostsTable = () => {
 	const navigate = useNavigate();
 
-	// TODO: Enable refetch
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { data, error, refetch } = useLatestDiscussionPostsQuery({
+	const [refetch, { data, error }] = useLatestDiscussionPostsLazyQuery({
 		variables: {
 			limit: 10
 		}
 	});
+
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 
 	//error state
 	if (error?.message) return <ErrorLatestActivity errorMessage={error?.message} />;
@@ -102,7 +104,7 @@ const DiscussionPostsTable = () => {
 
 		return(<>
 			<div className='hidden lg:block'>
-				<PopulatedLatestActivity columns={columns} tableData={tableData} onClick={(rowData) => navigate(`/post/${rowData.postId}`)} />;
+				<PopulatedLatestActivity columns={columns} tableData={tableData} onClick={(rowData) => navigate(`/post/${rowData.postId}`)} />
 			</div>
 
 			<div className="block lg:hidden h-[520px] overflow-y-auto">

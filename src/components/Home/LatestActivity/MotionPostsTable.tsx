@@ -4,16 +4,16 @@
 
 /* eslint-disable sort-keys */
 import { ColumnsType } from 'antd/lib/table';
-import moment from 'moment';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useGetLatestMotionPostsQuery } from 'src/generated/graphql';
+import { useGetLatestMotionPostsLazyQuery } from 'src/generated/graphql';
 import { noTitle } from 'src/global/noTitle';
 import { PostCategory } from 'src/global/post_categories';
 import { post_type } from 'src/global/post_types';
 import { EmptyLatestActivity, ErrorLatestActivity, LoadingLatestActivity, PopulatedLatestActivity, PopulatedLatestActivityCard } from 'src/ui-components/LatestActivityStates';
 import NameLabel from 'src/ui-components/NameLabel';
 import StatusTag from 'src/ui-components/StatusTag';
+import getRelativeCreatedAt from 'src/util/getRelativeCreatedAt';
 
 interface MotionPostsRowData {
   key: string | number;
@@ -52,7 +52,7 @@ const columns: ColumnsType<MotionPostsRowData> = [
 		key: 'created',
 		dataIndex: 'createdAt',
 		render: (createdAt) => {
-			const relativeCreatedAt = createdAt ? moment(createdAt).isAfter(moment().subtract(1, 'w')) ? moment(createdAt).startOf('day').fromNow() : moment(createdAt).format('Do MMM \'YY') : null;
+			const relativeCreatedAt = getRelativeCreatedAt(createdAt);
 			return (
 				<span>{relativeCreatedAt}</span>
 			);
@@ -71,10 +71,10 @@ const columns: ColumnsType<MotionPostsRowData> = [
 const MotionPostsTable = () => {
 	const navigate = useNavigate();
 
-	// TODO: Enable refetch
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { data, error, refetch } = useGetLatestMotionPostsQuery({ variables: { limit: 10, postType: post_type.ON_CHAIN } });
-
+	const [refetch, { data, error }] = useGetLatestMotionPostsLazyQuery({ variables: { limit: 10, postType: post_type.ON_CHAIN } });
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 	//error state
 	if (error?.message) return <ErrorLatestActivity errorMessage={error?.message} />;
 
@@ -116,7 +116,7 @@ const MotionPostsTable = () => {
 
 		return(<>
 			<div className='hidden lg:block'>
-				<PopulatedLatestActivity columns={columns} tableData={tableData} onClick={(rowData) => navigate(`/motion/${rowData.onChainId}`)} />;
+				<PopulatedLatestActivity columns={columns} tableData={tableData} onClick={(rowData) => navigate(`/motion/${rowData.onChainId}`)} />
 			</div>
 
 			<div className="block lg:hidden h-[520px] overflow-y-auto">

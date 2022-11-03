@@ -4,8 +4,8 @@
 
 import { ClockCircleOutlined } from '@ant-design/icons';
 import { Divider } from 'antd';
-import moment from 'moment';
 import React, { ReactNode } from 'react';
+import getRelativeCreatedAt from 'src/util/getRelativeCreatedAt';
 
 import InlineTag from './InlineTag';
 import NameLabel from './NameLabel';
@@ -22,7 +22,7 @@ interface Props{
 }
 
 const CreationLabel = ({ className, children, created_at, defaultAddress, hideCreatedAt=false, text, username, topic } : Props) => {
-	const relativeCreatedAt = created_at ? moment(created_at).isAfter(moment().subtract(1, 'w')) ? moment(created_at).startOf('day').fromNow() : moment(created_at).format('D MMM YYYY') : null;
+	const relativeCreatedAt = getRelativeCreatedAt(created_at);
 
 	return <div className={`${className} text-navBlue text-xs flex flex-col md:flex-row md:items-center`}>
 		<div className='flex items-center'>

@@ -3,21 +3,11 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DownOutlined, UpOutlined } from '@ant-design/icons';
-import { ApolloQueryResult } from 'apollo-client';
+import { QueryLazyOptions } from '@apollo/client';
 import React, { useState } from 'react';
-import { DiscussionPostAndCommentsQuery,
-	DiscussionPostAndCommentsQueryVariables,
-	MotionPostAndCommentsQuery,
-	MotionPostAndCommentsQueryVariables,
-	ProposalPostAndCommentsQuery,
-	ProposalPostAndCommentsQueryVariables,
-	ReferendumPostAndCommentsQuery,
-	ReferendumPostAndCommentsQueryVariables,
-	ReplyFieldsFragment,
-	TipPostAndCommentsQuery,
-	TipPostAndCommentsQueryVariables,
-	TreasuryProposalPostAndCommentsQuery,
-	TreasuryProposalPostAndCommentsQueryVariables
+import {
+	Exact,
+	ReplyFieldsFragment
 } from 'src/generated/graphql';
 
 import Reply from './Reply';
@@ -25,20 +15,11 @@ import Reply from './Reply';
 interface Props{
 	className?: string
 	repliesArr: ReplyFieldsFragment[]
-	refetch: (variables?:
-		ReferendumPostAndCommentsQueryVariables |
-		DiscussionPostAndCommentsQueryVariables |
-		ProposalPostAndCommentsQueryVariables |
-		MotionPostAndCommentsQueryVariables |
-		TipPostAndCommentsQueryVariables |
-		TreasuryProposalPostAndCommentsQueryVariables |
-		undefined) =>
-		Promise<ApolloQueryResult<TipPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<TreasuryProposalPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<MotionPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<ReferendumPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<ProposalPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<DiscussionPostAndCommentsQuery>>
+	refetch: ((options?: QueryLazyOptions<Exact<{
+		id: number;
+	}>> | undefined) => void) | ((options?: QueryLazyOptions<Exact<{
+		hash: string;
+	}>> | undefined) => void)
 }
 
 const Replies = ({ className, repliesArr, refetch }: Props) => {

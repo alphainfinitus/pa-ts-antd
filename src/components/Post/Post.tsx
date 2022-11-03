@@ -3,26 +3,30 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 //TODO: REMOVE
+/* eslint-disable sort-keys */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { FormOutlined } from '@ant-design/icons';
-import { Button } from 'antd';
+import { QueryLazyOptions } from '@apollo/client';
+import { Tabs } from 'antd';
 import { ApolloQueryResult } from 'apollo-client';
 import React, { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { MetaContext } from 'src/context/MetaContext';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
-import { BountyPostAndCommentsQuery, BountyPostAndCommentsQueryHookResult, BountyPostFragment, ChildBountyPostAndCommentsQuery, ChildBountyPostAndCommentsQueryHookResult, ChildBountyPostFragment, DiscussionPostAndCommentsQuery, DiscussionPostAndCommentsQueryHookResult, DiscussionPostFragment, MotionPostAndCommentsQuery, MotionPostAndCommentsQueryHookResult, MotionPostFragment, OnchainLinkBountyFragment, OnchainLinkChildBountyFragment, OnchainLinkMotionFragment, OnchainLinkProposalFragment, OnchainLinkReferendumFragment, OnchainLinkTechCommitteeProposalFragment, OnchainLinkTipFragment, OnchainLinkTreasuryProposalFragment, ProposalPostAndCommentsQuery, ProposalPostAndCommentsQueryHookResult, ProposalPostFragment, ReferendumPostAndCommentsQuery, ReferendumPostAndCommentsQueryHookResult, ReferendumPostFragment, TechCommitteeProposalPostAndCommentsQuery, TechCommitteeProposalPostAndCommentsQueryHookResult, TechCommitteeProposalPostFragment, TipPostAndCommentsQuery, TipPostAndCommentsQueryHookResult, TipPostFragment, TreasuryProposalPostAndCommentsQuery, TreasuryProposalPostAndCommentsQueryHookResult, TreasuryProposalPostFragment } from 'src/generated/graphql';
+import { BountyPostAndCommentsQuery, BountyPostAndCommentsQueryHookResult, BountyPostFragment, ChildBountyPostAndCommentsQuery, ChildBountyPostAndCommentsQueryHookResult, ChildBountyPostFragment, DiscussionPostAndCommentsQuery, DiscussionPostAndCommentsQueryHookResult, DiscussionPostFragment, Exact, MotionPostAndCommentsQuery, MotionPostAndCommentsQueryHookResult, MotionPostFragment, OnchainLinkBountyFragment, OnchainLinkChildBountyFragment, OnchainLinkMotionFragment, OnchainLinkProposalFragment, OnchainLinkReferendumFragment, OnchainLinkTechCommitteeProposalFragment, OnchainLinkTipFragment, OnchainLinkTreasuryProposalFragment, ProposalPostAndCommentsQuery, ProposalPostAndCommentsQueryHookResult, ProposalPostFragment, ReferendumPostAndCommentsQuery, ReferendumPostAndCommentsQueryHookResult, ReferendumPostFragment, TechCommitteeProposalPostAndCommentsQuery, TechCommitteeProposalPostAndCommentsQueryHookResult, TechCommitteeProposalPostFragment, TipPostAndCommentsQuery, TipPostAndCommentsQueryHookResult, TipPostFragment, TreasuryProposalPostAndCommentsQuery, TreasuryProposalPostAndCommentsQueryHookResult, TreasuryProposalPostFragment } from 'src/generated/graphql';
 import { PostCategory } from 'src/global/post_categories';
 import { PostEmptyState } from 'src/ui-components/UIStates';
 
-import CreateOptionPoll from './ActionsBar/OptionPoll/CreateOptionPoll';
-import PostReactionBar from './ActionsBar/Reactionbar/PostReactionBar';
-import ReportButton from './ActionsBar/ReportButton';
-import ShareButton from './ActionsBar/ShareButton';
-import SubscriptionButton from './ActionsBar/SubscriptionButton/SubscriptionButton';
+import OtherProposals from '../OtherProposals';
+import SidebarRight from '../SidebarRight';
+import OptionPoll from './ActionsBar/OptionPoll';
 import TrackerButton from './ActionsBar/TrackerButton';
-import Comments from './Comment/Comments';
 import EditablePostContent from './EditablePostContent';
-import PostCommentForm from './PostCommentForm';
+import GovernanceSideBar from './GovernanceSideBar';
+import Poll from './Poll';
+import PostHeading from './PostHeading';
+import PostDescription from './Tabs/PostDescription';
+import PostOnChainInfo from './Tabs/PostOnChainInfo';
+import PostTimeline from './Tabs/PostTimeline';
 
 interface Props {
 	className?: string
@@ -45,16 +49,11 @@ interface Props {
 	isTechCommitteeProposal?: boolean
 	isTipProposal?: boolean
 	isChildBounty?: boolean
-	refetch: (variables?:any) =>
-		Promise<ApolloQueryResult<ReferendumPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<ProposalPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<MotionPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<TreasuryProposalPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<TipPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<BountyPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<DiscussionPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<TechCommitteeProposalPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<ChildBountyPostAndCommentsQuery>>
+	refetch: ((options?: QueryLazyOptions<Exact<{
+		id: number;
+	}>> | undefined) => void ) | ((options?: QueryLazyOptions<Exact<{
+		hash: string;
+	}>> | undefined) => void)
 }
 
 interface Redirection {
@@ -68,7 +67,11 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 	const [isEditing, setIsEditing] = useState(false);
 	const toggleEdit = () => setIsEditing(!isEditing);
 	const { setMetaContextState } = useContext(MetaContext);
-
+	const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+	const [proposerAddress, setProposerAddress] = useState<string>('');
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 	useEffect(() => {
 		const users: string[] = [];
 
@@ -192,7 +195,7 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 	};
 
 	if (!post) {
-		const postCategory: PostCategory = isMotion ? PostCategory.MOTION : isProposal ? PostCategory.PROPOSAL : isReferendum ? PostCategory.REFERENDA : isTreasuryProposal ? PostCategory.TREASURY_PROPOSAL : isTipProposal ? PostCategory.TIP : isBounty ? PostCategory.TIP : isTechCommitteeProposal ? PostCategory.TECH_COMMITTEE_PROPOSAL : isChildBounty ? PostCategory.CHILD_BOUNTY : PostCategory.DISCUSSION;
+		const postCategory: PostCategory = isMotion ? PostCategory.MOTION : isProposal ? PostCategory.PROPOSAL : isReferendum ? PostCategory.REFERENDA : isTreasuryProposal ? PostCategory.TREASURY_PROPOSAL : isTipProposal ? PostCategory.TIP : isBounty ? PostCategory.BOUNTY : isTechCommitteeProposal ? PostCategory.TECH_COMMITTEE_PROPOSAL : isChildBounty ? PostCategory.CHILD_BOUNTY : PostCategory.DISCUSSION;
 		return <div className='mt-16'><PostEmptyState postCategory={postCategory} /></div>;
 	}
 
@@ -216,69 +219,163 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 		isChildBountyProposer
 	);
 
-	const Sidebar = ({ className } : {className?:string}) => <>
-		<div className={`${className} bg-white  md:drop-shadow-md md:p-6 rounded-md w-full lg:w-4/12 mx-auto`}>
-			Sidebar Area
-		</div>
+	const Sidebar = ({ className } : {className?:string}) => {
+		return (
+			<div className={`${className} flex flex-col w-full lg:w-4/12 mx-auto`}>
+				<GovernanceSideBar
+					isBounty={isBounty}
+					isChildBounty={isChildBounty}
+					isMotion={isMotion}
+					isProposal={isProposal}
+					isReferendum={isReferendum}
+					isTipProposal={isTipProposal}
+					isTreasuryProposal={isTreasuryProposal}
+					isTechCommitteeProposal={isTechCommitteeProposal}
+					onchainId={onchainId}
+					onchainLink={definedOnchainLink}
+					status={postStatus}
+					canEdit={canEdit}
+					startTime={post.created_at}
+				/>
+				{isDiscussion(post) && <Poll postId={post.id} canEdit={post.author?.id === id} />}
+				<OptionPoll postId={post.id} canEdit={post.author?.id === id} />
+			</div>
+		);
+	};
+
+	const TrackerButtonComp = <>
+		{id && onchainId && isOnchainPost && !isEditing && (
+			<TrackerButton
+				onchainId={onchainId}
+				isBounty={isBounty}
+				isMotion={isMotion}
+				isProposal={isProposal}
+				isReferendum={isReferendum}
+				isTipProposal={isTipProposal}
+				isTreasuryProposal={isTreasuryProposal}
+				isTechCommitteeProposal={isTechCommitteeProposal}
+			/>)
+		}
 	</>;
+
+	const handleOpenSidebar = (address:string) => {
+		setSidebarOpen(true);
+		setProposerAddress(address);
+	};
+
+	const getOnChainTabs = () => {
+		if (isDiscussion(post)) return [];
+
+		const onChainTabs = [
+			{ label: 'Timeline',
+				key: 'timeline',
+				children: <PostTimeline
+					isBounty={isBounty}
+					isMotion={isMotion}
+					isProposal={isProposal}
+					isReferendum={isReferendum}
+					isTipProposal={isTipProposal}
+					isTreasuryProposal={isTreasuryProposal}
+					isTechCommitteeProposal={isTechCommitteeProposal}
+					isChildBounty={isChildBounty}
+					referendumPost={referendumPost}
+					proposalPost={proposalPost}
+					motionPost={motionPost}
+					treasuryPost={treasuryPost}
+					tipPost={tipPost}
+					bountyPost={bountyPost}
+					childBountyPost={childBountyPost}
+					techCommitteeProposalPost={techCommitteeProposalPost}
+				/>
+			},
+			{ label: 'On Chain Info',
+				key: 'onChainInfo',
+				children: <PostOnChainInfo
+					isBounty={isBounty}
+					isMotion={isMotion}
+					isProposal={isProposal}
+					isReferendum={isReferendum}
+					isTipProposal={isTipProposal}
+					isTreasuryProposal={isTreasuryProposal}
+					isTechCommitteeProposal={isTechCommitteeProposal}
+					isChildBounty={isChildBounty}
+					definedOnchainLink={definedOnchainLink}
+					handleOpenSidebar={handleOpenSidebar}
+				/>
+			}
+		];
+
+		return onChainTabs;
+	};
+
+	const tabItems: any[] = [
+		{ label: 'Description',
+			key: 'description',
+			children: <PostDescription
+				id={id}
+				post={post}
+				isEditing={isEditing}
+				canEdit={canEdit}
+				toggleEdit={toggleEdit}
+				isOnchainPost={isOnchainPost}
+				TrackerButtonComp={TrackerButtonComp}
+				Sidebar={Sidebar}
+				refetch={refetch}
+			/>
+		},
+		...getOnChainTabs()
+	];
+
+	const parentBountyId = isChildBounty && (definedOnchainLink as OnchainLinkChildBountyFragment).onchain_child_bounty?.[0]?.parentBountyId;
 
 	return (
 		<>
-			<div className="flex flex-col lg:flex-row">
-				{/* Post Content */}
-				<div className='bg-white drop-shadow-md p-3 md:p-6 rounded-md w-full flex-1 lg:w-8/12 mx-auto lg:mr-9 mb-6 lg:mb-0'>
-					<EditablePostContent
-						isEditing={isEditing}
-						isTipProposal={isTipProposal}
-						onchainId={onchainId}
-						post={post}
-						postStatus={postStatus}
-						refetch={refetch}
-						toggleEdit={toggleEdit}
-					/>
+			<div className={`${className} flex flex-col lg:flex-row`}>
+				<div className='flex-1 w-full lg:w-8/12 mx-auto lg:mr-9 mb-6 lg:mb-0'>
 
-					{/* Actions Bar */}
-					<div id='actions-bar' className="flex items-center flex-col md:flex-row mb-8">
-						<div className='flex items-center'>
-							<PostReactionBar className='reactions' postId={post.id} />
-							{id && !isEditing && <SubscriptionButton postId={post.id}/>}
-							{canEdit && <Button className={'text-pink_primary flex items-center border-none shadow-none'} onClick={toggleEdit}><FormOutlined />Edit</Button>}
-						</div>
-						<div className='flex items-center'>
-							{id && !isEditing && !isOnchainPost && <ReportButton type='post' contentId={`${post.id}`} />}
-							{canEdit && !isEditing && <CreateOptionPoll postId={post.id} />}
-							{id && onchainId && isOnchainPost && !isEditing && (
-								<TrackerButton
-									onchainId={onchainId}
-									isBounty={isBounty}
-									isMotion={isMotion}
-									isProposal={isProposal}
-									isReferendum={isReferendum}
-									isTipProposal={isTipProposal}
-									isTreasuryProposal={isTreasuryProposal}
-									isTechCommitteeProposal={isTechCommitteeProposal}
-								/>)
-							}
-							<ShareButton title={post.title} />
-						</div>
-					</div>
-
-					{!isEditing && <div className='flex lg:hidden mb-8'><Sidebar /></div>}
-
-					{ id && <PostCommentForm postId={post.id} refetch={refetch} /> }
-
-					{ !!post.comments?.length &&
-						<Comments
-							className='ml-0 md:ml-4'
-							comments={post.comments}
-							refetch={refetch}
-						/>
+					{redirection.link &&
+						<Link to={redirection.link}>
+							<div className='bg-white drop-shadow-md p-3 md:p-6 rounded-md w-full mb-6 dashboard-heading'>
+								This proposal is now <span className='text-pink_primary'>{redirection.text}</span>
+							</div>
+						</Link>
 					}
+
+					{
+						isChildBounty && parentBountyId &&
+						<Link to={`/bounty/${parentBountyId}`}>
+							<div className='bg-white drop-shadow-md p-3 md:p-6 rounded-md w-full mb-6 dashboard-heading'>
+								This is a child bounty of <span className='text-pink_primary'>Bounty #{parentBountyId}</span>
+							</div>
+						</Link>
+					}
+
+					{/* Post Content */}
+					<div className='bg-white drop-shadow-md p-3 md:p-6 rounded-md w-full mb-6'>
+						{isEditing && <EditablePostContent
+							post={post}
+							refetch={refetch}
+							toggleEdit={toggleEdit}
+						/>}
+
+						<PostHeading className='mb-8' isTipProposal={isTipProposal} onchainId={onchainId} post={post} postStatus={postStatus} />
+
+						<Tabs
+							type="card"
+							items={tabItems}
+						/>
+					</div>
 				</div>
 
 				{!isEditing && <Sidebar className='hidden lg:block' />}
-
 			</div>
+
+			<SidebarRight
+				open={sidebarOpen}
+				closeSidebar={() => setSidebarOpen(false)}
+			>
+				{ proposerAddress && <OtherProposals proposerAddress={proposerAddress} currPostOnchainID={Number(onchainId)} closeSidebar={() => setSidebarOpen(false)} /> }
+			</SidebarRight>
 		</>
 	);
 };

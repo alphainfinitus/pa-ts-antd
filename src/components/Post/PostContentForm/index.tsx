@@ -3,13 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
-import { Alert, Button, Form, Input } from 'antd';
-import { ApolloQueryResult } from 'apollo-client';
+import { QueryLazyOptions } from '@apollo/client';
+import { Button, Form, Input } from 'antd';
 import React, { useState } from 'react';
-import { DiscussionPostAndCommentsQuery, MotionPostAndCommentsQuery, ProposalPostAndCommentsQuery, ReferendumPostAndCommentsQuery, TipPostAndCommentsQuery, TreasuryProposalPostAndCommentsQuery, useEditPostMutation } from 'src/generated/graphql';
+import { Exact, useEditPostMutation } from 'src/generated/graphql';
 import { NotificationStatus } from 'src/types';
+import ErrorAlert from 'src/ui-components/ErrorAlert';
 import queueNotification from 'src/ui-components/QueueNotification';
-import cleanError from 'src/util/cleanError';
 
 import ContentForm from '../../ContentForm';
 import LinkPostModal from './LinkPostModal';
@@ -20,12 +20,11 @@ interface Props {
 	title?: string | null;
 	content?: string | null;
 	toggleEdit: () => void;
-	refetch: (variables?: any) => Promise<ApolloQueryResult<ReferendumPostAndCommentsQuery>>
-		| Promise<ApolloQueryResult<ProposalPostAndCommentsQuery>>
-		| Promise<ApolloQueryResult<MotionPostAndCommentsQuery>>
-		| Promise<ApolloQueryResult<TipPostAndCommentsQuery>>
-		| Promise<ApolloQueryResult<TreasuryProposalPostAndCommentsQuery>>
-		| Promise<ApolloQueryResult<DiscussionPostAndCommentsQuery>>;
+	refetch: ((options?: QueryLazyOptions<Exact<{
+		id: number;
+	}>> | undefined) => void) | ((options?: QueryLazyOptions<Exact<{
+		hash: string;
+	}>> | undefined) => void)
 }
 
 const PostContentForm = ({ className, postId, title, content, toggleEdit, refetch } : Props) => {
@@ -84,7 +83,7 @@ const PostContentForm = ({ className, postId, title, content, toggleEdit, refetc
 
 	return (
 		<div className={className}>
-			{error && <Alert message={cleanError(error.message)} type="error" className='mb-4' />}
+			{error && <ErrorAlert errorMsg={error.message} className='mb-4' />}
 			<Form
 				form={form}
 				name="post-content-form"

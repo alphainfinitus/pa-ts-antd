@@ -6,13 +6,11 @@ import { Form } from 'antd';
 import React, { useState } from 'react';
 
 import MarkdownEditor from '../ui-components/MarkdownEditor';
-import messages from '../util/messages';
 
 interface Props {
 	className?: string
-	errorContent?: any
 	height?: number
-	onChange?: (content: string) => void
+	onChange?: (content: string) => void | string | null
 	value?: string
 }
 
@@ -38,7 +36,7 @@ const validateContent = (
 	};
 };
 
-const ContentForm = ({ className, errorContent, height, onChange, value }: Props): JSX.Element => {
+const ContentForm = ({ className, height, onChange, value }: Props): JSX.Element => {
 
 	const [validationStatus, setValidation] = useState<ValidationResult>({
 		errorMsg: null,
@@ -59,14 +57,12 @@ const ContentForm = ({ className, errorContent, height, onChange, value }: Props
 		<div className={className}>
 			<Form.Item valuePropName='value' getValueFromEvent={onChangeWrapper} name='content' validateStatus={validationStatus.validateStatus} help={validationStatus.errorMsg}>
 				<MarkdownEditor
-					className={ errorContent? 'error': ''}
 					height={height}
 					name='content'
 					onChange={onChangeWrapper}
 					value={value || ''}
 				/>
 			</Form.Item>
-			{errorContent && <div className={'errorText'}>{messages.VALIDATION_CONTENT_ERROR}</div>}
 		</div>
 	);
 };
