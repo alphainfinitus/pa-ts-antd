@@ -79,9 +79,11 @@ const Post = ({
 	const { setMetaContextState } = useContext(MetaContext);
 	const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
 	const [proposerAddress, setProposerAddress] = useState<string>('');
+
 	useEffect(() => {
 		refetch();
 	}, [refetch]);
+
 	useEffect(() => {
 		const users: string[] = [];
 
@@ -338,6 +340,31 @@ const Post = ({
 
 	const parentBountyId = isChildBounty && (definedOnchainLink as OnchainLinkChildBountyFragment).onchain_child_bounty?.[0]?.parentBountyId;
 
+	const getLatestDiscussionState = () => {
+		if(!isDiscussion(post)) return;
+
+		const latestState = {
+			link: '',
+			text: ''
+		};
+
+		if(post.onchain_link?.onchain_referendum_id) {
+			latestState.link = `/referendum/${post.onchain_link.onchain_referendum_id}`;
+			latestState.text = `Referendum #${post.onchain_link.onchain_referendum_id}`;
+		} else if (post.onchain_link?.onchain_motion_id) {
+			latestState.link = `/motion/${post.onchain_link.onchain_motion_id}`;
+			latestState.text = `Motion #${post.onchain_link.onchain_motion_id}`;
+		} else if (post.onchain_link?.onchain_treasury_proposal_id) {
+			latestState.link = `/treasury/${post.onchain_link.onchain_treasury_proposal_id}`;
+			latestState.text = `Treasury Proposal #${post.onchain_link.onchain_treasury_proposal_id}`;
+		} else if (post.onchain_link?.onchain_proposal_id) {
+			latestState.link = `/proposal/${post.onchain_link.onchain_proposal_id}`;
+			latestState.text = `Proposal #${post.onchain_link.onchain_proposal_id}`;
+		}
+
+		return latestState;
+	};
+
 	return (
 		<>
 			<div className={`${className} flex flex-col lg:flex-row`}>
@@ -362,6 +389,15 @@ const Post = ({
 					)}
 
 					{
+						isDiscussion(post) && getLatestDiscussionState()?.link &&
+						<Link to={getLatestDiscussionState()?.link!}>
+							<div className='bg-white drop-shadow-md p-3 md:p-6 rounded-md w-full mb-6 dashboard-heading'>
+								This discussion is now <span className='text-pink_primary'>{getLatestDiscussionState()?.text}</span>
+							</div>
+						</Link>
+					}
+
+					{
 						isChildBounty && parentBountyId &&
 						<Link to={`/bounty/${parentBountyId}`}>
 							<div className='bg-white drop-shadow-md p-3 md:p-6 rounded-md w-full mb-6 dashboard-heading'>
@@ -371,7 +407,7 @@ const Post = ({
 					}
 
 					{/* Post Content */}
-					<div className='bg-white drop-shadow-md p-3 md:p-6 rounded-md w-full mb-6'>
+					<div className='bg-white drop-shadow-md p-3 xl:p-6 rounded-md w-full mb-6'>
 						{isEditing && <EditablePostContent
 							post={post}
 							refetch={refetch}
