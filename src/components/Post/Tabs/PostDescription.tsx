@@ -4,8 +4,9 @@
 
 import { FormOutlined } from '@ant-design/icons';
 import { QueryLazyOptions } from '@apollo/client';
-import { Button } from 'antd';
+import { Button, Timeline } from 'antd';
 import React from 'react';
+import PASmallCirclePNG from 'src/assets/pa-small-circle.png';
 import { DiscussionPostFragment, Exact, MotionPostFragment,ProposalPostFragment, ReferendumPostFragment,  TreasuryProposalPostFragment } from 'src/generated/graphql';
 import Markdown from 'src/ui-components/Markdown';
 
@@ -41,7 +42,7 @@ const PostDescription = ({ className, canEdit, id, isEditing, isOnchainPost, pos
 			{content && <Markdown md={content} />}
 
 			{/* Actions Bar */}
-			<div id='actions-bar' className={`flex md:items-center ${canEdit && 'flex-col'} md:flex-row mb-8`}>
+			<div id='actions-bar' className={`flex md:items-center mt-9 ${canEdit && 'flex-col'} md:flex-row mb-8`}>
 				<div className='flex items-center'>
 					<PostReactionBar className='reactions' postId={post.id} />
 					{id && !isEditing && <SubscriptionButton postId={post.id}/>}
@@ -58,7 +59,19 @@ const PostDescription = ({ className, canEdit, id, isEditing, isOnchainPost, pos
 			{!isEditing && <div className='flex lg:hidden mb-8 mx-2'><Sidebar /></div>}
 
 			<div className='flex'>
-				{/* <div className='hidden xl:block mr-12'> Timeline </div> */}
+				{/* TODO: ENABLE */}
+				{
+					!!post.comments?.length &&
+					<div className='hidden xl:hidden mr-9 min-w-[120px]'>
+						<Timeline mode='right'>
+							<Timeline.Item dot={<img style={ { maxWidth:'20px' } } src={PASmallCirclePNG} />}>Today</Timeline.Item>
+							<Timeline.Item>Sept 29</Timeline.Item>
+							<Timeline.Item>Sept 29</Timeline.Item>
+							<Timeline.Item>Sept 29</Timeline.Item>
+						</Timeline>
+					</div>
+				}
+
 				<div className='w-full'>
 					{ id && <PostCommentForm postId={post.id} refetch={refetch} /> }
 
