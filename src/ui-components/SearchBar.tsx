@@ -12,7 +12,7 @@ const NETWORK = getNetwork();
 const SearchBar = () : JSX.Element => {
 
 	return (
-		<div style={{ position: 'relative' }}>
+		<div className='relative hidden sm:block'>
 			<div style={{ left:'10px', position:'absolute', top:'7px', zIndex:100 }}><SearchOutlined/></div>
 			<div className="gcse-search" data-as_sitesearch={ ['moonbase', 'moonbeam', 'moonriver', 'kilt'].includes(NETWORK) ? `${NETWORK}.polkassembly.network` : `${NETWORK}.polkassembly.io` }></div>
 		</div>
