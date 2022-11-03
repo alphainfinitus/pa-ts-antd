@@ -5178,6 +5178,7 @@ export type Mutation = {
   deleteAccount?: Maybe<Message>;
   editPostConfirm?: Maybe<Message>;
   editPostStart?: Maybe<AddressLoginType>;
+  linkProxyAddress?: Maybe<ChangeResponse>;
   login?: Maybe<LoginResponse>;
   logout?: Maybe<Message>;
   multisigLinkConfirm?: Maybe<ChangeResponse>;
@@ -5327,6 +5328,15 @@ export type MutationEditPostStartArgs = {
 export type MutationLoginArgs = {
   password: Scalars['String'];
   username: Scalars['String'];
+};
+
+
+export type MutationLinkProxyAddressArgs = {
+  message: Scalars['String'];
+  network: Scalars['String'];
+  proxied: Scalars['String'];
+  proxy: Scalars['String'];
+  signature: Scalars['String'];
 };
 
 
@@ -7964,6 +7974,7 @@ export type Query = {
   token?: Maybe<Token>;
   user?: Maybe<User>;
   userDetails?: Maybe<Profile>;
+  userWithUsername?: Maybe<Profile>;
 };
 
 
@@ -7990,6 +8001,11 @@ export type QueryUserArgs = {
 
 export type QueryUserDetailsArgs = {
   user_id: Scalars['Int'];
+};
+
+
+export type QueryUserWithUsernameArgs = {
+  username: Scalars['String'];
 };
 
 export type Referendum = {
@@ -15182,6 +15198,7 @@ export type Mutation_Root = {
   insert_replies?: Maybe<Replies_Mutation_Response>;
   /** insert a single row into the table: "replies" */
   insert_replies_one?: Maybe<Replies>;
+  linkProxyAddress?: Maybe<ChangeResponse>;
   login?: Maybe<LoginResponse>;
   logout?: Maybe<Message>;
   multisigLinkConfirm?: Maybe<ChangeResponse>;
@@ -16639,6 +16656,14 @@ export type Mutation_RootInsert_Replies_OneArgs = {
   on_conflict?: Maybe<Replies_On_Conflict>;
 };
 
+/** mutation root */
+export type Mutation_RootLinkProxyAddressArgs = {
+  message: Scalars['String'];
+  network: Scalars['String'];
+  proxied: Scalars['String'];
+  proxy: Scalars['String'];
+  signature: Scalars['String'];
+};
 
 /** mutation root */
 export type Mutation_RootLoginArgs = {
@@ -23036,6 +23061,7 @@ export type Query_Root = {
   treasuryStatusesConnection: TreasuryStatusConnection;
   user?: Maybe<User>;
   userDetails?: Maybe<Profile>;
+  userWithUsername?: Maybe<Profile>;
   validator?: Maybe<Validator>;
   validators: Array<Maybe<Validator>>;
   validatorsConnection: ValidatorConnection;
@@ -24618,6 +24644,12 @@ export type Query_RootUserArgs = {
 /** query root */
 export type Query_RootUserDetailsArgs = {
   user_id: Scalars['Int'];
+};
+
+
+/** query root */
+export type Query_RootUserWithUsernameArgs = {
+  username: Scalars['String'];
 };
 
 
@@ -26685,6 +26717,19 @@ export type GetUsersProposalsQuery = (
   )> }
 );
 
+export type UserWithUsernameQueryVariables = Exact<{
+  username: Scalars['String'];
+}>;
+
+
+export type UserWithUsernameQuery = (
+  { __typename?: 'query_root' }
+  & { userWithUsername?: Maybe<(
+    { __typename?: 'Profile' }
+    & Pick<Profile, 'badges' | 'bio' | 'id' | 'image' | 'title' | 'user_id'>
+  )> }
+);
+
 export type AuthorFieldsFragment = (
   { __typename?: 'User' }
   & Pick<User, 'id' | 'kusama_default_address' | 'polkadot_default_address' | 'username'>
@@ -28294,6 +28339,22 @@ export type MultisigLinkConfirmMutationVariables = Exact<{
 export type MultisigLinkConfirmMutation = (
   { __typename?: 'mutation_root' }
   & { multisigLinkConfirm?: Maybe<(
+    { __typename?: 'ChangeResponse' }
+    & Pick<ChangeResponse, 'message' | 'token'>
+  )> }
+);
+
+export type LinkProxyAddressMutationVariables = Exact<{
+  network: Scalars['String'];
+  proxied: Scalars['String'];
+  proxy: Scalars['String'];
+  message: Scalars['String'];
+  signature: Scalars['String'];
+}>;
+
+export type LinkProxyAddressMutation = (
+  { __typename?: 'mutation_root' }
+  & { linkProxyAddress?: Maybe<(
     { __typename?: 'ChangeResponse' }
     & Pick<ChangeResponse, 'message' | 'token'>
   )> }
@@ -31581,6 +31642,44 @@ export function useGetUsersProposalsLazyQuery(baseOptions?: ApolloReactHooks.Laz
 export type GetUsersProposalsQueryHookResult = ReturnType<typeof useGetUsersProposalsQuery>;
 export type GetUsersProposalsLazyQueryHookResult = ReturnType<typeof useGetUsersProposalsLazyQuery>;
 export type GetUsersProposalsQueryResult = ApolloReactCommon.QueryResult<GetUsersProposalsQuery, GetUsersProposalsQueryVariables>;
+export const UserWithUsernameDocument = gql`
+    query userWithUsername($username: String!) {
+  userWithUsername(username: $username) {
+    badges
+    bio
+    id
+    image
+    title
+    user_id
+  }
+}
+    `;
+
+/**
+ * __useUserWithUsernameQuery__
+ *
+ * To run a query within a React component, call `useUserWithUsernameQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserWithUsernameQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserWithUsernameQuery({
+ *   variables: {
+ *      username: // value for 'username'
+ *   },
+ * });
+ */
+export function useUserWithUsernameQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<UserWithUsernameQuery, UserWithUsernameQueryVariables>) {
+        return ApolloReactHooks.useQuery<UserWithUsernameQuery, UserWithUsernameQueryVariables>(UserWithUsernameDocument, baseOptions);
+      }
+export function useUserWithUsernameLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<UserWithUsernameQuery, UserWithUsernameQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<UserWithUsernameQuery, UserWithUsernameQueryVariables>(UserWithUsernameDocument, baseOptions);
+        }
+export type UserWithUsernameQueryHookResult = ReturnType<typeof useUserWithUsernameQuery>;
+export type UserWithUsernameLazyQueryHookResult = ReturnType<typeof useUserWithUsernameLazyQuery>;
+export type UserWithUsernameQueryResult = ApolloReactCommon.QueryResult<UserWithUsernameQuery, UserWithUsernameQueryVariables>;
 export const AllBountyPostsDocument = gql`
     query AllBountyPosts($postType: Int!, $postTopic: Int!, $limit: Int! = 5, $offset: Int! = 0) {
   posts(
@@ -34215,6 +34314,55 @@ export function useMultisigLinkConfirmMutation(baseOptions?: ApolloReactHooks.Mu
 export type MultisigLinkConfirmMutationHookResult = ReturnType<typeof useMultisigLinkConfirmMutation>;
 export type MultisigLinkConfirmMutationResult = ApolloReactCommon.MutationResult<MultisigLinkConfirmMutation>;
 export type MultisigLinkConfirmMutationOptions = ApolloReactCommon.BaseMutationOptions<MultisigLinkConfirmMutation, MultisigLinkConfirmMutationVariables>;
+export const LinkProxyAddressDocument = gql`
+    mutation linkProxyAddress($network: String!, $proxied: String!, $proxy: String!, $message: String!, $signature: String!) {
+  linkProxyAddress(
+    network: $network
+    proxied: $proxied
+    proxy: $proxy
+    message: $message
+    signature: $signature
+  ) {
+    message
+    token
+  }
+}
+    `;
+export type LinkProxyAddressMutationFn = ApolloReactCommon.MutationFunction<LinkProxyAddressMutation, LinkProxyAddressMutationVariables>;
+
+/**
+ * __useLinkProxyAddressMutation__
+ *
+ * To run a mutation, you first call `useLinkProxyAddressMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLinkProxyAddressMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [linkProxyAddressMutation, { data, loading, error }] = useLinkProxyAddressMutation({
+ *   variables: {
+ *      network: // value for 'network'
+ *      proxied: // value for 'proxied'
+ *      proxy: // value for 'proxy'
+ *      message: // value for 'message'
+ *      signature: // value for 'signature'
+ *   },
+ * });
+ */
+export function useLinkProxyAddressMutation(baseOptions?: ApolloReactHooks.MutationHookOptions<LinkProxyAddressMutation, LinkProxyAddressMutationVariables>) {
+        return ApolloReactHooks.useMutation<LinkProxyAddressMutation, LinkProxyAddressMutationVariables>(LinkProxyAddressDocument, baseOptions);
+      }
+export type LinkProxyAddressMutationHookResult = ReturnType<typeof useLinkProxyAddressMutation>;
+export type LinkProxyAddressMutationResult = ApolloReactCommon.MutationResult<LinkProxyAddressMutation>;
+export type LinkProxyAddressMutationOptions = ApolloReactCommon.BaseMutationOptions<LinkProxyAddressMutation, LinkProxyAddressMutationVariables>;
+
+
+
+
+
+
 export const TechCommitteeProposalPostAndCommentsDocument = gql`
     query TechCommitteeProposalPostAndComments($id: Int!) {
   posts(where: {onchain_link: {onchain_tech_committee_proposal_id: {_eq: $id}}}) {

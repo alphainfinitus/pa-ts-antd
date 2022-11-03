@@ -4,7 +4,6 @@
 
 import { Col, Row } from 'antd';
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { OnchainLinkChildBountyFragment } from 'src/generated/graphql';
 import { chainProperties } from 'src/global/networkConstants';
 import Address from 'src/ui-components/Address';
@@ -33,8 +32,7 @@ const PostChildBountyInfo = ({ onchainLink, setOtherProposalsSidebarAddr }: Prop
 		curatorDeposit,
 		curator,
 		beneficiary,
-		description,
-		parentBountyId
+		description
 	} = onchainChildBountyProposal?.[0] || { };
 
 	return (
@@ -78,11 +76,6 @@ const PostChildBountyInfo = ({ onchainLink, setOtherProposalsSidebarAddr }: Prop
 					<Col xs={24} md={12}>
 						<h6>Description</h6>
 						{description}
-					</Col>}
-					{parentBountyId &&
-					<Col xs={24} md={12}>
-						<h6>Parent Bounty</h6>
-						<Link to={`/bounty/${parentBountyId}`}>#{parentBountyId}</Link>
 					</Col>}
 				</Row>
 			</OnchainInfoWrapper>

@@ -328,6 +328,8 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 		...getOnChainTabs()
 	];
 
+	const parentBountyId = isChildBounty && (definedOnchainLink as OnchainLinkChildBountyFragment).onchain_child_bounty?.[0]?.parentBountyId;
+
 	return (
 		<>
 			<div className={`${className} flex flex-col lg:flex-row`}>
@@ -337,6 +339,15 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 						<Link to={redirection.link}>
 							<div className='bg-white drop-shadow-md p-3 md:p-6 rounded-md w-full mb-6 dashboard-heading'>
 								This proposal is now <span className='text-pink_primary'>{redirection.text}</span>
+							</div>
+						</Link>
+					}
+
+					{
+						isChildBounty && parentBountyId &&
+						<Link to={`/bounty/${parentBountyId}`}>
+							<div className='bg-white drop-shadow-md p-3 md:p-6 rounded-md w-full mb-6 dashboard-heading'>
+								This is a child bounty of <span className='text-pink_primary'>Bounty #{parentBountyId}</span>
 							</div>
 						</Link>
 					}
