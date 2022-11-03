@@ -222,18 +222,19 @@ const EditableCommentContent = ({ authorId, className, content, commentId, refet
 						</Form>
 						:
 						<>
-							<Markdown md={content} />
-							<div className='actions-bar flex items-center flex-col md:flex-row'>
+							<Markdown md={content} className='py-2 px-4 bg-comment_bg rounded-b-md text-sm' />
+
+							<div className='actions-bar flex items-start md:items-center flex-col md:flex-row bg-white'>
 								<div className='flex items-center'>
 									<CommentReactionBar className='reactions' commentId={commentId} />
 									{
 										id &&
-										<Button className={ isReplying ? 'text-white bg-pink_primary' : 'text-pink_primary flex items-center border-none shadow-none' } onClick={toggleReply}>
+										<Button className={ isReplying ? 'text-white bg-pink_primary text-xs' : 'text-pink_primary flex items-center border-none shadow-none text-xs' } onClick={toggleReply}>
 											Reply
 										</Button>
 									}
 									{id === authorId &&
-										<Button className={'text-pink_primary flex items-center border-none shadow-none'} disabled={loading} onClick={toggleEdit}>
+										<Button className={'text-pink_primary flex items-center border-none shadow-none text-xs'} disabled={loading} onClick={toggleEdit}>
 											{
 												loading
 													? <span className='flex items-center'><LoadingOutlined className='mr-2' /> Editing</span>
@@ -243,11 +244,12 @@ const EditableCommentContent = ({ authorId, className, content, commentId, refet
 									}
 								</div>
 								<div className='flex items-center'>
-									{id === authorId && <Button className={'text-pink_primary flex items-center border-none shadow-none'} onClick={deleteComment}><DeleteOutlined />Delete</Button>}
-									{id && !isEditing && <ReportButton type='comment' contentId={commentId} />}
-									{<Button className={'text-pink_primary flex items-center border-none shadow-none'} onClick={copyLink}><LinkOutlined /> Copy link</Button>}
+									{id === authorId && <Button className={'text-pink_primary flex items-center border-none shadow-none text-xs'} onClick={deleteComment}><DeleteOutlined />Delete</Button>}
+									{id && !isEditing && <ReportButton className='text-xs' type='comment' contentId={commentId} />}
+									{<Button className={'text-pink_primary flex items-center border-none shadow-none text-xs'} onClick={copyLink}><LinkOutlined /> Copy link</Button>}
 								</div>
 							</div>
+
 							{/* Add Reply Form*/}
 							{errorReply?.message && <div>{errorReply.message}</div>}
 							{
@@ -284,12 +286,6 @@ const EditableCommentContent = ({ authorId, className, content, commentId, refet
 
 export default styled(EditableCommentContent)`
 
-	.button-container {
-		width: 100%;
-		display: flex;
-		justify-content: flex-end;
-	}
-
 	.actions-bar {
 		display: flex;
 		align-items: center;
@@ -302,20 +298,7 @@ export default styled(EditableCommentContent)`
 		margin: 0rem;
 	}
 
-	.vl {
-		display: inline-flex;
-		border-left-style: solid;
-		border-left-width: 1px;
-		border-left-color: grey_border;
-		height: 2rem;
-		margin: 0 1.2rem 0 0.8rem;
-	}
-
 	.replyForm {
 		margin-top: 2rem;
-	}
-
-	.bg-blue-grey{
-		background: #EBF0F5 !important;
 	}
 `;

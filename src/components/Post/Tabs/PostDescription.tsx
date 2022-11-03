@@ -57,15 +57,21 @@ const PostDescription = ({ className, canEdit, id, isEditing, isOnchainPost, pos
 
 			{!isEditing && <div className='flex lg:hidden mb-8 mx-2'><Sidebar /></div>}
 
-			{ id && <PostCommentForm postId={post.id} refetch={refetch} /> }
+			<div className='flex'>
+				{/* <div className='hidden xl:block mr-12'> Timeline </div> */}
+				<div className='w-full'>
+					{ id && <PostCommentForm postId={post.id} refetch={refetch} /> }
 
-			{ !!post.comments?.length &&
-				<Comments
-					className='ml-0 md:ml-4'
-					comments={post.comments}
-					refetch={refetch}
-				/>
-			}
+					{ !!post.comments?.length &&
+						<Comments
+							className='ml-0 xl:ml-4'
+							comments={post.comments}
+							refetch={refetch}
+						/>
+					}
+				</div>
+			</div>
+
 		</div>
 	);
 };

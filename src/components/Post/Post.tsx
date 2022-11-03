@@ -407,7 +407,7 @@ const Post = ({
 					}
 
 					{/* Post Content */}
-					<div className='bg-white drop-shadow-md p-3 xl:p-6 rounded-md w-full mb-6'>
+					<div className='bg-white drop-shadow-md p-3 lg:p-6 rounded-md w-full mb-6'>
 						{isEditing && <EditablePostContent
 							post={post}
 							refetch={refetch}

@@ -27,12 +27,12 @@ export default styled(Markdown)`
 
 	&, &.mde-preview-content {
 		font-size: md;
-		margin-bottom: 2rem;
+		margin-bottom: 0;
 		overflow-wrap: break-word;
 
 		p, blockquote, ul, ol, dl, table {
 			line-height: 150%;
-			margin: 0 0 1.5rem 0;
+			margin: 0 0 0.5rem 0;
 		}
 
 		h1 {
