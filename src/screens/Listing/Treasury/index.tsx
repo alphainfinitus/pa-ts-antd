@@ -1,8 +1,9 @@
 // Copyright 2019-2020 @Premiurly/polkassembly authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
-import { Button,Col,Row } from 'antd';
+import { Col,Row } from 'antd';
 import React from 'react';
+import TreasuryProposalFormButton from 'src/components/CreateTreasuryProposal/TreasuryProposalFormButton';
 import TreasuryOverview from 'src/components/Home/TreasuryOverview';
 import TreasuryContainer from 'src/components/Listing/Treasury/TreasuryContainer';
 
@@ -23,9 +24,7 @@ const Treasury = () => {
 					</p>
 				</Col>
 				<Col span={24} md={{ span:8 }}>
-					<Button className='bg-pink_primary text-white rounded-md w-full h-full'>
-					Create Treasury Proposal
-					</Button>
+					<TreasuryProposalFormButton  />
 				</Col>
 			</Row>
 			<TreasuryContainer className='mt-8' />
