@@ -20,6 +20,7 @@ import OtherProposals from '../OtherProposals';
 import SidebarRight from '../SidebarRight';
 import OptionPoll from './ActionsBar/OptionPoll';
 import TrackerButton from './ActionsBar/TrackerButton';
+import ClaimPayoutModal from './ClaimPayoutModal';
 import EditablePostContent from './EditablePostContent';
 import GovernanceSideBar from './GovernanceSideBar';
 import Poll from './Poll';
@@ -340,6 +341,16 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 							</div>
 						</Link>
 					}
+
+					{ post && isChildBounty && postStatus === 'PendingPayout' && (
+						<div className='bg-white drop-shadow-md p-3 md:p-6 rounded-md w-full mb-6 dashboard-heading flex items-center gap-x-2'>
+							<span>The child bounty payout is ready to be claimed</span>
+							<ClaimPayoutModal
+								parentBountyId={(definedOnchainLink as OnchainLinkChildBountyFragment).onchain_child_bounty[0]?.parentBountyId}
+								childBountyId={(definedOnchainLink as OnchainLinkChildBountyFragment).onchain_child_bounty[0]?.childBountyId}
+							/>
+						</div>
+					)}
 
 					{
 						isChildBounty && parentBountyId &&
