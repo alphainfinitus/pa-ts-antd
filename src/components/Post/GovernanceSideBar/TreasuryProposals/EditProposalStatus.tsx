@@ -6,7 +6,7 @@ import styled from '@xstyled/styled-components';
 import { Button, Card, DatePicker, Form } from 'antd';
 import moment from 'moment';
 import React, { useEffect,useState } from 'react';
-import { useCreateProposalTrackerMutation, useGetProposalStatusQuery, useUpdateProposalTrackerMutation } from 'src/generated/graphql';
+import { useCreateProposalTrackerMutation, useGetProposalStatusLazyQuery, useUpdateProposalTrackerMutation } from 'src/generated/graphql';
 import { NotificationStatus } from 'src/types';
 import ErrorAlert from 'src/ui-components/ErrorAlert';
 import HelperTooltip from 'src/ui-components/HelperTooltip';
@@ -35,7 +35,7 @@ const EditProposalStatus = ({ canEdit, className, proposalId, startTime } : Prop
 
 	const NETWORK = getNetwork();
 
-	const { data, refetch } = useGetProposalStatusQuery({ variables: {
+	const [refetch, { data }] = useGetProposalStatusLazyQuery({ variables: {
 		onchain_proposal_id: Number(proposalId)
 	} });
 

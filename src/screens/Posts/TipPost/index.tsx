@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Post from 'src/components/Post/Post';
-import { useTipPostAndCommentsQuery } from 'src/generated/graphql';
+import { useTipPostAndCommentsLazyQuery } from 'src/generated/graphql';
 import { PostCategory } from 'src/global/post_categories';
 import BackToListingView from 'src/ui-components/BackToListingView';
 import { ErrorState, LoadingState } from 'src/ui-components/UIStates';
@@ -14,8 +14,10 @@ const TipPost = () => {
 	const { hash } = useParams();
 	const hashString = `${hash}`;
 
-	const { data, error, refetch } = useTipPostAndCommentsQuery({ variables: { 'hash': hashString } });
-
+	const [refetch, { data, error }] = useTipPostAndCommentsLazyQuery({ variables: { 'hash': hashString } });
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 	if (error?.message) return <ErrorState errorMessage={error.message} />;
 
 	if (data) return (<div>

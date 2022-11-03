@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
-import { useCommentReactionsQuery } from 'src/generated/graphql';
+import React, { useEffect } from 'react';
+import { useCommentReactionsLazyQuery } from 'src/generated/graphql';
 import { ReactionMapFields } from 'src/types';
 
 import ReactionButton from './ReactionButton';
@@ -15,8 +15,10 @@ interface Props {
 }
 
 const CommentReactionBar = function ({ className, commentId }: Props) {
-	const { data, refetch } = useCommentReactionsQuery({ variables: { commentId } });
-
+	const [refetch, { data }] = useCommentReactionsLazyQuery({ variables: { commentId } });
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 	const reactionMap: { [ key: string ]: ReactionMapFields; } = {};
 
 	reactions.forEach((reaction) => {

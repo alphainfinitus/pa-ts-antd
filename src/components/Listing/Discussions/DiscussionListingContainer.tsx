@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Pagination } from 'antd';
-import React, { useState } from 'react';
-import { useDiscussionPostsIdAscQuery, useDiscussionPostsIdDescQuery, useLatestDiscussionPostsQuery } from 'src/generated/graphql';
+import React, { useEffect, useState } from 'react';
+import { useDiscussionPostsIdAscLazyQuery, useDiscussionPostsIdDescLazyQuery, useLatestDiscussionPostsLazyQuery } from 'src/generated/graphql';
 import { sortValues } from 'src/global/sortOptions';
 import { ErrorState } from 'src/ui-components/UIStates';
 import { handlePaginationChange } from 'src/util/handlePaginationChange';
@@ -16,19 +16,20 @@ const LIMIT = 10;
 const DiscussionListingContainer = ({ className, sortBy, count } : { className?:string, sortBy:string, count: number | null | undefined }) => {
 	const [offset, setOffset] = useState(0);
 
-	let postsQuery: typeof useDiscussionPostsIdDescQuery | typeof useDiscussionPostsIdAscQuery | typeof useLatestDiscussionPostsQuery;
+	let postsQuery: typeof useDiscussionPostsIdDescLazyQuery | typeof useDiscussionPostsIdAscLazyQuery | typeof useLatestDiscussionPostsLazyQuery;
 
 	if (sortBy === sortValues.NEWEST)
-		postsQuery = useDiscussionPostsIdDescQuery;
+		postsQuery = useDiscussionPostsIdDescLazyQuery;
 	else if (sortBy === sortValues.OLDEST) {
-		postsQuery = useDiscussionPostsIdAscQuery;
+		postsQuery = useDiscussionPostsIdAscLazyQuery;
 	} else {
-		postsQuery = useLatestDiscussionPostsQuery;
+		postsQuery = useLatestDiscussionPostsLazyQuery;
 	}
 
-	// TODO: Enable Refetch
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { data, error, loading, refetch } = postsQuery({ variables: { limit: LIMIT, offset } });
+	const [refetch, { data, error, loading }] = postsQuery({ variables: { limit: LIMIT, offset } });
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 
 	const onPaginationChange = (page:number) => {
 		handlePaginationChange({ LIMIT, page, setOffset });

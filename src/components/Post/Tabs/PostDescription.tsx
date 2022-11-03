@@ -3,10 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { FormOutlined } from '@ant-design/icons';
+import { QueryLazyOptions } from '@apollo/client';
 import { Button } from 'antd';
-import { ApolloQueryResult } from 'apollo-client';
 import React from 'react';
-import { BountyPostAndCommentsQuery, ChildBountyPostAndCommentsQuery, DiscussionPostAndCommentsQuery, DiscussionPostFragment, MotionPostAndCommentsQuery, MotionPostFragment,ProposalPostAndCommentsQuery,ProposalPostFragment, ReferendumPostAndCommentsQuery, ReferendumPostFragment, TechCommitteeProposalPostAndCommentsQuery, TipPostAndCommentsQuery, TreasuryProposalPostAndCommentsQuery, TreasuryProposalPostFragment } from 'src/generated/graphql';
+import { DiscussionPostFragment, Exact, MotionPostFragment,ProposalPostFragment, ReferendumPostFragment,  TreasuryProposalPostFragment } from 'src/generated/graphql';
 import Markdown from 'src/ui-components/Markdown';
 
 import CreateOptionPoll from '../ActionsBar/OptionPoll/CreateOptionPoll';
@@ -27,16 +27,11 @@ interface Props {
 	toggleEdit: () => void
 	TrackerButtonComp: JSX.Element
 	Sidebar: ({ className }: {className?: string | undefined;}) => JSX.Element
-	refetch: (variables?:any) =>
-		Promise<ApolloQueryResult<ReferendumPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<ProposalPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<MotionPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<TreasuryProposalPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<TipPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<BountyPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<DiscussionPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<TechCommitteeProposalPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<ChildBountyPostAndCommentsQuery>>
+	refetch: ((options?: QueryLazyOptions<Exact<{
+		id: number;
+	}>> | undefined) => void) | ((options?: QueryLazyOptions<Exact<{
+		hash: string;
+	}>> | undefined) => void)
 }
 
 const PostDescription = ({ className, canEdit, id, isEditing, isOnchainPost, post, refetch, toggleEdit, Sidebar, TrackerButtonComp } : Props) => {

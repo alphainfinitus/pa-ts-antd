@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Pagination } from 'antd';
-import React, { useState } from 'react';
-import { useAllDemocracyTreasuryProposalPostsQuery } from 'src/generated/graphql';
+import React, { useEffect, useState } from 'react';
+import { useAllDemocracyTreasuryProposalPostsLazyQuery } from 'src/generated/graphql';
 import { post_topic } from 'src/global/post_topics';
 import { post_type } from 'src/global/post_types';
 import { ErrorState } from 'src/ui-components/UIStates';
@@ -17,14 +17,16 @@ const LIMIT = 10;
 const TreasuryListingWrapper = ({ className, count } : { className?:string, count: number | null | undefined }) => {
 	const [offset, setOffset] = useState(0);
 
-	// TODO: Enable Refetch
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { data, error, loading, refetch } = useAllDemocracyTreasuryProposalPostsQuery({ variables: {
+	const [refetch, { data, error, loading }] = useAllDemocracyTreasuryProposalPostsLazyQuery({ variables: {
 		limit: LIMIT,
 		offset,
 		postTopic: post_topic.TREASURY,
 		postType: post_type.ON_CHAIN
 	} });
+
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 
 	const onPaginationChange = (page:number) => {
 		handlePaginationChange({ LIMIT, page, setOffset });

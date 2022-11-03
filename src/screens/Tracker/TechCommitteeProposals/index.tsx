@@ -4,7 +4,7 @@
 
 import React, { useEffect } from 'react';
 import TechCommitteeProposalsListing from 'src/components/Listing/TechCommProposals/TechCommProposalsListing';
-import { useTrackerTechCommitteeProposalPostsQuery } from 'src/generated/graphql';
+import { useTrackerTechCommitteeProposalPostsLazyQuery } from 'src/generated/graphql';
 import { post_type } from 'src/global/post_types';
 import { ErrorState } from 'src/ui-components/UIStates';
 
@@ -20,7 +20,7 @@ const TechCommitteeProposalsContainer = ({ className } : { className?:string }) 
 
 	const onchainTechCommitteeProposalIds = Object.keys(trackMap.techCommitteeProposal || {}).map(key => Number(key));
 
-	const { data, error, loading, refetch } = useTrackerTechCommitteeProposalPostsQuery({ variables: {
+	const [refetch, { data, error, loading }] = useTrackerTechCommitteeProposalPostsLazyQuery({ variables: {
 		onchainTechCommitteeProposalIds,
 		postType: post_type.ON_CHAIN
 	} });

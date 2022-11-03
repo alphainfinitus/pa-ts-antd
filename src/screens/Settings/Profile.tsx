@@ -5,6 +5,8 @@ import { Alert, Button, Form, Input, Row } from 'antd';
 import { Rule } from 'antd/lib/form';
 import React, { FC, useState } from 'react';
 import { useChangePasswordMutation } from 'src/generated/graphql';
+import { NotificationStatus } from 'src/types';
+import queueNotification from 'src/ui-components/QueueNotification';
 import cleanError from 'src/util/cleanError';
 import messages from 'src/util/messages';
 import * as validation from 'src/util/validation';
@@ -72,6 +74,11 @@ const Profile = () => {
 						setIsChange(false);
 						if (data && data.changePassword && data.changePassword.message) {
 							setSuccess(data.changePassword.message);
+							queueNotification({
+								header: 'Success!',
+								message: data.changePassword.message,
+								status: NotificationStatus.SUCCESS
+							});
 						}
 					}).catch((e) => {
 						form.resetFields();
@@ -79,6 +86,11 @@ const Profile = () => {
 						setIsSave(false);
 						setIsChange(false);
 						setErr(cleanError(e?.message));
+						queueNotification({
+							header: 'Failed!',
+							message: cleanError(e.message),
+							status: NotificationStatus.ERROR
+						});
 					});
 			}
 		}

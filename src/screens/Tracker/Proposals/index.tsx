@@ -4,7 +4,7 @@
 
 import React, { useEffect } from 'react';
 import ProposalsListing from 'src/components/Listing/Proposals/ProposalsListing';
-import { useTrackerDemocracyProposalPostsQuery } from 'src/generated/graphql';
+import { useTrackerDemocracyProposalPostsLazyQuery } from 'src/generated/graphql';
 import { post_type } from 'src/global/post_types';
 import { ErrorState } from 'src/ui-components/UIStates';
 
@@ -23,7 +23,7 @@ const ProposalsContainer = ({ className }:Props) => {
 
 	const onchainProposalIds = Object.keys(trackMap.proposal || {}).map(key => Number(key));
 
-	const { data, error,loading, refetch } = useTrackerDemocracyProposalPostsQuery({ variables: {
+	const [refetch, { data, error,loading }] = useTrackerDemocracyProposalPostsLazyQuery({ variables: {
 		onchainProposalIds,
 		postType: post_type.ON_CHAIN
 	} });

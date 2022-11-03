@@ -2,10 +2,10 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import Post from 'src/components/Post/Post';
-import { useTechCommitteeProposalPostAndCommentsQuery } from 'src/generated/graphql';
+import { useTechCommitteeProposalPostAndCommentsLazyQuery } from 'src/generated/graphql';
 import { PostCategory } from 'src/global/post_categories';
 import BackToListingView from 'src/ui-components/BackToListingView';
 import { ErrorState, LoadingState } from 'src/ui-components/UIStates';
@@ -14,8 +14,10 @@ const TechCommProposalPost = () => {
 	const { id } = useParams();
 	const idNumber = Number(id) || 0;
 
-	const { data, error, refetch } = useTechCommitteeProposalPostAndCommentsQuery({ variables: { 'id': idNumber } });
-
+	const [refetch, { data, error }] = useTechCommitteeProposalPostAndCommentsLazyQuery({ variables: { 'id': idNumber } });
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 	if (error?.message) return <ErrorState errorMessage={error.message} />;
 
 	if (data) return (<div>

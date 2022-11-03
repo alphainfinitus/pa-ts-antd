@@ -8,7 +8,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useUserDetailsContext } from 'src/context';
 import { useDeleteAccountMutation, useLogoutMutation } from 'src/generated/graphql';
 import { logout } from 'src/services/auth.service';
+import { NotificationStatus } from 'src/types';
 import FilteredError from 'src/ui-components/FilteredError';
+import queueNotification from 'src/ui-components/QueueNotification';
 import cleanError from 'src/util/cleanError';
 
 import Header from './Header';
@@ -43,6 +45,11 @@ const Delete: FC<{className?: string}> = ({ className }) => {
 				.then(handleLogout)
 				.catch((e: any) => {
 					setError(cleanError(e.message));
+					queueNotification({
+						header: 'Failed!',
+						message: cleanError(e.message),
+						status: NotificationStatus.ERROR
+					});
 					console.error('Delete account error', e);
 				});
 		}

@@ -4,9 +4,9 @@
 
 /* eslint-disable sort-keys */
 import { ColumnsType } from 'antd/lib/table';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useGetLatestPostsQuery } from 'src/generated/graphql';
+import { useGetLatestPostsLazyQuery } from 'src/generated/graphql';
 import { noTitle } from 'src/global/noTitle';
 import { PostCategory } from 'src/global/post_categories';
 import { BountiesIcon, DemocracyProposalsIcon, DiscussionsIcon, MotionsIcon, ReferendaIcon, TipsIcon, TreasuryProposalsIcon } from 'src/ui-components/CustomIcons';
@@ -245,13 +245,15 @@ const AllPostsTable = () => {
 		navigate(`/${path}/${rowData.onChainId}`);
 	}
 
-	// TODO: Enable refetch
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { data, error, refetch } = useGetLatestPostsQuery({
+	const [refetch, { data, error }] = useGetLatestPostsLazyQuery({
 		variables: {
 			limit: 10
 		}
 	});
+
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 
 	//error state
 	if (error?.message) return <ErrorLatestActivity errorMessage={error?.message} />;

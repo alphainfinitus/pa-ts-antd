@@ -6,7 +6,7 @@ import { CalendarFilled } from '@ant-design/icons';
 import { Badge, Calendar, List, Tooltip } from 'antd';
 import moment, { Moment } from 'moment';
 import React, { useEffect, useState } from 'react';
-import { useGetCalenderEventsQuery } from 'src/generated/graphql';
+import { useGetCalenderEventsLazyQuery } from 'src/generated/graphql';
 import { approvalStatus } from 'src/global/statuses';
 import getNetwork from 'src/util/getNetwork';
 
@@ -17,12 +17,14 @@ const UpcomingEvents = () => {
 	const [calendarEvents, setCalendarEvents] = useState<any[]>([]);
 	const [eventDates, setEventDates] = useState<string[]>([]);
 
-	// TODO: ENABLE REFETCH
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { data, refetch } = useGetCalenderEventsQuery({ variables: {
+	const [refetch, { data }] = useGetCalenderEventsLazyQuery({ variables: {
 		approval_status: approvalStatus.APPROVED,
 		network: currentNetwork
 	} });
+
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 
 	useEffect(() =>  {
 		const eventsArr:any[] = [];

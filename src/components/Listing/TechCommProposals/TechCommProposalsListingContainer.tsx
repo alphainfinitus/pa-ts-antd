@@ -3,8 +3,8 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { Pagination } from 'antd';
-import React, { useState } from 'react';
-import { useAllTechCommitteeProposalPostsQuery } from 'src/generated/graphql';
+import React, { useEffect, useState } from 'react';
+import { useAllTechCommitteeProposalPostsLazyQuery } from 'src/generated/graphql';
 import { post_type } from 'src/global/post_types';
 import { ErrorState } from 'src/ui-components/UIStates';
 import { handlePaginationChange } from 'src/util/handlePaginationChange';
@@ -16,13 +16,15 @@ const LIMIT = 10;
 const TechCommProposalsListingContainer = ({ className, count } : { className?:string, count: number | null | undefined }) => {
 	const [offset, setOffset] = useState(0);
 
-	// TODO: Enable Refetch
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { data, error, loading, refetch } = useAllTechCommitteeProposalPostsQuery({ variables: {
+	const [refetch, { data, error, loading }] = useAllTechCommitteeProposalPostsLazyQuery({ variables: {
 		limit: LIMIT,
 		offset,
 		postType: post_type.ON_CHAIN
 	} });
+
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 
 	const onPaginationChange = (page:number) => {
 		handlePaginationChange({ LIMIT, page, setOffset });

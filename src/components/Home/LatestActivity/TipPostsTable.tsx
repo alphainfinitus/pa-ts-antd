@@ -4,9 +4,9 @@
 
 /* eslint-disable sort-keys */
 import { ColumnsType } from 'antd/lib/table';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useGetLatestTipPostsQuery } from 'src/generated/graphql';
+import { useGetLatestTipPostsLazyQuery } from 'src/generated/graphql';
 import { noTitle } from 'src/global/noTitle';
 import { PostCategory } from 'src/global/post_categories';
 import { post_topic } from 'src/global/post_topics';
@@ -73,15 +73,16 @@ const columns: ColumnsType<TipPostsRowData> = [
 const TipPostsTable = () => {
 	const navigate = useNavigate();
 
-	// TODO: Enable refetch
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { data, error, refetch } = useGetLatestTipPostsQuery({
+	const [refetch, { data, error }] = useGetLatestTipPostsLazyQuery({
 		variables: {
 			limit: 10,
 			postTopic: post_topic.TREASURY,
 			postType: post_type.ON_CHAIN
 		}
 	});
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 
 	//error state
 	if (error?.message) return <ErrorLatestActivity errorMessage={error?.message} />;

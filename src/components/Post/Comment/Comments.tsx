@@ -2,29 +2,20 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ApolloQueryResult } from 'apollo-client';
+import { QueryLazyOptions } from '@apollo/client';
 import React from 'react';
-import { CommentFieldsFragment, DiscussionPostAndCommentsQuery,DiscussionPostAndCommentsQueryVariables, MotionPostAndCommentsQuery, MotionPostAndCommentsQueryVariables, ProposalPostAndCommentsQuery, ProposalPostAndCommentsQueryVariables, ReferendumPostAndCommentsQuery, ReferendumPostAndCommentsQueryVariables, TipPostAndCommentsQuery, TipPostAndCommentsQueryVariables, TreasuryProposalPostAndCommentsQuery, TreasuryProposalPostAndCommentsQueryVariables } from 'src/generated/graphql';
+import { CommentFieldsFragment, Exact } from 'src/generated/graphql';
 
 import Comment from './Comment';
 
 interface Props{
 	className?: string
 	comments: CommentFieldsFragment[]
-	refetch: (variables?:
-		ReferendumPostAndCommentsQueryVariables |
-		DiscussionPostAndCommentsQueryVariables |
-		ProposalPostAndCommentsQueryVariables |
-		MotionPostAndCommentsQueryVariables |
-		TipPostAndCommentsQueryVariables |
-		TreasuryProposalPostAndCommentsQueryVariables |
-		undefined) =>
-		Promise<ApolloQueryResult<TipPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<TreasuryProposalPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<MotionPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<ReferendumPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<ProposalPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<DiscussionPostAndCommentsQuery>>
+	refetch: ((options?: QueryLazyOptions<Exact<{
+		id: number;
+	}>> | undefined) => void) | ((options?: QueryLazyOptions<Exact<{
+		hash: string;
+	}>> | undefined) => void)
 }
 
 const Comments = ({ className, comments, refetch }: Props) => {

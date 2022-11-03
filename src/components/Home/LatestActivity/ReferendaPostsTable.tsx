@@ -4,9 +4,9 @@
 
 /* eslint-disable sort-keys */
 import { ColumnsType } from 'antd/lib/table';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useGetLatestReferendaPostsQuery } from 'src/generated/graphql';
+import { useGetLatestReferendaPostsLazyQuery } from 'src/generated/graphql';
 import { noTitle } from 'src/global/noTitle';
 import { PostCategory } from 'src/global/post_categories';
 import { post_type } from 'src/global/post_types';
@@ -71,14 +71,15 @@ const columns: ColumnsType<ReferendaPostsRowData> = [
 const ReferendaPostsTable = () => {
 	const navigate = useNavigate();
 
-	// TODO: Enable refetch
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { data, error, refetch } = useGetLatestReferendaPostsQuery({
+	const [refetch, { data, error }] = useGetLatestReferendaPostsLazyQuery({
 		variables: {
 			limit: 10,
 			postType: post_type.ON_CHAIN
 		}
 	});
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 
 	//error state
 	if (error?.message) return <ErrorLatestActivity errorMessage={error?.message} />;

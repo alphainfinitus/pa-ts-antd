@@ -5,13 +5,14 @@
 //TODO: REMOVE
 /* eslint-disable sort-keys */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { QueryLazyOptions } from '@apollo/client';
 import { Tabs } from 'antd';
 import { ApolloQueryResult } from 'apollo-client';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MetaContext } from 'src/context/MetaContext';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
-import { BountyPostAndCommentsQuery, BountyPostAndCommentsQueryHookResult, BountyPostFragment, ChildBountyPostAndCommentsQuery, ChildBountyPostAndCommentsQueryHookResult, ChildBountyPostFragment, DiscussionPostAndCommentsQuery, DiscussionPostAndCommentsQueryHookResult, DiscussionPostFragment, MotionPostAndCommentsQuery, MotionPostAndCommentsQueryHookResult, MotionPostFragment, OnchainLinkBountyFragment, OnchainLinkChildBountyFragment, OnchainLinkMotionFragment, OnchainLinkProposalFragment, OnchainLinkReferendumFragment, OnchainLinkTechCommitteeProposalFragment, OnchainLinkTipFragment, OnchainLinkTreasuryProposalFragment, ProposalPostAndCommentsQuery, ProposalPostAndCommentsQueryHookResult, ProposalPostFragment, ReferendumPostAndCommentsQuery, ReferendumPostAndCommentsQueryHookResult, ReferendumPostFragment, TechCommitteeProposalPostAndCommentsQuery, TechCommitteeProposalPostAndCommentsQueryHookResult, TechCommitteeProposalPostFragment, TipPostAndCommentsQuery, TipPostAndCommentsQueryHookResult, TipPostFragment, TreasuryProposalPostAndCommentsQuery, TreasuryProposalPostAndCommentsQueryHookResult, TreasuryProposalPostFragment } from 'src/generated/graphql';
+import { BountyPostAndCommentsQuery, BountyPostAndCommentsQueryHookResult, BountyPostFragment, ChildBountyPostAndCommentsQuery, ChildBountyPostAndCommentsQueryHookResult, ChildBountyPostFragment, DiscussionPostAndCommentsQuery, DiscussionPostAndCommentsQueryHookResult, DiscussionPostFragment, Exact, MotionPostAndCommentsQuery, MotionPostAndCommentsQueryHookResult, MotionPostFragment, OnchainLinkBountyFragment, OnchainLinkChildBountyFragment, OnchainLinkMotionFragment, OnchainLinkProposalFragment, OnchainLinkReferendumFragment, OnchainLinkTechCommitteeProposalFragment, OnchainLinkTipFragment, OnchainLinkTreasuryProposalFragment, ProposalPostAndCommentsQuery, ProposalPostAndCommentsQueryHookResult, ProposalPostFragment, ReferendumPostAndCommentsQuery, ReferendumPostAndCommentsQueryHookResult, ReferendumPostFragment, TechCommitteeProposalPostAndCommentsQuery, TechCommitteeProposalPostAndCommentsQueryHookResult, TechCommitteeProposalPostFragment, TipPostAndCommentsQuery, TipPostAndCommentsQueryHookResult, TipPostFragment, TreasuryProposalPostAndCommentsQuery, TreasuryProposalPostAndCommentsQueryHookResult, TreasuryProposalPostFragment } from 'src/generated/graphql';
 import { PostCategory } from 'src/global/post_categories';
 import { PostEmptyState } from 'src/ui-components/UIStates';
 
@@ -48,16 +49,11 @@ interface Props {
 	isTechCommitteeProposal?: boolean
 	isTipProposal?: boolean
 	isChildBounty?: boolean
-	refetch: (variables?:any) =>
-		Promise<ApolloQueryResult<ReferendumPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<ProposalPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<MotionPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<TreasuryProposalPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<TipPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<BountyPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<DiscussionPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<TechCommitteeProposalPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<ChildBountyPostAndCommentsQuery>>
+	refetch: ((options?: QueryLazyOptions<Exact<{
+		id: number;
+	}>> | undefined) => void ) | ((options?: QueryLazyOptions<Exact<{
+		hash: string;
+	}>> | undefined) => void)
 }
 
 interface Redirection {
@@ -73,7 +69,9 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 	const { setMetaContextState } = useContext(MetaContext);
 	const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
 	const [proposerAddress, setProposerAddress] = useState<string>('');
-
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 	useEffect(() => {
 		const users: string[] = [];
 

@@ -2,11 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { QueryLazyOptions } from '@apollo/client';
 import styled from '@xstyled/styled-components';
-import { ApolloQueryResult } from 'apollo-client';
 import React, { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import { DiscussionPostAndCommentsQuery,DiscussionPostAndCommentsQueryVariables, MotionPostAndCommentsQuery, MotionPostAndCommentsQueryVariables, ProposalPostAndCommentsQuery, ProposalPostAndCommentsQueryVariables, ReferendumPostAndCommentsQuery, ReferendumPostAndCommentsQueryVariables, ReplyFieldsFragment, TipPostAndCommentsQuery, TipPostAndCommentsQueryVariables, TreasuryProposalPostAndCommentsQuery, TreasuryProposalPostAndCommentsQueryVariables } from 'src/generated/graphql';
+import { Exact, ReplyFieldsFragment } from 'src/generated/graphql';
 import CreationLabel from 'src/ui-components/CreationLabel';
 import UpdateLabel from 'src/ui-components/UpdateLabel';
 import UserAvatar from 'src/ui-components/UserAvatar';
@@ -17,20 +17,11 @@ import EditableReplyContent from './EditableReplyContent';
 interface Props{
 	className?: string,
 	reply: ReplyFieldsFragment,
-	refetch: (variables?:
-		ReferendumPostAndCommentsQueryVariables |
-		DiscussionPostAndCommentsQueryVariables |
-		ProposalPostAndCommentsQueryVariables |
-		MotionPostAndCommentsQueryVariables |
-		TipPostAndCommentsQueryVariables |
-		TreasuryProposalPostAndCommentsQueryVariables |
-		undefined) =>
-		Promise<ApolloQueryResult<TipPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<TreasuryProposalPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<MotionPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<ReferendumPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<ProposalPostAndCommentsQuery>> |
-		Promise<ApolloQueryResult<DiscussionPostAndCommentsQuery>>
+	refetch: ((options?: QueryLazyOptions<Exact<{
+		id: number;
+	}>> | undefined) => void) | ((options?: QueryLazyOptions<Exact<{
+		hash: string;
+	}>> | undefined) => void)
 }
 
 export const Reply = ({ className, reply, refetch } : Props) => {

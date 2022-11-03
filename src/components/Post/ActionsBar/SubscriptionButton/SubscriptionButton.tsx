@@ -8,7 +8,7 @@ import { Button, Tooltip } from 'antd';
 import React, { useContext,useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
-import { usePostSubscribeMutation, usePostUnsubscribeMutation, useSubscriptionQuery } from 'src/generated/graphql';
+import { usePostSubscribeMutation, usePostUnsubscribeMutation, useSubscriptionLazyQuery } from 'src/generated/graphql';
 import { NotificationStatus } from 'src/types';
 import queueNotification from 'src/ui-components/QueueNotification';
 import cleanError from 'src/util/cleanError';
@@ -38,7 +38,7 @@ const SubscriptionButton = function ({
 	const [postSubscribeMutation] = usePostSubscribeMutation();
 	const [postUnsubscribeMutation] = usePostUnsubscribeMutation();
 
-	const { data }  = useSubscriptionQuery({
+	const [refetch, { data }]  = useSubscriptionLazyQuery({
 		variables: { postId }
 	});
 
@@ -47,7 +47,9 @@ const SubscriptionButton = function ({
 			setSubscribed(data.subscription.subscribed);
 		}
 	},[data]);
-
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 	const handleSubscribe = () => {
 		if (subscribed) {
 			postUnsubscribeMutation({

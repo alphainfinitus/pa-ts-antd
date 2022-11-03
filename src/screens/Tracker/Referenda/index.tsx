@@ -4,7 +4,7 @@
 
 import React, { useEffect } from 'react';
 import ReferendaListing from 'src/components/Listing/Referenda/ReferendaListing';
-import { useTrackerReferendaPostsQuery } from 'src/generated/graphql';
+import { useTrackerReferendaPostsLazyQuery } from 'src/generated/graphql';
 import { post_type } from 'src/global/post_types';
 import { ErrorState } from 'src/ui-components/UIStates';
 
@@ -20,7 +20,7 @@ const ReferendaContainer = ({ className } : { className?:string }) => {
 
 	const onchainReferendumIds = Object.keys(trackMap.referendum || {}).map(key => Number(key));
 
-	const { data, error, loading, refetch } = useTrackerReferendaPostsQuery({ variables: {
+	const [refetch, { data, error, loading }] = useTrackerReferendaPostsLazyQuery({ variables: {
 		onchainReferendumIds,
 		postType: post_type.ON_CHAIN
 	} });

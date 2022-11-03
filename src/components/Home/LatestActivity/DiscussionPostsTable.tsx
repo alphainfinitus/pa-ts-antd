@@ -4,9 +4,9 @@
 
 /* eslint-disable sort-keys */
 import { ColumnsType } from 'antd/lib/table';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useLatestDiscussionPostsQuery } from 'src/generated/graphql';
+import { useLatestDiscussionPostsLazyQuery } from 'src/generated/graphql';
 import { noTitle } from 'src/global/noTitle';
 import { PostCategory } from 'src/global/post_categories';
 import { EmptyLatestActivity, ErrorLatestActivity, LoadingLatestActivity, PopulatedLatestActivity, PopulatedLatestActivityCard } from 'src/ui-components/LatestActivityStates';
@@ -63,13 +63,15 @@ const defaultAddressField = getDefaultAddressField();
 const DiscussionPostsTable = () => {
 	const navigate = useNavigate();
 
-	// TODO: Enable refetch
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { data, error, refetch } = useLatestDiscussionPostsQuery({
+	const [refetch, { data, error }] = useLatestDiscussionPostsLazyQuery({
 		variables: {
 			limit: 10
 		}
 	});
+
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 
 	//error state
 	if (error?.message) return <ErrorLatestActivity errorMessage={error?.message} />;
