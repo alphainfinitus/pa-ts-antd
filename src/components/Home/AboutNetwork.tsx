@@ -68,6 +68,7 @@ const AboutNetwork = ({ className } : {className?: string}) => {
 	useEffect(() => {
 		refetch();
 	}, [refetch]);
+
 	return (
 		<div className={`${className} bg-white drop-shadow-md p-5 md:p-6 rounded-md`}>
 			<div className="flex items-center justify-between">

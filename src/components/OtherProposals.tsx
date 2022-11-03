@@ -3,16 +3,14 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ClockCircleOutlined } from '@ant-design/icons';
-import { Collapse, Space } from 'antd';
+import { Collapse, Empty, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useGetUsersProposalsQuery } from 'src/generated/graphql';
-import { PostCategory } from 'src/global/post_categories';
+import { useGetUsersProposalsLazyQuery } from 'src/generated/graphql';
 import Address from 'src/ui-components/Address';
 import ErrorAlert from 'src/ui-components/ErrorAlert';
 import { LoadingLatestActivity } from 'src/ui-components/LatestActivityStates';
 import StatusTag from 'src/ui-components/StatusTag';
-import { PostEmptyState } from 'src/ui-components/UIStates';
 import getRelativeCreatedAt from 'src/util/getRelativeCreatedAt';
 
 const { Panel } = Collapse;
@@ -32,11 +30,15 @@ interface PostsObj {
 const OtherProposals = ({ className, closeSidebar, currPostOnchainID, proposerAddress } : Props) => {
 	const [postsObj, setPostsObj] = useState<PostsObj>({ proposalPosts:[], treasuryPosts:[] });
 
-	const { data, loading, error } = useGetUsersProposalsQuery({
+	const [refetch, { data, loading, error }] = useGetUsersProposalsLazyQuery({
 		variables: {
 			proposer_address: proposerAddress
 		}
 	});
+
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 
 	useEffect(() => {
 		if(loading || error || !data?.posts || data?.posts.length < 0) return;
@@ -131,7 +133,7 @@ const OtherProposals = ({ className, closeSidebar, currPostOnchainID, proposerAd
 
 			{!loading && !error && data?.posts && data.posts.length <=1 &&
 				<div className='flex justify-center items-center mt-36'>
-					<PostEmptyState postCategory={PostCategory.PROPOSAL} />
+					<Empty description='No other proposals found' />
 				</div>
 			}
 		</div>
