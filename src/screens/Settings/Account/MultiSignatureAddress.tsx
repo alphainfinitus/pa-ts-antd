@@ -12,10 +12,13 @@ import { useMultisigLinkConfirmMutation, useMultisigLinkStartMutation } from 'sr
 import { APPNAME } from 'src/global/appName';
 import { chainProperties } from 'src/global/networkConstants';
 import { handleTokenChange } from 'src/services/auth.service';
+import { NotificationStatus } from 'src/types';
 import AccountSelectionForm from 'src/ui-components/AccountSelectionForm';
 import AddressComponent from 'src/ui-components/Address';
 import FilteredError from 'src/ui-components/FilteredError';
 import HelperTooltip from 'src/ui-components/HelperTooltip';
+import queueNotification from 'src/ui-components/QueueNotification';
+import cleanError from 'src/util/cleanError';
 import getEncodedAddress from 'src/util/getEncodedAddress';
 import getNetwork from 'src/util/getNetwork';
 
@@ -210,10 +213,19 @@ const MultiSignatureAddress: FC<Props> = ({ open, dismissModal }) => {
 			if (multisigLinkConfirmResult.data?.multisigLinkConfirm?.token) {
 				handleTokenChange(multisigLinkConfirmResult.data?.multisigLinkConfirm?.token, currentUser);
 			}
-
+			queueNotification({
+				header: 'Success!',
+				message: multisigLinkConfirmResult?.data?.multisigLinkConfirm?.message || '',
+				status: NotificationStatus.SUCCESS
+			});
 			dismissModal && dismissModal();
 		} catch (error) {
 			console.error(error);
+			queueNotification({
+				header: 'Failed!',
+				message: cleanError(error.message),
+				status: NotificationStatus.ERROR
+			});
 		}
 	};
 

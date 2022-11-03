@@ -11,7 +11,10 @@ import ExtensionNotDetected from 'src/components/ExtensionNotDetected';
 import { useUserDetailsContext } from 'src/context';
 import { useAddressLinkConfirmMutation, useAddressLinkStartMutation, useAddressUnlinkMutation, useSetDefaultAddressMutation } from 'src/generated/graphql';
 import { handleTokenChange } from 'src/services/auth.service';
+import { NotificationStatus } from 'src/types';
 import AddressComponent from 'src/ui-components/Address';
+import queueNotification from 'src/ui-components/QueueNotification';
+import cleanError from 'src/util/cleanError';
 import getEncodedAddress from 'src/util/getEncodedAddress';
 import getNetwork from 'src/util/getNetwork';
 
@@ -68,8 +71,18 @@ const Address: FC<Props> = ({ dismissModal ,open }) => {
 			if (addressDefaultResult.data?.setDefaultAddress?.token) {
 				handleTokenChange(addressDefaultResult.data?.setDefaultAddress?.token, currentUser);
 			}
+			queueNotification({
+				header: 'Success!',
+				message: addressDefaultResult.data?.setDefaultAddress?.message || '',
+				status: NotificationStatus.SUCCESS
+			});
 		} catch (error) {
 			console.error(error);
+			queueNotification({
+				header: 'Failed!',
+				message: cleanError(error.message),
+				status: NotificationStatus.ERROR
+			});
 		}
 	};
 
@@ -109,8 +122,19 @@ const Address: FC<Props> = ({ dismissModal ,open }) => {
 			if (addressLinkConfirmResult.data?.addressLinkConfirm?.token) {
 				handleTokenChange(addressLinkConfirmResult.data?.addressLinkConfirm?.token, currentUser);
 			}
+
+			queueNotification({
+				header: 'Success!',
+				message: addressLinkConfirmResult?.data?.addressLinkConfirm?.message || '',
+				status: NotificationStatus.SUCCESS
+			});
 		} catch (error) {
 			console.error(error);
+			queueNotification({
+				header: 'Failed!',
+				message: cleanError(error.message),
+				status: NotificationStatus.ERROR
+			});
 		}
 	};
 
@@ -125,8 +149,19 @@ const Address: FC<Props> = ({ dismissModal ,open }) => {
 			if (addressUnlinkConfirmResult.data?.addressUnlink?.token) {
 				handleTokenChange(addressUnlinkConfirmResult.data?.addressUnlink?.token, currentUser);
 			}
+
+			queueNotification({
+				header: 'Success!',
+				message: addressUnlinkConfirmResult?.data?.addressUnlink?.message || '',
+				status: NotificationStatus.SUCCESS
+			});
 		} catch (error) {
 			console.error(error);
+			queueNotification({
+				header: 'Failed!',
+				message: cleanError(error.message),
+				status: NotificationStatus.ERROR
+			});
 		}
 	};
 	const UnlinkButton: FC<{ address: string }> = ({ address }) => {
