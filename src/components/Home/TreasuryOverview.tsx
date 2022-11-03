@@ -33,9 +33,13 @@ interface Result {
 	treasuryAccount: Uint8Array;
 }
 
+interface Props{
+	inTreasuryProposals?: boolean
+}
+
 const NETWORK = getNetwork();
 
-const TreasuryOverview = () => {
+const TreasuryOverview = ({ inTreasuryProposals }:Props) => {
 	const { api, apiReady } = useContext(ApiContext);
 	const [currentBlock, setCurrentBlock] = useState<BN>(new BN(0));
 	const [treasuryBalance, setTreasuryBalance] = useState<
@@ -287,7 +291,7 @@ const TreasuryOverview = () => {
 			</div>
 
 			{/* Spend Period */}
-			<div className="flex-1 lg:mr-10 bg-white drop-shadow-md p-3 lg:p-6 rounded-md">
+			{!inTreasuryProposals &&  <div className="flex-1 lg:mr-10 bg-white drop-shadow-md p-3 lg:p-6 rounded-md">
 				<div className="text-navBlue text-xs flex items-center">
 					<span className="mr-2">
 						Spend Period Remaining
@@ -308,7 +312,7 @@ const TreasuryOverview = () => {
 				<div>
 					<Progress percent={!isNaN(Number(spendPeriodPercentage)) ? spendPeriodPercentage : 0} strokeColor='#E5007A' size="small" />
 				</div>
-			</div>
+			</div>}
 
 			{/* Next Burn */}
 			<div className="flex-1 bg-white drop-shadow-md p-3 lg:p-6 rounded-md">
