@@ -84,7 +84,7 @@ const ProposalInfo = ({ preimage } : {preimage?: OnchainLinkMotionPreimageFragme
 	const { metaDescription, method: preimageMethod, preimageArguments } = preimage;
 
 	return (
-		<Row className='motion-sub-info with-table mx-0' gutter={40}>
+		<Row className='motion-sub-info with-table mx-0 w-full' gutter={40}>
 			{preimageMethod &&
 				<>
 					<Col span={24}>
@@ -120,7 +120,7 @@ const TreasuryInfo = ({ treasurySpendProposal }: {treasurySpendProposal?: Onchai
 	const { beneficiary, bond, value } = treasurySpendProposal;
 
 	return (
-		<Row className='motion-sub-info treasury-info mx-0' gutter={40}>
+		<Row className='motion-sub-info treasury-info mx-0 w-full' gutter={40}>
 			{beneficiary &&
 				<Col xs={24} md={12}>
 					<h6>Beneficiary</h6>

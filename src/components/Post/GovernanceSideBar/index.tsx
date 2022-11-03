@@ -228,11 +228,6 @@ const GovernanceSideBar = ({ canEdit, className, isMotion, isProposal, isReferen
 			{<div className={className}>
 				<Form>
 					{isMotion && <>
-						{(onchainId || onchainId === 0) &&
-							<MotionVoteInfo
-								motionId={onchainId as number}
-							/>
-						}
 						{canVote &&
 							<VoteMotion
 								accounts={accounts}
@@ -241,6 +236,12 @@ const GovernanceSideBar = ({ canEdit, className, isMotion, isProposal, isReferen
 								motionId={onchainId as number}
 								motionProposalHash={(onchainLink as OnchainLinkMotionFragment)?.onchain_motion?.[0]?.motionProposalHash}
 								onAccountChange={onAccountChange}
+							/>
+						}
+
+						{(onchainId || onchainId === 0) &&
+							<MotionVoteInfo
+								motionId={onchainId as number}
 							/>
 						}
 					</>}

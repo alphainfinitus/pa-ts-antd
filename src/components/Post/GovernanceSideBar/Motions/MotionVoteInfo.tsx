@@ -2,16 +2,15 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import styled from '@xstyled/styled-components';
-import { Col,Row } from 'antd';
+import { DislikeFilled, LikeFilled } from '@ant-design/icons';
 import React, { useContext, useEffect, useState } from 'react';
 import { ApiContext } from 'src/context/ApiContext';
+import GovSidebarCard from 'src/ui-components/GovSidebarCard';
 import HelperTooltip from 'src/ui-components/HelperTooltip';
 import getNetwork from 'src/util/getNetwork';
 
 import { CouncilVote, Vote } from '../../../../types';
 import Address from '../../../../ui-components/Address';
-import Card from '../../../../ui-components/Card';
 
 interface Props {
 	className?: string
@@ -23,7 +22,6 @@ const MotionVoteInfo = ({ className, motionId }: Props) => {
 	const { api, apiReady } = useContext(ApiContext);
 
 	useEffect(() => {
-		// eslint-disable-next-line quotes
 		if (!api) {
 			return;
 		}
@@ -97,54 +95,29 @@ const MotionVoteInfo = ({ className, motionId }: Props) => {
 	}
 
 	return (
-		<Card className={className}>
-			<h3>Council Votes <HelperTooltip text='This represents the onchain votes of council members'/></h3>
-			<div className='council-votes'>
+		<GovSidebarCard className={`${className} px-1 md:px-9`}>
+			<h3 className='dashboard-heading flex items-center'>Council Votes <HelperTooltip className='ml-2' text='This represents the onchain votes of council members'/></h3>
+			<div className='mt-6'>
 				{councilVotes.map(councilVote =>
-					<Row key={councilVote.address}>
-						<Col span={12}>
-							<div className='item'>
-								<Address address={councilVote.address} />
+					<div className='flex items-center justify-between mb-6' key={councilVote.address}>
+						<div className='item'>
+							<Address address={councilVote.address} />
+						</div>
+
+						{councilVote.vote === Vote.AYE ?
+							<div className='flex items-center text-aye_green text-lg'>
+								<LikeFilled className='mr-2' /> Aye
 							</div>
-						</Col>
-						<Col span={4}>
-							{councilVote.vote === Vote.AYE ? <>
-								<div className='thumbs up'>
-								THUMBS UP
-								</div> Aye
-							</> : <>
-								<div className='thumbs down'>
-									THUMBS DOWN
-								</div> Nay
-							</>}
-						</Col>
-					</Row>
+							:
+							<div className='flex items-center text-nay_red text-lg'>
+								<DislikeFilled className='mr-2' /> Nay
+							</div>
+						}
+					</div>
 				)}
 			</div>
-		</Card>
+		</GovSidebarCard>
 	);
 };
 
-export default styled(MotionVoteInfo)`
-	.council-votes {
-		margin-top: 2em;
-	}
-	.thumbs {
-		display: inline-block;
-		text-align: center;
-		vertical-align: middle;
-		color: white;
-		width: 2rem;
-		height: 2rem;
-		border-radius: 50%;
-		font-size: 1rem;
-	}
-
-	.thumbs.up {
-		background-color: green_primary;
-	}
-
-	.thumbs.down {
-		background-color: red_primary;
-	}
-`;
+export default MotionVoteInfo;

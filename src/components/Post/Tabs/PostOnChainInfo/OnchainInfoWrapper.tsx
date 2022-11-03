@@ -42,7 +42,6 @@ export default styled(OnchainInfoWrapper)`
 	}
 
 	.motion-sub-info{
-		background-color: grey_light;
 		.row {
 			width: 100%;
 		}

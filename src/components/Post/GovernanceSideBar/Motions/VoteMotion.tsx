@@ -2,17 +2,18 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
+import { LoadingOutlined } from '@ant-design/icons';
 import { InjectedAccount } from '@polkadot/extension-inject/types';
 import styled from '@xstyled/styled-components';
-import { Button, Form } from 'antd';
+import { Alert, Button, Modal, Spin } from 'antd';
 import React, { useContext, useEffect,useState } from 'react';
 import { ApiContext } from 'src/context/ApiContext';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
 import { useGetCouncilMembersQuery } from 'src/generated/graphql';
 import { LoadingStatusType, NotificationStatus } from 'src/types';
+import AccountSelectionForm from 'src/ui-components/AccountSelectionForm';
 import AyeNayButtons from 'src/ui-components/AyeNayButtons';
-import Card from 'src/ui-components/Card';
-import Loader from 'src/ui-components/Loader';
+import GovSidebarCard from 'src/ui-components/GovSidebarCard';
 import queueNotification from 'src/ui-components/QueueNotification';
 
 interface Props {
@@ -35,6 +36,7 @@ const VoteMotion = ({
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	onAccountChange
 }: Props) => {
+	const [showModal, setShowModal] = useState<boolean>(false);
 	const [loadingStatus, setLoadingStatus] = useState<LoadingStatusType>({ isLoading: false, message:'' });
 	const [isCouncil, setIsCouncil] = useState(false);
 	const [forceVote, setForceVote] = useState(false);
@@ -111,55 +113,56 @@ const VoteMotion = ({
 		});
 	};
 
-	const GetAccountsButton = () =>
-		<Card>
-			<h3>Vote</h3>
-			<Form>
-				<Form.Item className='button-container'>
-					<div>Only council members can vote on motions.</div><br/>
-					<Button
-						onClick={getAccounts}
-					>
-						Vote
-					</Button>
-				</Form.Item>
-			</Form>
-		</Card>;
-
-	const noAccount = accounts.length === 0;
+	const openModal = () => {
+		setShowModal(true);
+		if(accounts.length === 0) {
+			getAccounts();
+		}
+	};
 
 	const VotingForm = () =>
-		<>
-			{ noAccount
-				? <GetAccountsButton />
-				: loadingStatus.isLoading
-					? <Card className={'LoaderWrapper'}>
-						<Loader text={loadingStatus.message}/>
-					</Card>
-					: <Card>
-						<h3>Vote</h3>
-						AccountSelectionForm
-						{/* <AccountSelectionForm
-							title='Vote with account'
-							accounts={accounts}
-							address={address}
-							onAccountChange={onAccountChange}
-						/> */}
-						<AyeNayButtons
-							disabled={!apiReady}
-							onClickAye={() => voteMotion(true)}
-							onClickNay={() => voteMotion(false)}
-						/>
-					</Card>
-			}
-		</>;
+		<GovSidebarCard>
+			<h3 className='dashboard-heading mb-6'>Cast your Vote!</h3>
+			<Button
+				className='bg-pink_primary hover:bg-pink_secondary text-lg my-3 text-white border-pink_primary hover:border-pink_primary rounded-lg flex items-center justify-center p-7 w-[95%] mx-auto'
+				onClick={openModal}
+			>
+				Cast Vote
+			</Button>
+
+			<Modal
+				open={showModal}
+				onCancel={() => setShowModal(false)}
+				footer={null}
+			>
+				<Spin spinning={loadingStatus.isLoading} indicator={<LoadingOutlined />}>
+					<h4 className='dashboard-heading mb-7'>Cast Your Vote</h4>
+
+					<AccountSelectionForm
+						title='Vote with Account'
+						accounts={accounts}
+						address={address}
+						withBalance
+						onAccountChange={onAccountChange}
+					/>
+
+					<AyeNayButtons
+						className='mt-6 max-w-[156px]'
+						size='large'
+						disabled={!apiReady}
+						onClickAye={() => voteMotion(true)}
+						onClickNay={() => voteMotion(false)}
+					/>
+				</Spin>
+			</Modal>
+		</GovSidebarCard>;
 
 	const NotCouncil = () =>
-		<Card>
-			<h3>Vote</h3>
-			<div>No account found from the council :(</div>
+		<GovSidebarCard>
+			<h3 className='dashboard-heading mb-6'>Cast your Vote!</h3>
+			<Alert className='mb-6' type='warning' message='No account found from the council.' />
 			<Button onClick={() => setForceVote(true)}>Let me try still.</Button>
-		</Card>;
+		</GovSidebarCard>;
 
 	return (
 		<div className={className}>
