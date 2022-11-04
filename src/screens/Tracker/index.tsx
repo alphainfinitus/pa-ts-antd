@@ -25,7 +25,7 @@ const TrackerContainer = ({ className } : {className?: string}) => {
     Council is the body of elected members that consists of several on-chain accounts. The Council can act as a representative for &quot;passive&quot; (non-voting) stakeholders. Council members have two main tasks: proposing referenda for the overall stakeholder group to vote on and cancelling malicious referenda.
 				</p>
 			</div>
-			<Row gutter={4}>
+			<Row gutter={[0, 16]}>
 				<Col span={24}>
 
 					<ReferendaContainer className='referendaContainer' />

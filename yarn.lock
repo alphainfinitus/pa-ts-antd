@@ -3879,7 +3879,7 @@ ansi-styles@^5.0.0:
   resolved "https://registry.yarnpkg.com/ansi-styles/-/ansi-styles-5.2.0.tgz#07449690ad45777d1924ac2abb2fc8895dba836b"
   integrity sha512-Cxwpt2SfTzTtXcfOlzGEee8O+c+MmUgGrNiBcXnuWxuFJHe6a5Hz7qwhwe5OgaSYI0IJvkLqWX1ASG+cJOkEiA==
 
-antd@^4.23.4:
+antd@4.24.0:
   version "4.24.0"
   resolved "https://registry.yarnpkg.com/antd/-/antd-4.24.0.tgz#a0e5d8728cd79c16d7b6b19520fa47ee47155b9e"
   integrity sha512-ksk856MY359Gw7fMEPcOOKP7szvDHDNOaVd/uc5d4MK0qVX9LNjnmBGvp2BMUz20aAGalSrT5uVEhVdpxU9USA==
