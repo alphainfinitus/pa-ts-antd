@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DislikeFilled, LikeFilled } from '@ant-design/icons';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { ApiContext } from 'src/context/ApiContext';
 import GovSidebarCard from 'src/ui-components/GovSidebarCard';
 import HelperTooltip from 'src/ui-components/HelperTooltip';
@@ -18,6 +18,7 @@ interface Props {
 }
 
 const MotionVoteInfo = ({ className, motionId }: Props) => {
+	const canFetch = useRef(true);
 	const [councilVotes, setCouncilVotes] = useState<CouncilVote[]>([]);
 	const { api, apiReady } = useContext(ApiContext);
 
@@ -65,28 +66,31 @@ const MotionVoteInfo = ({ className, motionId }: Props) => {
 		}
 		else{
 
-			fetch(`https://${getNetwork()}.api.subscan.io/api/scan/council/proposal`, { body: JSON.stringify({ proposal_id: motionId }), method: 'POST' }).then(async (res) => {
-				try {
-					const response = await res.json();
-					const info = response?.data?.info;
-					if (info) {
-						const councilVotes: CouncilVote[] = [];
+			if (canFetch.current){
+				fetch(`https://${getNetwork()}.api.subscan.io/api/scan/council/proposal`, { body: JSON.stringify({ proposal_id: motionId }), method: 'POST' }).then(async (res) => {
+					try {
+						const response = await res.json();
+						const info = response?.data?.info;
+						if (info) {
+							const councilVotes: CouncilVote[] = [];
 
-						info.votes.forEach((vote: any) => {
-							councilVotes.push({
-								address: vote?.account?.address || '',
-								vote: vote?.passed ? Vote.AYE : Vote.NAY
+							info.votes.forEach((vote: any) => {
+								councilVotes.push({
+									address: vote?.account?.address || '',
+									vote: vote?.passed ? Vote.AYE : Vote.NAY
+								});
 							});
-						});
 
-						setCouncilVotes(councilVotes);
+							setCouncilVotes(councilVotes);
+						}
+					} catch (error) {
+						console.error(error);
 					}
-				} catch (error) {
+				}).catch((error) => {
 					console.error(error);
-				}
-			}).catch((error) => {
-				console.error(error);
-			});
+				});
+			}
+			canFetch.current = false;
 		}
 	},[api, apiReady, motionId]);
 
