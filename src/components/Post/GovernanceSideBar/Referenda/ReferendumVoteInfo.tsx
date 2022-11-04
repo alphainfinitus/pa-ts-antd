@@ -7,7 +7,7 @@ import { DeriveReferendumVote } from '@polkadot/api-derive/types';
 import { Balance } from '@polkadot/types/interfaces';
 import { Spin } from 'antd';
 import BN from 'bn.js';
-import React, { useContext, useEffect, useMemo,useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo,useRef,useState } from 'react';
 import { ApiContext } from 'src/context/ApiContext';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
 import { getFailingThreshold, getPassingThreshold } from 'src/polkassemblyutils';
@@ -33,6 +33,7 @@ const sizing = ['0.1x', '1x', '2x', '3x', '4x', '5x', '6x'];
 const LOCKS = [1, 10, 20, 30, 40, 50, 60];
 
 const ReferendumVoteInfo = ({ className, referendumId, threshold, setLastVote }: Props) => {
+	const canFetch = useRef(true);
 	const { api, apiReady } = useContext(ApiContext);
 	const [turnout, setTurnout] = useState(ZERO);
 	const [totalIssuance, setTotalIssuance] = useState(ZERO);
@@ -109,31 +110,33 @@ const ReferendumVoteInfo = ({ className, referendumId, threshold, setLastVote }:
 		[voteInfo?.aye_amount, voteInfo?.aye_without_conviction, voteInfo?.isPassing, voteInfo?.nay_amount, voteInfo?.nay_without_conviction, voteInfo?.vote_threshold, totalIssuance]
 	);
 
-	useEffect(() => {
-		fetch(`https://${getNetwork()}.api.subscan.io/api/scan/democracy/referendum`, { body: JSON.stringify({ referendum_index: referendumId }), method: 'POST' }).then(async (res) => {
-			try {
-				const response = await res.json();
-				const info = response?.data?.info;
-				if (info) {
-					if (info.status === 'notPassed'){
-						info.isPassing = false;
-					} else {
-						info.isPassing = true;
+	const fetchVoteInfo = useCallback(() => {
+		if (canFetch.current) {
+			fetch(`https://${getNetwork()}.api.subscan.io/api/scan/democracy/referendum`, { body: JSON.stringify({ referendum_index: referendumId }), method: 'POST' }).then(async (res) => {
+				try {
+					const response = await res.json();
+					const info = response?.data?.info;
+					if (info) {
+						if (info.status === 'notPassed'){
+							info.isPassing = false;
+						} else {
+							info.isPassing = true;
+						}
+						info.aye_amount = new BN(info.aye_amount);
+						info.aye_without_conviction = new BN(info.aye_without_conviction);
+						info.nay_amount = new BN(info.nay_amount);
+						info.nay_without_conviction = new BN(info.nay_without_conviction);
+						info.turnout = new BN(info.turnout);
+						setVoteInfo(info);
 					}
-					info.aye_amount = new BN(info.aye_amount);
-					info.aye_without_conviction = new BN(info.aye_without_conviction);
-					info.nay_amount = new BN(info.nay_amount);
-					info.nay_without_conviction = new BN(info.nay_without_conviction);
-					info.turnout = new BN(info.turnout);
-					setVoteInfo(info);
+				} catch (error) {
+					setVoteInfo(null);
 				}
-			} catch (error) {
+			}).catch(() => {
 				setVoteInfo(null);
-			}
-		}).catch(() => {
-			setVoteInfo(null);
-		});
-	},[referendumId]);
+			});
+		}
+	}, [referendumId]);
 
 	useEffect(() => {
 		if (!api) {
@@ -204,6 +207,9 @@ const ReferendumVoteInfo = ({ className, referendumId, threshold, setLastVote }:
 				setAyeVotes(_info?.asOngoing.tally.ayes);
 				setNayVotes(_info?.asOngoing.tally.nays);
 				setTurnout(_info?.asOngoing.tally.turnout);
+			} else {
+				fetchVoteInfo();
+				canFetch.current = false;
 			}
 
 			setLoadingStatus({ isLoading: false, message: '' });
@@ -212,6 +218,7 @@ const ReferendumVoteInfo = ({ className, referendumId, threshold, setLastVote }:
 			.catch(console.error);
 
 		return () => unsubscribe && unsubscribe();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [api, apiReady, referendumId]);
 
 	useEffect(() => {
