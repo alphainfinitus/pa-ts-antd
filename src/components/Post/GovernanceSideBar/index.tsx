@@ -253,6 +253,7 @@ const GovernanceSideBar = ({ canEdit, className, isMotion, isProposal, isReferen
 							canVote={canVote}
 							getAccounts={getAccounts}
 							onAccountChange={onAccountChange}
+							status={status}
 							proposalId={onchainId  as number}
 						/>
 					}
