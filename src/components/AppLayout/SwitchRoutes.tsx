@@ -4,6 +4,7 @@
 
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
+import CalendarView from 'src/screens/CalendarView';
 import CreatePost from 'src/screens/CreatePost';
 import Home from 'src/screens/Home';
 import { PrivacyPolicy, TermsAndConditions, TermsOfWebsite } from 'src/screens/LegalDocuments';
@@ -84,6 +85,8 @@ const SwitchRoutes = () => {
 			<Route path="/motion/:id" element={<MotionPost />} />
 
 			<Route path="/council" element={<Members />} />
+
+			<Route path="/calendar" element={<CalendarView />} />
 
 			<Route path="/profile/:address" element={<Profile />} />
 

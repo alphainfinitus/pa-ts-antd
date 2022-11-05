@@ -16,7 +16,7 @@ const SidebarRight = ({ className, children, open, closeSidebar } : Props) => {
 	return (
 		<Sider
 			trigger={null}
-			className={`${className} ${!open ? 'hidden overflow-y-hidden min-w-0 max-w-0 w-0': 'min-w-[90%] xl:min-w-[50%] max-w-[70%]'} bg-white lg:block bottom-0 right-0 h-screen overflow-y-auto fixed z-50 drop-shadow-2xl`}
+			className={`${className} ${!open ? 'hidden overflow-y-hidden min-w-0 max-w-0 w-0': 'min-w-[90%] xl:min-w-[50%] max-w-[70%]'} bg-white lg:block top-0 right-0 h-screen overflow-y-auto fixed z-50 drop-shadow-2xl`}
 		>
 			<div className='w-full flex justify-end p-3'><CloseCircleOutlined onClick={closeSidebar} className='text-lg cursor-pointer hover:text-black' /></div>
 			<div className='p-3 md:p-6 h-[92vh] overflow-y-auto'>
