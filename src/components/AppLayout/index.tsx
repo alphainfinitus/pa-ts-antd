@@ -158,6 +158,7 @@ const AppLayout = ({ className }: { className?:string }) => {
 		navigate(menuItem.key);
 		// only for mobile devices
 		if (window.innerWidth < 1024) {
+			document.body.classList.remove('overflow-hidden');
 			setSidebarCollapsed(true);
 		}
 	};
