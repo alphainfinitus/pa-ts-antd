@@ -5,6 +5,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import CouncilBoard from 'src/screens/CouncilBoard';
+import CalendarView from 'src/screens/CalendarView';
 import CreatePost from 'src/screens/CreatePost';
 import Home from 'src/screens/Home';
 import { PrivacyPolicy, TermsAndConditions, TermsOfWebsite } from 'src/screens/LegalDocuments';
@@ -34,16 +35,21 @@ import TipPost from 'src/screens/Posts/TipPost';
 import TreasuryPost from 'src/screens/Posts/TreasuryPost';
 import Profile from 'src/screens/Profile';
 import RequestResetPassword from 'src/screens/RequestResetPassword';
+import ResetPassword from 'src/screens/ResetPassword';
 import Settings from 'src/screens/Settings';
 import SignupForm from 'src/screens/SignupForm';
 import Tracker from 'src/screens/Tracker';
+import UndoEmailChange from 'src/screens/UndoEmailChange';
 import UserProfile from 'src/screens/UserProfile';
-
+import VerifyEmail from 'src/screens/VerifyEmail';
 const SwitchRoutes = () => {
 	return (
 		<Routes>
 			<Route path='/' element={<Home />} />
 			<Route path="/request-reset-password" element={<RequestResetPassword/>}/>
+			<Route path="/reset-password" element={<ResetPassword/>}/>
+			<Route path="/verify-email/:token" element={<VerifyEmail/>} />
+			<Route path="/undo-email-change/:token" element={<UndoEmailChange/>} />
 			<Route path="/login" element={<LoginForm />}/>
 			<Route path="/signup" element={<SignupForm/>} />
 			<Route path="/settings" element={<Settings/>} />
@@ -82,6 +88,8 @@ const SwitchRoutes = () => {
 			<Route path="/council" element={<Members />} />
 
 			<Route path="/council-board" element={<CouncilBoard />} />
+
+			<Route path="/calendar" element={<CalendarView />} />
 
 			<Route path="/profile/:address" element={<Profile />} />
 

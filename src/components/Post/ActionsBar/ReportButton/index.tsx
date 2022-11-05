@@ -15,6 +15,7 @@ import getNetwork from 'src/util/getNetwork';
 interface DiscussionProps {
 	type: string
 	contentId: string
+	className?: string
 }
 
 const reasons = [
@@ -30,7 +31,7 @@ const reasonOptions = reasons.map(reason => (
 
 const NETWORK = getNetwork();
 
-const ReportButton = function ({ type, contentId }:DiscussionProps) {
+const ReportButton = function ({ type, contentId, className }:DiscussionProps) {
 	const [showModal, setShowModal] = useState(false);
 	const [formDisabled, setFormDisabled] = useState<boolean>(false);
 	const [reportContentMutation, { loading, error }] = useReportContentMutation();
@@ -77,7 +78,7 @@ const ReportButton = function ({ type, contentId }:DiscussionProps) {
 
 	return (
 		<>
-			<Button className={'text-pink_primary flex items-center border-none shadow-none px-1 md:px-2'} onClick={() => setShowModal(true)}>
+			<Button className={`${ className } text-pink_primary flex items-center border-none shadow-none px-1.5 md:px-2`} onClick={() => setShowModal(true)}>
 				<FlagOutlined /><span className='ml-1'>Report</span>
 			</Button>
 

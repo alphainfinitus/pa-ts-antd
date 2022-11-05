@@ -11,7 +11,7 @@ import cleanError from 'src/util/cleanError';
 import messages from 'src/util/messages';
 import * as validation from 'src/util/validation';
 
-import Header from './Header';
+import Header from '../Header';
 
 interface IPasswordProps {
     name: string;

@@ -4,7 +4,6 @@
 
 import { UserOutlined } from '@ant-design/icons';
 import { QueryLazyOptions } from '@apollo/client';
-import styled from '@xstyled/styled-components';
 import { Avatar } from 'antd';
 import React, { useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
@@ -50,16 +49,16 @@ export const Comment = ({ className, comment, refetch } : Props) => {
 	const defaultAddress = author[defaultAddressField];
 
 	return (
-		<div id={id} ref={commentRef} className={className}>
+		<div id={id} ref={commentRef} className={`${className} flex gap-x-4 mb-9`}>
 			<UserAvatar
-				className='mt-1 hidden md:inline-block'
+				className='tm-1 hidden md:inline-block flex-none'
 				username={author.username}
 				size='large'
 				id={author.id}
 			/>
-			<div className='comment-box'>
+			<div>
 				<CreationLabel
-					className='creation-label'
+					className='creation-label py-2 px-4 bg-comment_bg rounded-t-md'
 					created_at={created_at}
 					defaultAddress={defaultAddress}
 					text={'commented'}
@@ -74,7 +73,7 @@ export const Comment = ({ className, comment, refetch } : Props) => {
 				<EditableCommentContent
 					authorId={author.id}
 					created_at={created_at}
-					className='comment-content'
+					className='rounded-md'
 					comment={comment}
 					commentId={id}
 					content={content}
@@ -86,40 +85,4 @@ export const Comment = ({ className, comment, refetch } : Props) => {
 	);
 };
 
-export default styled(Comment)`
-	display: flex;
-
-	.comment-box {
-		background-color: white;
-		border-radius: 3px;
-		box-shadow: box_shadow_card;
-		margin-bottom: 1rem;
-		width: calc(100% - 60px);
-		word-break: break-word;
-
-		@media only screen and (max-width: 576px) {
-			width: 100%;
-			border-radius: 0px;
-		}
-	}
-
-	.creation-label {
-		display: inline-flex;
-		padding: 1rem 0 0.8rem 2rem;
-		margin-bottom: 0;
-
-		@media only screen and (max-width: 576px) {
-			padding: 1rem 0 0.8rem 0;
-		}
-
-	}
-
-	.comment-content {
-		padding: 0.8rem 2rem;
-		width: 100%;
-
-		@media only screen and (max-width: 576px) {
-			padding: 0.8rem 1rem;
-		}
-	}
-`;
+export default Comment;

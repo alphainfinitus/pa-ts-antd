@@ -24,6 +24,7 @@ const LinkPostModal = ({ className, setNewTitle, setNewContent } : Props) => {
 	const [discussionPostQuery, { data, loading }] = useDiscussionPostAndCommentsLazyQuery();
 
 	const handleSubmit = async () => {
+		// TODO: validate: match discussion post and onchain post author match;
 		const linkPostId = form.getFieldValue('linkPostId');
 		const error = form.getFieldError('linkPostId');
 		if(error.length > 0 || isNaN(Number(linkPostId))) return;

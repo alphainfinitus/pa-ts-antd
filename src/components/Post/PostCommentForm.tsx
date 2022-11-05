@@ -95,7 +95,7 @@ const PostCommentForm = ({ className, postId, refetch }: Props) => {
 				id={id}
 			/>
 
-			<div className='comment-box bg-white p-[1rem] rounded-md drop-shadow-md'>
+			<div className='comment-box bg-white p-[1rem]'>
 				<Form
 					form={form}
 					name="comment-content-form"

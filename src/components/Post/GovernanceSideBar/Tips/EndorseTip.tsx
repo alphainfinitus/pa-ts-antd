@@ -4,15 +4,17 @@
 
 import { InjectedAccount } from '@polkadot/extension-inject/types';
 import styled from '@xstyled/styled-components';
-import { Button, Form } from 'antd';
+import { Alert, Button, Form } from 'antd';
 import BN from 'bn.js';
 import React, { useContext, useEffect,useState } from 'react';
 import { ApiContext } from 'src/context/ApiContext';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
 import { useGetCouncilMembersQuery } from 'src/generated/graphql';
 import { LoadingStatusType, NotificationStatus } from 'src/types';
+import AccountSelectionForm from 'src/ui-components/AccountSelectionForm';
 import BalanceInput from 'src/ui-components/BalanceInput';
 import Card from 'src/ui-components/Card';
+import GovSidebarCard from 'src/ui-components/GovSidebarCard';
 import Loader from 'src/ui-components/Loader';
 import queueNotification from 'src/ui-components/QueueNotification';
 
@@ -129,14 +131,13 @@ const EndorseTip = ({
 				<Loader text={loadingStatus.message}/>
 			</Card>
 			: <Card>
-				AccountSelectionForm
-				{/* <AccountSelectionForm
+				<AccountSelectionForm
 					title='Endorse with account'
 					accounts={accounts}
 					address={address}
 					onAccountChange={onAccountChange}
 					withBalance
-				/> */}
+				/>
 				<BalanceInput
 					label={'Value'}
 					helpText={'Allocate a suggested tip amount. With enough endorsements, the suggested values are averaged and sent to the beneficiary.'}
@@ -150,12 +151,12 @@ const EndorseTip = ({
 					Endorse
 				</Button>
 			</Card>;
-
 	const NotCouncil = () =>
-		<>
-			<div>No account found from the council :(</div>
+		<GovSidebarCard>
+			<h3 className='dashboard-heading mb-6'>Endorse with account!</h3>
+			<Alert className='mb-6' type='warning' message='No account found from the council :(' />
 			<Button onClick={() => setForceEndorse(true)}>Let me try still.</Button>
-		</>;
+		</GovSidebarCard>;
 
 	return (
 		<div className={className}>

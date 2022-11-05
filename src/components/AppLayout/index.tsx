@@ -5,7 +5,7 @@ import { BellOutlined, BookOutlined, DownOutlined, LogoutOutlined, SettingOutlin
 import styled from '@xstyled/styled-components';
 import { Avatar, Dropdown, Layout, Menu, MenuProps } from 'antd';
 import { ItemType } from 'antd/lib/menu/hooks/useItems';
-import React, { ReactNode, useState } from 'react';
+import React, { memo, ReactNode, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import noUserImg from 'src/assets/no-user-img.png';
 import { useUserDetailsContext } from 'src/context';
@@ -158,6 +158,7 @@ const AppLayout = ({ className }: { className?:string }) => {
 		navigate(menuItem.key);
 		// only for mobile devices
 		if (window.innerWidth < 1024) {
+			document.body.classList.remove('overflow-hidden');
 			setSidebarCollapsed(true);
 		}
 	};
@@ -198,15 +199,19 @@ const AppLayout = ({ className }: { className?:string }) => {
 				<Layout className='min-h-[calc(100vh - 10rem)] flex flex-row'>
 					{/* Dummy Collapsed Sidebar for auto margins */}
 					<div className="hidden lg:block bottom-0 left-0 w-[80px] -z-50"></div>
-					<Content className={`${!sidebarCollapsed && 'opacity-25'} lg:opacity-100 flex-initial mx-auto min-h-[90vh] w-[94vw] lg:w-[85vw] xl:w-5/6 my-6`}>
-						<SwitchRoutes />
-					</Content>
+					<CustomContent />
 				</Layout>
 			</Layout>
 			<Footer />
 		</Layout>
 	);
 };
+
+const CustomContent = memo(function CustomContent() {
+	return <Content className={'lg:opacity-100 flex-initial mx-auto min-h-[90vh] w-[94vw] lg:w-[85vw] xl:w-5/6 my-6'}>
+		<SwitchRoutes />
+	</Content>;
+});
 
 export default styled(AppLayout)`
 

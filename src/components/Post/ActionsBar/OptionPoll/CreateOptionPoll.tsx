@@ -92,7 +92,7 @@ const CreatePoll = function ({ postId }: CreateOptionPollProps) {
 
 	return (
 		<>
-			<Button className={'text-pink_primary flex items-center border-none shadow-none'} onClick={() => setShowModal(true)}>
+			<Button className={'text-pink_primary flex items-center border-none shadow-none px-1.5'} onClick={() => setShowModal(true)}>
 				<AuditOutlined /><span className='ml-1'>Create Poll</span>
 			</Button>
 

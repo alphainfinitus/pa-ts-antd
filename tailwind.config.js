@@ -35,7 +35,8 @@ module.exports = {
         red_primary: "#FF5A47",
         red_secondary: "#D94C3D",
         aye_green: "#2ED47A",
-        nay_red: "#FF3C5F"
+        nay_red: "#FF3C5F",
+        comment_bg: "#F9FAFB",
       }
     }
   },

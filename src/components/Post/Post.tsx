@@ -2,17 +2,14 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-//TODO: REMOVE
 /* eslint-disable sort-keys */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { QueryLazyOptions } from '@apollo/client';
 import { Tabs } from 'antd';
-import { ApolloQueryResult } from 'apollo-client';
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MetaContext } from 'src/context/MetaContext';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
-import { BountyPostAndCommentsQuery, BountyPostAndCommentsQueryHookResult, BountyPostFragment, ChildBountyPostAndCommentsQuery, ChildBountyPostAndCommentsQueryHookResult, ChildBountyPostFragment, DiscussionPostAndCommentsQuery, DiscussionPostAndCommentsQueryHookResult, DiscussionPostFragment, Exact, MotionPostAndCommentsQuery, MotionPostAndCommentsQueryHookResult, MotionPostFragment, OnchainLinkBountyFragment, OnchainLinkChildBountyFragment, OnchainLinkMotionFragment, OnchainLinkProposalFragment, OnchainLinkReferendumFragment, OnchainLinkTechCommitteeProposalFragment, OnchainLinkTipFragment, OnchainLinkTreasuryProposalFragment, ProposalPostAndCommentsQuery, ProposalPostAndCommentsQueryHookResult, ProposalPostFragment, ReferendumPostAndCommentsQuery, ReferendumPostAndCommentsQueryHookResult, ReferendumPostFragment, TechCommitteeProposalPostAndCommentsQuery, TechCommitteeProposalPostAndCommentsQueryHookResult, TechCommitteeProposalPostFragment, TipPostAndCommentsQuery, TipPostAndCommentsQueryHookResult, TipPostFragment, TreasuryProposalPostAndCommentsQuery, TreasuryProposalPostAndCommentsQueryHookResult, TreasuryProposalPostFragment } from 'src/generated/graphql';
+import { BountyPostAndCommentsQueryHookResult, BountyPostFragment, ChildBountyPostAndCommentsQueryHookResult, ChildBountyPostFragment, DiscussionPostAndCommentsQueryHookResult, DiscussionPostFragment, Exact, MotionPostAndCommentsQueryHookResult, MotionPostFragment, OnchainLinkBountyFragment, OnchainLinkChildBountyFragment, OnchainLinkMotionFragment, OnchainLinkProposalFragment, OnchainLinkReferendumFragment, OnchainLinkTechCommitteeProposalFragment, OnchainLinkTipFragment, OnchainLinkTreasuryProposalFragment, ProposalPostAndCommentsQueryHookResult, ProposalPostFragment, ReferendumPostAndCommentsQueryHookResult, ReferendumPostFragment, TechCommitteeProposalPostAndCommentsQueryHookResult, TechCommitteeProposalPostFragment, TipPostAndCommentsQueryHookResult, TipPostFragment, TreasuryProposalPostAndCommentsQueryHookResult, TreasuryProposalPostFragment } from 'src/generated/graphql';
 import { PostCategory } from 'src/global/post_categories';
 import { PostEmptyState } from 'src/ui-components/UIStates';
 
@@ -20,6 +17,7 @@ import OtherProposals from '../OtherProposals';
 import SidebarRight from '../SidebarRight';
 import OptionPoll from './ActionsBar/OptionPoll';
 import TrackerButton from './ActionsBar/TrackerButton';
+import ClaimPayoutModal from './ClaimPayoutModal';
 import EditablePostContent from './EditablePostContent';
 import GovernanceSideBar from './GovernanceSideBar';
 import Poll from './Poll';
@@ -61,7 +59,19 @@ interface Redirection {
 	text?: string;
 }
 
-const Post = ( { className, data, isBounty = false, isChildBounty = false, isMotion = false, isProposal = false, isReferendum = false, isTipProposal = false, isTreasuryProposal = false, isTechCommitteeProposal = false, refetch }: Props ) => {
+const Post = ({
+	className,
+	data,
+	isBounty = false,
+	isChildBounty = false,
+	isMotion = false,
+	isProposal = false,
+	isReferendum = false,
+	isTipProposal = false,
+	isTreasuryProposal = false,
+	isTechCommitteeProposal = false,
+	refetch }: Props ) => {
+
 	const post = data && data.posts && data.posts[0];
 	const { id, addresses } = useContext(UserDetailsContext);
 	const [isEditing, setIsEditing] = useState(false);
@@ -69,9 +79,11 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 	const { setMetaContextState } = useContext(MetaContext);
 	const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
 	const [proposerAddress, setProposerAddress] = useState<string>('');
+
 	useEffect(() => {
 		refetch();
 	}, [refetch]);
+
 	useEffect(() => {
 		const users: string[] = [];
 
@@ -328,6 +340,31 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 
 	const parentBountyId = isChildBounty && (definedOnchainLink as OnchainLinkChildBountyFragment).onchain_child_bounty?.[0]?.parentBountyId;
 
+	const getLatestDiscussionState = () => {
+		if(!isDiscussion(post)) return;
+
+		const latestState = {
+			link: '',
+			text: ''
+		};
+
+		if(post.onchain_link?.onchain_referendum_id) {
+			latestState.link = `/referendum/${post.onchain_link.onchain_referendum_id}`;
+			latestState.text = `Referendum #${post.onchain_link.onchain_referendum_id}`;
+		} else if (post.onchain_link?.onchain_motion_id) {
+			latestState.link = `/motion/${post.onchain_link.onchain_motion_id}`;
+			latestState.text = `Motion #${post.onchain_link.onchain_motion_id}`;
+		} else if (post.onchain_link?.onchain_treasury_proposal_id) {
+			latestState.link = `/treasury/${post.onchain_link.onchain_treasury_proposal_id}`;
+			latestState.text = `Treasury Proposal #${post.onchain_link.onchain_treasury_proposal_id}`;
+		} else if (post.onchain_link?.onchain_proposal_id) {
+			latestState.link = `/proposal/${post.onchain_link.onchain_proposal_id}`;
+			latestState.text = `Proposal #${post.onchain_link.onchain_proposal_id}`;
+		}
+
+		return latestState;
+	};
+
 	return (
 		<>
 			<div className={`${className} flex flex-col lg:flex-row`}>
@@ -337,6 +374,25 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 						<Link to={redirection.link}>
 							<div className='bg-white drop-shadow-md p-3 md:p-6 rounded-md w-full mb-6 dashboard-heading'>
 								This proposal is now <span className='text-pink_primary'>{redirection.text}</span>
+							</div>
+						</Link>
+					}
+
+					{ post && isChildBounty && postStatus === 'PendingPayout' && (
+						<div className='bg-white drop-shadow-md p-3 md:p-6 rounded-md w-full mb-6 dashboard-heading flex items-center gap-x-2'>
+							<span>The child bounty payout is ready to be claimed</span>
+							<ClaimPayoutModal
+								parentBountyId={(definedOnchainLink as OnchainLinkChildBountyFragment).onchain_child_bounty[0]?.parentBountyId}
+								childBountyId={(definedOnchainLink as OnchainLinkChildBountyFragment).onchain_child_bounty[0]?.childBountyId}
+							/>
+						</div>
+					)}
+
+					{
+						isDiscussion(post) && getLatestDiscussionState()?.link &&
+						<Link to={getLatestDiscussionState()?.link!}>
+							<div className='bg-white drop-shadow-md p-3 md:p-6 rounded-md w-full mb-6 dashboard-heading'>
+								This discussion is now <span className='text-pink_primary'>{getLatestDiscussionState()?.text}</span>
 							</div>
 						</Link>
 					}
@@ -351,19 +407,22 @@ const Post = ( { className, data, isBounty = false, isChildBounty = false, isMot
 					}
 
 					{/* Post Content */}
-					<div className='bg-white drop-shadow-md p-3 md:p-6 rounded-md w-full mb-6'>
+					<div className='bg-white drop-shadow-md p-3 lg:p-6 rounded-md w-full mb-6'>
 						{isEditing && <EditablePostContent
 							post={post}
 							refetch={refetch}
 							toggleEdit={toggleEdit}
 						/>}
 
-						<PostHeading className='mb-8' isTipProposal={isTipProposal} onchainId={onchainId} post={post} postStatus={postStatus} />
+						{!isEditing && <>
+							<PostHeading className='mb-8' isTipProposal={isTipProposal} onchainId={onchainId} post={post} postStatus={postStatus} />
 
-						<Tabs
-							type="card"
-							items={tabItems}
-						/>
+							<Tabs
+								type="card"
+								items={tabItems}
+							/>
+						</>}
+
 					</div>
 				</div>
 

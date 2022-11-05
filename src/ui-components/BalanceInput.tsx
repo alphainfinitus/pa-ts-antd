@@ -17,11 +17,12 @@ interface Props{
 	helpText?: string
 	onChange: (balance: BN) => void
 	placeholder?: string
+	size?: 'large' | 'small' | 'middle'
 }
 
 const currentNetwork = getNetwork();
 
-const BalanceInput = ({ className, label = '', helpText = '', onChange, placeholder = '' }: Props) => {
+const BalanceInput = ({ className, label = '', helpText = '', onChange, placeholder = '', size }: Props) => {
 	const [isValidInput, setIsValidInput] = useState(true);
 
 	const onBalanceChange = (value: number | null): void => {
@@ -45,13 +46,13 @@ const BalanceInput = ({ className, label = '', helpText = '', onChange, placehol
 		validateStatus={isValidInput ? 'success' : 'error'}
 		help={!isValidInput && 'Please input a valid value'}
 	>
-		<label className='mb-3 flex items-center text-sm text-sidebarBlue'> {label} {helpText && <HelperTooltip className='ml-2' text={helpText}/> } </label>
+		<label className='mb-3 font-bold flex items-center text-sm text-sidebarBlue'> {label} {helpText && <HelperTooltip className='ml-2' text={helpText}/> } </label>
 
 		<InputNumber
-			className='rounded-md text-sm text-sidebarBlue p-1 w-full'
+			className='text-sm text-sidebarBlue w-full'
 			onChange={onBalanceChange}
 			placeholder={`${placeholder} ${chainProperties[currentNetwork].tokenSymbol}`}
-			size="large"
+			size={size || 'large'}
 		/>
 	</Form.Item>;
 };

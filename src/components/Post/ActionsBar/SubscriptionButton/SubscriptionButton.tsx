@@ -102,7 +102,7 @@ const SubscriptionButton = function ({
 	};
 
 	const SubscribeButton = () => <Button
-		className={`${subscribed && email_verified ? ' negative' : ''} text-pink_primary flex items-center border-none shadow-none disabled:opacity-[0.5] disabled:bg-transparent`}
+		className={`${subscribed && email_verified ? ' negative' : ''} text-pink_primary flex items-center border-none shadow-none disabled:opacity-[0.5] px-1.5 disabled:bg-transparent`}
 		disabled={email_verified ? false : true}
 		onClick={handleSubscribe}
 	>
