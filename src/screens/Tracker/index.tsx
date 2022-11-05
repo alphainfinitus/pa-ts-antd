@@ -17,12 +17,12 @@ const TrackerContainer = ({ className } : {className?: string}) => {
 
 	return (
 		<div className={className}>
-			<h1 className='dashboard-heading mb-4 md:mb-6'>Council</h1>
+			<h1 className='dashboard-heading mb-4 md:mb-6'>Personal Tracker</h1>
 
 			{/* Intro and Create Post Button */}
 			<div className="flex flex-col md:flex-row">
 				<p className="text-sidebarBlue text-sm md:text-base font-medium bg-white p-4 md:p-8 rounded-md w-full shadow-md mb-4">
-    Council is the body of elected members that consists of several on-chain accounts. The Council can act as a representative for &quot;passive&quot; (non-voting) stakeholders. Council members have two main tasks: proposing referenda for the overall stakeholder group to vote on and cancelling malicious referenda.
+				This is a place to keep track of on chain posts.
 				</p>
 			</div>
 			<Row gutter={[0, 16]}>
