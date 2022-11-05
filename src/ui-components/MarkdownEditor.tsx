@@ -34,13 +34,13 @@ function MarkdownEditor({ className, value, onChange, height }: Props): React.Re
 					content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
 					directionality: 'ltr',
 					height: height,
-					menubar: 'file edit view insert format tools table tc help',
+					menubar: false,
 					plugins: [
 						'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
 						'searchreplace', 'visualblocks', 'code', 'fullscreen',
 						'insertdatetime', 'media', 'table'
 					],
-					toolbar: 'undo redo | ' +
+					toolbar: 'undo redo | ' + 'link preview | ' + 'code image | ' +
 							'bold italic backcolor | alignleft aligncenter ' +
 							'alignright alignjustify | bullist numlist outdent indent | ' +
 							'removeformat | table help '
