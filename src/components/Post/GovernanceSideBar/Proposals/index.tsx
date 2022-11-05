@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { formatBalance } from '@polkadot/util';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { ApiContext } from 'src/context/ApiContext';
 import { chainProperties } from 'src/global/networkConstants';
 import { LoadingStatusType } from 'src/types';
@@ -14,18 +14,48 @@ import ProposalVoteInfo from './ProposalVoteInfo';
 import SecondProposal, { SecondProposalProps } from './SecondProposal';
 
 type Props = SecondProposalProps & {
-	canVote: boolean
+	canVote: boolean;
+	status?: string;
 }
 
 const network = getNetwork();
 const tokenDecimals = chainProperties[network].tokenDecimals;
 const tokenSymbol = chainProperties[network].tokenSymbol;
 
-const ProposalDisplay = ({ proposalId, accounts, address, canVote, getAccounts, onAccountChange }: Props) => {
+const ProposalDisplay = ({ proposalId, accounts, address, canVote, getAccounts, onAccountChange, status }: Props) => {
 	const { api, apiReady } = useContext(ApiContext);
 	const [seconds, setSeconds] = useState(0);
 	const [deposit, setDeposit] = useState('');
 	const [loadingStatus, setLoadingStatus] = useState<LoadingStatusType>({ isLoading: true, message:'Loading proposal info' });
+	const canFetch = useRef(true);
+
+	const fetchProposal = useCallback(() => {
+		fetch(`https://${getNetwork()}.api.subscan.io/api/scan/democracy/proposal`, { body: JSON.stringify({
+			democracy_id: proposalId
+		}), method: 'POST' }).then(async (res) => {
+			const response = await res.json();
+			const info = response?.data?.info;
+			setLoadingStatus({ isLoading: false, message: '' });
+			setSeconds(info?.seconded_count);
+			setDeposit(
+				`${formatBalance(
+					info?.value,
+					{ decimals: tokenDecimals, forceUnit: tokenSymbol, withUnit: false }
+				)} ${tokenSymbol}`
+			);
+		}).catch((err) => {
+			console.log('Fetch Proposal Err:', err);
+		});
+	}, [proposalId]);
+
+	useEffect(() => {
+		if (canFetch.current && ['Tabled'].includes(status!)) {
+			fetchProposal();
+		}
+		return () => {
+			canFetch.current = false;
+		};
+	}, [fetchProposal, proposalId, status]);
 
 	useEffect(() => {
 		if (!api) {
