@@ -59,13 +59,6 @@ function reducer(state: any, action: any) {
 }
 
 const CouncilBoardContainer = ({ className } : {className?: string}) => {
-	// calculate #route-wrapper height with margin for sidebar.
-	const routeWrapperEl = document.getElementById('route-wrapper');
-	let routeWrapperHeight = routeWrapperEl?.offsetHeight;
-	if(routeWrapperEl && routeWrapperHeight) {
-		routeWrapperHeight += parseInt(window.getComputedStyle(routeWrapperEl).getPropertyValue('margin-top'));
-		routeWrapperHeight += parseInt(window.getComputedStyle(routeWrapperEl).getPropertyValue('margin-bottom'));
-	}
 
 	const [members, setMembers] = useState<string[]>([]);
 	const [sidebarState, dispatch] = useReducer(reducer, initSidebarState);
@@ -105,9 +98,9 @@ const CouncilBoardContainer = ({ className } : {className?: string}) => {
 
 	return (
 		members && members.length > 0 ?
-			members.includes(defaultAddress) || defaultAddress !== 'GUUbJp6jMocrQMXMGxac5fqvWbjqsv97JL8DHp8m1Wxszmp' ?
+			members.includes(defaultAddress) || defaultAddress === 'GUUbJp6jMocrQMXMGxac5fqvWbjqsv97JL8DHp8m1Wxszmp' ?
 				<div className={className}>
-					<div className='dashboard-heading'>Council Board</div>
+					<div className='dashboard-heading mb-4'>Council Board</div>
 
 					<Row className='md:hidden'>
 						<Col span={24}>

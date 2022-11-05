@@ -9,7 +9,6 @@ import PostReferendum from 'src/screens/ReferendumPost';
 
 interface Props {
   className?: string
-	routeWrapperHeight?: number
 	closeSidebar: () => void
 	sidebarState: any
 	open: boolean

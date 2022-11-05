@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 import Post from '../../components/Post/Post';
@@ -15,6 +15,10 @@ const ReferendumPost = ({ postID }: {postID?: number}) => {
 	const id = params.id;
 	const idNumber = Number(id) || Number(postID) || 0;
 	const [ refetch, { data, error } ] = useReferendumPostAndCommentsLazyQuery({ variables: { 'id': idNumber } });
+
+	useEffect(() => {
+		refetch();
+	}, [refetch]);
 
 	if (error?.message) return <FilteredError text={error.message}/>;
 
