@@ -13,6 +13,7 @@ import SidebarRight from 'src/components/SidebarRight';
 import { Exact, useAddCalenderEventMutation } from 'src/generated/graphql';
 import { NotificationStatus } from 'src/types';
 import queueNotification from 'src/ui-components/QueueNotification';
+import styled from 'styled-components';
 
 import { ReactComponent as CalendarIcon } from '../../assets/sidebar/calendar.svg';
 
@@ -175,7 +176,7 @@ const CreateEventSidebar = ({ className, refetch, selectedNetwork, setSidebarCre
 						</Form.Item>
 					</div>
 
-					<label className='input-label'>Event Type</label>
+					<label className='input-label mr-3'>Event Type</label>
 					<Radio.Group onChange={onEventTypeRadioToggle} value={eventType} className='radio-input-group'>
 						<Radio
 							value='online'
@@ -246,7 +247,7 @@ const CreateEventSidebar = ({ className, refetch, selectedNetwork, setSidebarCre
 
 					<div className="form-actions">
 						<Button onClick={closeCreateEventSidebar} disabled={loading} >Cancel</Button>
-						<Button className='submit-btn' onClick={handleCreateEvent} loading={loading} >Create Event</Button>
+						<Button className='submit-btn ml-1' onClick={handleCreateEvent} loading={loading} >Create Event</Button>
 					</div>
 				</Form>
 			</div>
@@ -254,4 +255,177 @@ const CreateEventSidebar = ({ className, refetch, selectedNetwork, setSidebarCre
 	);
 };
 
-export default CreateEventSidebar;
+export default styled(CreateEventSidebar)`
+
+	.create-event-form {
+		margin-top: 48px;
+
+		@media only screen and (max-width: 768px) {
+			margin-top: 18px;
+		}
+
+		.input.error {
+			border: 1px solid #FF0000;
+		}
+
+		.input-label {
+			font-weight: 500;
+			font-size: 16px;
+			color: #7D7D7D;
+			margin-bottom: 12px;
+
+			@media only screen and (max-width: 768px) {
+				font-size: 14px;
+			}
+		}
+		
+		.text-input {
+			height: 35px;
+			border-radius: 5px;
+			margin-bottom: 18px;
+			font-size: 16px;
+
+			@media only screen and (max-width: 768px) {
+				font-size: 14px;
+				height: 38px;
+				margin-bottom: 12px;
+			}
+		}
+
+		.radio-input-group {
+			margin-top: 12px;
+			
+			.checkbox{
+				margin-right: 20px !important;
+
+				&.checked {
+					label {
+						color: #E5007A;
+
+						&::after {
+							background-color: #E5007A !important;
+						}
+					}
+				}
+
+				label {
+					font-size: 16px !important;
+					padding-left: 20px !important;
+
+					@media only screen and (max-width: 768px) {
+						font-size: 14px;
+					}
+				}
+
+			}
+		}
+
+		.date-input-row {
+			margin-top: 28px;
+			margin-bottom: 28px;
+			display: flex;
+
+			@media only screen and (max-width: 768px) {
+				margin-top: 22px;
+				margin-bottom: 22px;
+				flex-direction: column;
+			}
+
+			.start-date-div {
+				margin-right: 20px;
+
+				@media only screen and (max-width: 768px) {
+					margin-right: 0;
+					margin-bottom: 14px;
+				}
+			}
+
+			.input-label {
+				margin-bottom: 212px !important;
+			}
+
+			.react-calendar__tile--now {
+				background-color: rgba(229, 0, 122, 0.1);
+			}
+		}
+
+		.date-input {
+			width: 100%;
+			margin-top: 2px;
+			font-family: 'Roboto' !important;
+			height: 38px !important;
+	
+			&.error {
+				.react-date-picker__wrapper {
+					border: #FF0000 1px solid;
+					color: #FF0000 !important;
+				}
+	
+				.react-date-picker__inputGroup__input {
+					color: #FF0000 !important;
+					font-family: 'Roboto' !important;
+				}
+			}
+	
+			.react-date-picker__wrapper {
+				padding: 0 10px;
+				border: 1px solid rgba(34,36,38,.15);
+				border-radius: .29rem;
+	
+				.react-date-picker__inputGroup {
+					display: flex;
+	
+					.react-date-picker__inputGroup__divider {
+						height: 100%;
+						display: flex;
+						align-items: center;
+					}
+				}
+	
+			}
+	
+			.react-date-picker__clear-button {
+				svg {
+					stroke: #aaa !important;
+					height: 14px;
+				}
+			}
+	
+			.react-date-picker__inputGroup__input {
+				border: none !important;
+				font-family: 'Roboto' !important;
+				color: #333;
+				height: min-content;
+				margin-bottom: 0 !important;
+			}
+	
+			.react-date-picker__inputGroup__divider,.react-date-picker__inputGroup__day, .react-date-picker__inputGroup__month, .react-date-picker__inputGroup__year {
+				font-size: 14px;
+				padding-left: 1px !important;
+				padding-right: 1px !important;
+			}
+		}
+
+		.form-actions{
+			display: flex;
+			justify-content: flex-end;
+			margin-top: 16px;
+
+			.button {
+				font-weight: 600;
+				font-size: 16px;
+
+				&:first-of-type {
+					background: transparent;
+				}
+			}
+
+			.submit-btn {
+				background: #E5007A;
+				color: #fff;
+			}
+			
+		}
+	}
+
+`;

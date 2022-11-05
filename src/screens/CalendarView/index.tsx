@@ -218,25 +218,26 @@ const CalendarView = ({ className, small = false, emitCalendarEvents = undefined
 	];
 
 	return (
-		<div className={`${className} bg-white drop-shadow-md p-3 rounded-md`}>
-			{accessible &&
+		<>
+			<div className={`${className} bg-white drop-shadow-md p-3 rounded-md`}>
+				{accessible &&
 				<div className='event-bot-div'>
 					<Button className='pending-events-btn' onClick={togglePendingEvents} disabled={Boolean(sidebarEvent)}>
 						{queryApprovalStatus == approvalStatus.APPROVED ? 'Show' : 'Hide'} Pending Events
 					</Button>
 				</div>
-			}
+				}
 
-			{ !small && <div className='cal-heading-div'>
-				<h1> Calendar </h1>
-				<div className='mobile-network-select'>
-					<NetworkSelect selectedNetwork={selectedNetwork} setSelectedNetwork={setSelectedNetwork} />
+				{ !small && <div className='cal-heading-div'>
+					<h1> Calendar </h1>
+					<div className='mobile-network-select'>
+						<NetworkSelect selectedNetwork={selectedNetwork} setSelectedNetwork={setSelectedNetwork} />
+					</div>
 				</div>
-			</div>
-			}
+				}
 
-			<div>
-				{!loading && data && data.calender_events &&
+				<div>
+					{!loading && data && data.calender_events &&
 					<Row className='pt-0'>
 						{!small && width > 992 &&
 						<Col span={8} id='calendar-left-panel' className='calendar-left-panel'>
@@ -317,12 +318,12 @@ const CalendarView = ({ className, small = false, emitCalendarEvents = undefined
 							/>
 						</Col>
 					</Row>
-				}
-			</div>
+					}
+				</div>
 
-			{/* Event View Sidebar */}
-			{routeWrapperHeight && sidebarEvent && Object.keys(sidebarEvent).length !== 0 && <div className="events-sidebar" style={ { maxHeight: `${routeWrapperHeight}px`, minHeight: `${routeWrapperHeight}px` } }>
-				{accessible &&
+				{/* Event View Sidebar */}
+				{routeWrapperHeight && sidebarEvent && Object.keys(sidebarEvent).length !== 0 && <div className="events-sidebar" style={ { maxHeight: `${routeWrapperHeight}px`, minHeight: `${routeWrapperHeight}px` } }>
+					{accessible &&
 					<div className='approval-status-div'>
 						<span>Status: </span>
 						<Dropdown
@@ -332,47 +333,47 @@ const CalendarView = ({ className, small = false, emitCalendarEvents = undefined
 						>{eventApprovalStatus}</Dropdown>
 						<Button onClick={handleUpdateApproval} disabled={loadingUpdate}>Save</Button>
 					</div>
-				}
-				<div className="event-sidebar-header d-flex">
-					<div className='d-flex'>
-						<div className={`status-icon ${moment(sidebarEvent.end_time).isBefore() ? 'overdue-color' : `${sidebarEvent.status?.toLowerCase()}-color`}`} ></div>
-						<h1>{sidebarEvent.title}</h1>
+					}
+					<div className="event-sidebar-header d-flex">
+						<div className='d-flex'>
+							<div className={`status-icon ${moment(sidebarEvent.end_time).isBefore() ? 'overdue-color' : `${sidebarEvent.status?.toLowerCase()}-color`}`} ></div>
+							<h1>{sidebarEvent.title}</h1>
+						</div>
+						<CloseOutlined className='close-btn' disabled={loadingUpdate} onClick={() => setSidebarEvent(false)} />
 					</div>
-					<CloseOutlined className='close-btn' disabled={loadingUpdate} onClick={() => setSidebarEvent(false)} />
-				</div>
 
-				<div className="sidebar-event-datetime">
-					<span>{moment(sidebarEvent.end_time).format('MMMM D')}</span> <span>{moment(sidebarEvent.end_time).format('h:mm a')}</span>
-				</div>
-
-				{sidebarEvent.content && <div className="sidebar-event-content">
-					{`${sidebarEvent.content.substring(0, 769)} ${sidebarEvent.content.length > 769 ? '...' : ''}`}
-					{sidebarEvent.content.length > 769 && <><br/><a href={sidebarEvent.url} target='_blank' rel='noreferrer'>Show More</a></>}
-				</div>
-				}
-
-				<Divider />
-
-				<div className="sidebar-event-links">
-					<h3> <img src={chainLink} /> Relevant Links</h3>
-					<div className='links-container'>
-						<a href={sidebarEvent.url} target='_blank' rel='noreferrer'>{sidebarEvent.url}</a>
+					<div className="sidebar-event-datetime">
+						<span>{moment(sidebarEvent.end_time).format('MMMM D')}</span> <span>{moment(sidebarEvent.end_time).format('h:mm a')}</span>
 					</div>
-				</div>
-			</div>}
 
+					{sidebarEvent.content && <div className="sidebar-event-content">
+						{`${sidebarEvent.content.substring(0, 769)} ${sidebarEvent.content.length > 769 ? '...' : ''}`}
+						{sidebarEvent.content.length > 769 && <><br/><a href={sidebarEvent.url} target='_blank' rel='noreferrer'>Show More</a></>}
+					</div>
+					}
+
+					<Divider />
+
+					<div className="sidebar-event-links">
+						<h3> <img src={chainLink} /> Relevant Links</h3>
+						<div className='links-container'>
+							<a href={sidebarEvent.url} target='_blank' rel='noreferrer'>{sidebarEvent.url}</a>
+						</div>
+					</div>
+				</div>}
+			</div>
 			{/* Create Event Sidebar */}
 			{sidebarCreateEvent &&
-				<CreateEventSidebar
-					open={sidebarCreateEvent}
-					setSidebarCreateEvent={setSidebarCreateEvent}
-					refetch={refetch}
-					selectedNetwork={selectedNetwork}
-					className='create-event-sidebar'
-					id={id}
-				/>
+			<CreateEventSidebar
+				open={sidebarCreateEvent}
+				setSidebarCreateEvent={setSidebarCreateEvent}
+				refetch={refetch}
+				selectedNetwork={selectedNetwork}
+				className='create-event-sidebar'
+				id={id}
+			/>
 			}
-		</div>
+		</>
 	);
 };
 
@@ -408,7 +409,6 @@ export default styled(CalendarView)`
 }
 
 .events-sidebar, .create-event-sidebar {
-	position: absolute;
 	min-width: 250px;
 	width: 510px;
 	max-width: 35vw;
@@ -517,181 +517,6 @@ export default styled(CalendarView)`
 			}
 		}
 
-	}
-
-}
-
-.create-event-sidebar {
-
-	.create-event-form {
-		margin-top: 48px;
-
-		@media only screen and (max-width: 768px) {
-			margin-top: 18px;
-		}
-
-		.input.error {
-			border: 1px solid #FF0000;
-		}
-
-		.input-label {
-			font-weight: 500;
-			font-size: 16px;
-			color: #7D7D7D;
-			margin-bottom: 12px;
-
-			@media only screen and (max-width: 768px) {
-				font-size: 14px;
-			}
-		}
-		
-		.text-input {
-			height: 35px;
-			border-radius: 5px;
-			margin-bottom: 18px;
-			font-size: 16px;
-
-			@media only screen and (max-width: 768px) {
-				font-size: 14px;
-				height: 38px;
-				margin-bottom: 12px;
-			}
-		}
-
-		.radio-input-group {
-			margin-top: 12px;
-			
-			.checkbox{
-				margin-right: 20px !important;
-
-				&.checked {
-					label {
-						color: #E5007A;
-
-						&::after {
-							background-color: #E5007A !important;
-						}
-					}
-				}
-
-				label {
-					font-size: 16px !important;
-					padding-left: 20px !important;
-
-					@media only screen and (max-width: 768px) {
-						font-size: 14px;
-					}
-				}
-
-			}
-		}
-
-		.date-input-row {
-			margin-top: 28px;
-			margin-bottom: 28px;
-			display: flex;
-
-			@media only screen and (max-width: 768px) {
-				margin-top: 22px;
-				margin-bottom: 22px;
-				flex-direction: column;
-			}
-
-			.start-date-div {
-				margin-right: 20px;
-
-				@media only screen and (max-width: 768px) {
-					margin-right: 0;
-					margin-bottom: 14px;
-				}
-			}
-
-			.input-label {
-				margin-bottom: 212px !important;
-			}
-
-			.react-calendar__tile--now {
-				background-color: rgba(229, 0, 122, 0.1);
-			}
-		}
-
-		.date-input {
-			width: 100%;
-			margin-top: 2px;
-			font-family: 'Roboto' !important;
-			height: 38px !important;
-	
-			&.error {
-				.react-date-picker__wrapper {
-					border: #FF0000 1px solid;
-					color: #FF0000 !important;
-				}
-	
-				.react-date-picker__inputGroup__input {
-					color: #FF0000 !important;
-					font-family: 'Roboto' !important;
-				}
-			}
-	
-			.react-date-picker__wrapper {
-				padding: 0 10px;
-				border: 1px solid rgba(34,36,38,.15);
-				border-radius: .29rem;
-	
-				.react-date-picker__inputGroup {
-					display: flex;
-	
-					.react-date-picker__inputGroup__divider {
-						height: 100%;
-						display: flex;
-						align-items: center;
-					}
-				}
-	
-			}
-	
-			.react-date-picker__clear-button {
-				svg {
-					stroke: #aaa !important;
-					height: 14px;
-				}
-			}
-	
-			.react-date-picker__inputGroup__input {
-				border: none !important;
-				font-family: 'Roboto' !important;
-				color: #333;
-				height: min-content;
-				margin-bottom: 0 !important;
-			}
-	
-			.react-date-picker__inputGroup__divider,.react-date-picker__inputGroup__day, .react-date-picker__inputGroup__month, .react-date-picker__inputGroup__year {
-				font-size: 14px;
-				padding-left: 1px !important;
-				padding-right: 1px !important;
-			}
-		}
-
-		.form-actions{
-			display: flex;
-			justify-content: flex-end;
-			margin-top: 16px;
-
-			.button {
-				font-weight: 600;
-				font-size: 16px;
-
-				&:first-of-type {
-					background: transparent;
-				}
-			}
-
-			.submit-btn {
-				background: #E5007A;
-				color: #fff;
-			}
-			
-		}
 	}
 
 }
