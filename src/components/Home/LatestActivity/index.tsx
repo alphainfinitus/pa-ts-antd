@@ -32,6 +32,7 @@ const LatestActivity = ({ className }: {className?:string}) => {
 			<Tabs
 				type="card"
 				items={tabItems}
+				className='ant-tabs-tab-bg-white'
 			/>
 		</div>
 	);
@@ -52,5 +53,12 @@ export default styled(LatestActivity)`
 
 	tr {
 		cursor: pointer !important;
+	}
+
+	.ant-tabs-tab-bg-white .ant-tabs-tab:not(.ant-tabs-tab-active) {
+		background-color: white;
+		border-top-color: white;
+		border-left-color: white;
+		border-right-color: white;
 	}
 `;
