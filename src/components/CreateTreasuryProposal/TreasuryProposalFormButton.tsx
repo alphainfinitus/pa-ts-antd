@@ -130,7 +130,7 @@ const TreasuryProposalFormButton = ({
 					const address = getEncodedAddress(account.address);
 
 					return address &&
-							<div key={address} onClick={() => handleSelectAvailableAccount(updateForInput, address)} className=' mb-[10px] flex justify-between items-center curson-pointer'>
+							<div key={address} onClick={() => handleSelectAvailableAccount(updateForInput, address)} className=' mb-[10px] flex justify-between items-center cursor-pointer'>
 								<div className='item'>
 									<AddressComponent className='item' address={address} extensionName={account.meta.name} />
 								</div>
@@ -254,8 +254,8 @@ const TreasuryProposalFormButton = ({
 		}
 	};
 
-	const triggerBtn = <Button disabled={!id} className='w-full rounded-md h-full bg-pink_primary text-white'  onClick={() => setModalOpen(true)}> Create Treasury Proposal</Button>;
-	const triggerBtnLoginDisabled = <Tooltip  color='#E5007A' title='Please signup/login to set on-chain identity'> <Button disabled={true} className='w-full h-full rounded-md' > Create Treasury Proposal</Button></Tooltip>;
+	const triggerBtn = <Button disabled={!id} className='w-full rounded-md h-full bg-pink_primary hover:bg-pink_secondary transition-colors duration-300 text-white'  onClick={() => setModalOpen(true)}> Create Treasury Proposal</Button>;
+	const triggerBtnLoginDisabled = <Tooltip  color='#E5007A' title='Please signup/login to create treasury proposal'> <Button type='primary' disabled={true} className='w-full h-full rounded-md' > Create Treasury Proposal</Button></Tooltip>;
 
 	return (
 		loadingStatus.isLoading

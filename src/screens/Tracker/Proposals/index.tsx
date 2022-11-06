@@ -37,7 +37,7 @@ const ProposalsContainer = ({ className }:Props) => {
 	return (
 		<div className={`${className} shadow-md bg-white p-3 md:p-8 rounded-md`}>
 			<div className='flex items-center justify-between'>
-				<h1 className='dashboard-heading'>Referendas</h1>
+				<h1 className='dashboard-heading'>Proposals</h1>
 			</div>
 
 			<ProposalsListing loading={loading} data={data} />
