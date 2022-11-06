@@ -7,7 +7,6 @@ import styled from '@xstyled/styled-components';
 import { Tabs } from 'antd';
 import React from 'react';
 
-import AllPostsTable from './AllPostsTable';
 import BountyPostsTable from './BountyPostsTable';
 import DiscussionPostsTable from './DiscussionPostsTable';
 import MotionPostsTable from './MotionPostsTable';
@@ -18,7 +17,6 @@ import TreasuryPostsTable from './TreasuryPostsTable';
 
 const LatestActivity = ({ className }: {className?:string}) => {
 	const tabItems = [
-		{ label: 'All', key: 'all', children: <AllPostsTable /> },
 		{ label: 'Discussions', key: 'discussions', children: <DiscussionPostsTable /> },
 		{ label: 'Proposals', key: 'proposals', children: <ProposalPostsTable /> },
 		{ label: 'Referenda', key: 'referenda', children: <ReferendaPostsTable /> },
