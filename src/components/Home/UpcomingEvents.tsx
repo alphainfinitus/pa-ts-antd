@@ -85,7 +85,7 @@ const UpcomingEvents = () => {
 
 			return (
 				<Tooltip color='#E5007A' title={eventList}>
-					<Badge color='#E5007A' />
+					<Badge color='#E5007A' className='absolute ml-[-2px] mt-[-6px]' />
 				</Tooltip>
 			);
 		}
