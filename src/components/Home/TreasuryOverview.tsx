@@ -17,6 +17,7 @@ import { chainProperties } from 'src/global/networkConstants';
 import { useBlockTime } from 'src/hooks';
 import HelperTooltip from 'src/ui-components/HelperTooltip';
 import blockToDays from 'src/util/blockToDays';
+import blockToTime from 'src/util/blockToTime';
 import fetchTokenToUSDPrice from 'src/util/fetchTokenToUSDPrice';
 import formatBnBalance from 'src/util/formatBnBalance';
 import formatUSDWithUnits from 'src/util/formatUSDWithUnits';
@@ -60,7 +61,11 @@ const TreasuryOverview = ({ inTreasuryProposals }:Props) => {
 	const [nextBurnUSD, setNextBurnUSD] = useState<string>('');
 	const [currentTokenPrice, setCurrentTokenPrice] = useState<string>('');
 	const [priceWeeklyChange, setPriceWeeklyChange] = useState<string | number>();
-	const [spendPeriodElapsed, setSpendPeriodElapsed] = useState<number>();
+	const [spendPeriod, setSpendPeriod] = useState<{
+		total: number;
+		days: string;
+		hours: string;
+	}>();
 	const [spendPeriodPercentage, setSpendPeriodPercentage] = useState<number>();
 
 	useEffect(() => {
@@ -220,7 +225,15 @@ const TreasuryOverview = ({ inTreasuryProposals }:Props) => {
 		const totalSpendPeriod: number = blockToDays(result.spendPeriod.toNumber(), blocktime);
 		const spendPeriodElapsed: number = blockToDays(currentBlock.toNumber() % (result.spendPeriod.toNumber()), blocktime);
 		// const spendPeriodRemaining: number = totalSpendPeriod - spendPeriodElapsed;
-		setSpendPeriodElapsed(spendPeriodElapsed);
+		const time = blockToTime(currentBlock.toNumber() % (result.spendPeriod.toNumber()), blocktime);
+		const timeArr = time.split(' ');
+		const days = timeArr[0].replace('d', '');
+		const hours = timeArr[1].replace('h', '');
+		setSpendPeriod({
+			days,
+			hours,
+			total: totalSpendPeriod
+		});
 
 		// spendPeriodElapsed/totalSpendPeriod for opposite
 		const percentage = ((spendPeriodElapsed/totalSpendPeriod) * 100).toFixed(0);
@@ -301,8 +314,8 @@ const TreasuryOverview = ({ inTreasuryProposals }:Props) => {
 				</div>
 
 				<div className="mt-3 text-sidebarBlue font-medium">
-					{spendPeriodElapsed && !isNaN(Number(spendPeriodElapsed))
-						? `${spendPeriodElapsed} days`
+					{spendPeriod?.total
+						? `${spendPeriod.days} days ${spendPeriod.hours} hrs / ${spendPeriod.total} days`
 						: <LoadingOutlined />
 					}
 				</div>
