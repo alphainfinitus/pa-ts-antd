@@ -73,7 +73,7 @@ const ReferendaPostsTable = () => {
 
 	const [refetch, { data, error }] = useGetLatestReferendaPostsLazyQuery({
 		variables: {
-			limit: 10,
+			limit: 8,
 			postType: post_type.ON_CHAIN
 		}
 	});

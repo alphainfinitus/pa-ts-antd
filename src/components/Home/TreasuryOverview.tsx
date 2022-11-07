@@ -243,7 +243,7 @@ const TreasuryOverview = ({ inTreasuryProposals }:Props) => {
 	return (
 		<div className="grid grid-rows-2 grid-flow-col gap-4 lg:gap-0 lg:flex">
 			{/* Available */}
-			<div className="flex-1 lg:mr-10 bg-white drop-shadow-md p-3 lg:p-6 rounded-md">
+			<div className="flex-1 lg:mr-7 bg-white drop-shadow-md p-3 lg:p-6 rounded-md">
 				<div className="text-navBlue text-xs flex items-center">
 					<span className="mr-2">
 						Available
@@ -280,7 +280,7 @@ const TreasuryOverview = ({ inTreasuryProposals }:Props) => {
 			</div>
 
 			{/* CurrentPrice */}
-			<div className="flex-1 lg:mr-10 bg-white drop-shadow-md p-3 lg:p-6 rounded-md">
+			<div className="flex-1 lg:mr-7 bg-white drop-shadow-md p-3 lg:p-6 rounded-md">
 				<div className="text-navBlue text-xs">Current Price of {chainProperties[NETWORK].tokenSymbol}</div>
 				<div className="mt-3 text-sidebarBlue font-medium">
 					{currentTokenPrice && !isNaN(Number(currentTokenPrice))
@@ -302,10 +302,10 @@ const TreasuryOverview = ({ inTreasuryProposals }:Props) => {
 			</div>
 
 			{/* Spend Period */}
-			{!inTreasuryProposals &&  <div className="flex-1 lg:mr-10 bg-white drop-shadow-md p-3 lg:p-6 rounded-md">
+			{!inTreasuryProposals &&  <div className="flex-1 lg:mr-7 bg-white drop-shadow-md p-3 lg:p-6 rounded-md">
 				<div className="text-navBlue text-xs flex items-center">
 					<span className="mr-2">
-						Spend Period Remaining
+						Spend Period
 					</span>
 
 					<HelperTooltip
@@ -315,7 +315,13 @@ const TreasuryOverview = ({ inTreasuryProposals }:Props) => {
 
 				<div className="mt-3 text-sidebarBlue font-medium">
 					{spendPeriod?.total
-						? `${spendPeriod.days} days ${spendPeriod.hours} hrs / ${spendPeriod.total} days`
+						? <span>
+							<span>{spendPeriod.days} </span>
+							<span className='text-navBlue'>days </span>
+							<span>{spendPeriod.hours} </span>
+							<span className='text-navBlue'>hrs </span>
+							<span className="text-navBlue text-xs"> / {spendPeriod.total} days </span>
+						</span>
 						: <LoadingOutlined />
 					}
 				</div>

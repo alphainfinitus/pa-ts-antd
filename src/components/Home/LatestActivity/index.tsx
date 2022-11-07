@@ -27,7 +27,7 @@ const LatestActivity = ({ className }: {className?:string}) => {
 	];
 
 	return (
-		<div className={`${className} bg-white drop-shadow-md p-2 lg:p-6 rounded-md h-[650px]`}>
+		<div className={`${className} bg-white drop-shadow-md p-2 lg:p-6 rounded-md`}>
 			<h2 className='dashboard-heading mb-6'>Latest Activity</h2>
 			<Tabs
 				type="card"

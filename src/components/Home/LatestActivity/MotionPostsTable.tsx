@@ -71,7 +71,7 @@ const columns: ColumnsType<MotionPostsRowData> = [
 const MotionPostsTable = () => {
 	const navigate = useNavigate();
 
-	const [refetch, { data, error }] = useGetLatestMotionPostsLazyQuery({ variables: { limit: 10, postType: post_type.ON_CHAIN } });
+	const [refetch, { data, error }] = useGetLatestMotionPostsLazyQuery({ variables: { limit: 8, postType: post_type.ON_CHAIN } });
 	useEffect(() => {
 		refetch();
 	}, [refetch]);

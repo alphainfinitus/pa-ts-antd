@@ -75,7 +75,7 @@ const TipPostsTable = () => {
 
 	const [refetch, { data, error }] = useGetLatestTipPostsLazyQuery({
 		variables: {
-			limit: 10,
+			limit: 8,
 			postTopic: post_topic.TREASURY,
 			postType: post_type.ON_CHAIN
 		}
@@ -129,7 +129,7 @@ const TipPostsTable = () => {
 				<PopulatedLatestActivity columns={columns} tableData={tableData} onClick={(rowData) => navigate(`/tip/${rowData.onChainId}`)} />
 			</div>
 
-			<div className="block lg:hidden h-[520px] overflow-y-auto">
+			<div className="block lg:hidden h-[650px] overflow-y-auto">
 				<PopulatedLatestActivityCard tableData={tableData} onClick={(rowData) => navigate(`/tip/${rowData.onChainId}`)} />
 			</div>
 		</>);

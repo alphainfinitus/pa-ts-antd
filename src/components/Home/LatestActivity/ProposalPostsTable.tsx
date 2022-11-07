@@ -74,7 +74,7 @@ const ProposalPostsTable = () => {
 
 	const [refetch, { data, error }] = useGetLatestDemocracyProposalPostsLazyQuery({
 		variables: {
-			limit: 10,
+			limit: 8,
 			postTopic: post_topic.DEMOCRACY,
 			postType: post_type.ON_CHAIN
 		}

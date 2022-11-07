@@ -74,7 +74,7 @@ const TreasuryPostsTable = () => {
 
 	const [refetch, { data, error }] = useGetLatestDemocracyTreasuryProposalPostsLazyQuery({
 		variables: {
-			limit: 10,
+			limit: 8,
 			postTopic: post_topic.TREASURY,
 			postType: post_type.ON_CHAIN
 		}

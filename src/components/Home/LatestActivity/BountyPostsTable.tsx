@@ -73,7 +73,7 @@ const BountyPostsTable = () => {
 
 	const [refetch, { data, error }] = useGetLatestBountyPostsLazyQuery({
 		variables: {
-			limit: 10,
+			limit: 8,
 			postType: post_type.ON_CHAIN
 		}
 	});

@@ -48,7 +48,7 @@ export const PopulatedLatestActivity = ({ columns, tableData, onClick }: { colum
 			columns={columns}
 			dataSource={tableData}
 			pagination={false}
-			scroll={{ x: 1000, y: 450 }}
+			scroll={{ x: 1000, y: 650 }}
 
 			onRow={(rowData) => {
 				return {
