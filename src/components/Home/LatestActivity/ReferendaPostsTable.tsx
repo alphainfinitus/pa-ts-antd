@@ -42,10 +42,18 @@ const columns: ColumnsType<ReferendaPostsRowData> = [
 		fixed: 'left'
 	},
 	{
-		title: 'Posted By',
+		title: 'Creator',
 		dataIndex: 'username',
-		key: 'postedBy',
+		key: 'creator',
 		render: (username, { address }) => <NameLabel defaultAddress={address} username={username} disableIdenticon={true} />
+	},
+	{
+		title: 'Status',
+		dataIndex: 'status',
+		key: 'status',
+		render: (status) => {
+			if(status) return <StatusTag status={status} />;
+		}
 	},
 	{
 		title: 'Created',
@@ -57,14 +65,6 @@ const columns: ColumnsType<ReferendaPostsRowData> = [
 				<span>{relativeCreatedAt}</span>
 			);
 		}
-	},
-	{
-		title: 'Status',
-		dataIndex: 'status',
-		key: 'status',
-		render: (status) => {
-			if(status) return <StatusTag status={status} />;
-		}
 	}
 ];
 
@@ -73,7 +73,7 @@ const ReferendaPostsTable = () => {
 
 	const [refetch, { data, error }] = useGetLatestReferendaPostsLazyQuery({
 		variables: {
-			limit: 10,
+			limit: 8,
 			postType: post_type.ON_CHAIN
 		}
 	});

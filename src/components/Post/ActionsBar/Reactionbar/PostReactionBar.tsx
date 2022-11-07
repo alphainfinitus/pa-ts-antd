@@ -1,8 +1,7 @@
 // Copyright 2019-2020 @Premiurly/polkassembly authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
-
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { usePostReactionsLazyQuery } from 'src/generated/graphql';
 import { ReactionMapFields } from 'src/types';
 
@@ -15,10 +14,20 @@ interface Props {
 }
 
 const PostReactionBar = function ({ className, postId }: Props) {
-	const [refetch, { data }] = usePostReactionsLazyQuery({ variables: { postId } });
+	const [refetchNeeded, setRefetchNeeded] = useState(true);
+	const [getMyStuff, { called, data, refetch }] = usePostReactionsLazyQuery({ variables: { postId } });
+
 	useEffect(() => {
-		refetch();
-	}, [refetch]);
+		if (refetchNeeded) {
+			setRefetchNeeded(false);
+			if (called) {
+				refetch();
+			} else {
+				getMyStuff();
+			}
+		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [refetchNeeded, called]);
 	const reactionMap: { [ key: string ]: ReactionMapFields; } = {};
 
 	reactions.forEach((reaction) => {
@@ -54,7 +63,7 @@ const PostReactionBar = function ({ className, postId }: Props) {
 						reaction={reaction}
 						reactionMap={reactionMap}
 						postId={postId}
-						refetch={refetch}
+						setRefetchNeeded={setRefetchNeeded}
 					/>
 				);
 			})}

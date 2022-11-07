@@ -43,10 +43,18 @@ const columns: ColumnsType<TreasuryPostsRowData> = [
 		fixed: 'left'
 	},
 	{
-		title: 'Posted By',
+		title: 'Creator',
 		dataIndex: 'username',
-		key: 'postedBy',
+		key: 'creator',
 		render: (username, { address }) => <NameLabel defaultAddress={address} username={username} disableIdenticon={true} />
+	},
+	{
+		title: 'Status',
+		dataIndex: 'status',
+		key: 'status',
+		render: (status) => {
+			if(status) return <StatusTag status={status} />;
+		}
 	},
 	{
 		title: 'Created',
@@ -58,14 +66,6 @@ const columns: ColumnsType<TreasuryPostsRowData> = [
 				<span>{relativeCreatedAt}</span>
 			);
 		}
-	},
-	{
-		title: 'Status',
-		dataIndex: 'status',
-		key: 'status',
-		render: (status) => {
-			if(status) return <StatusTag status={status} />;
-		}
 	}
 ];
 
@@ -74,7 +74,7 @@ const TreasuryPostsTable = () => {
 
 	const [refetch, { data, error }] = useGetLatestDemocracyTreasuryProposalPostsLazyQuery({
 		variables: {
-			limit: 10,
+			limit: 8,
 			postTopic: post_topic.TREASURY,
 			postType: post_type.ON_CHAIN
 		}

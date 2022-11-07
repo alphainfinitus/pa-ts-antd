@@ -17,6 +17,7 @@ import { chainProperties } from 'src/global/networkConstants';
 import { useBlockTime } from 'src/hooks';
 import HelperTooltip from 'src/ui-components/HelperTooltip';
 import blockToDays from 'src/util/blockToDays';
+import blockToTime from 'src/util/blockToTime';
 import fetchTokenToUSDPrice from 'src/util/fetchTokenToUSDPrice';
 import formatBnBalance from 'src/util/formatBnBalance';
 import formatUSDWithUnits from 'src/util/formatUSDWithUnits';
@@ -60,7 +61,11 @@ const TreasuryOverview = ({ inTreasuryProposals }:Props) => {
 	const [nextBurnUSD, setNextBurnUSD] = useState<string>('');
 	const [currentTokenPrice, setCurrentTokenPrice] = useState<string>('');
 	const [priceWeeklyChange, setPriceWeeklyChange] = useState<string | number>();
-	const [spendPeriodElapsed, setSpendPeriodElapsed] = useState<number>();
+	const [spendPeriod, setSpendPeriod] = useState<{
+		total: number;
+		days: string;
+		hours: string;
+	}>();
 	const [spendPeriodPercentage, setSpendPeriodPercentage] = useState<number>();
 
 	useEffect(() => {
@@ -220,7 +225,15 @@ const TreasuryOverview = ({ inTreasuryProposals }:Props) => {
 		const totalSpendPeriod: number = blockToDays(result.spendPeriod.toNumber(), blocktime);
 		const spendPeriodElapsed: number = blockToDays(currentBlock.toNumber() % (result.spendPeriod.toNumber()), blocktime);
 		// const spendPeriodRemaining: number = totalSpendPeriod - spendPeriodElapsed;
-		setSpendPeriodElapsed(spendPeriodElapsed);
+		const time = blockToTime(currentBlock.toNumber() % (result.spendPeriod.toNumber()), blocktime);
+		const timeArr = time.split(' ');
+		const days = timeArr[0].replace('d', '');
+		const hours = timeArr[1].replace('h', '');
+		setSpendPeriod({
+			days,
+			hours,
+			total: totalSpendPeriod
+		});
 
 		// spendPeriodElapsed/totalSpendPeriod for opposite
 		const percentage = ((spendPeriodElapsed/totalSpendPeriod) * 100).toFixed(0);
@@ -230,7 +243,7 @@ const TreasuryOverview = ({ inTreasuryProposals }:Props) => {
 	return (
 		<div className="grid grid-rows-2 grid-flow-col gap-4 lg:gap-0 lg:flex">
 			{/* Available */}
-			<div className="flex-1 lg:mr-10 bg-white drop-shadow-md p-3 lg:p-6 rounded-md">
+			<div className="flex-1 lg:mr-7 bg-white drop-shadow-md p-3 lg:p-6 rounded-md">
 				<div className="text-navBlue text-xs flex items-center">
 					<span className="mr-2">
 						Available
@@ -267,7 +280,7 @@ const TreasuryOverview = ({ inTreasuryProposals }:Props) => {
 			</div>
 
 			{/* CurrentPrice */}
-			<div className="flex-1 lg:mr-10 bg-white drop-shadow-md p-3 lg:p-6 rounded-md">
+			<div className="flex-1 lg:mr-7 bg-white drop-shadow-md p-3 lg:p-6 rounded-md">
 				<div className="text-navBlue text-xs">Current Price of {chainProperties[NETWORK].tokenSymbol}</div>
 				<div className="mt-3 text-sidebarBlue font-medium">
 					{currentTokenPrice && !isNaN(Number(currentTokenPrice))
@@ -289,10 +302,10 @@ const TreasuryOverview = ({ inTreasuryProposals }:Props) => {
 			</div>
 
 			{/* Spend Period */}
-			{!inTreasuryProposals &&  <div className="flex-1 lg:mr-10 bg-white drop-shadow-md p-3 lg:p-6 rounded-md">
+			{!inTreasuryProposals &&  <div className="flex-1 lg:mr-7 bg-white drop-shadow-md p-3 lg:p-6 rounded-md">
 				<div className="text-navBlue text-xs flex items-center">
 					<span className="mr-2">
-						Spend Period Remaining
+						Spend Period
 					</span>
 
 					<HelperTooltip
@@ -301,8 +314,14 @@ const TreasuryOverview = ({ inTreasuryProposals }:Props) => {
 				</div>
 
 				<div className="mt-3 text-sidebarBlue font-medium">
-					{spendPeriodElapsed && !isNaN(Number(spendPeriodElapsed))
-						? `${spendPeriodElapsed} days`
+					{spendPeriod?.total
+						? <span>
+							<span>{spendPeriod.days} </span>
+							<span className='text-navBlue'>days </span>
+							<span>{spendPeriod.hours} </span>
+							<span className='text-navBlue'>hrs </span>
+							<span className="text-navBlue text-xs"> / {spendPeriod.total} days </span>
+						</span>
 						: <LoadingOutlined />
 					}
 				</div>

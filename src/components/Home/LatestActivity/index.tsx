@@ -7,7 +7,6 @@ import styled from '@xstyled/styled-components';
 import { Tabs } from 'antd';
 import React from 'react';
 
-import AllPostsTable from './AllPostsTable';
 import BountyPostsTable from './BountyPostsTable';
 import DiscussionPostsTable from './DiscussionPostsTable';
 import MotionPostsTable from './MotionPostsTable';
@@ -18,7 +17,6 @@ import TreasuryPostsTable from './TreasuryPostsTable';
 
 const LatestActivity = ({ className }: {className?:string}) => {
 	const tabItems = [
-		{ label: 'All', key: 'all', children: <AllPostsTable /> },
 		{ label: 'Discussions', key: 'discussions', children: <DiscussionPostsTable /> },
 		{ label: 'Proposals', key: 'proposals', children: <ProposalPostsTable /> },
 		{ label: 'Referenda', key: 'referenda', children: <ReferendaPostsTable /> },
@@ -29,11 +27,12 @@ const LatestActivity = ({ className }: {className?:string}) => {
 	];
 
 	return (
-		<div className={`${className} bg-white drop-shadow-md p-2 lg:p-6 rounded-md h-[650px]`}>
+		<div className={`${className} bg-white drop-shadow-md p-2 lg:p-6 rounded-md`}>
 			<h2 className='dashboard-heading mb-6'>Latest Activity</h2>
 			<Tabs
 				type="card"
 				items={tabItems}
+				className='ant-tabs-tab-bg-white'
 			/>
 		</div>
 	);
@@ -54,5 +53,12 @@ export default styled(LatestActivity)`
 
 	tr {
 		cursor: pointer !important;
+	}
+
+	.ant-tabs-tab-bg-white .ant-tabs-tab:not(.ant-tabs-tab-active) {
+		background-color: white;
+		border-top-color: white;
+		border-left-color: white;
+		border-right-color: white;
 	}
 `;

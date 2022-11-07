@@ -7,6 +7,7 @@ import { InjectedAccount } from '@polkadot/extension-inject/types';
 import styled from '@xstyled/styled-components';
 import { Alert, Button, Modal, Spin } from 'antd';
 import React, { useContext, useEffect,useState } from 'react';
+import frowningFace from 'src/assets/frowning-face.png';
 import { ApiContext } from 'src/context/ApiContext';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
 import { useGetCouncilMembersQuery } from 'src/generated/graphql';
@@ -160,7 +161,12 @@ const VoteMotion = ({
 	const NotCouncil = () =>
 		<GovSidebarCard>
 			<h3 className='dashboard-heading mb-6'>Cast your Vote!</h3>
-			<Alert className='mb-6' type='warning' message='No account found from the council.' />
+			<Alert className='mb-6' type='warning' message={<div className='flex items-center gap-x-2'>
+				<span>
+					No account found from the council
+				</span>
+				<img width={25} height={25} src={frowningFace} alt="frowning face" />
+			</div>} />
 			<Button onClick={() => setForceVote(true)}>Let me try still.</Button>
 		</GovSidebarCard>;
 

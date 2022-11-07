@@ -40,9 +40,9 @@ const columns: ColumnsType<DiscussionPostsRowData> = [
 		fixed: 'left'
 	},
 	{
-		title: 'Posted By',
+		title: 'Creator',
 		dataIndex: 'username',
-		key: 'postedBy',
+		key: 'creator',
 		render: (username, { address }) => <NameLabel defaultAddress={address} username={username} disableIdenticon={true} />
 	},
 	{
@@ -65,7 +65,7 @@ const DiscussionPostsTable = () => {
 
 	const [refetch, { data, error }] = useLatestDiscussionPostsLazyQuery({
 		variables: {
-			limit: 10
+			limit: 8
 		}
 	});
 

@@ -81,6 +81,9 @@ const Address = ({ address, className, displayInline, disableIdenticon, extensio
 		return () => unsubscribe && unsubscribe();
 	}, [address, api, apiReady]);
 
+	const t1 = mainDisplay || shortenAddress(address, shortenAddressLength);
+	const t2 = extensionName || mainDisplay;
+
 	return (
 		<div className={displayInline ? `${className} display_inline`: className}>
 			{
@@ -101,18 +104,18 @@ const Address = ({ address, className, displayInline, disableIdenticon, extensio
 						? <Space>
 							{identity && mainDisplay && <IdentityBadge identity={identity} flags={flags} />}
 							<Tooltip color='#E5007A' title={popupContent}>
-								<div className={'header display_inline identityName'}>
-									{mainDisplay || shortenAddress(address, shortenAddressLength)}
-									{sub && <span className='sub'>/{sub}</span>}
+								<div className={'header display_inline identityName flex flex-col gap-y-1'}>
+									{ t1 && <span className='truncate'>{t1}</span> }
+									{sub && <span className='sub truncate'>{sub}</span>}
 								</div>
 							</Tooltip>
 						</Space>
 						: <>
 							<Space className={'description display_inline'}>
 								{identity && mainDisplay && <IdentityBadge identity={identity} flags={flags} />}
-								<span className='identityName'>
-									{ mainDisplay || shortenAddress(address, shortenAddressLength)}
-									{sub && <span className='sub'>/{sub}</span>}
+								<span className='identityName flex flex-col gap-y-1'>
+									{ t1 && <span className='truncate'>{ t1 }</span> }
+									{sub && <span className='sub truncate'>{sub}</span>}
 								</span>
 							</Space>
 						</>
@@ -123,9 +126,9 @@ const Address = ({ address, className, displayInline, disableIdenticon, extensio
 								<Space>
 									<Space className={'header'}>
 										{identity && mainDisplay && !extensionName && <IdentityBadge identity={identity} flags={flags} />}
-										<span className='identityName'>
-											{extensionName || mainDisplay}
-											{!extensionName && sub && <span className='sub'>/{sub}</span>}
+										<span className='identityName flex flex-col gap-y-1'>
+											{ t2 && <span className='truncate'>{ t2 }</span> }
+											{!extensionName && sub && <span className='sub truncate'>{sub}</span>}
 										</span>
 									</Space>
 									<div className={'description display_inline'}>{shortenAddress(address, shortenAddressLength)}</div>
@@ -134,9 +137,9 @@ const Address = ({ address, className, displayInline, disableIdenticon, extensio
 							: <div>
 								<Space className={'header'}>
 									{identity && mainDisplay && !extensionName && <IdentityBadge identity={identity} flags={flags} />}
-									<span className='identityName'>
-										{extensionName || mainDisplay}
-										{!extensionName && sub && <span className='sub'>/{sub}</span>}
+									<span className='identityName flex flex-col gap-y-1'>
+										{ t2 && <span className='truncate'>{ t2 }</span> }
+										{!extensionName && sub && <span className='sub truncate'>{sub}</span>}
 									</span>
 								</Space>
 								<div className={'description text-xs ml-0.5'}>{shortenAddress(address, shortenAddressLength)}</div>

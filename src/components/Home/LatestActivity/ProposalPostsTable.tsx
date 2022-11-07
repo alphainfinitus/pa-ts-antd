@@ -43,10 +43,18 @@ const columns: ColumnsType<ProposalPostsRowData> = [
 		fixed: 'left'
 	},
 	{
-		title: 'Posted By',
+		title: 'Creator',
 		dataIndex: 'username',
-		key: 'postedBy',
+		key: 'creator',
 		render: (username, { address }) => <NameLabel defaultAddress={address} username={username} disableIdenticon={true} />
+	},
+	{
+		title: 'Status',
+		dataIndex: 'status',
+		key: 'status',
+		render: (status) => {
+			if(status) return <StatusTag status={status} />;
+		}
 	},
 	{
 		title: 'Created',
@@ -58,14 +66,6 @@ const columns: ColumnsType<ProposalPostsRowData> = [
 				<span>{relativeCreatedAt}</span>
 			);
 		}
-	},
-	{
-		title: 'Status',
-		dataIndex: 'status',
-		key: 'status',
-		render: (status) => {
-			if(status) return <StatusTag status={status} />;
-		}
 	}
 ];
 
@@ -74,7 +74,7 @@ const ProposalPostsTable = () => {
 
 	const [refetch, { data, error }] = useGetLatestDemocracyProposalPostsLazyQuery({
 		variables: {
-			limit: 10,
+			limit: 8,
 			postTopic: post_topic.DEMOCRACY,
 			postType: post_type.ON_CHAIN
 		}

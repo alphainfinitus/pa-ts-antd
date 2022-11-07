@@ -48,7 +48,7 @@ export const PopulatedLatestActivity = ({ columns, tableData, onClick }: { colum
 			columns={columns}
 			dataSource={tableData}
 			pagination={false}
-			scroll={{ x: 1000, y: 450 }}
+			scroll={{ x: 1000, y: 650 }}
 
 			onRow={(rowData) => {
 				return {
@@ -81,7 +81,13 @@ export const PopulatedLatestActivityCard = ({ tableData, onClick }: { tableData:
 						{/* Title */}
 						<div className="my-4">
 							<h4>
-								<div>
+								<div style={{
+									height: '3em',
+									lineHeight: '1.5em',
+									overflow: 'hidden',
+									textAlign: 'justify',
+									textOverflow: 'ellipsis'
+								}}>
 									{rowData.title}
 								</div>
 							</h4>

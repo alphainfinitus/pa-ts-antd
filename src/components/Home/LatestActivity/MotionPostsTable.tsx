@@ -42,10 +42,18 @@ const columns: ColumnsType<MotionPostsRowData> = [
 		fixed: 'left'
 	},
 	{
-		title: 'Posted By',
+		title: 'Creator',
 		dataIndex: 'username',
-		key: 'postedBy',
+		key: 'creator',
 		render: (username, { address }) => <NameLabel defaultAddress={address} username={username} disableIdenticon={true} />
+	},
+	{
+		title: 'Status',
+		dataIndex: 'status',
+		key: 'status',
+		render: (status) => {
+			if(status) return <StatusTag status={status} />;
+		}
 	},
 	{
 		title: 'Created',
@@ -57,21 +65,13 @@ const columns: ColumnsType<MotionPostsRowData> = [
 				<span>{relativeCreatedAt}</span>
 			);
 		}
-	},
-	{
-		title: 'Status',
-		dataIndex: 'status',
-		key: 'status',
-		render: (status) => {
-			if(status) return <StatusTag status={status} />;
-		}
 	}
 ];
 
 const MotionPostsTable = () => {
 	const navigate = useNavigate();
 
-	const [refetch, { data, error }] = useGetLatestMotionPostsLazyQuery({ variables: { limit: 10, postType: post_type.ON_CHAIN } });
+	const [refetch, { data, error }] = useGetLatestMotionPostsLazyQuery({ variables: { limit: 8, postType: post_type.ON_CHAIN } });
 	useEffect(() => {
 		refetch();
 	}, [refetch]);

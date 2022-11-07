@@ -113,7 +113,7 @@ const PostCommentForm = ({ className, postId, refetch }: Props) => {
 					<Form.Item>
 						<div className='flex items-center justify-end'>
 							<Button htmlType="submit" className='bg-pink_primary text-white border-white hover:bg-pink_secondary flex items-center'>
-								<CheckOutlined /> Reply
+								<CheckOutlined /> Comment
 							</Button>
 						</div>
 					</Form.Item>

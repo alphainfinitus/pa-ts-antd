@@ -44,10 +44,18 @@ const columns: ColumnsType<TipPostsRowData> = [
 		fixed: 'left'
 	},
 	{
-		title: 'Posted By',
+		title: 'Creator',
 		dataIndex: 'username',
-		key: 'postedBy',
+		key: 'creator',
 		render: (username, { address }) => <NameLabel defaultAddress={address} username={username} disableIdenticon={true} />
+	},
+	{
+		title: 'Status',
+		dataIndex: 'status',
+		key: 'status',
+		render: (status) => {
+			if(status) return <StatusTag status={status} />;
+		}
 	},
 	{
 		title: 'Created',
@@ -59,14 +67,6 @@ const columns: ColumnsType<TipPostsRowData> = [
 				<span>{relativeCreatedAt}</span>
 			);
 		}
-	},
-	{
-		title: 'Status',
-		dataIndex: 'status',
-		key: 'status',
-		render: (status) => {
-			if(status) return <StatusTag status={status} />;
-		}
 	}
 ];
 
@@ -75,7 +75,7 @@ const TipPostsTable = () => {
 
 	const [refetch, { data, error }] = useGetLatestTipPostsLazyQuery({
 		variables: {
-			limit: 10,
+			limit: 8,
 			postTopic: post_topic.TREASURY,
 			postType: post_type.ON_CHAIN
 		}
@@ -129,7 +129,7 @@ const TipPostsTable = () => {
 				<PopulatedLatestActivity columns={columns} tableData={tableData} onClick={(rowData) => navigate(`/tip/${rowData.onChainId}`)} />
 			</div>
 
-			<div className="block lg:hidden h-[520px] overflow-y-auto">
+			<div className="block lg:hidden h-[650px] overflow-y-auto">
 				<PopulatedLatestActivityCard tableData={tableData} onClick={(rowData) => navigate(`/tip/${rowData.onChainId}`)} />
 			</div>
 		</>);
