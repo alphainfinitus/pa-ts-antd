@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useCommentReactionsLazyQuery } from 'src/generated/graphql';
 import { ReactionMapFields } from 'src/types';
 
@@ -15,10 +15,19 @@ interface Props {
 }
 
 const CommentReactionBar = function ({ className, commentId }: Props) {
-	const [refetch, { data }] = useCommentReactionsLazyQuery({ variables: { commentId } });
+	const [refetchNeeded, setRefetchNeeded] = useState(true);
+	const [getMyStuff, { called, data, refetch }] = useCommentReactionsLazyQuery({ variables: { commentId } });
 	useEffect(() => {
-		refetch();
-	}, [refetch]);
+		if (refetchNeeded) {
+			setRefetchNeeded(false);
+			if (called) {
+				refetch();
+			} else {
+				getMyStuff();
+			}
+		}
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [refetchNeeded, called]);
 	const reactionMap: { [ key: string ]: ReactionMapFields; } = {};
 
 	reactions.forEach((reaction) => {
@@ -54,7 +63,7 @@ const CommentReactionBar = function ({ className, commentId }: Props) {
 						reaction={reaction}
 						reactionMap={reactionMap}
 						commentId={commentId}
-						refetch={refetch}
+						setRefetchNeeded={setRefetchNeeded}
 					/>
 				);
 			})}

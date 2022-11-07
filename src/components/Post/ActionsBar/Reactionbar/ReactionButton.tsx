@@ -3,11 +3,10 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { LikeFilled, LikeOutlined } from '@ant-design/icons';
-import { QueryLazyOptions } from '@apollo/client';
 import { Button, Tooltip } from 'antd';
 import React, { useContext, useState } from 'react';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
-import { Exact, useAddCommentReactionMutation, useAddPostReactionMutation, useDeleteCommentReactionMutation,useDeletePostReactionMutation } from 'src/generated/graphql';
+import { useAddCommentReactionMutation, useAddPostReactionMutation, useDeleteCommentReactionMutation,useDeletePostReactionMutation } from 'src/generated/graphql';
 import { ReactionMapFields } from 'src/types';
 
 export interface ReactionButtonProps {
@@ -16,11 +15,7 @@ export interface ReactionButtonProps {
 	reactionMap:  { [ key: string ]: ReactionMapFields; }
 	postId?: number
 	commentId?: string
-	refetch?: ((options?: QueryLazyOptions<Exact<{
-		commentId: any;
-	}>> | undefined) => void) | ((options?: QueryLazyOptions<Exact<{
-		postId: number;
-	}>> | undefined) => void)
+	setRefetchNeeded: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ReactionButton = function ({
@@ -29,7 +24,7 @@ const ReactionButton = function ({
 	reactionMap,
 	postId,
 	commentId,
-	refetch
+	setRefetchNeeded
 }: ReactionButtonProps) {
 	const [reactionsDisabled, setReactionsDisabled] = useState<boolean>(false);
 
@@ -40,8 +35,6 @@ const ReactionButton = function ({
 	const [deleteCommentReactionMutation] = useDeleteCommentReactionMutation();
 	const userNames = reactionMap[reaction].userNames;
 	const reacted = username && userNames.includes(username);
-
-	const _refetch = () => { refetch && refetch(); };
 
 	//returns string array of other-reactions by the user
 	const otherReactions = () : string[] => {
@@ -59,7 +52,7 @@ const ReactionButton = function ({
 	};
 
 	const refetchAndEnableReactions = () => {
-		refetch && refetch();
+		setRefetchNeeded(true);
 		setReactionsDisabled(false);
 	};
 
@@ -96,7 +89,9 @@ const ReactionButton = function ({
 					}));
 
 					Promise.all(delReactionPromiseArr)
-						.then(_refetch)
+						.then(() => {
+							setRefetchNeeded(true);
+						})
 						.catch((e) => console.error('Error in reacting to content', e));
 				}
 
@@ -139,7 +134,9 @@ const ReactionButton = function ({
 					}));
 
 					Promise.all(delReactionPromiseArr)
-						.then(_refetch)
+						.then(() => {
+							setRefetchNeeded(true);
+						})
 						.catch((e) => console.error('Error in reacting to content', e));
 				}
 

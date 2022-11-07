@@ -7,6 +7,7 @@ import styled from '@xstyled/styled-components';
 import { Alert, Button, Form } from 'antd';
 import BN from 'bn.js';
 import React, { useContext, useEffect,useState } from 'react';
+import frowningFace from 'src/assets/frowning-face.png';
 import { ApiContext } from 'src/context/ApiContext';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
 import { useGetCouncilMembersQuery } from 'src/generated/graphql';
@@ -154,7 +155,12 @@ const EndorseTip = ({
 	const NotCouncil = () =>
 		<GovSidebarCard>
 			<h3 className='dashboard-heading mb-6'>Endorse with account!</h3>
-			<Alert className='mb-6' type='warning' message='No account found from the council :(' />
+			<Alert className='mb-6' type='warning' message={<div className='flex items-center gap-x-2'>
+				<span>
+					No account found from the council
+				</span>
+				<img width={25} height={25} src={frowningFace} alt="frowning face" />
+			</div>} />
 			<Button onClick={() => setForceEndorse(true)}>Let me try still.</Button>
 		</GovSidebarCard>;
 
