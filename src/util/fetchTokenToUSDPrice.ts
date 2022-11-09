@@ -2,8 +2,8 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { REACT_APP_SUBSCAN_API_KEY  } from 'src/global/apiKeys';
 import { chainProperties } from 'src/global/networkConstants';
+import subscanApiHeaders from 'src/global/subscanApiHeaders';
 import getNetwork from 'src/util/getNetwork';
 
 import formatUSDWithUnits from './formatUSDWithUnits';
@@ -20,11 +20,7 @@ export default async function fetchTokenToUSDPrice(token: number) {
 				quote: 'USD',
 				value: token
 			}),
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-				'X-API-Key': REACT_APP_SUBSCAN_API_KEY || ''
-			},
+			headers: subscanApiHeaders,
 			method: 'POST'
 		}
 	);
