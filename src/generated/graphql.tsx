@@ -26480,6 +26480,20 @@ export type DeleteCalenderEventMutationVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
+export type GetCalenderEventsByEventTypeQueryVariables = Exact<{
+  network: Scalars['String'];
+  event_type: Scalars['String'];
+}>;
+
+
+export type GetCalenderEventsByEventTypeQuery = (
+  { __typename?: 'query_root' }
+  & { calender_events: Array<(
+    { __typename?: 'calender_events' }
+    & Pick<Calender_Events, 'content' | 'end_time' | 'id' | 'module' | 'network' | 'start_time' | 'title' | 'url' | 'event_type' | 'event_id' | 'status' | 'approval_status' | 'location'>
+  )> }
+);
+
 
 export type DeleteCalenderEventMutation = (
   { __typename?: 'mutation_root' }
@@ -26795,6 +26809,9 @@ export type AllBountyPostsQuery = (
           & Pick<BountyStatus, 'id' | 'status'>
         )>> }
       )>> }
+      )>, post_reactions: Array<(
+        { __typename?: 'post_reactions' }
+        & Pick<Post_Reactions, 'reaction'>
     )> }
   )> }
 );
@@ -26889,6 +26906,9 @@ export type AllChildBountyPostsQuery = (
           & Pick<ChildBountyStatus, 'id' | 'status'>
         )>> }
       )>> }
+      )>, post_reactions: Array<(
+        { __typename?: 'post_reactions' }
+        & Pick<Post_Reactions, 'reaction'>
     )> }
   )> }
 );
@@ -26985,6 +27005,9 @@ export type AllMotionPostsQuery = (
           & Pick<Preimage, 'id' | 'method'>
         )> }
       )>> }
+      )>, post_reactions: Array<(
+        { __typename?: 'post_reactions' }
+        & Pick<Post_Reactions, 'reaction'>
     )> }
   )> }
 );
@@ -27109,6 +27132,10 @@ export type LatestDiscussionPostsQuery = (
   { __typename?: 'query_root' }
   & { posts: Array<(
     { __typename?: 'posts' }
+    & { post_reactions: Array<(
+      { __typename?: 'post_reactions' }
+      & Pick<Post_Reactions, 'reaction'>
+    )> }
     & PostFieldsFragment
   )> }
 );
@@ -27123,6 +27150,10 @@ export type DiscussionPostsIdDescQuery = (
   { __typename?: 'query_root' }
   & { posts: Array<(
     { __typename?: 'posts' }
+    & { post_reactions: Array<(
+      { __typename?: 'post_reactions' }
+      & Pick<Post_Reactions, 'reaction'>
+    )> }
     & PostFieldsFragment
   )> }
 );
@@ -27137,6 +27168,10 @@ export type DiscussionPostsIdAscQuery = (
   { __typename?: 'query_root' }
   & { posts: Array<(
     { __typename?: 'posts' }
+    & { post_reactions: Array<(
+      { __typename?: 'post_reactions' }
+      & Pick<Post_Reactions, 'reaction'>
+    )> }
     & PostFieldsFragment
   )> }
 );
@@ -27993,6 +28028,9 @@ export type AllDemocracyProposalPostsQuery = (
           & Pick<Preimage, 'id' | 'method'>
         )> }
       )>> }
+      )>, post_reactions: Array<(
+        { __typename?: 'post_reactions' }
+        & Pick<Post_Reactions, 'reaction'>
     )> }
   )> }
 );
@@ -28038,6 +28076,9 @@ export type AllReferendaPostsQuery = (
           & Pick<Preimage, 'id' | 'method'>
         )> }
       )>> }
+      )>, post_reactions: Array<(
+        { __typename?: 'post_reactions' }
+        & Pick<Post_Reactions, 'reaction'>
     )> }
   )> }
 );
@@ -28467,6 +28508,9 @@ export type AllTechCommitteeProposalPostsQuery = (
           & Pick<Preimage, 'id' | 'method'>
         )> }
       )>> }
+      )>, post_reactions: Array<(
+        { __typename?: 'post_reactions' }
+        & Pick<Post_Reactions, 'reaction'>
     )> }
   )> }
 );
@@ -28561,6 +28605,9 @@ export type AllTipPostsQuery = (
           & Pick<TipStatus, 'id' | 'status'>
         )>> }
       )>> }
+      )>, post_reactions: Array<(
+        { __typename?: 'post_reactions' }
+        & Pick<Post_Reactions, 'reaction'>
     )> }
   )> }
 );
@@ -28903,6 +28950,9 @@ export type AllDemocracyTreasuryProposalPostsQuery = (
           & Pick<TreasuryStatus, 'id' | 'status'>
         )>> }
       )>> }
+      )>, post_reactions: Array<(
+        { __typename?: 'post_reactions' }
+        & Pick<Post_Reactions, 'reaction'>
     )> }
   )> }
 );
@@ -31063,6 +31113,54 @@ export function useGetCalenderEventsLazyQuery(baseOptions?: ApolloReactHooks.Laz
 export type GetCalenderEventsQueryHookResult = ReturnType<typeof useGetCalenderEventsQuery>;
 export type GetCalenderEventsLazyQueryHookResult = ReturnType<typeof useGetCalenderEventsLazyQuery>;
 export type GetCalenderEventsQueryResult = ApolloReactCommon.QueryResult<GetCalenderEventsQuery, GetCalenderEventsQueryVariables>;
+export const GetCalenderEventsByEventTypeDocument = gql`
+    query GetCalenderEventsByEventType($network: String!, $event_type: String!) {
+  calender_events(
+    where: {network: {_ilike: $network}, event_type: {_eq: $event_type}}
+  ) {
+    content
+    end_time
+    id
+    module
+    network
+    start_time
+    title
+    url
+    event_type
+    event_id
+    status
+    approval_status
+    location
+  }
+}
+    `;
+
+/**
+ * __useGetCalenderEventsByEventTypeQuery__
+ *
+ * To run a query within a React component, call `useGetCalenderEventsByEventTypeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCalenderEventsByEventTypeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCalenderEventsByEventTypeQuery({
+ *   variables: {
+ *      network: // value for 'network'
+ *      event_type: // value for 'event_type'
+ *   },
+ * });
+ */
+export function useGetCalenderEventsByEventTypeQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetCalenderEventsByEventTypeQuery, GetCalenderEventsByEventTypeQueryVariables>) {
+        return ApolloReactHooks.useQuery<GetCalenderEventsByEventTypeQuery, GetCalenderEventsByEventTypeQueryVariables>(GetCalenderEventsByEventTypeDocument, baseOptions);
+      }
+export function useGetCalenderEventsByEventTypeLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetCalenderEventsByEventTypeQuery, GetCalenderEventsByEventTypeQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<GetCalenderEventsByEventTypeQuery, GetCalenderEventsByEventTypeQueryVariables>(GetCalenderEventsByEventTypeDocument, baseOptions);
+        }
+export type GetCalenderEventsByEventTypeQueryHookResult = ReturnType<typeof useGetCalenderEventsByEventTypeQuery>;
+export type GetCalenderEventsByEventTypeLazyQueryHookResult = ReturnType<typeof useGetCalenderEventsByEventTypeLazyQuery>;
+export type GetCalenderEventsByEventTypeQueryResult = ApolloReactCommon.QueryResult<GetCalenderEventsByEventTypeQuery, GetCalenderEventsByEventTypeQueryVariables>;
 export const DeleteCalenderEventDocument = gql`
     mutation DeleteCalenderEvent($id: Int!) {
   delete_calender_events(where: {id: {_eq: $id}}) {
@@ -31721,6 +31819,9 @@ export const AllBountyPostsDocument = gql`
       }
       proposer_address
     }
+    post_reactions {
+      reaction
+    }
   }
 }
     ${AuthorFieldsFragmentDoc}`;
@@ -31826,6 +31927,9 @@ export const AllChildBountyPostsDocument = gql`
         }
       }
       proposer_address
+    }
+    post_reactions {
+      reaction
     }
   }
 }
@@ -31935,6 +32039,9 @@ export const AllMotionPostsDocument = gql`
         }
       }
       proposer_address
+    }
+    post_reactions {
+      reaction
     }
   }
 }
@@ -32116,6 +32223,9 @@ export const LatestDiscussionPostsDocument = gql`
     where: {type: {id: {_eq: 1}}}
   ) {
     ...postFields
+    post_reactions {
+      reaction
+    }
   }
 }
     ${PostFieldsFragmentDoc}`;
@@ -32155,6 +32265,9 @@ export const DiscussionPostsIdDescDocument = gql`
     where: {type: {id: {_eq: 1}}}
   ) {
     ...postFields
+    post_reactions {
+      reaction
+    }
   }
 }
     ${PostFieldsFragmentDoc}`;
@@ -32194,6 +32307,9 @@ export const DiscussionPostsIdAscDocument = gql`
     where: {type: {id: {_eq: 1}}}
   ) {
     ...postFields
+    post_reactions {
+      reaction
+    }
   }
 }
     ${PostFieldsFragmentDoc}`;
@@ -33615,6 +33731,9 @@ export const AllDemocracyProposalPostsDocument = gql`
       }
       proposer_address
     }
+    post_reactions {
+      reaction
+    }
   }
 }
     ${AuthorFieldsFragmentDoc}`;
@@ -33691,6 +33810,9 @@ export const AllReferendaPostsDocument = gql`
         }
       }
       proposer_address
+    }
+    post_reactions {
+      reaction
     }
   }
 }
@@ -34441,6 +34563,9 @@ export const AllTechCommitteeProposalPostsDocument = gql`
       }
       proposer_address
     }
+    post_reactions {
+      reaction
+    }
   }
 }
     ${AuthorFieldsFragmentDoc}`;
@@ -34545,6 +34670,9 @@ export const AllTipPostsDocument = gql`
         }
       }
       proposer_address
+    }
+    post_reactions {
+      reaction
     }
   }
 }
@@ -35111,6 +35239,9 @@ export const AllDemocracyTreasuryProposalPostsDocument = gql`
         }
       }
       proposer_address
+    }
+    post_reactions {
+      reaction
     }
   }
 }
