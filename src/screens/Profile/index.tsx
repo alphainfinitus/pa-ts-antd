@@ -7,14 +7,17 @@ import { DeriveAccountFlags, DeriveAccountInfo, DeriveAccountRegistration } from
 import { web3Accounts, web3Enable, web3FromSource } from '@polkadot/extension-dapp';
 import { InjectedExtension } from '@polkadot/extension-inject/types' ;
 import { stringToHex } from '@polkadot/util';
-import { Button, Col, Divider, Form, Row } from 'antd';
+import { Button, Col, Form, Row, Tabs } from 'antd';
 import React, { useContext, useEffect, useState } from 'react';
 import { useParams,useSearchParams } from 'react-router-dom';
 import ContentForm from 'src/components/ContentForm';
 import TitleForm from 'src/components/TitleForm';
+import { PostCategory } from 'src/global/post_categories';
+import BackToListingView from 'src/ui-components/BackToListingView';
 import queueNotification from 'src/ui-components/QueueNotification';
+import styled from 'styled-components';
 
-import Balance from '../../components/Balance';
+// import Balance from '../../components/Balance';
 import { ApiContext } from '../../context/ApiContext';
 import { useAboutLazyQuery, useChangeAboutMutation } from '../../generated/graphql';
 import { APPNAME } from '../../global/appName';
@@ -32,7 +35,7 @@ interface Props {
 	className?: string
 }
 
-const CouncilEmoji = () => <span aria-label="council member" className='councilMember' role="img">👑</span>;
+// const CouncilEmoji = () => <span aria-label="council member" className='councilMember' role="img">👑</span>;
 
 const network = getNetwork();
 
@@ -58,6 +61,7 @@ const Profile = ({ className }: Props): JSX.Element => {
 
 	const { api, apiReady } = useContext(ApiContext);
 	const [identity, setIdentity] = useState<DeriveAccountRegistration | null>(null);
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [flags, setFlags] = useState<DeriveAccountFlags | undefined>(undefined);
 	const [title, setTitle] = useState(aboutTitle || '');
 	const [description, setDescription] = useState(aboutDescription || '');
@@ -238,102 +242,134 @@ const Profile = ({ className }: Props): JSX.Element => {
 		return <Loader text={'Initializing Connection...'} />;
 	}
 
-	return (
-		<Row className={className} gutter={16}>
-			<Col span={16}>
-				{isEditing ? <Form className={className}>
-					<h3>Update Profile</h3>
-					<TitleForm
-						onChange={onTitleChange}
-					/>
-					<ContentForm
-						onChange={onDescriptionChange}
-					/>
+	const votingTab = (
+		<div>
+			{isEditing ? <Form>
+				<h3>Update Profile</h3>
+				<TitleForm
+					onChange={onTitleChange}
+				/>
+				<ContentForm
+					onChange={onDescriptionChange}
+				/>
 
-					<div className={'flex flex-col items-center mt-[3rem] justify-center'}>
+				<div className={'flex flex-col items-center mt-[3rem] justify-center'}>
+					<Button
+						onClick={handleSend}
+						disabled={loading}
+						type='primary'
+						htmlType='submit'
+					>
+						{loading ? <>Creating</> : 'Update'}
+					</Button>
+				</div>
+				{error?.message && <FilteredError text={error.message}/>}
+			</Form> : <div className="mb-[1rem]">
+				{aboutQueryResult?.error ? <FilteredError text={aboutQueryResult?.error?.message}/> : null}
+				{aboutQueryResult?.loading ? <Loader text={'Fetching Profile'}/> : <>
+					{/* <h2 className='dashboard-heading mb-4'>{aboutQueryResult?.data?.about?.title || 'Title not edited'}</h2>
+					<Markdown md={aboutQueryResult?.data?.about?.description || noDescription} /> */}
+					{canEdit ? <div className={'flex flex-col items-center mt-[3rem] justify-center'}>
 						<Button
-							onClick={handleSend}
+							onClick={handleEdit}
 							disabled={loading}
-							type='primary'
 							htmlType='submit'
+							type='primary'
 						>
 							{loading ? <>Creating</> : 'Update'}
 						</Button>
-					</div>
-					{error?.message && <FilteredError text={error.message}/>}
-				</Form> : <div className="bg-white drop-shadow-md p-3 lg:p-6 rounded-md mb-[1rem]">
-					{aboutQueryResult?.error ? <FilteredError text={aboutQueryResult?.error?.message}/> : null}
-					{aboutQueryResult?.loading ? <Loader text={'Fetching Profile'}/> : <>
-						<h2 className='dashboard-heading mb-4'>{aboutQueryResult?.data?.about?.title || 'Title not edited'}</h2>
-						<Markdown md={aboutQueryResult?.data?.about?.description || noDescription} />
-						{canEdit ? <div className={'flex flex-col items-center mt-[3rem] justify-center'}>
-							<Button
-								onClick={handleEdit}
-								disabled={loading}
-								htmlType='submit'
-								type='primary'
-							>
-								{loading ? <>Creating</> : 'Update'}
-							</Button>
-						</div> : null}
-					</>}
-				</div>}
-				{council ? <CouncilVotes address={address} /> : null}
-			</Col>
-			<Col span={8}>
-				<div className='bg-white drop-shadow-md rounded-md ' >
-					<div className='flex flex-col p-4 lg:p-6'>
-						<div className='dashboard-heading'>Identity </div>
-						<SetOnChainIdentityButton />
-						<Divider className='mb-0 mt-[2em]' />
-					</div>
-					<div className='info-box w-full break-words p-1 lg:p-3'>
-						<h2>{username}</h2>
-						{address ? <>
-							<div className=" flex flex-col items-center mb-2">
-								<AddressComponent address={address}/>
-								<Balance address={address}/>
-							</div>
-							{identity && <div className='mt-4'>
-								{identity?.legal && <Row className='border-b-[1px] border-slate-300'>
-									<Col span={8} className='desc py-2 pr-2 border-r-[1px] border-slate-300 text-left text-sidebarBlue font-bold'>Legal:</Col>
-									<Col span={16} className='py-2 pl-2 text-left'>{identity.legal}</Col>
-								</Row>}
-								{identity?.email && <Row className='border-b-[1px] border-slate-300'>
-									<Col span={8} className='desc py-2 pr-2 border-r-[1px] border-slate-300 text-left text-sidebarBlue font-bold'>Email:</Col>
-									<Col span={16} className='py-2 pl-2 text-left text-pink_primary'><a href={`mailto:${identity.email}`}>{identity.email}</a></Col>
-								</Row>}
-								{identity?.judgements?.length > 0 && <Row className='border-b-[1px] border-slate-300'>
-									<Col span={8} className='desc py-2 pr-2 border-r-[1px] border-slate-300 text-left text-sidebarBlue font-bold'>Judgements:</Col>
-									<Col span={16} className='judgments py-2 pl-2 text-left'>{icon} {displayJudgements}</Col>
-								</Row>}
-								{identity?.pgp && <Row className='border-b-[1px] border-slate-300'>
-									<Col span={8} className='desc py-2 pr-2 border-r-[1px] border-slate-300 text-left text-sidebarBlue font-bold'>PGP:</Col>
-									<Col span={16} className='py-2 pl-2 text-left'>{identity.pgp}</Col>
-								</Row>}
-								{identity?.riot && <Row className='border-b-[1px] border-slate-300'>
-									<Col span={8} className='desc py-2 pr-2 border-r-[1px] border-slate-300 text-left text-sidebarBlue font-bold'>Riot:</Col>
-									<Col span={16} className='py-2 pl-2 text-left'>{identity.riot}</Col>
-								</Row>}
-								{identity?.twitter && <Row className='border-b-[1px] border-slate-300'>
-									<Col span={8} className='desc py-2 pr-2 border-r-[1px] border-slate-300 text-left text-sidebarBlue font-bold'>Twitter:</Col>
-									<Col span={16} className='py-2 pl-2 text-left text-pink_primary'><a href={`https://twitter.com/${identity.twitter.substring(1)}`}>{identity.twitter}</a></Col>
-								</Row>}
-								{identity?.web && <Row className='border-b-[1px] border-slate-300'>
-									<Col span={8} className='desc py-2 pr-2 border-r-[1px] border-slate-300 text-left text-sidebarBlue font-bold'>Web:</Col>
-									<Col span={16} className='py-2 pl-2 text-left'>{identity.web}</Col>
-								</Row>}
-								{flags?.isCouncil && <Row>
-									<Col span={8} className='desc py-2 pr-2 border-r-[1px] border-slate-300 text-left text-sidebarBlue font-bold'>Roles:</Col>
-									<Col span={16} className='py-2 pl-2 text-left'>Council member <CouncilEmoji/></Col>
-								</Row>}
-							</div>}
-						</> : <p>No address attached to this account</p>}
-					</div>
-				</div>
-			</Col>
-		</Row>
+					</div> : null}
+				</>}
+			</div>}
+			{council ? <CouncilVotes address={address} /> : null}
+		</div>
+	);
+
+	const descriptionTab = (
+		<div>
+			<div className='p-3 lg:p-6'>
+				<h2>{username}</h2>
+				{address ? <>
+					{identity && <Row gutter={[8, 40]}>
+						<Col span={8}>
+							<div className='text-sidebarBlue font-medium text-[12px] mb-1'>Account</div>
+							<AddressComponent address={address}/>
+						</Col>
+						{identity?.email && <Col span={8}>
+							<div className='text-sidebarBlue font-medium text-[12px] mb-1'>Email</div>
+							<a href={`mailto:${identity.email}`} className='text-navBlue hover:text-pink_primary'>{identity.email}</a>
+						</Col>}
+						{identity?.legal && <Col span={8}>
+							<div className='text-sidebarBlue font-medium text-[12px] mb-1'>Legal</div>
+							<div className='text-navBlue'>{identity.legal}</div>
+						</Col>}
+						{identity?.riot && <Col span={8}>
+							<div className='text-sidebarBlue font-medium text-[12px] mb-1'>Riot</div>
+							<div className='text-navBlue'>{identity.riot}</div>
+						</Col>}
+						{identity?.judgements?.length > 0 && <Col span={8}>
+							<div className='text-sidebarBlue font-medium text-[12px] mb-1'>Judgements</div>
+							<div className='text-navBlue'>{icon} {displayJudgements}</div>
+						</Col>}
+						{identity?.web && <Col span={8}>
+							<div className='text-sidebarBlue font-medium text-[12px] mb-1'>Web</div>
+							<div className='text-navBlue'>{identity.web}</div>
+						</Col>}
+						{identity?.twitter && <Col span={8}>
+							<div className='text-sidebarBlue font-medium text-[12px] mb-1'>Web</div>
+							<a href={`https://twitter.com/${identity.twitter.substring(1)}`} className='text-navBlue hover:text-pink_primary'>{identity.twitter}</a>
+						</Col>}
+					</Row>}
+				</> : <p>No address attached to this account</p>}
+			</div>
+		</div>
+	);
+
+	const tabItems = [
+		// eslint-disable-next-line sort-keys
+		{ label: 'Description', key:'description', children: descriptionTab },
+		// eslint-disable-next-line sort-keys
+		{ label: 'Voting History', key:'voting_history', children: votingTab }
+	];
+
+	return (<div className={className}>
+		<BackToListingView postCategory={PostCategory.COUNCIL} />
+		<div className="flex flex-col md:flex-row mb-4 mt-6">
+			<p className="text-sidebarBlue text-sm md:text-base font-medium bg-white p-6 rounded-md w-full shadow-md mb-4 md:mb-0 md:mr-4">
+				<Markdown md={aboutQueryResult?.data?.about?.description || noDescription} />
+			</p>
+			<SetOnChainIdentityButton />
+		</div>
+
+		<div className='bg-white drop-shadow-md rounded-md w-full p-3 lg:p-6'>
+			<h2 className='dashboard-heading mb-4'>{aboutQueryResult?.data?.about?.title || 'Untitled'}</h2>
+			<Tabs
+				type="card"
+				className='ant-tabs-tab-bg-white text-sidebarBlue font-medium'
+				items={tabItems}
+			/>
+		</div>
+	</div>
 	);
 };
 
-export default Profile;
+export default styled(Profile)`
+	.ant-tabs-tab-bg-white .ant-tabs-tab:not(.ant-tabs-tab-active) {
+		background-color: white;
+		border-top-color: white;
+		border-left-color: white;
+		border-right-color: white;
+		border-bottom-color: #E1E6EB;
+	}
+
+	.ant-tabs-tab-bg-white .ant-tabs-tab-active{
+		border-top-color: #E1E6EB;
+		border-left-color: #E1E6EB;
+		border-right-color: #E1E6EB;
+		border-radius: 6px 6px 0 0 !important;
+	}
+
+	.ant-tabs-tab-bg-white .ant-tabs-nav:before{
+		border-bottom: 1px solid #E1E6EB;
+	}
+`;

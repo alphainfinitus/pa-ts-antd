@@ -2,12 +2,11 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { Empty } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import GovernanceCard from 'src/components/GovernanceCard';
 import { GetLatestReferendaPostsQuery } from 'src/generated/graphql';
-import { LoadingState } from 'src/ui-components/UIStates';
+import { LoadingState, PostEmptyState } from 'src/ui-components/UIStates';
 
 interface Props {
   className?: string
@@ -28,14 +27,25 @@ const ReferendaListing = ({ className, data, loading } : Props) => {
 		return false;
 	});
 
-	if (noPost || !atLeastOneCurrentReferendum) return <div className={className}><Empty /></div>;
+	if (noPost || !atLeastOneCurrentReferendum) return <div className={className}><PostEmptyState  /></div>;
 
 	return (
 		<ul className={`${className}`}>
 			{data.posts.map(
 				(post) => {
 					const onchainId = post.onchain_link?.onchain_referendum_id;
-
+					const likes = post?.post_reactions?.reduce((total:number, item:any) => {
+						if(item.reaction === '👍'){
+							total++;
+						}
+						return total;
+					}, 0);
+					const dislikes = post?.post_reactions?.reduce((total:number, item:any) => {
+						if(item.reaction === '👎'){
+							total++;
+						}
+						return total;
+					}, 0);
 					return !!post?.author?.username && !!post.onchain_link?.onchain_referendum.length &&
 						<li key={post.id} className='my-5'>
 							{<Link to={`/referendum/${onchainId}`}>
@@ -46,6 +56,8 @@ const ReferendaListing = ({ className, data, loading } : Props) => {
 										: 'no'}
 									method={post.onchain_link.onchain_referendum[0]?.preimage?.method}
 									onchainId={onchainId}
+									likes={likes}
+									dislikes={dislikes}
 									status={post.onchain_link.onchain_referendum[0]?.referendumStatus?.[0].status}
 									end={post.onchain_link.onchain_referendum[0]?.end}
 									title={post.title}

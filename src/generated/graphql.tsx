@@ -26480,6 +26480,20 @@ export type DeleteCalenderEventMutationVariables = Exact<{
   id: Scalars['Int'];
 }>;
 
+export type GetCalenderEventsByEventTypeQueryVariables = Exact<{
+  network: Scalars['String'];
+  event_type: Scalars['String'];
+}>;
+
+
+export type GetCalenderEventsByEventTypeQuery = (
+  { __typename?: 'query_root' }
+  & { calender_events: Array<(
+    { __typename?: 'calender_events' }
+    & Pick<Calender_Events, 'content' | 'end_time' | 'id' | 'module' | 'network' | 'start_time' | 'title' | 'url' | 'event_type' | 'event_id' | 'status' | 'approval_status' | 'location'>
+  )> }
+);
+
 
 export type DeleteCalenderEventMutation = (
   { __typename?: 'mutation_root' }
@@ -26755,7 +26769,103 @@ export type CommentFieldsFragment = (
     & ReplyFieldsFragment
   )> }
 );
+export type OnchainLinkProposalPostFragment = (
+  { __typename?: 'onchain_links' }
+  & { onchain_proposal: Array<Maybe<(
+    { __typename?: 'Proposal' }
+    & Pick<Proposal, 'proposalId'>
+    & { proposalStatus?: Maybe<Array<(
+      { __typename?: 'ProposalStatus' }
+      & { blockNumber: (
+        { __typename?: 'BlockNumber' }
+        & Pick<BlockNumber, 'number'>
+      ) }
+    )>> }
+  )>> }
+);
 
+export type OnchainLinkBountyPostFragment = (
+  { __typename?: 'onchain_links' }
+  & { onchain_bounty: Array<Maybe<(
+    { __typename?: 'Bounty' }
+    & Pick<Bounty, 'bountyId'>
+    & { bountyStatus?: Maybe<Array<(
+      { __typename?: 'BountyStatus' }
+      & { blockNumber: (
+        { __typename?: 'BlockNumber' }
+        & Pick<BlockNumber, 'number'>
+      ) }
+    )>> }
+  )>> }
+);
+
+export type OnchainLinkMotionPostFragment = (
+  { __typename?: 'onchain_links' }
+  & { onchain_motion: Array<Maybe<(
+    { __typename?: 'Motion' }
+    & Pick<Motion, 'motionProposalId'>
+    & { motionStatus?: Maybe<Array<(
+      { __typename?: 'MotionStatus' }
+      & { blockNumber: (
+        { __typename?: 'BlockNumber' }
+        & Pick<BlockNumber, 'number'>
+      ) }
+    )>> }
+  )>> }
+);
+
+export type OnchainLinkReferendumPostFragment = (
+  { __typename?: 'onchain_links' }
+  & { onchain_referendum: Array<Maybe<(
+    { __typename?: 'Referendum' }
+    & Pick<Referendum, 'referendumId'>
+    & { referendumStatus?: Maybe<Array<(
+      { __typename?: 'ReferendumStatus' }
+      & { blockNumber: (
+        { __typename?: 'BlockNumber' }
+        & Pick<BlockNumber, 'number'>
+      ) }
+    )>> }
+  )>> }
+);
+
+export type OnchainLinkTechCommitteeProposalPostFragment = (
+  { __typename?: 'onchain_links' }
+  & { onchain_tech_committee_proposal: Array<Maybe<(
+    { __typename?: 'TechCommitteeProposal' }
+    & Pick<TechCommitteeProposal, 'proposalId'>
+    & { status?: Maybe<Array<(
+      { __typename?: 'TechCommitteeProposalStatus' }
+      & { blockNumber: (
+        { __typename?: 'BlockNumber' }
+        & Pick<BlockNumber, 'number'>
+      ) }
+    )>> }
+  )>> }
+);
+
+export type OnchainLinkTreasurySpendProposalFragment = (
+  { __typename?: 'onchain_links' }
+  & { onchain_treasury_spend_proposal: Array<Maybe<(
+    { __typename?: 'TreasurySpendProposal' }
+    & Pick<TreasurySpendProposal, 'treasuryProposalId'>
+    & { treasuryStatus?: Maybe<Array<(
+      { __typename?: 'TreasuryStatus' }
+      & { blockNumber: (
+        { __typename?: 'BlockNumber' }
+        & Pick<BlockNumber, 'number'>
+      ) }
+    )>> }
+  )>> }
+);
+
+export type OnchainLinkDiscussionPostFragment = (
+  { __typename?: 'onchain_links' }
+  & { onchain_post_discussion_links: Array<(
+    { __typename?: 'onchain_post_discussion_link' }
+    & Pick<Onchain_Post_Discussion_Link, 'discussion_post_id'>
+  )> }
+);
 export type AllBountyPostsQueryVariables = Exact<{
   postType: Scalars['Int'];
   postTopic: Scalars['Int'];
@@ -26795,6 +26905,9 @@ export type AllBountyPostsQuery = (
           & Pick<BountyStatus, 'id' | 'status'>
         )>> }
       )>> }
+      )>, post_reactions: Array<(
+        { __typename?: 'post_reactions' }
+        & Pick<Post_Reactions, 'reaction'>
     )> }
   )> }
 );
@@ -26828,6 +26941,12 @@ export type BountyPostFragment = (
   )>, onchain_link?: Maybe<(
     { __typename?: 'onchain_links' }
     & OnchainLinkBountyFragment
+    & OnchainLinkProposalPostFragment
+    & OnchainLinkDiscussionPostFragment
+    & OnchainLinkMotionPostFragment
+    & OnchainLinkReferendumPostFragment
+    & OnchainLinkTechCommitteeProposalPostFragment
+    & OnchainLinkTreasurySpendProposalFragment
   )>, topic: (
     { __typename?: 'post_topics' }
     & Pick<Post_Topics, 'id' | 'name'>
@@ -26889,6 +27008,9 @@ export type AllChildBountyPostsQuery = (
           & Pick<ChildBountyStatus, 'id' | 'status'>
         )>> }
       )>> }
+      )>, post_reactions: Array<(
+        { __typename?: 'post_reactions' }
+        & Pick<Post_Reactions, 'reaction'>
     )> }
   )> }
 );
@@ -26985,6 +27107,9 @@ export type AllMotionPostsQuery = (
           & Pick<Preimage, 'id' | 'method'>
         )> }
       )>> }
+      )>, post_reactions: Array<(
+        { __typename?: 'post_reactions' }
+        & Pick<Post_Reactions, 'reaction'>
     )> }
   )> }
 );
@@ -27056,6 +27181,18 @@ export type DiscussionPostFragment = (
   )>, onchain_link?: Maybe<(
     { __typename?: 'onchain_links' }
     & OnchainLinkDiscussionFragment
+  )>, onchain_post_discussion_links: Array<(
+    { __typename?: 'onchain_post_discussion_link' }
+    & Pick<Onchain_Post_Discussion_Link, 'discussion_post_id'>
+    & { onchain_link: (
+      { __typename?: 'onchain_links' }
+      & OnchainLinkTreasurySpendProposalFragment
+      & OnchainLinkProposalPostFragment
+      & OnchainLinkMotionPostFragment
+      & OnchainLinkBountyPostFragment
+      & OnchainLinkReferendumPostFragment
+      & OnchainLinkTechCommitteeProposalPostFragment
+    ) }
   )>, topic: (
     { __typename?: 'post_topics' }
     & Pick<Post_Topics, 'id' | 'name'>
@@ -27109,6 +27246,10 @@ export type LatestDiscussionPostsQuery = (
   { __typename?: 'query_root' }
   & { posts: Array<(
     { __typename?: 'posts' }
+    & { post_reactions: Array<(
+      { __typename?: 'post_reactions' }
+      & Pick<Post_Reactions, 'reaction'>
+    )> }
     & PostFieldsFragment
   )> }
 );
@@ -27123,6 +27264,10 @@ export type DiscussionPostsIdDescQuery = (
   { __typename?: 'query_root' }
   & { posts: Array<(
     { __typename?: 'posts' }
+    & { post_reactions: Array<(
+      { __typename?: 'post_reactions' }
+      & Pick<Post_Reactions, 'reaction'>
+    )> }
     & PostFieldsFragment
   )> }
 );
@@ -27137,6 +27282,10 @@ export type DiscussionPostsIdAscQuery = (
   { __typename?: 'query_root' }
   & { posts: Array<(
     { __typename?: 'posts' }
+    & { post_reactions: Array<(
+      { __typename?: 'post_reactions' }
+      & Pick<Post_Reactions, 'reaction'>
+    )> }
     & PostFieldsFragment
   )> }
 );
@@ -27193,6 +27342,12 @@ export type MotionPostFragment = (
   )>, onchain_link?: Maybe<(
     { __typename?: 'onchain_links' }
     & OnchainLinkMotionFragment
+    & OnchainLinkBountyPostFragment
+    & OnchainLinkProposalPostFragment
+    & OnchainLinkDiscussionPostFragment
+    & OnchainLinkReferendumPostFragment
+    & OnchainLinkTechCommitteeProposalPostFragment
+    & OnchainLinkTreasurySpendProposalFragment
   )>, topic: (
     { __typename?: 'post_topics' }
     & Pick<Post_Topics, 'id' | 'name'>
@@ -27929,6 +28084,12 @@ export type ProposalPostFragment = (
   )>, onchain_link?: Maybe<(
     { __typename?: 'onchain_links' }
     & OnchainLinkProposalFragment
+    & OnchainLinkMotionPostFragment
+    & OnchainLinkBountyPostFragment
+    & OnchainLinkDiscussionPostFragment
+    & OnchainLinkReferendumPostFragment
+    & OnchainLinkTechCommitteeProposalPostFragment
+    & OnchainLinkTreasurySpendProposalFragment
   )>, topic: (
     { __typename?: 'post_topics' }
     & Pick<Post_Topics, 'id' | 'name'>
@@ -27993,6 +28154,9 @@ export type AllDemocracyProposalPostsQuery = (
           & Pick<Preimage, 'id' | 'method'>
         )> }
       )>> }
+      )>, post_reactions: Array<(
+        { __typename?: 'post_reactions' }
+        & Pick<Post_Reactions, 'reaction'>
     )> }
   )> }
 );
@@ -28038,6 +28202,9 @@ export type AllReferendaPostsQuery = (
           & Pick<Preimage, 'id' | 'method'>
         )> }
       )>> }
+      )>, post_reactions: Array<(
+        { __typename?: 'post_reactions' }
+        & Pick<Post_Reactions, 'reaction'>
     )> }
   )> }
 );
@@ -28078,6 +28245,12 @@ export type ReferendumPostFragment = (
   )>, onchain_link?: Maybe<(
     { __typename?: 'onchain_links' }
     & OnchainLinkReferendumFragment
+    & OnchainLinkProposalPostFragment
+    & OnchainLinkMotionPostFragment
+    & OnchainLinkBountyPostFragment
+    & OnchainLinkDiscussionPostFragment
+    & OnchainLinkTechCommitteeProposalPostFragment
+    & OnchainLinkTreasurySpendProposalFragment
   )>, topic: (
     { __typename?: 'post_topics' }
     & Pick<Post_Topics, 'id' | 'name'>
@@ -28404,6 +28577,12 @@ export type TechCommitteeProposalPostFragment = (
   )>, onchain_link?: Maybe<(
     { __typename?: 'onchain_links' }
     & OnchainLinkTechCommitteeProposalFragment
+    & OnchainLinkProposalPostFragment
+    & OnchainLinkMotionPostFragment
+    & OnchainLinkBountyPostFragment
+    & OnchainLinkDiscussionPostFragment
+    & OnchainLinkReferendumPostFragment
+    & OnchainLinkTreasurySpendProposalFragment
   )>, topic: (
     { __typename?: 'post_topics' }
     & Pick<Post_Topics, 'id' | 'name'>
@@ -28467,6 +28646,9 @@ export type AllTechCommitteeProposalPostsQuery = (
           & Pick<Preimage, 'id' | 'method'>
         )> }
       )>> }
+      )>, post_reactions: Array<(
+        { __typename?: 'post_reactions' }
+        & Pick<Post_Reactions, 'reaction'>
     )> }
   )> }
 );
@@ -28561,6 +28743,9 @@ export type AllTipPostsQuery = (
           & Pick<TipStatus, 'id' | 'status'>
         )>> }
       )>> }
+      )>, post_reactions: Array<(
+        { __typename?: 'post_reactions' }
+        & Pick<Post_Reactions, 'reaction'>
     )> }
   )> }
 );
@@ -28903,6 +29088,9 @@ export type AllDemocracyTreasuryProposalPostsQuery = (
           & Pick<TreasuryStatus, 'id' | 'status'>
         )>> }
       )>> }
+      )>, post_reactions: Array<(
+        { __typename?: 'post_reactions' }
+        & Pick<Post_Reactions, 'reaction'>
     )> }
   )> }
 );
@@ -28936,6 +29124,12 @@ export type TreasuryProposalPostFragment = (
   )>, onchain_link?: Maybe<(
     { __typename?: 'onchain_links' }
     & OnchainLinkTreasuryProposalFragment
+    & OnchainLinkProposalPostFragment
+    & OnchainLinkMotionPostFragment
+    & OnchainLinkBountyPostFragment
+    & OnchainLinkDiscussionPostFragment
+    & OnchainLinkReferendumPostFragment
+    & OnchainLinkTechCommitteeProposalPostFragment
   )>, topic: (
     { __typename?: 'post_topics' }
     & Pick<Post_Topics, 'id' | 'name'>
@@ -29127,6 +29321,73 @@ export const OnchainLinkBountyFragmentDoc = gql`
   }
 }
     `;
+    export const OnchainLinkProposalPostFragmentDoc = gql`
+    fragment onchainLinkProposalPost on onchain_links {
+  onchain_proposal {
+    proposalId
+    proposalStatus(first: 1) {
+      blockNumber {
+        number
+      }
+    }
+  }
+}
+    `;
+export const OnchainLinkDiscussionPostFragmentDoc = gql`
+    fragment onchainLinkDiscussionPost on onchain_links {
+  onchain_post_discussion_links {
+    discussion_post_id
+  }
+}
+    `;
+export const OnchainLinkMotionPostFragmentDoc = gql`
+    fragment onchainLinkMotionPost on onchain_links {
+  onchain_motion {
+    motionProposalId
+    motionStatus(first: 1) {
+      blockNumber {
+        number
+      }
+    }
+  }
+}
+    `;
+export const OnchainLinkReferendumPostFragmentDoc = gql`
+    fragment onchainLinkReferendumPost on onchain_links {
+  onchain_referendum {
+    referendumId
+    referendumStatus(first: 1) {
+      blockNumber {
+        number
+      }
+    }
+  }
+}
+    `;
+export const OnchainLinkTechCommitteeProposalPostFragmentDoc = gql`
+    fragment onchainLinkTechCommitteeProposalPost on onchain_links {
+  onchain_tech_committee_proposal {
+    proposalId
+    status(first: 1) {
+      blockNumber {
+        number
+      }
+    }
+  }
+}
+    `;
+export const OnchainLinkTreasurySpendProposalFragmentDoc = gql`
+    fragment onchainLinkTreasurySpendProposal on onchain_links {
+  onchain_treasury_spend_proposal {
+    treasuryProposalId
+    treasuryStatus(first: 1) {
+      blockNumber {
+        number
+      }
+    }
+  }
+}
+    `;
 export const BountyPostFragmentDoc = gql`
     fragment bountyPost on posts {
   author {
@@ -29141,6 +29402,12 @@ export const BountyPostFragmentDoc = gql`
   }
   onchain_link {
     ...onchainLinkBounty
+    ...onchainLinkProposalPost
+    ...onchainLinkDiscussionPost
+    ...onchainLinkMotionPost
+    ...onchainLinkReferendumPost
+    ...onchainLinkTechCommitteeProposalPost
+    ...onchainLinkTreasurySpendProposal
   }
   title
   topic {
@@ -29154,7 +29421,13 @@ export const BountyPostFragmentDoc = gql`
 }
     ${AuthorFieldsFragmentDoc}
 ${CommentFieldsFragmentDoc}
-${OnchainLinkBountyFragmentDoc}`;
+${OnchainLinkBountyFragmentDoc}
+${OnchainLinkProposalPostFragmentDoc}
+${OnchainLinkDiscussionPostFragmentDoc}
+${OnchainLinkMotionPostFragmentDoc}
+${OnchainLinkReferendumPostFragmentDoc}
+${OnchainLinkTechCommitteeProposalPostFragmentDoc}
+${OnchainLinkTreasurySpendProposalFragmentDoc}`;
 export const OnchainLinkChildBountyFragmentDoc = gql`
     fragment onchainLinkChildBounty on onchain_links {
   id
@@ -29225,6 +29498,18 @@ export const OnchainLinkDiscussionFragmentDoc = gql`
   onchain_treasury_proposal_id
 }
     `;
+export const OnchainLinkBountyPostFragmentDoc = gql`
+    fragment onchainLinkBountyPost on onchain_links {
+  onchain_bounty {
+    bountyId
+    bountyStatus(first: 1) {
+      blockNumber {
+        number
+      }
+    }
+  }
+}
+    `;
 export const DiscussionPostFragmentDoc = gql`
     fragment discussionPost on posts {
   author {
@@ -29240,6 +29525,17 @@ export const DiscussionPostFragmentDoc = gql`
   onchain_link {
     ...onchainLinkDiscussion
   }
+  onchain_post_discussion_links {
+    discussion_post_id
+    onchain_link {
+      ...onchainLinkTreasurySpendProposal
+      ...onchainLinkProposalPost
+      ...onchainLinkMotionPost
+      ...onchainLinkBountyPost
+      ...onchainLinkReferendumPost
+      ...onchainLinkTechCommitteeProposalPost
+    }
+  }
   title
   topic {
     id
@@ -29252,7 +29548,13 @@ export const DiscussionPostFragmentDoc = gql`
 }
     ${AuthorFieldsFragmentDoc}
 ${CommentFieldsFragmentDoc}
-${OnchainLinkDiscussionFragmentDoc}`;
+${OnchainLinkDiscussionFragmentDoc}
+${OnchainLinkTreasurySpendProposalFragmentDoc}
+${OnchainLinkProposalPostFragmentDoc}
+${OnchainLinkMotionPostFragmentDoc}
+${OnchainLinkBountyPostFragmentDoc}
+${OnchainLinkReferendumPostFragmentDoc}
+${OnchainLinkTechCommitteeProposalPostFragmentDoc}`;
 export const PostFieldsFragmentDoc = gql`
     fragment postFields on posts {
   id
@@ -29342,6 +29644,12 @@ export const MotionPostFragmentDoc = gql`
   }
   onchain_link {
     ...onchainLinkMotion
+    ...onchainLinkBountyPost
+    ...onchainLinkProposalPost
+    ...onchainLinkDiscussionPost
+    ...onchainLinkReferendumPost
+    ...onchainLinkTechCommitteeProposalPost
+    ...onchainLinkTreasurySpendProposal
   }
   title
   topic {
@@ -29355,7 +29663,13 @@ export const MotionPostFragmentDoc = gql`
 }
     ${AuthorFieldsFragmentDoc}
 ${CommentFieldsFragmentDoc}
-${OnchainLinkMotionFragmentDoc}`;
+${OnchainLinkMotionFragmentDoc}
+${OnchainLinkBountyPostFragmentDoc}
+${OnchainLinkProposalPostFragmentDoc}
+${OnchainLinkDiscussionPostFragmentDoc}
+${OnchainLinkReferendumPostFragmentDoc}
+${OnchainLinkTechCommitteeProposalPostFragmentDoc}
+${OnchainLinkTreasurySpendProposalFragmentDoc}`;
 export const OnchainLinkProposalFragmentDoc = gql`
     fragment onchainLinkProposal on onchain_links {
   id
@@ -29400,6 +29714,12 @@ export const ProposalPostFragmentDoc = gql`
   }
   onchain_link {
     ...onchainLinkProposal
+    ...onchainLinkMotionPost
+    ...onchainLinkBountyPost
+    ...onchainLinkDiscussionPost
+    ...onchainLinkReferendumPost
+    ...onchainLinkTechCommitteeProposalPost
+    ...onchainLinkTreasurySpendProposal
   }
   title
   topic {
@@ -29413,7 +29733,13 @@ export const ProposalPostFragmentDoc = gql`
 }
     ${AuthorFieldsFragmentDoc}
 ${CommentFieldsFragmentDoc}
-${OnchainLinkProposalFragmentDoc}`;
+${OnchainLinkProposalFragmentDoc}
+${OnchainLinkMotionPostFragmentDoc}
+${OnchainLinkBountyPostFragmentDoc}
+${OnchainLinkDiscussionPostFragmentDoc}
+${OnchainLinkReferendumPostFragmentDoc}
+${OnchainLinkTechCommitteeProposalPostFragmentDoc}
+${OnchainLinkTreasurySpendProposalFragmentDoc}`;
 export const OnchainLinkReferendumFragmentDoc = gql`
     fragment onchainLinkReferendum on onchain_links {
   id
@@ -29460,6 +29786,12 @@ export const ReferendumPostFragmentDoc = gql`
   }
   onchain_link {
     ...onchainLinkReferendum
+    ...onchainLinkProposalPost
+    ...onchainLinkMotionPost
+    ...onchainLinkBountyPost
+    ...onchainLinkDiscussionPost
+    ...onchainLinkTechCommitteeProposalPost
+    ...onchainLinkTreasurySpendProposal
   }
   title
   topic {
@@ -29473,7 +29805,13 @@ export const ReferendumPostFragmentDoc = gql`
 }
     ${AuthorFieldsFragmentDoc}
 ${CommentFieldsFragmentDoc}
-${OnchainLinkReferendumFragmentDoc}`;
+${OnchainLinkReferendumFragmentDoc}
+${OnchainLinkProposalPostFragmentDoc}
+${OnchainLinkMotionPostFragmentDoc}
+${OnchainLinkBountyPostFragmentDoc}
+${OnchainLinkDiscussionPostFragmentDoc}
+${OnchainLinkTechCommitteeProposalPostFragmentDoc}
+${OnchainLinkTreasurySpendProposalFragmentDoc}`;
 export const SearchPostFieldsFragmentDoc = gql`
     fragment searchPostFields on posts {
   id
@@ -29552,6 +29890,12 @@ export const TechCommitteeProposalPostFragmentDoc = gql`
   }
   onchain_link {
     ...onchainLinkTechCommitteeProposal
+    ...onchainLinkProposalPost
+    ...onchainLinkMotionPost
+    ...onchainLinkBountyPost
+    ...onchainLinkDiscussionPost
+    ...onchainLinkReferendumPost
+    ...onchainLinkTreasurySpendProposal
   }
   title
   topic {
@@ -29565,7 +29909,13 @@ export const TechCommitteeProposalPostFragmentDoc = gql`
 }
     ${AuthorFieldsFragmentDoc}
 ${CommentFieldsFragmentDoc}
-${OnchainLinkTechCommitteeProposalFragmentDoc}`;
+${OnchainLinkTechCommitteeProposalFragmentDoc}
+${OnchainLinkProposalPostFragmentDoc}
+${OnchainLinkMotionPostFragmentDoc}
+${OnchainLinkBountyPostFragmentDoc}
+${OnchainLinkDiscussionPostFragmentDoc}
+${OnchainLinkReferendumPostFragmentDoc}
+${OnchainLinkTreasurySpendProposalFragmentDoc}`;
 export const OnchainLinkTipFragmentDoc = gql`
     fragment onchainLinkTip on onchain_links {
   id
@@ -29653,6 +30003,12 @@ export const TreasuryProposalPostFragmentDoc = gql`
   }
   onchain_link {
     ...onchainLinkTreasuryProposal
+    ...onchainLinkProposalPost
+    ...onchainLinkMotionPost
+    ...onchainLinkBountyPost
+    ...onchainLinkDiscussionPost
+    ...onchainLinkReferendumPost
+    ...onchainLinkTechCommitteeProposalPost
   }
   title
   topic {
@@ -29666,7 +30022,13 @@ export const TreasuryProposalPostFragmentDoc = gql`
 }
     ${AuthorFieldsFragmentDoc}
 ${CommentFieldsFragmentDoc}
-${OnchainLinkTreasuryProposalFragmentDoc}`;
+${OnchainLinkTreasuryProposalFragmentDoc}
+${OnchainLinkProposalPostFragmentDoc}
+${OnchainLinkMotionPostFragmentDoc}
+${OnchainLinkBountyPostFragmentDoc}
+${OnchainLinkDiscussionPostFragmentDoc}
+${OnchainLinkReferendumPostFragmentDoc}
+${OnchainLinkTechCommitteeProposalPostFragmentDoc}`;
 export const EditCommentDocument = gql`
     mutation EditComment($id: uuid!, $content: String!) {
   update_comments(where: {id: {_eq: $id}}, _set: {content: $content}) {
@@ -31063,6 +31425,54 @@ export function useGetCalenderEventsLazyQuery(baseOptions?: ApolloReactHooks.Laz
 export type GetCalenderEventsQueryHookResult = ReturnType<typeof useGetCalenderEventsQuery>;
 export type GetCalenderEventsLazyQueryHookResult = ReturnType<typeof useGetCalenderEventsLazyQuery>;
 export type GetCalenderEventsQueryResult = ApolloReactCommon.QueryResult<GetCalenderEventsQuery, GetCalenderEventsQueryVariables>;
+export const GetCalenderEventsByEventTypeDocument = gql`
+    query GetCalenderEventsByEventType($network: String!, $event_type: String!) {
+  calender_events(
+    where: {network: {_ilike: $network}, event_type: {_eq: $event_type}}
+  ) {
+    content
+    end_time
+    id
+    module
+    network
+    start_time
+    title
+    url
+    event_type
+    event_id
+    status
+    approval_status
+    location
+  }
+}
+    `;
+
+/**
+ * __useGetCalenderEventsByEventTypeQuery__
+ *
+ * To run a query within a React component, call `useGetCalenderEventsByEventTypeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCalenderEventsByEventTypeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCalenderEventsByEventTypeQuery({
+ *   variables: {
+ *      network: // value for 'network'
+ *      event_type: // value for 'event_type'
+ *   },
+ * });
+ */
+export function useGetCalenderEventsByEventTypeQuery(baseOptions?: ApolloReactHooks.QueryHookOptions<GetCalenderEventsByEventTypeQuery, GetCalenderEventsByEventTypeQueryVariables>) {
+        return ApolloReactHooks.useQuery<GetCalenderEventsByEventTypeQuery, GetCalenderEventsByEventTypeQueryVariables>(GetCalenderEventsByEventTypeDocument, baseOptions);
+      }
+export function useGetCalenderEventsByEventTypeLazyQuery(baseOptions?: ApolloReactHooks.LazyQueryHookOptions<GetCalenderEventsByEventTypeQuery, GetCalenderEventsByEventTypeQueryVariables>) {
+          return ApolloReactHooks.useLazyQuery<GetCalenderEventsByEventTypeQuery, GetCalenderEventsByEventTypeQueryVariables>(GetCalenderEventsByEventTypeDocument, baseOptions);
+        }
+export type GetCalenderEventsByEventTypeQueryHookResult = ReturnType<typeof useGetCalenderEventsByEventTypeQuery>;
+export type GetCalenderEventsByEventTypeLazyQueryHookResult = ReturnType<typeof useGetCalenderEventsByEventTypeLazyQuery>;
+export type GetCalenderEventsByEventTypeQueryResult = ApolloReactCommon.QueryResult<GetCalenderEventsByEventTypeQuery, GetCalenderEventsByEventTypeQueryVariables>;
 export const DeleteCalenderEventDocument = gql`
     mutation DeleteCalenderEvent($id: Int!) {
   delete_calender_events(where: {id: {_eq: $id}}) {
@@ -31721,6 +32131,9 @@ export const AllBountyPostsDocument = gql`
       }
       proposer_address
     }
+    post_reactions {
+      reaction
+    }
   }
 }
     ${AuthorFieldsFragmentDoc}`;
@@ -31826,6 +32239,9 @@ export const AllChildBountyPostsDocument = gql`
         }
       }
       proposer_address
+    }
+    post_reactions {
+      reaction
     }
   }
 }
@@ -31935,6 +32351,9 @@ export const AllMotionPostsDocument = gql`
         }
       }
       proposer_address
+    }
+    post_reactions {
+      reaction
     }
   }
 }
@@ -32116,6 +32535,9 @@ export const LatestDiscussionPostsDocument = gql`
     where: {type: {id: {_eq: 1}}}
   ) {
     ...postFields
+    post_reactions {
+      reaction
+    }
   }
 }
     ${PostFieldsFragmentDoc}`;
@@ -32155,6 +32577,9 @@ export const DiscussionPostsIdDescDocument = gql`
     where: {type: {id: {_eq: 1}}}
   ) {
     ...postFields
+    post_reactions {
+      reaction
+    }
   }
 }
     ${PostFieldsFragmentDoc}`;
@@ -32194,6 +32619,9 @@ export const DiscussionPostsIdAscDocument = gql`
     where: {type: {id: {_eq: 1}}}
   ) {
     ...postFields
+    post_reactions {
+      reaction
+    }
   }
 }
     ${PostFieldsFragmentDoc}`;
@@ -33615,6 +34043,9 @@ export const AllDemocracyProposalPostsDocument = gql`
       }
       proposer_address
     }
+    post_reactions {
+      reaction
+    }
   }
 }
     ${AuthorFieldsFragmentDoc}`;
@@ -33691,6 +34122,9 @@ export const AllReferendaPostsDocument = gql`
         }
       }
       proposer_address
+    }
+    post_reactions {
+      reaction
     }
   }
 }
@@ -34441,6 +34875,9 @@ export const AllTechCommitteeProposalPostsDocument = gql`
       }
       proposer_address
     }
+    post_reactions {
+      reaction
+    }
   }
 }
     ${AuthorFieldsFragmentDoc}`;
@@ -34545,6 +34982,9 @@ export const AllTipPostsDocument = gql`
         }
       }
       proposer_address
+    }
+    post_reactions {
+      reaction
     }
   }
 }
@@ -35111,6 +35551,9 @@ export const AllDemocracyTreasuryProposalPostsDocument = gql`
         }
       }
       proposer_address
+    }
+    post_reactions {
+      reaction
     }
   }
 }

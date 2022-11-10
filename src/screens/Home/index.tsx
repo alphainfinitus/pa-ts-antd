@@ -26,7 +26,7 @@ const Home = () => {
 				<LatestActivity />
 			</div>
 
-			<div className="mt-8 mx-1 flex flex-col xl:flex-row items-center justify-between gap-4">
+			<div className="mt-8 mx-1 flex flex-col xl:flex-row justify-between gap-4">
 				<div className='w-full xl:w-[60%]'>
 					<UpcomingEvents />
 				</div>

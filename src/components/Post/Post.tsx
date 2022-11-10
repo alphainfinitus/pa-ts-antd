@@ -12,6 +12,7 @@ import { UserDetailsContext } from 'src/context/UserDetailsContext';
 import { BountyPostAndCommentsQueryHookResult, BountyPostFragment, ChildBountyPostAndCommentsQueryHookResult, ChildBountyPostFragment, DiscussionPostAndCommentsQueryHookResult, DiscussionPostFragment, Exact, MotionPostAndCommentsQueryHookResult, MotionPostFragment, OnchainLinkBountyFragment, OnchainLinkChildBountyFragment, OnchainLinkMotionFragment, OnchainLinkProposalFragment, OnchainLinkReferendumFragment, OnchainLinkTechCommitteeProposalFragment, OnchainLinkTipFragment, OnchainLinkTreasuryProposalFragment, ProposalPostAndCommentsQueryHookResult, ProposalPostFragment, ReferendumPostAndCommentsQueryHookResult, ReferendumPostFragment, TechCommitteeProposalPostAndCommentsQueryHookResult, TechCommitteeProposalPostFragment, TipPostAndCommentsQueryHookResult, TipPostFragment, TreasuryProposalPostAndCommentsQueryHookResult, TreasuryProposalPostFragment } from 'src/generated/graphql';
 import { PostCategory } from 'src/global/post_categories';
 import { PostEmptyState } from 'src/ui-components/UIStates';
+import styled from 'styled-components';
 
 import OtherProposals from '../OtherProposals';
 import SidebarRight from '../SidebarRight';
@@ -419,6 +420,7 @@ const Post = ({
 
 							<Tabs
 								type="card"
+								className='ant-tabs-tab-bg-white text-sidebarBlue font-medium'
 								items={tabItems}
 							/>
 						</>}
@@ -428,7 +430,6 @@ const Post = ({
 
 				{!isEditing && <Sidebar className='hidden lg:block' />}
 			</div>
-
 			<SidebarRight
 				open={sidebarOpen}
 				closeSidebar={() => setSidebarOpen(false)}
@@ -439,4 +440,23 @@ const Post = ({
 	);
 };
 
-export default Post;
+export default styled(Post)`
+	.ant-tabs-tab-bg-white .ant-tabs-tab:not(.ant-tabs-tab-active) {
+		background-color: white;
+		border-top-color: white;
+		border-left-color: white;
+		border-right-color: white;
+		border-bottom-color: #E1E6EB;
+	}
+
+	.ant-tabs-tab-bg-white .ant-tabs-tab-active{
+		border-top-color: #E1E6EB;
+		border-left-color: #E1E6EB;
+		border-right-color: #E1E6EB;
+		border-radius: 6px 6px 0 0 !important;
+	}
+
+	.ant-tabs-tab-bg-white .ant-tabs-nav:before{
+		border-bottom: 1px solid #E1E6EB;
+	}
+`;

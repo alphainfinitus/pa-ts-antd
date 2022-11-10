@@ -1,11 +1,12 @@
 // Copyright 2019-2020 @Premiurly/polkassembly authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
-import { Col, Empty, Row } from 'antd';
+import { Col, Row } from 'antd';
 import BN from 'bn.js';
 import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { ApiContext } from 'src/context/ApiContext';
 import HelperTooltip from 'src/ui-components/HelperTooltip';
+import { PostEmptyState } from 'src/ui-components/UIStates';
 import formatBnBalance from 'src/util/formatBnBalance';
 import getNetwork from 'src/util/getNetwork';
 
@@ -216,7 +217,7 @@ const TipInfo = ({ onChainId, who }: Props) => {
 							)}
 						</div>
 					</Card>
-					:<Empty />}
+					:<PostEmptyState />}
 		</>
 	);
 };

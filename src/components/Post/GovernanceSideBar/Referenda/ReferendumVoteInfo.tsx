@@ -250,7 +250,7 @@ const ReferendumVoteInfo = ({ className, referendumId, threshold, setLastVote }:
 							<h6 className='dashboard-heading'>Voting Status</h6>
 						</div>
 
-						{<>
+						{<div className='flex items-center'>
 							{
 								isPassing === null
 									? <Loader className={'my-3'} text={'Loading vote progress'} timeout={90000} timeoutText='Vote calculation failed'/>
@@ -280,7 +280,7 @@ const ReferendumVoteInfo = ({ className, referendumId, threshold, setLastVote }:
 									<div className='text-navBlue'>{formatBnBalance(nayVotesWithoutConviction, { numberAfterComma: 2, withUnit: true })}</div>
 								</div>
 							</div>
-						</>
+						</div>
 						}
 					</Spin>
 				</GovSidebarCard>

@@ -45,8 +45,7 @@ function NetworkSelect({ selectedNetwork, setSelectedNetwork }: {selectedNetwork
 		networkOptions.push(optionObj);
 	}
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const [selectedNetworkToolbar, setSelectedNetworkToolbar] = useState<any>(selectedNetwork);
+	const [, setSelectedNetworkToolbar] = useState<any>(selectedNetwork);
 
 	const handleSetSelectedNetwork : MenuProps['onClick'] = ({ key }) => {
 		setSelectedNetworkToolbar(key);

@@ -4,13 +4,13 @@
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
-import { CloseOutlined } from '@ant-design/icons';
 import styled from '@xstyled/styled-components';
 import type { MenuProps } from 'antd';
 import {  Badge, Button, Col, Divider, Dropdown, Row, Space } from 'antd';
 import moment from 'moment';
 import React, { useContext, useEffect, useState } from 'react';
 import { Calendar, DateHeaderProps, momentLocalizer, View } from 'react-big-calendar';
+import SidebarRight from 'src/components/SidebarRight';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
 import {  useGetCalenderEventsLazyQuery, useUpdateApprovalStatusMutation } from 'src/generated/graphql';
 import { approvalStatus } from 'src/global/statuses';
@@ -320,9 +320,11 @@ const CalendarView = ({ className, small = false, emitCalendarEvents = undefined
 					</Row>
 					}
 				</div>
+			</div>
 
-				{/* Event View Sidebar */}
-				{routeWrapperHeight && sidebarEvent && Object.keys(sidebarEvent).length !== 0 && <div className="events-sidebar" style={ { maxHeight: `${routeWrapperHeight}px`, minHeight: `${routeWrapperHeight}px` } }>
+			{/* Event View Sidebar */}
+			<SidebarRight open={sidebarEvent} closeSidebar={() => setSidebarEvent(false)}>
+				<div className="events-sidebar" >
 					{accessible &&
 					<div className='approval-status-div'>
 						<span>Status: </span>
@@ -339,7 +341,7 @@ const CalendarView = ({ className, small = false, emitCalendarEvents = undefined
 							<div className={`status-icon ${moment(sidebarEvent.end_time).isBefore() ? 'overdue-color' : `${sidebarEvent.status?.toLowerCase()}-color`}`} ></div>
 							<h1>{sidebarEvent.title}</h1>
 						</div>
-						<CloseOutlined className='close-btn' disabled={loadingUpdate} onClick={() => setSidebarEvent(false)} />
+
 					</div>
 
 					<div className="sidebar-event-datetime">
@@ -360,10 +362,11 @@ const CalendarView = ({ className, small = false, emitCalendarEvents = undefined
 							<a href={sidebarEvent.url} target='_blank' rel='noreferrer'>{sidebarEvent.url}</a>
 						</div>
 					</div>
-				</div>}
-			</div>
+				</div>
+			</SidebarRight>
+
 			{/* Create Event Sidebar */}
-			{sidebarCreateEvent &&
+
 			<CreateEventSidebar
 				open={sidebarCreateEvent}
 				setSidebarCreateEvent={setSidebarCreateEvent}
@@ -372,7 +375,7 @@ const CalendarView = ({ className, small = false, emitCalendarEvents = undefined
 				className='create-event-sidebar'
 				id={id}
 			/>
-			}
+
 		</>
 	);
 };

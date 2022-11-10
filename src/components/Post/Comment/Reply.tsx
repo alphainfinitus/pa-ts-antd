@@ -41,16 +41,16 @@ export const Reply = ({ className, reply, refetch } : Props) => {
 	const defaultAddress = author[defaultAddressField];
 
 	return (
-		<div id={id} ref={replyRef} className={className}>
+		<div id={id} ref={replyRef} className={`${className} flex gap-x-4 mb-9`}>
 			<UserAvatar
 				className='mt-1 hidden md:inline-block'
 				username={author.username}
 				size='large'
 				id={id}
 			/>
-			<div className='comment-box'>
+			<div>
 				<CreationLabel
-					className='creation-label'
+					className='creation-label py-2 px-4 bg-comment_bg rounded-t-md'
 					created_at={created_at}
 					defaultAddress={defaultAddress}
 					text={'replied'}
@@ -77,29 +77,6 @@ export const Reply = ({ className, reply, refetch } : Props) => {
 };
 
 export default styled(Reply)`
-	display: flex;
-	margin-top: 1rem;
-
-	.comment-box {
-		background-color: white;
-		border-radius: 3px;
-		box-shadow: box_shadow_card;
-		margin-bottom: 1rem;
-		width: calc(100% - 60px);
-		word-break: break-word;
-
-		@media only screen and (max-width: 576px) {
-			width: 100%;
-			border-radius: 0px;
-		}
-	}
-
-	.creation-label {
-		display: inline-flex;
-		padding: 1rem 0 0.8rem 2rem;
-		margin-bottom: 0;
-	}
-
 	.comment-content {
 		padding: 0.8rem 2rem;
 		width: 100%;

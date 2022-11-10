@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ClockCircleOutlined, CommentOutlined } from '@ant-design/icons';
+import { ClockCircleOutlined, CommentOutlined, DislikeOutlined, LikeOutlined } from '@ant-design/icons';
 import { Divider,Space } from 'antd';
 import React, { useContext } from 'react';
 import BlockCountdown from 'src/components/BlockCountdown';
@@ -25,6 +25,8 @@ interface GovernanceProps {
 	tipReason?: string
 	title?: string | null
 	topic: string
+	likes?: number
+	dislikes?: number
 }
 
 const GovernanceCard = function ({
@@ -32,7 +34,9 @@ const GovernanceCard = function ({
 	className,
 	comments,
 	created_at,
+	dislikes,
 	end = 0,
+	likes,
 	method,
 	onchainId,
 	status,
@@ -81,6 +85,19 @@ const GovernanceCard = function ({
 									<CommentOutlined className='mr-1' /> {comments} comments
 								</div>
 							</>}
+
+							<Divider className='hidden md:inline-block' type="vertical" style={{ borderLeft: '1px solid #90A0B7' }} />
+
+							<div className='flex items-center'>
+								<LikeOutlined className='mr-1' /> {likes}
+							</div>
+
+							<Divider className='hidden md:inline-block' type="vertical" style={{ borderLeft: '1px solid #90A0B7' }} />
+
+							<div className='flex items-center'>
+								<DislikeOutlined className='mr-1' /> {dislikes}
+							</div>
+
 						</div>
 
 						{!!end && !!currentBlock &&

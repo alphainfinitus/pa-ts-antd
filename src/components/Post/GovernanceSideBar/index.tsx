@@ -15,6 +15,7 @@ import { motionStatus, proposalStatus, referendumStatus, tipStatus } from 'src/g
 import { VoteThreshold, Wallet } from 'src/types';
 import GovSidebarCard from 'src/ui-components/GovSidebarCard';
 import getEncodedAddress from 'src/util/getEncodedAddress';
+import styled from 'styled-components';
 
 import ExtensionNotDetected from '../../ExtensionNotDetected';
 import MotionVoteInfo from './Motions/MotionVoteInfo';
@@ -43,6 +44,7 @@ interface Props {
 	startTime: string
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const GovernanceSideBar = ({ canEdit, className, isMotion, isProposal, isReferendum, isTipProposal, isTreasuryProposal, onchainId, onchainLink, startTime, status }: Props) => {
 	const [address, setAddress] = useState<string>('');
 	const [accounts, setAccounts] = useState<InjectedAccount[]>([]);
@@ -328,4 +330,21 @@ const GovernanceSideBar = ({ canEdit, className, isMotion, isProposal, isReferen
 	);
 };
 
-export default GovernanceSideBar;
+export default styled(GovernanceSideBar)`
+	.edit-icon-wrapper{
+		transition: all 0.5s;
+	}
+	.edit-icon-wrapper .edit-icon{
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		right: 20px;
+		display: none;
+	}
+	.edit-icon-wrapper:hover{
+		background-image: linear-gradient(to left, #E5007A, #ffffff);
+	}
+	.edit-icon-wrapper:hover .edit-icon{
+		display: block;
+	}
+`;

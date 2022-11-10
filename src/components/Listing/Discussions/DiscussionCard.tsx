@@ -2,7 +2,7 @@
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
 
-import { ClockCircleOutlined, CommentOutlined } from '@ant-design/icons';
+import { ClockCircleOutlined, CommentOutlined, DislikeOutlined, LikeOutlined } from '@ant-design/icons';
 import { Divider, Space } from 'antd';
 import React, { useContext } from 'react';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
@@ -15,6 +15,8 @@ export interface DiscussionProps {
   comments?: string
   title: string
   username: string
+  likes?: number
+  dislikes?: number
 }
 
 const DiscussionCard = ({
@@ -22,7 +24,9 @@ const DiscussionCard = ({
 	defaultAddress,
 	comments,
 	title,
-	username
+	username,
+	likes,
+	dislikes
 }:DiscussionProps) => {
 	const currentUser = useContext(UserDetailsContext);
 	const ownPost = currentUser.username === username;
@@ -51,6 +55,18 @@ const DiscussionCard = ({
 									<CommentOutlined className='mr-1' /> {comments} comments
 								</div>
 							</>}
+
+							<Divider className='hidden md:inline-block' type="vertical" style={{ borderLeft: '1px solid #90A0B7' }} />
+
+							<div className='flex items-center'>
+								<LikeOutlined className='mr-1' /> {likes}
+							</div>
+
+							<Divider className='hidden md:inline-block' type="vertical" style={{ borderLeft: '1px solid #90A0B7' }} />
+
+							<div className='flex items-center'>
+								<DislikeOutlined className='mr-1' /> {dislikes}
+							</div>
 						</div>
 
 					</Space>

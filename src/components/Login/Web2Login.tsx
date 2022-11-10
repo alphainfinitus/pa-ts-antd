@@ -115,7 +115,7 @@ const Web2Login: FC<Props> = ({ walletError, onWalletSelect }) => {
 							id="password"
 						/>
 					</Form.Item>
-					<div className="text-right text-pink_primary my-3">
+					<div className="text-right text-pink_primary">
 						<Link to="/request-reset-password">Forgot Password?</Link>
 					</div>
 				</div>
