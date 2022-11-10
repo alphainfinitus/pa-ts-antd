@@ -5,6 +5,12 @@
 import gql from 'graphql-tag';
 import { authorFields } from 'src/fragments/author';
 import { commentFields } from 'src/fragments/comments';
+import { onchainLinkTreasurySpendProposal } from 'src/fragments/posts';
+import { onchainLinkProposalPost } from 'src/fragments/posts';
+import { onchainLinkReferendumPost } from 'src/fragments/posts';
+import { onchainLinkTechCommitteeProposalPost } from 'src/fragments/posts';
+import { onchainLinkBountyPost } from 'src/fragments/posts';
+import { onchainLinkMotionPost } from 'src/fragments/posts';
 
 const onchainLinkDiscussion = gql`
     fragment onchainLinkDiscussion on onchain_links {
@@ -31,6 +37,17 @@ const discussionPost = gql`
         onchain_link{
             ...onchainLinkDiscussion
         }
+        onchain_post_discussion_links {
+            discussion_post_id
+            onchain_link{
+                ...onchainLinkTreasurySpendProposal
+                ...onchainLinkProposalPost
+                ...onchainLinkMotionPost
+                ...onchainLinkBountyPost
+                ...onchainLinkReferendumPost
+                ...onchainLinkTechCommitteeProposalPost
+            }
+        }
         title
         topic {
             id
@@ -44,6 +61,12 @@ const discussionPost = gql`
     ${authorFields}
     ${commentFields}
     ${onchainLinkDiscussion}
+    ${onchainLinkTreasurySpendProposal}
+    ${onchainLinkProposalPost}
+    ${onchainLinkMotionPost}
+    ${onchainLinkBountyPost}
+    ${onchainLinkReferendumPost}
+    ${onchainLinkTechCommitteeProposalPost}
 `;
 
 export const QUERY_DISCUSSION_POST_AND_COMMENTS = gql`

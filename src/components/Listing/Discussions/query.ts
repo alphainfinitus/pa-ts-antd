@@ -34,6 +34,9 @@ export const QUERY_LATEST_DISCUSSIONS = gql`
     query LatestDiscussionPosts($limit: Int! = 20, $offset: Int! = 0) {
         posts(order_by: {last_update: {last_update: desc}}, limit: $limit, offset: $offset, where: {type: {id: {_eq: 1}}}) {
             ...postFields
+            post_reactions {
+                reaction
+            }
         }
     }
     ${postFields}
@@ -43,6 +46,9 @@ export const QUERY_DISCUSSIONS_ID_DESC = gql`
     query DiscussionPostsIdDesc($limit: Int! = 20, $offset: Int! = 0) {
         posts(order_by: {id: desc}, limit: $limit, offset: $offset, where: {type: {id: {_eq: 1}}}) {
             ...postFields
+            post_reactions {
+                reaction
+            }
         }
     }
     ${postFields}
@@ -52,6 +58,9 @@ export const QUERY_DISCUSSIONS_ID_ASC = gql`
     query DiscussionPostsIdAsc($limit: Int! = 20, $offset: Int! = 0) {
         posts(order_by: {id: asc}, limit: $limit, offset: $offset, where: {type: {id: {_eq: 1}}}) {
             ...postFields
+            post_reactions {
+                reaction
+            }
         }
     }
     ${postFields}

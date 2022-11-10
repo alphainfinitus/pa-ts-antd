@@ -5,6 +5,12 @@
 import gql from 'graphql-tag';
 import { authorFields } from 'src/fragments/author';
 import { commentFields } from 'src/fragments/comments';
+import { onchainLinkDiscussionPost } from 'src/fragments/posts';
+import { onchainLinkProposalPost } from 'src/fragments/posts';
+import { onchainLinkReferendumPost } from 'src/fragments/posts';
+import { onchainLinkTreasurySpendProposal } from 'src/fragments/posts';
+import { onchainLinkBountyPost } from 'src/fragments/posts';
+import { onchainLinkMotionPost } from 'src/fragments/posts';
 
 const onchainLinkTechCommitteeProposalPreimage = gql`
     fragment onchainLinkTechCommitteeProposalPreimage on Preimage {
@@ -64,6 +70,12 @@ const techCommitteeProposalPost = gql`
         }
         onchain_link{
             ...onchainLinkTechCommitteeProposal
+            ...onchainLinkProposalPost
+            ...onchainLinkMotionPost
+            ...onchainLinkBountyPost
+            ...onchainLinkDiscussionPost
+            ...onchainLinkReferendumPost
+            ...onchainLinkTreasurySpendProposal
         }
         title
         topic {
@@ -78,6 +90,12 @@ const techCommitteeProposalPost = gql`
     ${authorFields}
     ${commentFields}
     ${onchainLinkTechCommitteeProposal}
+    ${onchainLinkProposalPost}
+    ${onchainLinkMotionPost}
+    ${onchainLinkBountyPost}
+    ${onchainLinkDiscussionPost}
+    ${onchainLinkReferendumPost}
+    ${onchainLinkTreasurySpendProposal}
 `;
 
 export const QUERY_ONCHAIN_TECH_COMMITTEE_PROPOSAL_POST_AND_COMMENTS = gql`

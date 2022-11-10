@@ -61,6 +61,9 @@ export const QUERY_LATEST_BOUNTY_PROPOSALS = gql`
                 }
                 proposer_address
             }
+            post_reactions {
+                reaction
+            }
         }
     }
     ${authorFields}
