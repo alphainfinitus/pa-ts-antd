@@ -22,7 +22,7 @@ const TreasuryListing = ({ className, data, loading } : Props) => {
 	return (
 		<ul className={`${className}`}>
 			{data.posts.map(
-				(post) => {
+				(post: any) => {
 					const onchainId = post.onchain_link?.onchain_treasury_proposal_id;
 
 					const likes = post?.post_reactions?.reduce((total:number, item:any) => {

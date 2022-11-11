@@ -24,7 +24,7 @@ interface Props {
 	id: number | null | undefined;
 	isEditing: boolean;
 	isOnchainPost: boolean;
-	post: DiscussionPostFragment | ProposalPostFragment | ReferendumPostFragment| TreasuryProposalPostFragment| MotionPostFragment;
+	post: DiscussionPostFragment | ProposalPostFragment | ReferendumPostFragment| TreasuryProposalPostFragment| MotionPostFragment | any
 	toggleEdit: () => void
 	TrackerButtonComp: JSX.Element
 	Sidebar: ({ className }: {className?: string | undefined;}) => JSX.Element

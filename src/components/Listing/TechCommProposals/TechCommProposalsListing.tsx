@@ -32,7 +32,7 @@ const TechCommProposalsListing = ({ className, data, loading } : Props) => {
 	return (
 		<ul className={`${className} motions__list`}>
 			{data.posts.map(
-				(post) => {
+				(post: any) => {
 					const onchainId = post.onchain_link?.onchain_tech_committee_proposal_id;
 
 					const likes = post?.post_reactions?.reduce((total:number, item:any) => {

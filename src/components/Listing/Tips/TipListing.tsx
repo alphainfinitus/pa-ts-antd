@@ -32,7 +32,7 @@ const TipListing = ({ className, data, loading } : Props) => {
 	return (
 		<ul className={`${className} proposals__list`}>
 			{data.posts.map(
-				(post) => {
+				(post: any) => {
 					const onchainId = post.onchain_link?.onchain_tip_id;
 
 					const likes = post?.post_reactions?.reduce((total:number, item:any) => {

@@ -32,7 +32,7 @@ const BountyListing = ({ className, data, loading } : Props) => {
 	return (
 		<ul className={`${className} bounties__list`}>
 			{data.posts.map(
-				(post) => {
+				(post: any) => {
 					const onchainId = post.onchain_link?.onchain_bounty_id;
 
 					const likes = post?.post_reactions?.reduce((total:number, item:any) => {
