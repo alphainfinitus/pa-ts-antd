@@ -28,6 +28,7 @@ const DiscussionsListing = ({ className, data, loading } : Props) => {
 			{!!data.posts &&
 				data.posts.map(
 					(post) => {
+						console.log('post : ', post);
 						return !!post?.author?.username &&
 							<li key={post.id} className='my-5'>
 								<Link to={`/post/${post.id}`}>

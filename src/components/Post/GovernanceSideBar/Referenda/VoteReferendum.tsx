@@ -28,7 +28,6 @@ interface Props {
 	setLastVote: React.Dispatch<React.SetStateAction<string | null | undefined>>
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const VoteRefrendum = ({ className, referendumId, address, accounts, onAccountChange, getAccounts, lastVote, setLastVote }: Props) => {
 	const [showModal, setShowModal] = useState<boolean>(false);
 	const [lockedBalance, setLockedBalance] = useState<BN | undefined>(undefined);
