@@ -93,7 +93,6 @@ const CalendarView = ({ className, small = false, emitCalendarEvents = undefined
 
 	useEffect(() => {
 		refetch();
-		console.log(data);
 	}, [refetch, data]);
 
 	useEffect(() =>  {
