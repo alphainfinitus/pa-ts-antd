@@ -3,8 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { formatBalance } from '@polkadot/util';
-import React, { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { ApiContext } from 'src/context/ApiContext';
+import React, { useCallback, useEffect, useState } from 'react';
 import { chainProperties } from 'src/global/networkConstants';
 import { LoadingStatusType } from 'src/types';
 import GovSidebarCard from 'src/ui-components/GovSidebarCard';
@@ -23,11 +22,9 @@ const tokenDecimals = chainProperties[network].tokenDecimals;
 const tokenSymbol = chainProperties[network].tokenSymbol;
 
 const ProposalDisplay = ({ proposalId, accounts, address, canVote, getAccounts, onAccountChange, status }: Props) => {
-	const { api, apiReady } = useContext(ApiContext);
 	const [seconds, setSeconds] = useState(0);
 	const [deposit, setDeposit] = useState('');
 	const [loadingStatus, setLoadingStatus] = useState<LoadingStatusType>({ isLoading: true, message:'Loading proposal info' });
-	const canFetch = useRef(true);
 
 	const fetchProposal = useCallback(() => {
 		fetch(`https://${getNetwork()}.api.subscan.io/api/scan/democracy/proposal`, { body: JSON.stringify({
@@ -49,45 +46,8 @@ const ProposalDisplay = ({ proposalId, accounts, address, canVote, getAccounts, 
 	}, [proposalId]);
 
 	useEffect(() => {
-		if (canFetch.current && ['Tabled'].includes(status!)) {
-			fetchProposal();
-		}
-		return () => {
-			canFetch.current = false;
-		};
+		fetchProposal();
 	}, [fetchProposal, proposalId, status]);
-
-	useEffect(() => {
-		if (!api) {
-			return;
-		}
-
-		if (!apiReady) {
-			return;
-		}
-
-		let unsubscribe: () => void;
-
-		api.derive.democracy.proposals( proposals => {
-			proposals.forEach((proposal) => {
-				if (proposal.index.toNumber() === proposalId && proposal.balance) {
-					setLoadingStatus({ isLoading: false, message: '' });
-					setSeconds(proposal.seconds.length);
-					setDeposit(
-						`${formatBalance(
-							proposal.balance,
-							{ decimals: tokenDecimals, forceUnit: tokenSymbol, withUnit: false }
-						)} ${tokenSymbol}`
-					);
-				}
-			});
-		})
-			.then(unsub => {unsubscribe = unsub;})
-			.catch(e => console.error(e));
-
-		return () => unsubscribe && unsubscribe();
-
-	}, [api, apiReady, proposalId]);
 
 	return (
 		<GovSidebarCard>

@@ -290,7 +290,6 @@ const GovernanceSideBar = ({ canEdit, className, isMotion, isProposal, isReferen
 									<ReferendumVoteInfo
 										referendumId={onchainId as number}
 										threshold={((onchainLink as OnchainLinkReferendumFragment).onchain_referendum[0]?.voteThreshold) as VoteThreshold}
-										setLastVote={setLastVote}
 									/>
 								</div>
 							}

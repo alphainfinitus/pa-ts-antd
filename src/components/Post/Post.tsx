@@ -326,7 +326,7 @@ const Post = ({
 			key: 'description',
 			children: <PostDescription
 				id={id}
-				post={post}
+				post={post as any}
 				isEditing={isEditing}
 				canEdit={canEdit}
 				toggleEdit={toggleEdit}
@@ -410,13 +410,13 @@ const Post = ({
 					{/* Post Content */}
 					<div className='bg-white drop-shadow-md p-3 lg:p-6 rounded-md w-full mb-6'>
 						{isEditing && <EditablePostContent
-							post={post}
+							post={post as any}
 							refetch={refetch}
 							toggleEdit={toggleEdit}
 						/>}
 
 						{!isEditing && <>
-							<PostHeading className='mb-8' isTipProposal={isTipProposal} onchainId={onchainId} post={post} postStatus={postStatus} />
+							<PostHeading className='mb-8' isTipProposal={isTipProposal} onchainId={onchainId} post={post as any} postStatus={postStatus} />
 
 							<Tabs
 								type="card"

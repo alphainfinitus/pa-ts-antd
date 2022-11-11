@@ -32,6 +32,26 @@ export const GET_CALENDER_EVENTS = gql`
     }
 `;
 
+export const GET_CALENDER_EVENTS_BY_EVENT_TYPE = gql`
+    query GetCalenderEventsByEventType($network: String!, $event_type: String!) {
+        calender_events(where: {network: {_ilike: $network}, event_type: {_eq: $event_type}}) {
+            content
+            end_time
+            id
+            module
+            network
+            start_time
+            title
+            url
+            event_type
+            event_id
+            status
+            approval_status
+            location
+        }
+    }
+`;
+
 export const DELETE_CALENDER_EVENT = gql`
     mutation DeleteCalenderEvent ($id: Int!) {
         delete_calender_events(where: {id: {_eq: $id}}) {
