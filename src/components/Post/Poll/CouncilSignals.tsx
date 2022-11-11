@@ -3,14 +3,13 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { DislikeFilled, LikeFilled } from '@ant-design/icons';
-import { QueryResult } from '@apollo/react-common';
 import { Divider, Progress } from 'antd';
 import React, { useEffect, useState } from 'react';
 import useCurrentBlock from 'src/hooks/useCurrentBlock';
 import GovSidebarCard from 'src/ui-components/GovSidebarCard';
 import HelperTooltip from 'src/ui-components/HelperTooltip';
 
-import { CouncilAtBlockNumberQuery, CouncilAtBlockNumberQueryVariables, PollVotesQuery, useCouncilAtBlockNumberQuery } from '../../../generated/graphql';
+import { PollVotesQuery, useCouncilAtBlockNumberQuery } from '../../../generated/graphql';
 import { CouncilVote, Vote } from '../../../types';
 import Address from '../../../ui-components/Address';
 import getDefaultAddressField from '../../../util/getDefaultAddressField';
@@ -32,9 +31,9 @@ const CouncilSignals = ({ className, endBlock, data }: Props) => {
 	const councilAtPollEndBlockNumber = useCouncilAtBlockNumberQuery({ variables: { blockNumber: endBlock } });
 	const councilAtCurrentBlockNumber = useCouncilAtBlockNumberQuery({ variables: { blockNumber: currentBlockNumber } });
 
-	const getCouncilMembers = (councilAtBlockNumber: QueryResult<CouncilAtBlockNumberQuery, CouncilAtBlockNumberQueryVariables>): Set<string> => {
+	const getCouncilMembers = (councilAtBlockNumber: any): Set<string> => {
 		const memberSet = new Set<string>();
-		councilAtBlockNumber?.data?.councils?.[0]?.members?.forEach((member) => {
+		councilAtBlockNumber?.data?.councils?.[0]?.members?.forEach((member: any) => {
 			const address = getEncodedAddress(member.address);
 			if (address) {
 				memberSet.add(address);

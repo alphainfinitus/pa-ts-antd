@@ -5,7 +5,7 @@ import { CheckOutlined, LinkOutlined } from '@ant-design/icons';
 import { web3Accounts, web3Enable, web3FromSource } from '@polkadot/extension-dapp';
 import { InjectedAccountWithMeta } from '@polkadot/extension-inject/types';
 import { stringToHex } from '@polkadot/util';
-import { Button, Form, Modal, Tooltip } from 'antd';
+import { Button, Modal, Tooltip } from 'antd';
 import React, { FC, useEffect, useState } from 'react';
 import ExtensionNotDetected from 'src/components/ExtensionNotDetected';
 import { useUserDetailsContext } from 'src/context';
@@ -26,8 +26,6 @@ interface Props {
 const NETWORK = getNetwork();
 
 const Address: FC<Props> = ({ dismissModal ,open }) => {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const [form] = Form.useForm();
 	const [accounts, setAccounts] = useState<InjectedAccountWithMeta[]>([]);
 	const [extensionNotAvailable, setExtensionNotAvailable] = useState(false);
 	const currentUser = useUserDetailsContext();

@@ -34,7 +34,6 @@ const VoteMotion = ({
 	getAccounts,
 	motionId,
 	motionProposalHash,
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	onAccountChange
 }: Props) => {
 	const [showModal, setShowModal] = useState<boolean>(false);

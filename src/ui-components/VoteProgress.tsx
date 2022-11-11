@@ -9,33 +9,18 @@ import formatBnBalance from 'src/util/formatBnBalance';
 interface Props {
 	ayeVotes: BN,
 	className?: string,
-	isPassing: boolean,
 	nayVotes: BN,
-	threshold: BN,
-	thresholdType?: string | null
 }
 
 const bnToIntBalance = function (bn: BN): number{
 	return  Number(formatBnBalance(bn, { numberAfterComma: 2, withThousandDelimitor: false }));
 };
 
-// const bnToStringBalanceDelimitor = function (bn: BN): string{
-// return  formatBnBalance(bn, { numberAfterComma: 2, withThousandDelimitor: true });
-// };
+const VoteProgress = ({ ayeVotes, className, nayVotes }: Props) => {
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const VoteProgress = ({ ayeVotes, className, isPassing, nayVotes, threshold, thresholdType }: Props) => {
-
-	// const thresholdNumber = bnToIntBalance(threshold);
 	const ayeVotesNumber = bnToIntBalance(ayeVotes);
 	const nayVotesNumber = bnToIntBalance(nayVotes);
 	const totalVotesNumber = bnToIntBalance(ayeVotes.add(nayVotes));
-	// const totalVotesNumberDivider = isPassing
-	// ? bnToIntBalance(ayeVotes.add(threshold))
-	// : bnToIntBalance(nayVotes.add(threshold)) || 1;
-	// const thresholdPercent = isPassing
-	// ? (1-thresholdNumber/totalVotesNumberDivider)*100
-	// : thresholdNumber / totalVotesNumberDivider*100;
 	const ayePercent = ayeVotesNumber/totalVotesNumber*100;
 	const nayPercent = 100 - ayePercent;
 

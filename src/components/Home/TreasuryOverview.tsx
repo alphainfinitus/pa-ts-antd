@@ -12,8 +12,8 @@ import BN from 'bn.js';
 import moment from 'moment';
 import React, { useContext, useEffect, useState } from 'react';
 import { ApiContext } from 'src/context/ApiContext';
-import { REACT_APP_SUBSCAN_API_KEY } from 'src/global/apiKeys';
 import { chainProperties } from 'src/global/networkConstants';
+import subscanApiHeaders from 'src/global/subscanApiHeaders';
 import { useBlockTime } from 'src/hooks';
 import HelperTooltip from 'src/ui-components/HelperTooltip';
 import blockToDays from 'src/util/blockToDays';
@@ -192,11 +192,7 @@ const TreasuryOverview = ({ inTreasuryProposals }:Props) => {
 							end: weekAgoDate,
 							start: weekAgoDate
 						}),
-						headers: {
-							Accept: 'application/json',
-							'Content-Type': 'application/json',
-							'X-API-Key': REACT_APP_SUBSCAN_API_KEY || ''
-						},
+						headers: subscanApiHeaders,
 						method: 'POST'
 					}
 				);

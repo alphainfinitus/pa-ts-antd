@@ -60,6 +60,9 @@ export const QUERY_LATEST_TREASURY_PROPOSALS = gql`
                 }
                 proposer_address
             }
+            post_reactions {
+                reaction
+            }
         }
     }
 ${authorFields}

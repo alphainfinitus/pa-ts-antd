@@ -60,6 +60,9 @@ export const QUERY_LATEST_REFERENDA = gql`
                 }
                 proposer_address
             }
+            post_reactions {
+                reaction
+            }
         }
     }
     ${authorFields}

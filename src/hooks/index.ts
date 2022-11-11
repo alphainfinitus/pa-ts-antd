@@ -5,3 +5,4 @@
 export { default as useBlockTime } from './useBlockTime';
 export { default as useCurrentBlock } from './useCurrentBlock';
 export { default as usePollEndBlock } from './usePollEndBlock';
+export { default as useFetch } from './useFetch';

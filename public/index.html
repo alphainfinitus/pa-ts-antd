@@ -27,9 +27,9 @@
     -->
     <title>Polkassembly</title>
     <script>
-      // if (location.protocol !== 'https:') {
-      //   location.replace(`https:${location.href.substring(location.protocol.length)}`);
-      // }
+      if (location.protocol !== 'https:' && ['localhost', '127.0.0.1', '::1'].includes(window.location.hostname) === false) {
+        location.replace(`https:${location.href.substring(location.protocol.length)}`);
+      }
     </script>
   </head>
   <body>

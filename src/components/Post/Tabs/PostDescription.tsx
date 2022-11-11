@@ -59,7 +59,7 @@ const PostDescription = ({ className, canEdit, id, isEditing, isOnchainPost, pos
 			{!isEditing && <div className='flex lg:hidden mb-8 mx-2'><Sidebar /></div>}
 
 			<div className='flex'>
-				{/* TODO: ENABLE */}
+				{/* TODO: ENABLE Timeline xl:block */}
 				{
 					!!post.comments?.length &&
 					<div className='hidden xl:hidden mr-9 min-w-[120px]'>

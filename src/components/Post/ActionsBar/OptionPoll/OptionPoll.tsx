@@ -38,7 +38,6 @@ const OptionPoll = ({ className, optionPollId, question, options, endAt }: Props
 		totalVotes++;
 	});
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const castVote = useCallback(async (option: string) => {
 		if (!id) {
 			return;

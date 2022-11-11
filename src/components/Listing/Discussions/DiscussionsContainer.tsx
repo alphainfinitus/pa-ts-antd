@@ -14,9 +14,8 @@ import DiscussionListingContainer from './DiscussionListingContainer';
 const DiscussionsContainer = ({ className } : { className?:string }) => {
 	const [sortBy, setSortBy] = useState<string>(sortValues.COMMENTED);
 
-	// TODO: Enable Refetch
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [refetch, { data: discussionsData }] = useDiscussionsCountLazyQuery();
+
 	useEffect(() => {
 		refetch();
 	}, [refetch]);
