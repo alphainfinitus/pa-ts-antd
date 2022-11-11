@@ -32,20 +32,8 @@ const ProposalsListing = ({ className, data, loading } : Props) => {
 	return (
 		<ul className={`${className} proposals__list`}>
 			{data.posts.map(
-				(post: any) => {
+				(post) => {
 					const onchainId = post.onchain_link?.onchain_proposal_id;
-					const likes = post?.post_reactions?.reduce((total:number, item:any) => {
-						if(item.reaction === '👍'){
-							total++;
-						}
-						return total;
-					}, 0);
-					const dislikes = post?.post_reactions?.reduce((total:number, item:any) => {
-						if(item.reaction === '👎'){
-							total++;
-						}
-						return total;
-					}, 0);
 
 					return !!post?.author?.username && !!post.onchain_link?.onchain_proposal.length &&
 						<li key={post.id} className='my-5'>
@@ -57,8 +45,6 @@ const ProposalsListing = ({ className, data, loading } : Props) => {
 										: 'no'}
 									method={post.onchain_link.onchain_proposal[0]?.preimage?.method}
 									onchainId={onchainId}
-									likes={likes}
-									dislikes={dislikes}
 									status={post.onchain_link.onchain_proposal[0]?.proposalStatus?.[0].status}
 									title={post.title}
 									topic={post.topic.name}

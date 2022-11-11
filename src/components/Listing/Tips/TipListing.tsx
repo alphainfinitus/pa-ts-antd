@@ -32,21 +32,8 @@ const TipListing = ({ className, data, loading } : Props) => {
 	return (
 		<ul className={`${className} proposals__list`}>
 			{data.posts.map(
-				(post: any) => {
+				(post) => {
 					const onchainId = post.onchain_link?.onchain_tip_id;
-
-					const likes = post?.post_reactions?.reduce((total:number, item:any) => {
-						if(item.reaction === '👍'){
-							total++;
-						}
-						return total;
-					}, 0);
-					const dislikes = post?.post_reactions?.reduce((total:number, item:any) => {
-						if(item.reaction === '👎'){
-							total++;
-						}
-						return total;
-					}, 0);
 
 					return !!post?.author?.username && !!post?.onchain_link?.onchain_tip.length &&
 						<li key={post.id} className='my-5'>
@@ -58,8 +45,6 @@ const TipListing = ({ className, data, loading } : Props) => {
 										: 'no'}
 									tipReason={post.onchain_link.onchain_tip?.[0]?.reason}
 									onchainId={onchainId}
-									likes={likes}
-									dislikes={dislikes}
 									status={post.onchain_link.onchain_tip?.[0]?.tipStatus?.[0].status}
 									title={post.title}
 									topic={post.topic.name}

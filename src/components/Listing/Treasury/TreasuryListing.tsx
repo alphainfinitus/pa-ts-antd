@@ -22,21 +22,8 @@ const TreasuryListing = ({ className, data, loading } : Props) => {
 	return (
 		<ul className={`${className}`}>
 			{data.posts.map(
-				(post: any) => {
+				(post) => {
 					const onchainId = post.onchain_link?.onchain_treasury_proposal_id;
-
-					const likes = post?.post_reactions?.reduce((total:number, item:any) => {
-						if(item.reaction === '👍'){
-							total++;
-						}
-						return total;
-					}, 0);
-					const dislikes = post?.post_reactions?.reduce((total:number, item:any) => {
-						if(item.reaction === '👎'){
-							total++;
-						}
-						return total;
-					}, 0);
 
 					return !!post?.author?.username && post.onchain_link &&
 						<li key={post.id} className='my-5'>
@@ -47,8 +34,6 @@ const TreasuryListing = ({ className, data, loading } : Props) => {
 										? post.comments_aggregate.aggregate.count.toString()
 										: 'no'}
 									onchainId={onchainId}
-									likes={likes}
-									dislikes={dislikes}
 									status={post.onchain_link.onchain_treasury_spend_proposal?.[0]?.treasuryStatus?.[0].status}
 									title={post.title}
 									topic={post.topic.name}

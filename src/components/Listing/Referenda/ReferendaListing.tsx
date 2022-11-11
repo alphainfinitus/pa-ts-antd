@@ -32,20 +32,9 @@ const ReferendaListing = ({ className, data, loading } : Props) => {
 	return (
 		<ul className={`${className}`}>
 			{data.posts.map(
-				(post: any) => {
+				(post) => {
 					const onchainId = post.onchain_link?.onchain_referendum_id;
-					const likes = post?.post_reactions?.reduce((total:number, item:any) => {
-						if(item.reaction === '👍'){
-							total++;
-						}
-						return total;
-					}, 0);
-					const dislikes = post?.post_reactions?.reduce((total:number, item:any) => {
-						if(item.reaction === '👎'){
-							total++;
-						}
-						return total;
-					}, 0);
+
 					return !!post?.author?.username && !!post.onchain_link?.onchain_referendum.length &&
 						<li key={post.id} className='my-5'>
 							{<Link to={`/referendum/${onchainId}`}>
@@ -56,8 +45,6 @@ const ReferendaListing = ({ className, data, loading } : Props) => {
 										: 'no'}
 									method={post.onchain_link.onchain_referendum[0]?.preimage?.method}
 									onchainId={onchainId}
-									likes={likes}
-									dislikes={dislikes}
 									status={post.onchain_link.onchain_referendum[0]?.referendumStatus?.[0].status}
 									end={post.onchain_link.onchain_referendum[0]?.end}
 									title={post.title}

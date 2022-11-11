@@ -27,18 +27,6 @@ const DiscussionsListing = ({ className, data, loading } : Props) => {
 			{!!data.posts &&
 				data.posts.map(
 					(post) => {
-						const likes = post?.post_reactions?.reduce((total:number, item:any) => {
-							if(item.reaction === '👍'){
-								total++;
-							}
-							return total;
-						}, 0);
-						const dislikes = post?.post_reactions?.reduce((total:number, item:any) => {
-							if(item.reaction === '👎'){
-								total++;
-							}
-							return total;
-						}, 0);
 						return !!post?.author?.username &&
 							<li key={post.id} className='my-5'>
 								<Link to={`/post/${post.id}`}>
@@ -48,8 +36,6 @@ const DiscussionsListing = ({ className, data, loading } : Props) => {
 											? post.comments_aggregate.aggregate.count.toString()
 											: 'no'}
 										created_at={post.created_at}
-										likes={likes}
-										dislikes={dislikes}
 										title={post.title || 'No title'}
 										username={post.author.username}
 									/>
