@@ -43,11 +43,11 @@ const TimelineContainer = ({ className, statuses }: Props) => {
 
 	const TimelineItems = (isMobile:boolean) =>
 		statuses.sort(sortfunc).map(({ blockNumber, status }, index) => (
-			<Timeline.Item key={status}>
-				<div className={`${(index+1) % 2 == 0 && !isMobile ? 'mr-6 lg:mr-14 ml-auto' : 'ml-6 lg:ml-12'} bg-white rounded-md border border-gray-200 p-6 max-w-[450px]`}>
+			<Timeline.Item key={status} position={index % 2 == 0 ? 'right' : 'left'}>
+				<div className={`${(index+1) % 2 != 0 && !isMobile ? 'mr-6 lg:mr-14 ml-auto' : 'ml-6 lg:ml-12'} bg-white rounded-md border border-gray-200 p-6 max-w-[450px]`}>
 					<div className="flex items-start justify-between max-w-[400px]">
 						{
-							((index+1) % 2 != 0 || isMobile) && <StatusDiv status={status} position={'right'} />
+							((index+1) % 2 == 0 || isMobile) && <StatusDiv status={status} position={'right'} />
 						}
 
 						<div className='text-sm'>
@@ -65,7 +65,7 @@ const TimelineContainer = ({ className, statuses }: Props) => {
 						</div>
 
 						{
-							((index+1) % 2 == 0 && !isMobile) && <StatusDiv status={status} position={'left'} />
+							((index+1) % 2 != 0 && !isMobile) && <StatusDiv status={status} position={'left'} />
 						}
 					</div>
 				</div>

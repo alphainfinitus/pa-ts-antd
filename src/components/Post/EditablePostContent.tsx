@@ -11,7 +11,7 @@ import PostContentForm from './PostContentForm';
 
 interface Props {
 	className?: string
-	post: DiscussionPostFragment | ProposalPostFragment | ReferendumPostFragment | TipPostFragment | TreasuryProposalPostFragment| MotionPostFragment
+	post: DiscussionPostFragment | ProposalPostFragment | ReferendumPostFragment | TipPostFragment | TreasuryProposalPostFragment| MotionPostFragment | any
 	refetch: ((options?: QueryLazyOptions<Exact<{
 		id: number;
 	}>> | undefined) => void) | ((options?: QueryLazyOptions<Exact<{

@@ -81,6 +81,7 @@ const GovernanceCard = function ({
 									<CommentOutlined className='mr-1' /> {comments} comments
 								</div>
 							</>}
+
 						</div>
 
 						{!!end && !!currentBlock &&

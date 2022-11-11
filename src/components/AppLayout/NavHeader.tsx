@@ -46,7 +46,6 @@ const NavHeader = ({ className, sidebarCollapsed, setSidebarCollapsed } : Props)
 					{!username
 						&& <div className='flex items-center lg:gap-x-2 ml-2 lg:ml-4'>
 							<Link className='text-navBlue hover:text-pink_primary font-medium' onClick={() => {setSidebarCollapsed(true);}} to='/login'>Login</Link>
-							<Link className='hidden lg:block text-navBlue hover:text-pink_primary font-medium' to='/signup'>Sign-up</Link>
 						</div>
 					}
 				</Space>

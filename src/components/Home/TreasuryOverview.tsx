@@ -249,7 +249,7 @@ const TreasuryOverview = ({ inTreasuryProposals }:Props) => {
 						text='Funds collected through a portion of block production rewards, transaction fees, slashing, staking inefficiencies, etc.'
 					/>
 				</div>
-				<div className="mt-3 text-sidebarBlue font-medium">
+				<div className="mt-3 text-sidebarBlue text-[18px] font-medium">
 					{result.value ?
 						<span>
 							{formatUSDWithUnits(formatBnBalance(
@@ -278,7 +278,7 @@ const TreasuryOverview = ({ inTreasuryProposals }:Props) => {
 			{/* CurrentPrice */}
 			<div className="flex-1 lg:mr-7 bg-white drop-shadow-md p-3 lg:p-6 rounded-md">
 				<div className="text-navBlue text-xs">Current Price of {chainProperties[NETWORK].tokenSymbol}</div>
-				<div className="mt-3 text-sidebarBlue font-medium">
+				<div className="mt-3 text-sidebarBlue text-[18px] font-medium">
 					{currentTokenPrice && !isNaN(Number(currentTokenPrice))
 						? `$${currentTokenPrice}`
 						: <LoadingOutlined />
@@ -309,7 +309,7 @@ const TreasuryOverview = ({ inTreasuryProposals }:Props) => {
 					/>
 				</div>
 
-				<div className="mt-3 text-sidebarBlue font-medium">
+				<div className="mt-3 text-sidebarBlue text-[18px] font-medium">
 					{spendPeriod?.total
 						? <span>
 							<span>{spendPeriod.days} </span>
@@ -339,7 +339,7 @@ const TreasuryOverview = ({ inTreasuryProposals }:Props) => {
 					/>
 				</div>
 
-				<div className="mt-3 text-sidebarBlue font-medium">
+				<div className="mt-3 text-sidebarBlue text-[18px] font-medium">
 					{result.burn ? (
 						<span>
 							{formatUSDWithUnits(formatBnBalance(

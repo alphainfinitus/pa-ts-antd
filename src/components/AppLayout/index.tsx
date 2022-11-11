@@ -248,4 +248,8 @@ export default styled(AppLayout)`
 .auth-sider-menu > li:first-child {
   margin-bottom: 25px;
 }
+.ant-empty-image{
+	display: flex;
+	justify-content: center;
+}
 `;

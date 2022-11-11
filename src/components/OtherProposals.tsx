@@ -3,7 +3,7 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { ClockCircleOutlined } from '@ant-design/icons';
-import { Collapse, Empty, Space } from 'antd';
+import { Collapse, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useGetUsersProposalsLazyQuery } from 'src/generated/graphql';
@@ -11,6 +11,7 @@ import Address from 'src/ui-components/Address';
 import ErrorAlert from 'src/ui-components/ErrorAlert';
 import { LoadingLatestActivity } from 'src/ui-components/LatestActivityStates';
 import StatusTag from 'src/ui-components/StatusTag';
+import { PostEmptyState } from 'src/ui-components/UIStates';
 import getRelativeCreatedAt from 'src/util/getRelativeCreatedAt';
 
 const { Panel } = Collapse;
@@ -133,7 +134,7 @@ const OtherProposals = ({ className, closeSidebar, currPostOnchainID, proposerAd
 
 			{!loading && !error && data?.posts && data.posts.length <=1 &&
 				<div className='flex justify-center items-center mt-36'>
-					<Empty description='No other proposals found' />
+					<PostEmptyState description='No other proposals found' />
 				</div>
 			}
 		</div>

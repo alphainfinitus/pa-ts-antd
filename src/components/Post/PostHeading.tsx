@@ -15,7 +15,7 @@ interface Props {
 	className?: string,
 	isTipProposal: boolean,
 	onchainId?: string | number | null
-	post: DiscussionPostFragment | ProposalPostFragment | ReferendumPostFragment| TreasuryProposalPostFragment| MotionPostFragment
+	post: DiscussionPostFragment | ProposalPostFragment | ReferendumPostFragment| TreasuryProposalPostFragment| MotionPostFragment | any
 	postStatus?: string
 }
 const PostHeading = ({ className, isTipProposal, onchainId, post, postStatus }:Props) => {

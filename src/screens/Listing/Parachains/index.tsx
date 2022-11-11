@@ -27,8 +27,6 @@ const Parachains = ({ className }: Props) => {
 
 	const tabItems = [
 		// eslint-disable-next-line sort-keys
-		{ label: `All (${parachainsData?.length})`, key: 'all', children: <ChainDataTable data={parachainsData} chain='all' /> },
-		// eslint-disable-next-line sort-keys
 		{ label: `Polkadot (${parachainsData?.filter((item : any) => item?.chain === 'polkadot').length})`, key: 'polkadot', children: <ChainDataTable data={parachainsData} chain='polkadot' /> },
 		// eslint-disable-next-line sort-keys
 		{ label: `Kusama (${parachainsData?.filter((item : any) => item?.chain === 'kusama').length})`, key: 'kusama', children: <ChainDataTable data={parachainsData} chain='kusama' /> }
@@ -52,6 +50,7 @@ const Parachains = ({ className }: Props) => {
 				<Tabs
 					tabBarStyle={{ color:'#334D6E' }}
 					type="card"
+					className='ant-tabs-tab-bg-white'
 					items={tabItems}
 				/>
 			</div>
@@ -60,6 +59,25 @@ const Parachains = ({ className }: Props) => {
 };
 
 export default styled(Parachains)`
+
+	.ant-tabs-tab-bg-white .ant-tabs-tab:not(.ant-tabs-tab-active) {
+		background-color: white;
+		border-top-color: white;
+		border-left-color: white;
+		border-right-color: white;
+		border-bottom-color: #E1E6EB;
+	}
+
+	.ant-tabs-tab-bg-white .ant-tabs-tab-active{
+		border-top-color: #E1E6EB;
+		border-left-color: #E1E6EB;
+		border-right-color: #E1E6EB;
+		border-radius: 6px 6px 0 0 !important;
+	}
+
+	.ant-tabs-tab-bg-white .ant-tabs-nav:before{
+		border-bottom: 1px solid #E1E6EB;
+	}
 
 	.loader-cont {
 		display: flex;

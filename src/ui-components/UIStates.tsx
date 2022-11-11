@@ -4,6 +4,7 @@
 import { FrownOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Button, Empty, Result } from 'antd';
 import React from 'react';
+import nothingFound from 'src/assets/nothing-found.svg';
 import { PostCategory } from 'src/global/post_categories';
 import cleanError from 'src/util/cleanError';
 
@@ -26,13 +27,16 @@ export const ErrorState = ({ errorMessage } : { errorMessage:string }) => {
 	);
 };
 
-export const PostEmptyState = ({ postCategory } : { postCategory:PostCategory }) => {
+export const PostEmptyState = ({ className, description, postCategory } : { className?: string, postCategory?:PostCategory, description?: string }) => {
 	return (
 		<Empty
+			className={className}
+			image={nothingFound}
 			description={
-				<span className='text-xl'>
+				postCategory?
+					<span className='text-md text-navBlue'>
 					We couldn&apos;t find any {postCategory} with this id.
-				</span>
+					</span> : description ? <span className='text-md text-navBlue'>{description}</span> : <span className='text-md text-navBlue'>No data.</span>
 			}
 		/>
 	);

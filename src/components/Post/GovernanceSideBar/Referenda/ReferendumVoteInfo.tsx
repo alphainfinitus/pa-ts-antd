@@ -125,13 +125,13 @@ const ReferendumVoteInfo = ({ className, referendumId }: Props) => {
 								nayVotes={voteInfo?.nay_amount}
 							/>
 
-							<div className='flex-1 flex flex-col justify-between ml-12 py-9'>
-								<div className='mb-auto flex items-center'>
+							<div className='flex-1 flex flex-col justify-center pl-2'>
+								<div className='mb-3 flex items-center'>
 									<div className='mr-auto text-sidebarBlue font-medium'>Turnout {turnoutPercentage > 0 && <span className='turnoutPercentage'>({turnoutPercentage}%)</span>}</div>
 									<div className='text-navBlue'>{formatBnBalance(voteInfo?.turnout, { numberAfterComma: 2, withUnit: true })}</div>
 								</div>
 
-								<div className='mb-auto flex items-center'>
+								<div className='mb-3 flex items-center'>
 									<div className='mr-auto text-sidebarBlue font-medium flex items-center'>Aye <HelperTooltip className='ml-2' text='Aye votes without taking conviction into account'/></div>
 									<div className='text-navBlue'>{formatBnBalance(voteInfo?.aye_without_conviction, { numberAfterComma: 2, withUnit: true })}</div>
 								</div>

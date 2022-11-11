@@ -5,17 +5,16 @@
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
 import { QueryLazyOptions } from '@apollo/client';
+import type { DatePickerProps } from 'antd';
 import {  RadioChangeEvent } from 'antd';
-import { Button, Form, Input, Radio } from 'antd';
+import { Button, DatePicker, Form, Input, Radio } from 'antd';
+import moment from 'moment';
 import React, { useState } from 'react';
-import DatePicker from 'react-date-picker';
 import SidebarRight from 'src/components/SidebarRight';
 import { Exact, useAddCalenderEventMutation } from 'src/generated/graphql';
 import { NotificationStatus } from 'src/types';
 import queueNotification from 'src/ui-components/QueueNotification';
 import styled from 'styled-components';
-
-import { ReactComponent as CalendarIcon } from '../../assets/sidebar/calendar.svg';
 
 interface Props {
   className?: string
@@ -33,8 +32,8 @@ const CreateEventSidebar = ({ className, refetch, selectedNetwork, setSidebarCre
 	const [eventTitle, setEventTitle] = useState<string>('');
 	const [eventDescription, setEventDescription] = useState<string>('');
 	const [eventType, setEventType] = useState<string>('online');
-	const [eventStartDateTime, setEventStartDate] = useState<Date | undefined>();
-	const [eventEndDateTime, setEventEndDate] = useState<Date | undefined>();
+	const [eventStartDateTime, setEventStartDate] = useState<Date | null>(null);
+	const [eventEndDateTime, setEventEndDate] = useState<Date | null>(null);
 	const [eventJoiningLink, setEventJoiningLink] = useState<string>('');
 	const [eventLocation, setEventLocation] = useState<string>('');
 	const [errorsFound, setErrorsFound] = useState<string[]>([]);
@@ -63,8 +62,8 @@ const CreateEventSidebar = ({ className, refetch, selectedNetwork, setSidebarCre
 		setEventTitle('');
 		setEventDescription('');
 		setEventType('online');
-		setEventStartDate(undefined);
-		setEventEndDate(undefined);
+		setEventStartDate(null);
+		setEventEndDate(null);
 		setEventJoiningLink('');
 	};
 
@@ -140,6 +139,14 @@ const CreateEventSidebar = ({ className, refetch, selectedNetwork, setSidebarCre
 			});
 	};
 
+	const onEventStartDateChange :  DatePickerProps['onChange'] = (date) => {
+		setEventStartDate(moment(date).toDate());
+	};
+
+	const onEventEndDateChange :  DatePickerProps['onChange'] = (date) => {
+		setEventEndDate(moment(date).toDate());
+	};
+
 	return (
 		<SidebarRight className={className} open={open} closeSidebar={() => setSidebarCreateEvent(false)}>
 			<div className='dashboard-heading'>
@@ -193,28 +200,33 @@ const CreateEventSidebar = ({ className, refetch, selectedNetwork, setSidebarCre
 					<div className="d-flex date-input-row">
 						<div className='start-date-div'>
 							<label className='input-label'>Start Date</label>
-							<DatePicker
-								className={`date-input ${errorsFound.includes('eventStartDateTime') ? 'error' : ''}`}
-								onChange={setEventStartDate}
-								value={eventStartDateTime}
-								minDate={new Date()}
-								calendarIcon={<CalendarIcon />}
-								format='d-M-yyyy'
-								disabled={loading}
-							/>
+							<Form.Item validateStatus={errorsFound.includes('eventStartDateTime') ? 'error' : ''} >
+								<DatePicker
+									onChange={onEventStartDateChange}
+									value={ eventStartDateTime && moment(eventStartDateTime, 'DD-MM-YYYY')}
+									disabled={loading}
+									format='DD-MM-YYYY'
+								/>
+
+							</Form.Item>
 						</div>
 
 						<div>
 							<label className='input-label'>End Date</label>
-							<DatePicker
-								className={`date-input ${errorsFound.includes('eventEndDateTime') ? 'error' : ''}`}
-								onChange={setEventEndDate}
-								value={eventEndDateTime}
-								minDate={eventStartDateTime}
-								calendarIcon={<CalendarIcon />}
-								format='d-M-yyyy'
-								disabled={loading}
-							/>
+							<Form.Item validateStatus={errorsFound.includes('eventEndDateTime') ? 'error' : ''}>
+								<DatePicker
+									onChange={onEventEndDateChange}
+									value={ eventEndDateTime && moment(eventEndDateTime, 'DD-MM-YYYY')}
+									disabled={loading || eventStartDateTime === null}
+									format='DD-MM-YYYY'
+									disabledDate={(current) => {
+										const customDate = moment(eventStartDateTime).format('YYYY-MM-DD');
+										return current && current < moment(customDate, 'YYYY-MM-DD');
+									}}
+
+								/>
+
+							</Form.Item>
 						</div>
 					</div>
 

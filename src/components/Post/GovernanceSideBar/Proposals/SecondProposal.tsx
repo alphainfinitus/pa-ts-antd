@@ -113,6 +113,10 @@ const SecondProposal = ({ className, proposalId, address, accounts, onAccountCha
 
 export default styled(SecondProposal)`
 
+	.ant-modal-content{
+		border-radius: 10px !important;
+	}
+
 	.LoaderWrapper {
 		height: 15rem;
 		position: absolute;

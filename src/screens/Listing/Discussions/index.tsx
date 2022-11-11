@@ -1,6 +1,7 @@
 // Copyright 2019-2020 @Premiurly/polkassembly authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
+import { Button } from 'antd';
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import DiscussionsContainer from 'src/components/Listing/Discussions/DiscussionsContainer';
@@ -19,12 +20,9 @@ const Discussions = () => {
 					This is the place to discuss all things polkadot. Anyone can start a new discussion.
 				</p>
 
-				{
-					id &&
-					<Link to="/post/create" className='md:ml-9 flex items-center justify-center bg-pink_primary hover:bg-pink_secondary h-[40px] md:h-[69px] w-full md:w-[300px] text-white rounded-md transition-colors duration-300'>
-						Add New Post
-					</Link>
-				}
+				<Link to="/post/create" >
+					<Button disabled={!id} className={`md:ml-9 flex items-center justify-center ${id && 'bg-pink_primary hover:bg-pink_secondary text-white transition-colors duration-300'} h-[40px] md:h-[69px] w-full md:w-[300px] rounded-md`}>Add New Post</Button>
+				</Link>
 			</div>
 
 			<DiscussionsContainer className='mt-8' />

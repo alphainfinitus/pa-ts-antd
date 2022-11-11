@@ -8,6 +8,7 @@ import * as React from 'react';
 import ReactJson from 'react-json-view';
 import Address from 'src/ui-components/Address';
 import formatPostInfoArguments from 'src/util/formatPostInfoArguments';
+import styled from 'styled-components';
 
 import ArgumentsTable from './ArgumentsTable';
 
@@ -49,6 +50,7 @@ const ArgumentsTableJSONView = ({ className, postArguments, showAccountArguments
 		return (
 			<div className={className}>
 				<Tabs
+					className='onchain-tabs'
 					defaultActiveKey="table"
 					items={tabItems}
 				/>
@@ -68,4 +70,8 @@ const ArgumentsTableJSONView = ({ className, postArguments, showAccountArguments
 
 };
 
-export default ArgumentsTableJSONView;
+export default styled(ArgumentsTableJSONView)`
+	.onchain-tabs .ant-tabs-tab{
+		background: transparent !important;
+	}
+`;

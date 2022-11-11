@@ -150,9 +150,9 @@ function CustomToolbar(props: any) {
 						<Dropdown trigger={['click']} menu={{ items:viewStateOptions, onClick: onViewStateChange }} ><Space className='text-pink_primary cursor-pointer capitalize'>{viewState}<DownOutlined className='text-pink_primary align-middle'/></Space></Dropdown>
 					</div>
 					<div className='flex items-center'>
-						<span className='text-sidebarBlue ml-5 text-lg mr-5'>{moment(props.date).format('MMMM YYYY')}</span>
-						<LeftOutlined onClick={goToBack} className='text-md cursor-pointer hover:text-sidebarBlue hover:font-semibold mr-3' />
-						<RightOutlined onClick={goToNext} className='text-md cursor-pointer hover:text-sidebarBlue hover:font-semibold' />
+						<span className='text-sidebarBlue ml-5 text-md md:text-lg mr-5'>{moment(props.date).format('MMMM YYYY')}</span>
+						<LeftOutlined onClick={goToBack} className='text-sm cursor-pointer hover:text-sidebarBlue hover:font-semibold mr-3' />
+						<RightOutlined onClick={goToNext} className='text-sm md:text-md cursor-pointer hover:text-sidebarBlue hover:font-semibold' />
 					</div>
 
 					{/* <Button className='search-btn' icon='search' /> */}

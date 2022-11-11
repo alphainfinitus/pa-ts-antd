@@ -51,6 +51,7 @@ const DiscussionCard = ({
 									<CommentOutlined className='mr-1' /> {comments} comments
 								</div>
 							</>}
+
 						</div>
 
 					</Space>

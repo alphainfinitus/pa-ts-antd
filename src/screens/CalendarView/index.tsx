@@ -4,13 +4,13 @@
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 
-import { CloseOutlined } from '@ant-design/icons';
 import styled from '@xstyled/styled-components';
 import type { MenuProps } from 'antd';
 import {  Badge, Button, Col, Divider, Dropdown, Row, Space } from 'antd';
 import moment from 'moment';
 import React, { useContext, useEffect, useState } from 'react';
 import { Calendar, DateHeaderProps, momentLocalizer, View } from 'react-big-calendar';
+import SidebarRight from 'src/components/SidebarRight';
 import { UserDetailsContext } from 'src/context/UserDetailsContext';
 import {  useGetCalenderEventsLazyQuery, useUpdateApprovalStatusMutation } from 'src/generated/graphql';
 import { approvalStatus } from 'src/global/statuses';
@@ -93,7 +93,7 @@ const CalendarView = ({ className, small = false, emitCalendarEvents = undefined
 
 	useEffect(() => {
 		refetch();
-	}, [refetch]);
+	}, [refetch, data]);
 
 	useEffect(() =>  {
 		const eventsArr:any[] = [];
@@ -240,7 +240,7 @@ const CalendarView = ({ className, small = false, emitCalendarEvents = undefined
 					{!loading && data && data.calender_events &&
 					<Row className='pt-0'>
 						{!small && width > 992 &&
-						<Col span={8} id='calendar-left-panel' className='calendar-left-panel'>
+						<Col xs={24} md={8} id='calendar-left-panel' className='calendar-left-panel'>
 							<div className='p-5 pl-2 pt-0'>
 								<p className='text-sidebarBlue font-medium text-md text-center mb-2'>Current Time: { moment(utcDate).format('D-MM-YY | h:mm a UTC') } </p>
 
@@ -274,7 +274,7 @@ const CalendarView = ({ className, small = false, emitCalendarEvents = undefined
 						</Col>
 						}
 
-						<Col span={16} className=' h-full' >
+						<Col xs={24} md={16} className=' h-full' >
 							<Calendar
 								className={`events-calendar ${small || width < 768 ? 'small' : '' }`}
 								localizer={localizer}
@@ -320,9 +320,11 @@ const CalendarView = ({ className, small = false, emitCalendarEvents = undefined
 					</Row>
 					}
 				</div>
+			</div>
 
-				{/* Event View Sidebar */}
-				{routeWrapperHeight && sidebarEvent && Object.keys(sidebarEvent).length !== 0 && <div className="events-sidebar" style={ { maxHeight: `${routeWrapperHeight}px`, minHeight: `${routeWrapperHeight}px` } }>
+			{/* Event View Sidebar */}
+			{sidebarEvent && <SidebarRight open={sidebarEvent} closeSidebar={() => setSidebarEvent(false)}>
+				<div className="events-sidebar" >
 					{accessible &&
 					<div className='approval-status-div'>
 						<span>Status: </span>
@@ -339,7 +341,7 @@ const CalendarView = ({ className, small = false, emitCalendarEvents = undefined
 							<div className={`status-icon ${moment(sidebarEvent.end_time).isBefore() ? 'overdue-color' : `${sidebarEvent.status?.toLowerCase()}-color`}`} ></div>
 							<h1>{sidebarEvent.title}</h1>
 						</div>
-						<CloseOutlined className='close-btn' disabled={loadingUpdate} onClick={() => setSidebarEvent(false)} />
+
 					</div>
 
 					<div className="sidebar-event-datetime">
@@ -360,19 +362,19 @@ const CalendarView = ({ className, small = false, emitCalendarEvents = undefined
 							<a href={sidebarEvent.url} target='_blank' rel='noreferrer'>{sidebarEvent.url}</a>
 						</div>
 					</div>
-				</div>}
-			</div>
+				</div>
+			</SidebarRight>}
+
 			{/* Create Event Sidebar */}
-			{sidebarCreateEvent &&
-			<CreateEventSidebar
+			{ sidebarCreateEvent &&  <CreateEventSidebar
 				open={sidebarCreateEvent}
 				setSidebarCreateEvent={setSidebarCreateEvent}
 				refetch={refetch}
 				selectedNetwork={selectedNetwork}
 				className='create-event-sidebar'
 				id={id}
-			/>
-			}
+			/>}
+
 		</>
 	);
 };
@@ -665,6 +667,8 @@ export default styled(CalendarView)`
 					color: #fff;
 					border: 1px solid #E6007A;
 					border-radius: 50%;
+					height:30px;
+					width:30px;
 				}
 			}
 		}
@@ -1030,6 +1034,8 @@ export default styled(CalendarView)`
 				color: #fff;
 				border: 1px solid #E6007A;
 				border-radius: 50%;
+				height:32px;
+				width:32px;
 			}
 		}
 	}

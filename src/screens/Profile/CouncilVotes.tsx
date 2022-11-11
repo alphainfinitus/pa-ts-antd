@@ -16,7 +16,7 @@ import { Link } from 'react-router-dom';
 
 // import { Link } from 'react-router-dom';
 import FilteredError from '../../ui-components/FilteredError';
-import HelperTooltip from '../../ui-components/HelperTooltip';
+// import HelperTooltip from '../../ui-components/HelperTooltip';
 import Loader from '../../ui-components/Loader';
 import getNetwork from '../../util/getNetwork';
 
@@ -101,11 +101,11 @@ const CouncilVotes = ({ className, address } : Props) => {
 					{vote ? <>
 						<div className='thumbs up bg-green_primary rounded-full text-white w-[2rem] h-[2rem] align-middle text-center text-[1rem] inline-block'>
 							<LikeFilled />
-						</div> <span className='text-sidebarBlue ml-2'>Aye</span>
+						</div> <span className='text-green_primary ml-2'>Aye</span>
 					</> : <>
 						<div className='thumbs down bg-red_primary rounded-full text-white w-[2rem] h-[2rem] align-middle text-center text-[1rem] inline-block'>
 							<DislikeFilled />
-						</div> <span className='text-sidebarBlue ml-2'>Nay</span>
+						</div> <span className='text-red_primary ml-2'>Nay</span>
 					</>}
 				</>
 			),
@@ -114,8 +114,8 @@ const CouncilVotes = ({ className, address } : Props) => {
 	];
 
 	return (
-		<div className={`${className} bg-white drop-shadow-md p-3 lg:p-6 rounded-md `}>
-			<div className='dashboard-heading mb-4'>Voting History <HelperTooltip className='align-middle ml-3' text='This represents the onchain votes of council member'/></div>
+		<div className={`${className} p-3 lg:p-6 `}>
+			{/* <div className='dashboard-heading mb-4'>Voting History <HelperTooltip className='align-middle ml-3' text='This represents the onchain votes of council member'/></div> */}
 			<div>
 				{loading ? <Loader text={'Loading...'} /> : null}
 				{error ? <FilteredError text={error.message} /> : null}

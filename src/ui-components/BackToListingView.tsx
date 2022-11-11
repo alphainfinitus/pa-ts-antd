@@ -38,6 +38,9 @@ const BackToListingView = ({ postCategory } : { postCategory:PostCategory }) => 
 	case PostCategory.TIP:
 		path = 'tips';
 		break;
+	case PostCategory.COUNCIL:
+		path = 'council';
+		break;
 	}
 
 	const listingPageText = path.replace(/-|_/g, ' ');

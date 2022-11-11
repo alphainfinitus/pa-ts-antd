@@ -1,10 +1,9 @@
 // Copyright 2019-2020 @Premiurly/polkassembly authors & contributors
 // This software may be modified and distributed under the terms
 // of the Apache-2.0 license. See the LICENSE file for details.
-import { Tooltip } from 'antd';
+import { Table, Tooltip } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import React, { useEffect,useState } from 'react';
-import kusamaLogo from 'src/assets/kusama-logo.gif';
 import announcedIcon from 'src/assets/parachains/announced.png';
 import auctionIcon from 'src/assets/parachains/auction.png';
 import liveIcon from 'src/assets/parachains/chain-link.png';
@@ -13,8 +12,7 @@ import testingIcon from 'src/assets/parachains/testing.png';
 import w3fBlackLogo from 'src/assets/parachains/w3f-black.png';
 import w3fGreenLogo from 'src/assets/parachains/w3f-green.png';
 import w3fRedLogo from 'src/assets/parachains/w3f-red.png';
-import polkadotLogo from 'src/assets/polkadot-logo-small-inverted.png';
-import { LoadingLatestActivity, PopulatedLatestActivity } from 'src/ui-components/LatestActivityStates';
+import { LoadingLatestActivity } from 'src/ui-components/LatestActivityStates';
 
 import Cards from './Cards';
 
@@ -141,15 +139,6 @@ const columns: ColumnsType<ParachainRowData> = [
 	}
 ];
 
-const allColumns : ColumnsType<ParachainRowData> = [...columns];
-
-allColumns.splice(3,0,{
-	dataIndex: 'chain',
-	key: 'chain',
-	render: (chain) => <img src={chain === 'polkadot' ? polkadotLogo : kusamaLogo } height={34} width={34} alt={`${chain} Logo`} />,
-	title: 'Chain'
-});
-
 const ChainDataTable = ({ chain, data }:Props) => {
 
 	const [chainData, setChainData] = useState<any>(null);
@@ -193,7 +182,12 @@ const ChainDataTable = ({ chain, data }:Props) => {
 		});
 		return(<>
 			<div className='hidden lg:block'>
-				<PopulatedLatestActivity columns={chain === 'all' ? allColumns : columns} tableData={tableData} onClick={() => null} />
+				<Table
+					columns={columns}
+					dataSource={tableData}
+					pagination={false}
+					scroll={{ x: 1000, y: 400 }}
+				/>
 			</div>
 
 			<div className="block lg:hidden h-[520px] overflow-y-auto">

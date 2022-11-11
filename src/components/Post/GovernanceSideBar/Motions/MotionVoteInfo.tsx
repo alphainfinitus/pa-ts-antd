@@ -109,11 +109,11 @@ const MotionVoteInfo = ({ className, motionId }: Props) => {
 						</div>
 
 						{councilVote.vote === Vote.AYE ?
-							<div className='flex items-center text-aye_green text-lg'>
+							<div className='flex items-center text-aye_green text-md'>
 								<LikeFilled className='mr-2' /> Aye
 							</div>
 							:
-							<div className='flex items-center text-nay_red text-lg'>
+							<div className='flex items-center text-nay_red text-md'>
 								<DislikeFilled className='mr-2' /> Nay
 							</div>
 						}

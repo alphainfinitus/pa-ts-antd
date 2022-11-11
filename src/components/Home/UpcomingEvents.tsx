@@ -3,16 +3,22 @@
 // of the Apache-2.0 license. See the LICENSE file for details.
 
 import { CalendarFilled } from '@ant-design/icons';
-import { Badge, Calendar, List, Tooltip } from 'antd';
+import { Badge, Calendar, Checkbox, Col, List, Row, Tooltip } from 'antd';
+import type { CheckboxValueType  } from 'antd/es/checkbox/Group';
 import moment, { Moment } from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useGetCalenderEventsLazyQuery } from 'src/generated/graphql';
 import { approvalStatus } from 'src/global/statuses';
 import getNetwork from 'src/util/getNetwork';
+import styled from 'styled-components';
 
 const currentNetwork = getNetwork();
 
-const UpcomingEvents = () => {
+interface Props{
+	className?: string
+}
+
+const UpcomingEvents = ({ className }:Props) => {
 	const [showCalendar, setShowCalendar] = useState<boolean>(false);
 	const [calendarEvents, setCalendarEvents] = useState<any[]>([]);
 	const [eventDates, setEventDates] = useState<string[]>([]);
@@ -51,6 +57,10 @@ const UpcomingEvents = () => {
 		setCalendarEvents(eventsArr);
 		setEventDates(eventDatesArr);
 	}, [data]);
+
+	const onFilterChange = (checkedValues: CheckboxValueType[] ) => {
+		console.log(`checked = ${checkedValues}`);
+	};
 
 	const getDateHasEvent = (value: Moment): boolean => {
 		const valueDateStr = value.format('L');
@@ -101,6 +111,8 @@ const UpcomingEvents = () => {
 		</>
 	);
 
+	console.log('evnets', calendarEvents);
+
 	const EventsListElement = () => (
 		<>
 			<List
@@ -110,9 +122,9 @@ const UpcomingEvents = () => {
 				renderItem={item => {
 					return (<List.Item className='cursor-pointer text-sidebarBlue'>
 						<a href={item.url} target='_blank' rel='noreferrer'>
-							<div className='text-xs mb-1 flex items-center'>
+							<div className='text-xs mb-1 flex items-center text-navBlue'>
 								{moment(item.end_time).format('MMM D, YYYY')}
-								<span className="h-[4px] w-[4px] bg-sidebarBlue mx-2 rounded-full inline-block"></span>
+								<span className="h-[4px] w-[4px] bg-navBlue mx-2 rounded-full inline-block"></span>
 								{moment(item.end_time).format('h:mm a')}
 							</div>
 
@@ -128,17 +140,32 @@ const UpcomingEvents = () => {
 	);
 
 	return (
-		<div className='bg-white drop-shadow-md p-2 md:p-6 rounded-md h-[520px] lg:h-[550px]'>
+		<div className={`${className} bg-white drop-shadow-md p-2 md:p-6 rounded-md`}>
 			<div className="flex items-center justify-between mb-5">
 				<h2 className='dashboard-heading'>Upcoming Events</h2>
 				<CalendarFilled className='cursor-pointer inline-block lg:hidden' onClick={() => setShowCalendar(!showCalendar)} />
 			</div>
 
 			{/* Desktop */}
-			<div className="hidden lg:flex lg:flex-row h-[520px] lg:h-[450px]">
+			<div className="hidden lg:flex lg:flex-row">
 				<div className="w-full lg:w-[55%] p-3">
 					<CalendarElement />
-					<span>*DateTime in UTC</span>
+					<div className='mt-4'>
+						<div className='text-navBlue text-[14px] mb-4'>Filter by:</div>
+						<Checkbox.Group onChange={onFilterChange} >
+							<Row gutter={[0, 4]}>
+								<Col span={24}>
+									<Checkbox value='onchain' className='mb-5' >On chain events</Checkbox>
+								</Col>
+								<Col span={24}>
+									<Checkbox value='proposals' className='mb-5' >Proposals</Checkbox>
+								</Col>
+								<Col span={24}>
+									<Checkbox value='offchain'>Off chain events</Checkbox>
+								</Col>
+							</Row>
+						</Checkbox.Group>
+					</div>
 				</div>
 
 				<div className="w-[45%] ml-4 p-2">
@@ -164,4 +191,24 @@ const UpcomingEvents = () => {
 	);
 };
 
-export default UpcomingEvents;
+export default styled(UpcomingEvents)`
+	.ant-picker-content th{
+		color: #90A0B7;
+		font-weight: 500;
+	}
+
+	.ant-picker-cell-in-view{
+		color: #334D6E !important;
+		font-weight: 400;
+	}
+
+	.ant-picker-cell-in-view.ant-picker-cell-today .ant-picker-cell-inner::before, .ant-picker-cell .ant-picker-cell-inner{
+		border-radius: 50% !important;
+	}
+
+	.ant-checkbox-wrapper{
+		color: #334D6E;
+	}
+
+	
+`;
