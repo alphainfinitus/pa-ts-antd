@@ -241,7 +241,7 @@ const CalendarView = ({ className, small = false, emitCalendarEvents = undefined
 					{!loading && data && data.calender_events &&
 					<Row className='pt-0'>
 						{!small && width > 992 &&
-						<Col span={8} id='calendar-left-panel' className='calendar-left-panel'>
+						<Col xs={24} md={8} id='calendar-left-panel' className='calendar-left-panel'>
 							<div className='p-5 pl-2 pt-0'>
 								<p className='text-sidebarBlue font-medium text-md text-center mb-2'>Current Time: { moment(utcDate).format('D-MM-YY | h:mm a UTC') } </p>
 
@@ -275,7 +275,7 @@ const CalendarView = ({ className, small = false, emitCalendarEvents = undefined
 						</Col>
 						}
 
-						<Col span={16} className=' h-full' >
+						<Col xs={24} md={16} className=' h-full' >
 							<Calendar
 								className={`events-calendar ${small || width < 768 ? 'small' : '' }`}
 								localizer={localizer}
@@ -324,7 +324,7 @@ const CalendarView = ({ className, small = false, emitCalendarEvents = undefined
 			</div>
 
 			{/* Event View Sidebar */}
-			<SidebarRight open={sidebarEvent} closeSidebar={() => setSidebarEvent(false)}>
+			{sidebarEvent && <SidebarRight open={sidebarEvent} closeSidebar={() => setSidebarEvent(false)}>
 				<div className="events-sidebar" >
 					{accessible &&
 					<div className='approval-status-div'>
@@ -364,18 +364,17 @@ const CalendarView = ({ className, small = false, emitCalendarEvents = undefined
 						</div>
 					</div>
 				</div>
-			</SidebarRight>
+			</SidebarRight>}
 
 			{/* Create Event Sidebar */}
-
-			<CreateEventSidebar
+			{ sidebarCreateEvent &&  <CreateEventSidebar
 				open={sidebarCreateEvent}
 				setSidebarCreateEvent={setSidebarCreateEvent}
 				refetch={refetch}
 				selectedNetwork={selectedNetwork}
 				className='create-event-sidebar'
 				id={id}
-			/>
+			/>}
 
 		</>
 	);
@@ -669,6 +668,8 @@ export default styled(CalendarView)`
 					color: #fff;
 					border: 1px solid #E6007A;
 					border-radius: 50%;
+					height:30px;
+					width:30px;
 				}
 			}
 		}
@@ -1034,6 +1035,8 @@ export default styled(CalendarView)`
 				color: #fff;
 				border: 1px solid #E6007A;
 				border-radius: 50%;
+				height:32px;
+				width:32px;
 			}
 		}
 	}
