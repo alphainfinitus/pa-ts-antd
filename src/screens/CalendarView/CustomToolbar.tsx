@@ -137,13 +137,13 @@ function CustomToolbar(props: any) {
 	},[props.view]);
 
 	function createEventButton(disabled:boolean = false){
-		return <Button type='primary' className='ml-3' disabled={disabled} onClick={() => { if(!disabled) props.setSidebarCreateEvent(true); } }>Create Event</Button>;
+		return <Button type='primary' size={props.width < 768 ? 'small' : 'middle'} className='ml-2' disabled={disabled} onClick={() => { if(!disabled) props.setSidebarCreateEvent(true); } }>Create Event</Button>;
 	}
 
 	return (
-		props.date && <div className={`custom-calendar-toolbar ${props.small || props.width < 768 ? 'small' : ''}`} style={ !props.small && !(props.width <= 991) ? { marginLeft: -props.leftPanelWidth } : { marginLeft: 0 } }>
-			{!props.small && !(props.width < 768) ?
-				<>
+		props.date && <>
+			{ !props.small && !(props.width < 768) ?
+				<div className={`custom-calendar-toolbar ${props.small || props.width < 768 ? 'small' : ''}`} style={ !props.small && !(props.width <= 991) ? { marginLeft: -props.leftPanelWidth } : { marginLeft: 0 } }>
 					<NetworkSelect selectedNetwork={props.selectedNetwork} setSelectedNetwork={props.setSelectedNetwork} />
 					<div className='select-div'>
 						<label>Type</label>
@@ -161,43 +161,47 @@ function CustomToolbar(props: any) {
 
 						{
 							!props.isLoggedIn ?
-								<Tooltip title='Please login to create an event' placement='left' >{createEventButton(true)}</Tooltip>
+								<Tooltip color='#E5007A' title='Please login to create an event' placement='top' >{createEventButton(true)}</Tooltip>
 								:
 								createEventButton()
 						}
 					</div>
-				</>
+				</div>
 				:
 				<>
-					<div className='d-flex'>
-						<Dropdown trigger={[ 'click' ]} className='select-month-dropdown' menu={{ items:months, onClick:onSelectMonthChange }} ><Space className='text-pink_primary cursor-pointer capitalize'>{selectedMonth}<DownOutlined className='text-pink_primary align-middle'/></Space></Dropdown>
+					<div className={`custom-calendar-toolbar ${props.small || props.width < 768 ? 'small' : ''}`} style={ !props.small && !(props.width <= 991) ? { marginLeft: -props.leftPanelWidth } : { marginLeft: 0 } }>
+						<div className='flex'>
+							<Dropdown trigger={[ 'click' ]} className='select-month-dropdown' menu={{ items:months, onClick:onSelectMonthChange }} ><Space className='text-pink_primary cursor-pointer capitalize'>{selectedMonth}<DownOutlined className='text-pink_primary align-middle'/></Space></Dropdown>
 
-						<div className='flex ml-2'>
-							<LeftOutlined onClick={goToBack} className='text-md cursor-pointer hover:text-sidebarBlue hover:font-semibold mr-3' />
-							<RightOutlined onClick={goToNext} className='text-md cursor-pointer hover:text-sidebarBlue hover:font-semibold' />
+							<div className='flex mx-1'>
+								<LeftOutlined onClick={goToBack} className='text-sm cursor-pointer hover:text-sidebarBlue hover:font-semibold mr-2' />
+								<RightOutlined onClick={goToNext} className='text-sm cursor-pointer hover:text-sidebarBlue hover:font-semibold' />
+							</div>
+						</div>
+
+						<span className='year-text'>{moment(props.date).format('YYYY')}</span>
+
+						<div className='actions-right'>
+							{/* <Button className='search-btn' icon='search' /> */}
+							<img className='today-btn-img' onClick={goToToday} src={calendar_today} height={16} width={16} title='Today' alt='Today' />
+							<Dropdown trigger={[ 'click' ]} className='select-view-dropdown' menu={{ items:viewStateOptions, onClick:onViewStateChange }} ><Space className='text-pink_primary cursor-pointer capitalize'>{viewState}<DownOutlined className='text-pink_primary align-middle'/></Space></Dropdown>
+
+							{/* {!props.small && <Button basic className='create-event-btn' onClick={() => props.setSidebarCreateEvent(true)}>Create Event</Button>} */}
 						</div>
 					</div>
-
-					<span className='year-text'>{moment(props.date).format('YYYY')}</span>
-
-					<div className='actions-right'>
-						{/* <Button className='search-btn' icon='search' /> */}
-						<img className='today-btn-img' onClick={goToToday} src={calendar_today} height={16} width={16} title='Today' alt='Today' />
-						<Dropdown trigger={[ 'click' ]} className='select-view-dropdown' menu={{ items:viewStateOptions, onClick:onViewStateChange }} ><Space className='text-pink_primary cursor-pointer capitalize'>{viewState}<DownOutlined className='text-pink_primary align-middle'/></Space></Dropdown>
+					<div className='w-full flex justify-end'>
 
 						{!props.small ?
 							!props.isLoggedIn ?
-								<Tooltip title='Please login to create an event' placement='left' >{createEventButton(true)}</Tooltip>
+								<Tooltip color='#E5007A' title='Please login to create an event' placement='top' >{createEventButton(true)}</Tooltip>
 								:
 								createEventButton()
 							: null
 						}
-
-						{/* {!props.small && <Button basic className='create-event-btn' onClick={() => props.setSidebarCreateEvent(true)}>Create Event</Button>} */}
 					</div>
 				</>
 			}
-		</div>
+		</>
 	);
 }
 

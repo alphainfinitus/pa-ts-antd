@@ -46,6 +46,7 @@ const CalendarView = ({ className, small = false, emitCalendarEvents = undefined
 		routeWrapperHeight += parseInt(window.getComputedStyle(routeWrapperEl).getPropertyValue('margin-top'));
 		routeWrapperHeight += parseInt(window.getComputedStyle(routeWrapperEl).getPropertyValue('margin-bottom'));
 	}
+
 	const width = (window.innerWidth > 0) ? window.innerWidth : screen.width;
 
 	// for negative margin for toolbar
@@ -240,7 +241,7 @@ const CalendarView = ({ className, small = false, emitCalendarEvents = undefined
 					{!loading && data && data.calender_events &&
 					<Row className='pt-0'>
 						{!small && width > 992 &&
-						<Col xs={24} md={8} id='calendar-left-panel' className='calendar-left-panel'>
+						<Col span={8} id='calendar-left-panel' className='calendar-left-panel'>
 							<div className='p-5 pl-2 pt-0'>
 								<p className='text-sidebarBlue font-medium text-md text-center mb-2'>Current Time: { moment(utcDate).format('D-MM-YY | h:mm a UTC') } </p>
 
@@ -274,7 +275,7 @@ const CalendarView = ({ className, small = false, emitCalendarEvents = undefined
 						</Col>
 						}
 
-						<Col xs={24} md={16} className=' h-full' >
+						<Col md={16} xs={24} className=' h-full' >
 							<Calendar
 								className={`events-calendar ${small || width < 768 ? 'small' : '' }`}
 								localizer={localizer}
@@ -974,6 +975,10 @@ export default styled(CalendarView)`
 			button {
 				font-size: 12px;
 				font-weight: 500 !important;
+
+				@media only screen and (max-width: 768px){
+					font-size: 11px;
+				}
 			}
 		}
 	}
@@ -1036,6 +1041,11 @@ export default styled(CalendarView)`
 				border-radius: 50%;
 				height:32px;
 				width:32px;
+
+				@media only screen and (max-width: 768px){
+					height: 28px !important;
+					width: 28px !important;
+				}
 			}
 		}
 	}
