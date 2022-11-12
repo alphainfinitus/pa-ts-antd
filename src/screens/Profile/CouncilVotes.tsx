@@ -98,15 +98,11 @@ const CouncilVotes = ({ className, address } : Props) => {
 			key: 'vote',
 			render: (vote) => (
 				<>
-					{vote ? <>
-						<div className='thumbs up bg-green_primary rounded-full text-white w-[2rem] h-[2rem] align-middle text-center text-[1rem] inline-block'>
-							<LikeFilled />
-						</div> <span className='text-green_primary ml-2'>Aye</span>
-					</> : <>
-						<div className='thumbs down bg-red_primary rounded-full text-white w-[2rem] h-[2rem] align-middle text-center text-[1rem] inline-block'>
-							<DislikeFilled />
-						</div> <span className='text-red_primary ml-2'>Nay</span>
-					</>}
+					{vote ? <div className='flex items-center'>
+						<LikeFilled className='text-green_primary' /> <span className='text-green_primary ml-2'>Aye</span>
+					</div> : <div className='flex items-center'>
+						<DislikeFilled className='text-red_primary' /> <span className='text-red_primary ml-2'>Nay</span>
+					</div>}
 				</>
 			),
 			title:'Vote'
